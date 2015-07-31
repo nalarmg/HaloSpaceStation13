@@ -8,7 +8,9 @@
 	var/last_burn = 0
 	var/list/last_movement = list(0,0)
 	var/fore_dir = NORTH
-	var/rotate = 1 //For proc rotate
+	var/list/ship_levels = list()
+	var/list/ship_turfs = list()
+	var/shipname = "Generic Space Vessel"
 
 	var/obj/effect/map/current_sector
 	var/obj/machinery/computer/helm/nav_control
@@ -16,14 +18,40 @@
 
 /obj/effect/map/ship/initialize()
 	for(var/obj/machinery/computer/engines/E in machines)
-		if (E.z == map_z)
+		if (E.z in ship_levels)
 			eng_control = E
 			break
 	for(var/obj/machinery/computer/helm/H in machines)
-		if (H.z == map_z)
+		if (H.z in ship_levels)
 			nav_control = H
 			break
 	processing_objects.Add(src)
+
+
+/obj/effect/map/ship/New(var/obj/effect/mapinfo/data)
+	tag = "ship_[data.shipname]"
+	map_z = data.z
+
+	name = data.name
+	shipname = data.shipname
+	always_known = data.known
+	if (data.icon != 'icons/mob/screen1.dmi')
+		icon = data.icon
+		icon_state = data.icon_state
+	if(data.desc)
+		desc = data.desc
+	var/new_x = data.mapx ? data.mapx : rand(OVERMAP_EDGE, world.maxx - OVERMAP_EDGE)
+	var/new_y = data.mapy ? data.mapy : rand(OVERMAP_EDGE, world.maxy - OVERMAP_EDGE)
+	loc = locate(new_x, new_y, OVERMAP_ZLEVEL)
+
+	if(data.landing_area)
+		shuttle_landing = locate(data.landing_area)
+
+/obj/effect/map/ship/proc/update_spaceturfs()
+	for(var/turf/space/S in world)
+		if(S.z in src.ship_levels)
+			ship_turfs.Add(S)
+
 
 /obj/effect/map/ship/relaymove(mob/user, direction)
 	accelerate(direction)
@@ -54,10 +82,11 @@
 /obj/effect/map/ship/proc/adjust_speed(n_x, n_y)
 	speed[1] = Clamp(speed[1] + n_x, -default_delay, default_delay)
 	speed[2] = Clamp(speed[2] + n_y, -default_delay, default_delay)
-	if(is_still())
-		toggle_move_stars(map_z)
-	else
-		toggle_move_stars(map_z, fore_dir)
+	for(var/shipz in ship_levels)
+		if(is_still())
+			toggle_move_stars(shipz)
+		else
+			toggle_move_stars(shipz, fore_dir)
 
 /obj/effect/map/ship/proc/can_burn()
 	if (!eng_control)
@@ -71,7 +100,7 @@
 /obj/effect/map/ship/proc/get_brake_path()
 	if(!get_acceleration())
 		return INFINITY
-	return get_speed()/get_acceleration()
+	return max(abs(speed[1]),abs(speed[2]))/get_acceleration()
 
 #define SIGN(X) (X == 0 ? 0 : (X > 0 ? 1 : -1))
 /obj/effect/map/ship/proc/decelerate()
@@ -95,21 +124,13 @@
 		if(direction & SOUTH)
 			adjust_speed(0, -get_acceleration())
 
-
-/obj/effect/map/ship/proc/rotate(var/direction)
-	var/matrix/M = matrix()
-	M.Turn(dir2angle(direction))
-	src.transform = M //Rotate ship
-
 /obj/effect/map/ship/process()
 	if(!is_still())
 		var/list/deltas = list(0,0)
 		for(var/i=1, i<=2, i++)
-			if(speed[i] && world.time > last_movement[i] + default_delay - abs(speed[i]))
+			if(speed[i] && world.time > last_movement[i] + default_delay - speed[i])
 				deltas[i] = speed[i] > 0 ? 1 : -1
 				last_movement[i] = world.time
 		var/turf/newloc = locate(x + deltas[1], y + deltas[2], z)
 		if(newloc)
 			Move(newloc)
-		if(rotate)	
-			rotate(get_heading())
