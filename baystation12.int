@@ -1,9 +1,9 @@
 // BEGIN_INTERNALS
 /*
-DIR: code code\controllers code\controllers\Processes code\game code\game\objects code\game\objects\items code\game\objects\items\weapons code\game\objects\items\weapons\grenades code\modules code\modules\halo code\modules\halo\weapons code\modules\projectiles code\modules\projectiles\ammunition code\modules\projectiles\guns code\modules\projectiles\guns\projectile 
+LAST_COMPILE_TIME: 1438377687
+DIR: code\game\objects\items\weapons\grenades code\modules\halo\weapons code\modules\overmap\ships code\modules\overmap\ships\computers code\modules\overmap\ships\engines code\modules\projectiles\ammunition 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
-WINDOW: code\modules\halo\weapons\rifles.dm;code\modules\halo\weapons\ammo.dm;code\modules\projectiles\ammunition\bullets.dm;code\modules\projectiles\ammunition\boxes.dm;code\modules\projectiles\guns\projectile\pistol.dm;code\modules\halo\weapons\pistols.dm;code\game\objects\items\weapons\grenades\flashbang.dm;code\modules\projectiles\ammunition.dm
-FILE: code\modules\halo\weapons\ammo.dm
+LAST_COMPILE_VERSION: 508.1294
 */
 // END_INTERNALS
