@@ -45,4 +45,4 @@
 
 /datum/species/elite/get_random_name(var/gender)
 	var/datum/language/species_language = all_languages[default_language]
-	return species_language.get_random_name(gender)"
+	return species_language.get_random_name(gender)
