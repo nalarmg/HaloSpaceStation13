@@ -1,9 +1,11 @@
 // BEGIN_INTERNALS
 /*
-DIR: code code\controllers code\controllers\Processes code\game code\game\objects code\game\objects\items code\game\objects\items\weapons code\game\objects\items\weapons\grenades code\modules code\modules\halo code\modules\halo\weapons code\modules\projectiles code\modules\projectiles\ammunition code\modules\projectiles\guns code\modules\projectiles\guns\projectile 
+LAST_COMPILE_TIME: 1438395728
+DIR: code code\controllers\Processes code\game\gamemodes\traitor code\game\jobs\job code\game\machinery\camera code\game\machinery\computer code\game\machinery\computer3 code\game\machinery\computer3\computers code\game\objects\items code\game\turfs code\game\turfs\simulated code\modules code\modules\admin code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\human code\modules\mob\living\carbon\human\species code\modules\mob\living\carbon\human\species\outsider icons icons\mob icons\mob\human_races UNSC 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
-WINDOW: code\modules\halo\weapons\rifles.dm;code\modules\halo\weapons\ammo.dm;code\modules\projectiles\ammunition\bullets.dm;code\modules\projectiles\ammunition\boxes.dm;code\modules\projectiles\guns\projectile\pistol.dm;code\modules\halo\weapons\pistols.dm;code\game\objects\items\weapons\grenades\flashbang.dm;code\modules\projectiles\ammunition.dm
-FILE: code\modules\halo\weapons\ammo.dm
+LAST_COMPILE_VERSION: 507.1286
+WINDOW: code\game\turfs\simulated\walls.dm;icons\turf\walls.dmi;icons\turf\wall_masks.dmi;code\game\turfs\simulated\wall_icon.dm;icons\turf\x.dmi;UNSC\r_minor.dmi;code\modules\mob\living\carbon\human\species\outsider\shadow.dm;code\modules\mob\living\carbon\human\species\outsider\minor.dm;code\modules\mob\living\carbon\human\species\outsider\vox.dm;icons\mob\human_races\r_vox.dmi;code\modules\mob\living\carbon\human\login.dm
+FILE: code\modules\mob\living\carbon\human\species\outsider\minor.dm
 */
 // END_INTERNALS
