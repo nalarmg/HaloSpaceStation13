@@ -84,9 +84,9 @@
 	speed[2] = Clamp(speed[2] + n_y, -default_delay, default_delay)
 	for(var/shipz in ship_levels)
 		if(is_still())
-			toggle_move_stars(shipz)
+			overmap_controller.toggle_move_stars(shipz)
 		else
-			toggle_move_stars(shipz, fore_dir)
+			overmap_controller.toggle_move_stars(shipz, fore_dir)
 
 /obj/effect/map/ship/proc/can_burn()
 	if (!eng_control)

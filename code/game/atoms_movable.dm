@@ -225,7 +225,7 @@
 		return
 
 	if(config.use_overmap)
-		overmap_spacetravel(get_turf(src), src)
+		overmap_controller.overmap_spacetravel(get_turf(src), src)
 		return
 
 	var/move_to_z = src.get_transit_zlevel()

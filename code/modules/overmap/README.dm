@@ -102,3 +102,13 @@ non-zlevel overmap objects
 				EMP
 		nebulaes
 */
+
+/*
+HSSE todo:
+
+	check /atom/movable/proc/touch_map_edge() and work out scaling system for large (galactic) size maps
+	random "space weather" sectors
+	NPC ships (+ship to ship interaction, +ship to ship combat)
+	do we need to keep the config checks for use_overmap or just start assuming it is always on?
+
+*/
