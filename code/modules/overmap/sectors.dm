@@ -1,12 +1,16 @@
 
 //===================================================================================
-//Hook for building overmap
+//Build overmap
 //===================================================================================
-var/global/list/map_sectors = list()
+//see code\controllers\Processes\overmap.dm
 
-/hook/startup/proc/build_map()
+datum/controller/process/overmap/setup()
+
 	if(!config.use_overmap)
-		return 1
+		return kill()
+
+	overmap_controller = src
+
 	testing("Building overmap...")
 	var/obj/effect/mapinfo/data
 	for(var/level in 1 to world.maxz)
@@ -32,6 +36,8 @@ var/global/list/map_sectors = list()
 	for(var/obj/effect/map/ship/S in world)
 		S.update_spaceturfs()
 
+	//to enable debugging of map_sectors
+	map_sectors_reference = map_sectors
 
 	return 1
 
