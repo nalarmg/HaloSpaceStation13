@@ -1,8 +1,8 @@
-/obj/effect/mapinfo/precreate
+/obj/effect/mapinfo/precreated
 	name = "precreated sector"
 	shipname = "CHANGE ME"
 
 
-/obj/effect/mapinfo/precreate/New()
+/obj/effect/mapinfo/precreated/New()
 	..()
 	tag = "precreatesector[z]"

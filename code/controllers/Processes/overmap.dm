@@ -7,6 +7,7 @@
 
 var/global/datum/controller/process/overmap/overmap_controller
 var/global/list/map_sectors = list()
+var/global/list/cached_spacepre = list()
 
 /datum/controller/process/overmap
 	name = "overmap controller"
@@ -42,6 +43,8 @@ var/global/list/map_sectors = list()
 
 /datum/controller/process/overmap/proc/overmap_spacetravel(var/turf/space/T, var/atom/movable/A)
 	var/obj/effect/map/M = map_sectors["[T.z]"]
+	if(cached_spacepre["[T.z]"])
+		M = cached_spacepre["[T.z]"]
 	if (!M)
 		return
 	var/mapx = M.x
