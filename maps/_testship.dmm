@@ -28,7 +28,7 @@
 "B" = (/obj/machinery/atmospherics/pipe/manifold/visible{dir = 4},/turf/simulated/floor,/area/bridge)
 "C" = (/obj/structure/bed/chair{dir = 8},/obj/effect/landmark{name = "JoinLate"},/obj/machinery/light,/turf/simulated/shuttle/floor,/area/bridge)
 "D" = (/obj/machinery/atmospherics/unary/engine{dir = 1},/turf/simulated/wall/r_wall,/area/bridge)
-"E" = (/obj/effect/mapinfo/ship,/turf/space,/area/space)
+"E" = (/obj/effect/mapinfo/ship{mapx = 15; mapy = 15; name = "Test Ship"; shipname = "Test Ship"},/turf/space,/area/space)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

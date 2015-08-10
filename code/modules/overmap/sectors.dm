@@ -6,8 +6,8 @@
 
 datum/controller/process/overmap/setup()
 
-	if(!config.use_overmap)
-		return kill()
+	/*if(!config.use_overmap)
+		return kill()*/
 
 	overmap_controller = src
 
