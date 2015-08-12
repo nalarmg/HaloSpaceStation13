@@ -10,7 +10,7 @@
 	var/dy		//coordinates
 
 /obj/machinery/computer/helm/initialize()
-	linked = map_sectors["[z]"]
+	linked = map_sectors["[z]"] || cached_spacepre["[z]"]
 	if (linked)
 		if(!linked.nav_control)
 			linked.nav_control = src
@@ -18,6 +18,17 @@
 	else
 		testing("Helm console at level [z] was unable to find a corresponding overmap object.")
 
+	for(var/level in map_sectors)
+		var/obj/effect/map/sector/S = map_sectors["[level]"]
+		if (istype(S) && S.always_known)
+			var/datum/data/record/R = new()
+			R.fields["name"] = S.name
+			R.fields["x"] = S.x
+			R.fields["y"] = S.y
+			known_sectors += R
+
+/obj/machinery/computer/helm/proc/reinit()
+	known_sectors = list()
 	for(var/level in map_sectors)
 		var/obj/effect/map/sector/S = map_sectors["[level]"]
 		if (istype(S) && S.always_known)

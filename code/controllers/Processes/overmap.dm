@@ -14,6 +14,7 @@ var/global/list/cached_spacepre = list()
 	var/list/cached_space = list()
 	var/list/moving_levels = list()
 	var/list/map_sectors_reference
+	var/list/cached_space_prec
 
 /datum/controller/process/overmap/proc/toggle_move_stars(zlevel, direction)
 	if(!zlevel)
@@ -43,8 +44,7 @@ var/global/list/cached_spacepre = list()
 
 /datum/controller/process/overmap/proc/overmap_spacetravel(var/turf/space/T, var/atom/movable/A)
 	var/obj/effect/map/M = map_sectors["[T.z]"]
-	if(cached_spacepre["[T.z]"])
-		M = cached_spacepre["[T.z]"]
+
 	if (!M)
 		return
 	var/mapx = M.x
@@ -106,4 +106,4 @@ var/global/list/cached_spacepre = list()
 			cached_space += source
 
 /datum/controller/process/overmap/doWork()
-	//place stuff here needing regular updates
+	cached_space_prec = cached_spacepre

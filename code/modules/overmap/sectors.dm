@@ -30,8 +30,8 @@ datum/controller/process/overmap/setup()
 				testing("Ship \"[data.shipname]\" created \"[data.name]\" at [data.mapx],[data.mapy] corresponding to zlevel [level]")
 		else if(istype(data, /obj/effect/mapinfo/precreated))
 			testing("Adding precreated ship! Tag: [data.tag] Name: [data.name] at [data.mapx],[data.mapy] corresponding to z[level]")
-			map_sectors["[level]"] = new data.obj_type(data)
-			cached_spacepre["[level]"] = map_sectors["[level]"]
+			//map_sectors["[level]"] = new data.obj_type(data)
+			cached_spacepre["[level]"] = data
 		else if (data)
 			testing("Sector is a normal sector")
 			testing("Located sector \"[data.name]\" at [data.mapx],[data.mapy] corresponding to zlevel [level]")
