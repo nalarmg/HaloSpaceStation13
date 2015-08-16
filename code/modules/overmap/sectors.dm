@@ -12,6 +12,7 @@ datum/controller/process/overmap/setup()
 	overmap_controller = src
 
 	testing("Building overmap...")
+
 	var/obj/effect/mapinfo/data
 	for(var/level in 1 to world.maxz)
 		data = locate("sector[level]")
@@ -40,8 +41,12 @@ datum/controller/process/overmap/setup()
 	for(var/obj/effect/map/ship/S in world)
 		S.update_spaceturfs()
 
+	for(var/x in 1 to 3)
+		load_prepared_sector("Meteor Shower", "MeteorShower[x]")
+
 	//to enable debugging of map_sectors
 	map_sectors_reference = map_sectors
+
 
 	return 1
 
@@ -153,3 +158,29 @@ datum/controller/process/overmap/setup()
 			testing("There are people on it.")
 			return 0
 	return 1
+
+
+/proc/load_prepared_sector(var/name = input("Sector name: "), var/storname = input("Storage Name: "), var/xpos as num, var/ypos as num)
+	if(cached_spacepre["[name]"])
+		var/obj/effect/mapinfo/precreated/data = cached_spacepre["[name]"]
+		data.mapx = xpos ? xpos : data.mapx
+		data.mapy = ypos ? ypos : data.mapy
+		map_sectors["[storname]"] = new data.obj_type(data)
+		for(var/obj/machinery/computer/helm/H in machines)
+			H.reinit()
+		return TRUE
+	else
+		return FALSE
+	return FALSE
+
+/proc/unload_prepared_sector(var/name = input("Sector Name: "), var/storname = input("Storage Name: "))
+	if(map_sectors["[storname]"] && cached_spacepre["[name]"])
+		var/obj/effect/map/data = map_sectors["[storname]"]
+		qdel(data)
+		map_sectors -= storname
+		for(var/obj/machinery/computer/helm/H in machines)
+			H.reinit()
+		return TRUE
+	else
+		return FALSE
+	return FALSE
