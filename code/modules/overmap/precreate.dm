@@ -8,6 +8,7 @@
 	..()
 	tag = "sector[z]"
 
+/**
 /******FOR EXAMPLE USE ONLY******/
 /client/proc/load_precreated_sector(var/level=input("Level to load: ") as num)
 	set category = "Admin"
@@ -23,3 +24,4 @@
 		H.reinit()
 
 	return
+**/
