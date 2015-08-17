@@ -44,6 +44,8 @@ datum/controller/process/overmap/setup()
 	for(var/x in 1 to 3)
 		load_prepared_sector("Meteor Shower", "MeteorShower[x]")
 
+	callHook("customOvermap", list(overmap_controller))
+
 	//to enable debugging of map_sectors
 	map_sectors_reference = map_sectors
 
