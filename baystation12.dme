@@ -1468,6 +1468,7 @@
 #include "code\modules\overmap\ships\engines\engine.dm"
 #include "code\modules\overmap\ships\engines\thermal.dm"
 #include "code\modules\overmap\space weather\meteor.dm"
+#include "code\modules\overmap\space weather\radstorm.dm"
 #include "code\modules\paperwork\carbonpaper.dm"
 #include "code\modules\paperwork\clipboard.dm"
 #include "code\modules\paperwork\faxmachine.dm"
@@ -1817,5 +1818,6 @@
 #include "maps\meteors-1.dmm"
 #include "maps\placeholder_alpha_sector.dmm"
 #include "maps\placeholder_gamma_sector.dmm"
+#include "maps\radstorm.dmm"
 #include "maps\RandomZLevels\blackmarketpackers.dmm"
 // END_INCLUDE

@@ -47,7 +47,11 @@ datum/controller/process/overmap/setup()
 	callHook("customOvermap", list(overmap_controller))
 
 	//to enable debugging of map_sectors
+	map_sectors_reference = list() //just in case
 	map_sectors_reference = map_sectors
+
+	for(var/obj/machinery/computer/helm/H in machines)
+		H.reinit()
 
 
 	return 1

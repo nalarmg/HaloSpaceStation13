@@ -17,7 +17,7 @@
 		testing("Helm console at level [z] found a corresponding overmap object '[linked.name]'.")
 	else
 		testing("Helm console at level [z] was unable to find a corresponding overmap object.")
-
+	known_sectors = list()
 	for(var/level in map_sectors)
 		var/obj/effect/map/sector/S = map_sectors["[level]"]
 		if (istype(S) && S.always_known)

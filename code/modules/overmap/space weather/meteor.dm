@@ -1,6 +1,6 @@
 /obj/effect/mapinfo/precreated/meteors
 	name = "Meteor Shower"
-	shipname = "Asteroid Belt #"
+	shipname = "Asteroid Belt"
 	obj_type = /obj/effect/map/sector/meteor
 	desc = "A belt of giant meteors, don't stay here"
 	known = 0
@@ -13,7 +13,7 @@
 /obj/effect/map/sector/meteor/Crossed(atom/movable/A)
 	..()
 	if (istype(A,/obj/effect/map/ship))
-		command_announcement.Announce("Meteors have been detected on collision course with the station.", "Meteor Alert", new_sound = 'sound/AI/meteors.ogg')
+		command_announcement.Announce("Meteors have been detected on collision course with the ship.", "Meteor Alert", new_sound = 'sound/AI/meteors.ogg')
 		if(prob(95))
 			spawn_meteors(5, meteors_normal)
 		else
