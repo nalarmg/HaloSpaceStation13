@@ -67,12 +67,7 @@
 	Stat()
 		..()
 
-		statpanel("Status")
-		if (client.statpanel == "Status" && ticker)
-			if (ticker.current_state != GAME_STATE_PREGAME)
-				stat(null, "Station Time: [worldtime2text()]")
-		statpanel("Lobby")
-		if(client.statpanel=="Lobby" && ticker)
+		if(statpanel("Lobby") && ticker)
 			if(ticker.hide_mode)
 				stat("Game Mode:", "Secret")
 			else
@@ -387,16 +382,11 @@
 			global_announcer.autosay("A new[rank ? " [rank]" : " visitor" ] [join_message ? join_message : "has arrived on the station"].", "Arrivals Announcement Computer")
 
 	proc/LateChoices()
-		var/mills = world.time // 1/10 of a second, not real milliseconds but whatever
-		//var/secs = ((mills % 36000) % 600) / 10 //Not really needed, but I'll leave it here for refrence.. or something
-		var/mins = (mills % 36000) / 600
-		var/hours = mills / 36000
-
 		var/name = client.prefs.be_random_name ? "friend" : client.prefs.real_name
 
 		var/dat = "<html><body><center>"
 		dat += "<b>Welcome, [name].<br></b>"
-		dat += "Round Duration: [round(hours)]h [round(mins)]m<br>"
+		dat += "Round Duration: [round_duration()]<br>"
 
 		if(emergency_shuttle) //In case Nanotrasen decides reposess CentComm's shuttles.
 			if(emergency_shuttle.going_to_centcom()) //Shuttle is going to centcomm, not recalled
@@ -439,12 +429,12 @@
 
 		new_character.lastarea = get_area(loc)
 
-		var/datum/language/chosen_language
-		if(client.prefs.language)
-			chosen_language = all_languages["[client.prefs.language]"]
-		if(chosen_language)
-			if(is_alien_whitelisted(src, client.prefs.language) || !config.usealienwhitelist || !(chosen_language.flags & WHITELISTED) || (new_character.species && (chosen_language.name in new_character.species.secondary_langs)))
-				new_character.add_language("[client.prefs.language]")
+		for(var/lang in client.prefs.alternate_languages)
+			var/datum/language/chosen_language = all_languages[lang]
+			if(chosen_language)
+				if(!config.usealienwhitelist || !(chosen_language.flags & WHITELISTED) || is_alien_whitelisted(src, lang) || has_admin_rights() \
+					|| (new_character.species && (chosen_language.name in new_character.species.secondary_langs)))
+					new_character.add_language(lang)
 
 		if(ticker.random_players)
 			new_character.gender = pick(MALE, FEMALE)
