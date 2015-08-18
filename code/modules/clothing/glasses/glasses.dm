@@ -37,7 +37,7 @@
 	icon_state = "meson"
 	item_state = "glasses"
 	action_button_name = "Toggle Goggles"
-	origin_tech = list(TECH_MAGNET = 2, TECH_ENGINERING = 2)
+	origin_tech = list(TECH_MAGNET = 2, TECH_ENGINEERING = 2)
 	toggleable = 1
 	vision_flags = SEE_TURFS
 
@@ -60,11 +60,6 @@
 /obj/item/clothing/glasses/science/New()
 	..()
 	overlay = global_hud.science
-
-/obj/item/clothing/glasses/science/scanners
-	name = "Scanning Goggles"
-	desc = "A very oddly shaped pair of goggles with bits of wire poking out the sides. A soft humming sound emanates from it."
-	icon_state = "uzenwa_sissra_1"
 
 /obj/item/clothing/glasses/night
 	name = "Night Vision Goggles"
@@ -100,7 +95,7 @@
 	desc = "Very confusing glasses."
 	icon_state = "material"
 	item_state = "glasses"
-	origin_tech = list(TECH_MAGNET = 3, TECH_ENGINERING = 3)
+	origin_tech = list(TECH_MAGNET = 3, TECH_ENGINEERING = 3)
 	toggleable = 1
 	vision_flags = SEE_OBJS
 
@@ -111,6 +106,11 @@
 	item_state = "glasses"
 	prescription = 1
 	body_parts_covered = 0
+	
+/obj/item/clothing/glasses/regular/scanners
+	name = "Scanning Goggles"
+	desc = "A very oddly shaped pair of goggles with bits of wire poking out the sides. A soft humming sound emanates from it."
+	icon_state = "uzenwa_sissra_1"
 
 /obj/item/clothing/glasses/regular/hipster
 	name = "Prescription Glasses"
