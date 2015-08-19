@@ -1819,5 +1819,6 @@
 #include "maps\placeholder_alpha_sector.dmm"
 #include "maps\placeholder_gamma_sector.dmm"
 #include "maps\radstorm.dmm"
+#include "maps\RandomZLevels\challenge.dm"
 #include "maps\RandomZLevels\blackmarketpackers.dmm"
 // END_INCLUDE
