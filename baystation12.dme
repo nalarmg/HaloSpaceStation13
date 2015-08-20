@@ -5,6 +5,10 @@
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
+#define FILE_DIR "code"
+#define FILE_DIR "code/modules"
+#define FILE_DIR "code/modules/overmap"
+#define FILE_DIR "code/modules/overmap/ships"
 #define FILE_DIR "html"
 #define FILE_DIR "html/images"
 #define FILE_DIR "icons"
@@ -1461,7 +1465,9 @@
 #include "code\modules\organs\subtypes\xenos.dm"
 #include "code\modules\overmap\precreate.dm"
 #include "code\modules\overmap\sectors.dm"
+#include "code\modules\overmap\ships\poa.dm"
 #include "code\modules\overmap\ships\ship.dm"
+#include "code\modules\overmap\ships\areas\landing.dm"
 #include "code\modules\overmap\ships\computers\engine_control.dm"
 #include "code\modules\overmap\ships\computers\helm.dm"
 #include "code\modules\overmap\ships\computers\shuttle.dm"

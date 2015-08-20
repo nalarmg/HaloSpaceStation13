@@ -1984,6 +1984,10 @@ area/space/atmosalert()
 	name = "\improper Fore Block"
 	icon_state = "away3"
 
+/area/awaymission/BMPship4
+	name = "\improper Yonhet Ship Landing Site"
+	icon_state = "away"
+
 /area/awaymission/spacebattle
 	name = "\improper Space Battle"
 	icon_state = "away"
@@ -2020,6 +2024,9 @@ area/space/atmosalert()
 	name = "\improper Listening Post"
 	icon_state = "away"
 	requires_power = 0
+
+/area/awaymission/listeningpost/shuttle
+	name = "\improper Listening Post Dock"
 
 /area/awaymission/beach
 	name = "Beach"
