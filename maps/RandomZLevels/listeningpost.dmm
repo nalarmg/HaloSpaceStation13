@@ -1,4 +1,4 @@
-"a" = (/obj/effect/mapinfo/sector{known = 0; landing_area = /area/awaymission/listeningpost/shuttle; name = "Insurrectionist Listening Post"; shipname = "Insurrectionist Listening Post"},/turf/space,/area)
+"a" = (/obj/effect/mapinfo/sector{known = 0; landing_area = /area/awaymission/listeningpost/shuttle; name = "Insurrectionist Listening Post"; obj_type = /obj/effect/map/sector/listeningpost; shipname = "Insurrectionist Listening Post"},/turf/space,/area)
 "b" = (/turf/space,/area)
 "c" = (/turf/simulated/mineral,/area/mine/unexplored)
 "d" = (/turf/simulated/wall/r_wall,/area/awaymission/listeningpost)
