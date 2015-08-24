@@ -584,14 +584,52 @@ turf/simulated/floor/proc/update_icon()
 
 	if(istype(C, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/welder = C
-		if(welder.isOn() && (is_plating()))
-			if(broken || burnt)
-				if(welder.remove_fuel(0,user))
-					user << "<span class='notice'>You fix some dents on the broken plating.</span>"
+		if(!welder.isOn() || !is_plating())
+			return
+
+		var/textdir = input("What do you want to do?","Slice with welder") in list("Fix dents and heat damage","Remove floor plating", "Cut accessway in plating", "Cancel")
+		switch(textdir)
+			if("Fix dents and heat damage")
+				if(broken || burnt)
+					if(welder.remove_fuel(1,user))
+						user << "<span class='notice'>You fix some dents on the broken plating.</span>"
+						playsound(src, 'sound/items/Welder.ogg', 80, 1)
+						icon_state = "plating"
+						burnt = 0
+						broken = 0
+					else
+						user << "<span class='warning'>You need more welding fuel to complete this task.</span>"
+				else
+					user << "<span class='info'>Nothing else needs fixing.</span>"
+
+			if("Cut accessway in plating")
+				if(welder.remove_fuel(3,user))
+					user << "<span class='notice'>Cutting an accessway into the plating...</span>"
 					playsound(src, 'sound/items/Welder.ogg', 80, 1)
-					icon_state = "plating"
-					burnt = 0
-					broken = 0
+
+					if(!do_after(user, 75) || !welder || !welder.isOn())
+						return
+
+					src.ChangeTurf(/turf/simulated/floor/accessway)
+					var/obj/item/stack/tile/steel/S = new(src)
+					S.amount = 1
+					playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
+				else
+					user << "<span class='warning'>You need more welding fuel to complete this task.</span>"
+
+			if("Remove floor plating")
+				if(welder.remove_fuel(5,user))
+					user << "<span class='notice'>Removing plating...</span>"
+					playsound(src, 'sound/items/Welder.ogg', 80, 1)
+
+					if(!do_after(user, 100) || !welder || !welder.isOn())
+						return
+
+					src.ChangeTurf(/turf/space)
+					new/obj/structure/lattice(src)
+					var/obj/item/stack/tile/steel/S = new(src)
+					S.amount = 1
+					playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
 				else
 					user << "<span class='warning'>You need more welding fuel to complete this task.</span>"
 
