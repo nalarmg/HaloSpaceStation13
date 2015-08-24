@@ -72,6 +72,14 @@ macro "borghotkeymode"
 		command = ".south"
 		is-disabled = false
 	elem 
+		name = "INSERT"
+		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "DELETE"
+		command = "delete-key-pressed"
+		is-disabled = false
+	elem 
 		name = "1"
 		command = "toggle-module 1"
 		is-disabled = false
@@ -102,14 +110,6 @@ macro "borghotkeymode"
 	elem 
 		name = "CTRL+4"
 		command = "a-intent left"
-		is-disabled = false
-	elem 
-		name = "INSERT"
-		command = "a-intent right"
-		is-disabled = false
-	elem 
-		name = "DELETE"
-		command = "delete-key-pressed"
 		is-disabled = false
 	elem 
 		name = "5"
@@ -262,6 +262,14 @@ macro "borghotkeymode"
 	elem 
 		name = "F12"
 		command = "F12"
+		is-disabled = false
+	elem 
+		name = "["
+		command = "Move Downwards"
+		is-disabled = false
+	elem 
+		name = "]"
+		command = "Move Upwards"
 		is-disabled = false
 
 macro "macro"
@@ -456,6 +464,14 @@ macro "macro"
 	elem 
 		name = "F12"
 		command = "F12"
+		is-disabled = false
+	elem 
+		name = "["
+		command = "Travel-Downwards"
+		is-disabled = false
+	elem 
+		name = "]"
+		command = "Travel-Upwards"
 		is-disabled = false
 
 macro "hotkeymode"
@@ -739,6 +755,14 @@ macro "hotkeymode"
 		name = "F12"
 		command = "F12"
 		is-disabled = false
+	elem 
+		name = "["
+		command = "Move Downwards"
+		is-disabled = false
+	elem 
+		name = "]"
+		command = "Move Upwards"
+		is-disabled = false
 
 macro "borgmacro"
 	elem 
@@ -928,6 +952,14 @@ macro "borgmacro"
 	elem 
 		name = "F12"
 		command = "F12"
+		is-disabled = false
+	elem 
+		name = "["
+		command = "Move Downwards"
+		is-disabled = false
+	elem 
+		name = "]"
+		command = "Move Upwards"
 		is-disabled = false
 
 
@@ -1357,6 +1389,8 @@ window "chemdispenser"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "eject"
 		type = BUTTON
 		pos = 264,4
@@ -1523,6 +1557,8 @@ window "chemdispenser"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "child1"
 		type = CHILD
 		pos = 0,40
@@ -1644,6 +1680,8 @@ window "chemdispenser_reagents"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 
 window "mainwindow"
 	elem "mainwindow"
