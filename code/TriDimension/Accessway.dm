@@ -33,8 +33,8 @@
 
 			src.ReplaceWithLattice()
 
-	else if(istype(W, /obj/item/stack/tile/steel))
-		var/obj/item/stack/tile/steel/T = W
+	else if(istype(W, /obj/item/stack/tile/floor))
+		var/obj/item/stack/tile/floor/T = W
 		if (T.get_amount() < 1)		//sanity check
 			user << "<span class='notice'>There are not enough tiles left on that stack</span>"
 			T.use(0)

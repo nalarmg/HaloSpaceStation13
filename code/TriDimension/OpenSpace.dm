@@ -8,8 +8,7 @@
 
 /turf/simulated/floor/open
 	name = "open space"
-	icon_state = "dark"		//transparent
-	intact = 0
+	icon_state = "elevatorshaft"	//placeholder
 	density = 0
 	pathweight = 100000 //Seriously, don't try and path over this one numbnuts
 	var/list/z_overlays
@@ -229,16 +228,17 @@
 			ReplaceWithLattice()
 		return
 
-	if (istype(C, /obj/item/stack/tile/steel))
+	if (istype(C, /obj/item/stack/tile/floor))
 		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 		if(L)
-			var/obj/item/stack/tile/steel/S = C
+			var/obj/item/stack/tile/floor/S = C
 			if (S.get_amount() < 1)
+				S.use(0)
 				return
 			qdel(L)
 			playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
-			S.build(src)
 			S.use(1)
+			src.ChangeTurf(/turf/simulated/floor/plating)
 			return
 		else
 			user << "<span class='warning'>The plating is going to need some support.</span>"

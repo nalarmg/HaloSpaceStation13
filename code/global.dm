@@ -4,7 +4,7 @@
 #endif
 
 // Items that ask to be called every cycle.
-var/global/obj/effect/datacore/data_core = null
+var/global/datum/datacore/data_core = null
 var/global/list/all_areas                = list()
 var/global/list/machines                 = list()
 var/global/list/processing_objects       = list()
@@ -27,6 +27,11 @@ var/list/hit_appends = list("-OOF", "-ACK", "-UGH", "-HRNK", "-HURGH", "-GLORF")
 var/diary          = null
 var/href_logfile   = null
 var/station_name   = "NSS Exodus"
+var/station_short       = "Exodus"
+var/const/boss_name     = "Central Command"
+var/const/boss_short    = "Centcomm"
+var/const/company_name  = "NanoTrasen"
+var/const/company_short = "NT"
 var/game_version   = "Baystation12"
 var/changelog_hash = ""
 var/game_year      = (text2num(time2text(world.realtime, "YYYY")) + 544)
@@ -70,6 +75,7 @@ var/list/ninjastart         = list()
 
 var/list/cardinal    = list(NORTH, SOUTH, EAST, WEST)
 var/list/cardinal3d  = list(NORTH, SOUTH, EAST, WEST, UP, DOWN)
+var/list/cornerdirs  = list(NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 var/list/alldirs     = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 var/list/alldirs3d   = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, UP, DOWN)
 var/list/reverse_dir = list( // reverse_dir[dir] = reverse of dir

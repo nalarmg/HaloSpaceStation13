@@ -2,7 +2,7 @@
 /turf/simulated/floor/stairs
 	name = "Stairs"
 	desc = "Stairs.  You walk up and down them."
-	icon_state = "ramp"
+	icon_state = "stairs"
 	layer = 1.9
 	var/atom/movable/lastmove
 

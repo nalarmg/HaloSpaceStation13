@@ -56,7 +56,7 @@ If the cable travels over zlevels, the node placed on a higher zlevel has d2 == 
 	color = COLOR_YELLOW
 
 /obj/structure/cable/green
-	color = COLOR_GREEN
+	color = COLOR_LIME
 
 /obj/structure/cable/blue
 	color = COLOR_BLUE
@@ -76,7 +76,6 @@ If the cable travels over zlevels, the node placed on a higher zlevel has d2 == 
 /obj/structure/cable/New()
 	..()
 
-
 	// ensure d1 & d2 reflect the icon_state for entering and exiting cable
 
 	var/dash = findtext(icon_state, "-")
@@ -86,9 +85,8 @@ If the cable travels over zlevels, the node placed on a higher zlevel has d2 == 
 	d2 = text2num( copytext( icon_state, dash+1 ) )
 
 	var/turf/T = src.loc			// hide if turf is not intact
-
 	if( level==1 && !(d2 & (UP|DOWN)) )
-		hide(T.intact)
+		hide(!T.is_plating())
 	cable_list += src //add it to the global cable list
 
 
@@ -104,10 +102,12 @@ If the cable travels over zlevels, the node placed on a higher zlevel has d2 == 
 
 //If underfloor, hide the cable
 /obj/structure/cable/hide(var/i)
-
-	if(level == 1 && istype(loc, /turf))
+	if(istype(loc, /turf))
 		invisibility = i ? 101 : 0
 	updateicon()
+
+/obj/structure/cable/hides_under_flooring()
+	return 1
 
 /obj/structure/cable/proc/updateicon()
 	icon_state = "[d1]-[d2]"
@@ -129,7 +129,7 @@ If the cable travels over zlevels, the node placed on a higher zlevel has d2 == 
 /obj/structure/cable/attackby(obj/item/W, mob/user)
 
 	var/turf/T = src.loc
-	if(T.intact)
+	if(!T.is_plating())
 		return
 
 	if(istype(W, /obj/item/weapon/wirecutters))
@@ -534,7 +534,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 
 /obj/item/stack/cable_coil/update_icon()
 	if (!color)
-		color = pick(COLOR_RED, COLOR_BLUE, COLOR_GREEN, COLOR_ORANGE, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN)
+		color = pick(COLOR_RED, COLOR_BLUE, COLOR_LIME, COLOR_ORANGE, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN)
 	if(amount == 1)
 		icon_state = "coil1"
 		name = "cable piece"
@@ -593,7 +593,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 			if("Yellow")
 				color = COLOR_YELLOW
 			if("Green")
-				color = COLOR_GREEN
+				color = COLOR_LIME
 			if("Pink")
 				color = COLOR_PINK
 			if("Blue")
@@ -668,9 +668,9 @@ obj/structure/cable/proc/cableColor(var/colorC)
 			user << "<span class='warning'>You can't lay cable at a place that far away.</span>"
 			return
 
-		if(F.intact)		// Ff floor is intact, complain
-			user << "<span class='warning'>You can't lay cable there unless the floor tiles are removed.</span>"
-			return
+	if(!F.is_plating())		// Ff floor is intact, complain
+		user << "<span class='warning'>You can't lay cable there unless the floor tiles are removed.</span>"
+		return
 
 		if(istype(F, /turf/simulated/floor/open))
 			dir_3d = DOWN
@@ -740,7 +740,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 
 	var/turf/T = C.loc
 
-	if(!isturf(T) || T.intact)		// sanity checks, also stop use interacting with T-scanner revealed cable
+	if(!isturf(T) || !T.is_plating())		// sanity checks, also stop use interacting with T-scanner revealed cable
 		return
 
 	if(get_dist(C, user) > 1)		// make sure it's close enough
@@ -756,7 +756,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 
 	// one end of the clicked cable is pointing towards us
 	if(C.d1 == dirn || C.d2 == dirn)
-		if(U.intact)						// can't place a cable if the floor is complete
+		if(!U.is_plating())						// can't place a cable if the floor is complete
 			user << "You can't lay cable there unless the floor tiles are removed."
 			return
 		else
@@ -872,7 +872,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	color = COLOR_BLUE
 
 /obj/item/stack/cable_coil/green
-	color = COLOR_GREEN
+	color = COLOR_LIME
 
 /obj/item/stack/cable_coil/pink
 	color = COLOR_PINK
@@ -887,5 +887,5 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	color = COLOR_WHITE
 
 /obj/item/stack/cable_coil/random/New()
-	color = pick(COLOR_RED, COLOR_BLUE, COLOR_GREEN, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN)
+	color = pick(COLOR_RED, COLOR_BLUE, COLOR_LIME, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN)
 	..()
