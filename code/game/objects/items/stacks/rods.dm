@@ -51,29 +51,47 @@
 
 	if(!istype(user.loc,/turf)) return 0
 
-	if (locate(/obj/structure/grille, usr.loc))
-		for(var/obj/structure/grille/G in usr.loc)
-			if (G.destroyed)
-				G.health = 10
-				G.density = 1
-				G.destroyed = 0
-				G.icon_state = "grille"
-				use(1)
-			else
-				return 1
+	var/buildtype = input(user, "Choose what to build", "Building with rods") in list("Grille", "Ladder", "Cancel")
 
-	else if(!in_use)
-		if(get_amount() < 2)
-			user << "<span class='warning'>You need at least two rods to do this.</span>"
-			return
-		usr << "<span class='notice'>Assembling grille...</span>"
-		in_use = 1
-		if (!do_after(usr, 10))
+	if(buildtype == "Grille")
+		if (locate(/obj/structure/grille, usr.loc))
+			for(var/obj/structure/grille/G in usr.loc)
+				if (G.destroyed)
+					G.health = 10
+					G.density = 1
+					G.destroyed = 0
+					G.icon_state = "grille"
+					use(1)
+				else
+					return 1
+
+		else if(!in_use)
+			if(get_amount() < 2)
+				user << "<span class='warning'>You need at least two rods to do this.</span>"
+				return
+			usr << "<span class='notice'>Assembling grille...</span>"
+			in_use = 1
+			if (!do_after(usr, 10))
+				in_use = 0
+				return
+			var/obj/structure/grille/F = new /obj/structure/grille/ ( usr.loc )
+			usr << "<span class='notice'>You assemble a grille</span>"
 			in_use = 0
-			return
-		var/obj/structure/grille/F = new /obj/structure/grille/ ( usr.loc )
-		usr << "<span class='notice'>You assemble a grille</span>"
-		in_use = 0
-		F.add_fingerprint(usr)
-		use(2)
+			F.add_fingerprint(usr)
+			use(2)
+	if(buildtype == "Ladder")
+		if(!in_use)
+			if(get_amount() < 2)
+				user << "<span class='warning'>You need at least two rods to do this.</span>"
+				return
+			usr << "<span class='notice'>Assembling ladder...</span>"
+			in_use = 1
+			if (!do_after(usr, 30))
+				in_use = 0
+				return
+			var/obj/structure/ladder/F = new /obj/structure/ladder/ ( usr.loc )
+			usr << "<span class='notice'>You assemble a ladder</span>"
+			in_use = 0
+			F.add_fingerprint(usr)
+			use(2)
 	return
