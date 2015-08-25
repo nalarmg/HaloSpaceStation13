@@ -36,7 +36,7 @@
 	throw_range = 20
 
 /obj/item/weapon/soap/nanotrasen
-	desc = "A Nanotrasen brand bar of soap. Smells of phoron."
+	desc = "A NanoTrasen-brand bar of soap. Smells of phoron."
 	icon_state = "soapnt"
 
 /obj/item/weapon/soap/deluxe
@@ -241,7 +241,6 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-	flags = NOSHIELD
 	attack_verb = list("bludgeoned", "whacked", "disciplined")
 
 /obj/item/weapon/staff/broom
@@ -268,7 +267,6 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = 2.0
-	flags = NOSHIELD
 
 /obj/item/weapon/wire
 	desc = "This is just a simple piece of regular insulated wire."
