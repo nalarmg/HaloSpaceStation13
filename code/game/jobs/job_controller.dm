@@ -526,10 +526,9 @@ var/global/datum/controller/occupations/job_master
 		else
 			C = new /obj/item/weapon/card/id(H)
 		if(C)
-			C.registered_name = H.real_name
 			C.rank = rank
 			C.assignment = title ? title : rank
-			C.name = "[C.registered_name]'s ID Card ([C.assignment])"
+			H.set_id_info(C)
 
 			//put the player's account number onto the ID
 			if(H.mind && H.mind.initial_account)

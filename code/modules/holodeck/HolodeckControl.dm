@@ -129,7 +129,7 @@
 		safety_disabled = 1
 		update_projections()
 		user << "<span class='notice'>You vastly increase projector power and override the safety and security protocols.</span>"
-		user << "Warning.  Automatic shutoff and derezing protocols have been corrupted.  Please call Nanotrasen maintenance and do not use the simulator."
+		user << "Warning.  Automatic shutoff and derezing protocols have been corrupted.  Please call [company_name] maintenance and do not use the simulator."
 		log_game("[key_name(usr)] emagged the Holodeck Control Computer")
 		return 1
 	src.updateUsrDialog()
@@ -287,6 +287,8 @@
 	for(var/mob/living/M in mobs_in_area(linkedholodeck))
 		if(M.mind)
 			linkedholodeck.play_ambience(M)
+
+	linkedholodeck.sound_env = A.sound_env
 
 	spawn(30)
 		for(var/obj/effect/landmark/L in linkedholodeck)
