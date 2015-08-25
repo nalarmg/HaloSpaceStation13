@@ -23,6 +23,10 @@
 	//Detective Work, used for the duplicate data points kept in the scanners
 	var/list/original_atom
 
+	//used for mobs to tell how much damage they take when they fall
+	//used for atoms to tell how much damage they do when they land on something
+	var/falling_stacks = 0
+
 /atom/proc/assume_air(datum/gas_mixture/giver)
 	return null
 

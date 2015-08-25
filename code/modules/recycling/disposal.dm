@@ -971,34 +971,32 @@
 
 	nextdir(var/fromdir)
 		var/nextdir
-		if(fromdir == 11)
+		if(fromdir == DOWN)
 			nextdir = dir
 		else
-			nextdir = 12
+			nextdir = UP
 		return nextdir
 
 	transfer(var/obj/structure/disposalholder/H)
 		var/nextdir = nextdir(H.dir)
-		H.set_dir(nextdir)
+		H.dir = nextdir
 
-		var/turf/T
+		var/turf/T = get_turf(src)
 		var/obj/structure/disposalpipe/P
 
-		if(nextdir == 12)
-			var/turf/controllerlocation = locate(1, 1, src.z)
-			for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-				if(controller.up)
-					T = locate(src.x, src.y, controller.up_target)
-			if(!T)
-				H.loc = src.loc
-				return
-			else
-				for(var/obj/structure/disposalpipe/down/F in T)
-					P = F
+		if((nextdir & UP) && !T.ztransit_enabled_up())
+			return null
+		if((nextdir & DOWN) && !T.ztransit_enabled_down())
+			return null
 
+		if(nextdir & UP)
+			T = locate(x, y, z - 1)
+			//only traverse up if there isn't a turf in the way
+			if(T.blocks_air_downwards)
+				T = null
 		else
-			T = get_step(src.loc, H.dir)
-			P = H.findpipe(T)
+			T = get_step(src, nextdir)
+		P = H.findpipe(T)
 
 		if(P)
 			// find other holder in next loc, if inactive merge it with current
@@ -1024,34 +1022,31 @@
 
 	nextdir(var/fromdir)
 		var/nextdir
-		if(fromdir == 12)
+		if(fromdir == UP)
 			nextdir = dir
 		else
-			nextdir = 11
+			nextdir = DOWN
 		return nextdir
 
 	transfer(var/obj/structure/disposalholder/H)
 		var/nextdir = nextdir(H.dir)
 		H.dir = nextdir
 
-		var/turf/T
+		var/turf/T = get_turf(src)
 		var/obj/structure/disposalpipe/P
 
-		if(nextdir == 11)
-			var/turf/controllerlocation = locate(1, 1, src.z)
-			for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-				if(controller.down)
-					T = locate(src.x, src.y, controller.down_target)
-			if(!T)
-				H.loc = src.loc
-				return
-			else
-				for(var/obj/structure/disposalpipe/up/F in T)
-					P = F
+		if((nextdir & UP) && !T.ztransit_enabled_up())
+			return null
+		if((nextdir & DOWN) && !T.ztransit_enabled_down())
+			return null
 
+		if(nextdir & DOWN)
+			//only traverse down if there isn't a turf in the way
+			if(!T.blocks_air_downwards)
+				T = locate(x, y, z + 1)
 		else
-			T = get_step(src.loc, H.dir)
-			P = H.findpipe(T)
+			T = get_step(src, nextdir)
+		P = H.findpipe(T)
 
 		if(P)
 			// find other holder in next loc, if inactive merge it with current

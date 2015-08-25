@@ -21,10 +21,13 @@
 	if(auto_init && ticker && ticker.current_state == GAME_STATE_PLAYING)
 		initialize()
 
+	//so newly created stuff falls down open space
+	var/turf/curturf = get_turf(src)
+	if(istype(curturf, /turf/simulated/floor/open))
+		curturf.Enter(src)
 /proc/generate_debug_runtime() // Guaranteed to runtime and print a stack trace to the runtime log
 	var/t = 0 // BYOND won't let us do var/t = 1/0 directly, but it's fine with this.
 	t = 1 / t
-
 /atom/movable/Del()
 	if(isnull(gcDestroyed) && loc)
 		testing("GC: -- [type] was deleted via del() rather than qdel() --")
@@ -199,12 +202,16 @@
 
 			a = get_area(src.loc)
 
+	var/turf/T = get_turf(src)
 	//done throwing, either because it hit something or it finished moving
-	if(isobj(src)) src.throw_impact(get_turf(src),speed)
+	if(isobj(src)) src.throw_impact(T,speed)
 	src.throwing = 0
 	src.thrower = null
 	src.throw_source = null
 
+	//if we finish in an open space, call Enter() to start falling
+	if( istype(T, /turf/simulated/floor/open) )
+		T.Enter(src)
 
 //Overlays
 /atom/movable/overlay

@@ -1,5 +1,12 @@
+
 /turf/proc/ReplaceWithLattice()
-	src.ChangeTurf(get_base_turf(src.z))
+	//check if we need to use open space or ordinary space tile
+	var/turftype = get_base_turf(src.z)
+	if(src.ztransit_enabled_down())
+		var/turf/T = locate(x, y, z + 1)
+		if(!istype(T, /turf/space))
+			turftype = /turf/simulated/floor/open
+	src.ChangeTurf(turftype)
 	spawn()
 		new /obj/structure/lattice( locate(src.x, src.y, src.z) )
 
@@ -13,20 +20,6 @@
 /turf/proc/ChangeTurf(var/turf/N, var/tell_universe=1, var/force_lighting_update = 0)
 	if (!N)
 		return
-
-///// Z-Level Stuff ///// This makes sure that turfs are not changed to space when one side is part of a zone
-	if(N == /turf/space)
-		var/turf/controller = locate(1, 1, src.z)
-		for(var/obj/effect/landmark/zcontroller/c in controller)
-			if(c.down)
-				var/turf/below = locate(src.x, src.y, c.down_target)
-				if((air_master.has_valid_zone(below) || air_master.has_valid_zone(src)) && !istype(below, /turf/space)) // dont make open space into space, its pointless and makes people drop out of the station
-					var/turf/W = src.ChangeTurf(/turf/simulated/floor/open)
-					var/list/temp = list()
-					temp += W
-					c.add(temp,3,1) // report the new open space to the zcontroller
-					return W
-///// Z-Level Stuff
 
 	var/obj/fire/old_fire = fire
 	var/old_opacity = opacity
@@ -45,44 +38,64 @@
 		var/turf/simulated/S = src
 		if(S.zone) S.zone.rebuild()
 
+	var/turf/W = new N( locate(src.x, src.y, src.z) )
 	if(ispath(N, /turf/simulated/floor))
-		var/turf/simulated/floor/W = new N( locate(src.x, src.y, src.z) )
-		if(old_fire)
-			fire = old_fire
-
-		if (istype(W))
+		//if its open space, drop all loose items
+		if(istype(W,/turf/simulated/floor/open))
+			for(var/atom/movable/AM in W.contents)
+				if(!AM.anchored)
+					W.Enter(AM)
+		else
 			W.RemoveLattice()
 
-		if(tell_universe)
-			universe.OnTurfChange(W)
+	if(old_fire)
+		old_fire.RemoveFire()
 
-		if(air_master)
-			air_master.mark_for_update(src) //handle the addition of the new turf.
+	if(tell_universe)
+		universe.OnTurfChange(W)
 
-		for(var/turf/space/S in range(W,1))
-			S.update_starlight()
+	if(air_master)
+		air_master.mark_for_update(src)
 
-		W.levelupdate()
-		. = W
+	for(var/turf/space/S in range(W,1))
+		S.update_starlight()
 
-	else
+	W.levelupdate()
+	. = W
 
-		var/turf/W = new N( locate(src.x, src.y, src.z) )
+///// Z-Level Stuff
+	//for each open turf above us (starting with us), loop up and tell them to update if necessary
+	var/turf/T = W
+	while(T)
+		//world << "	new cycle ([T.type] z[T.z])"
+		if(istype(T, /turf/space))
+			if(T.ztransit_enabled_down())
+				//world << "can transit down"
+				var/turf/below = locate(T.x, T.y, T.z + 1)
+				// dont make open space into space, its pointless and makes people drop out of the station
+				if(!istype(below, /turf/space))
+					//world << "turf below is ground (plating etc), changing this one to open"
+					if(T == W)
+						spawn(0)
+							W = T.ChangeTurf(/turf/simulated/floor/open)
+							. = W
+						break
+					else
+						T = T.ChangeTurf(/turf/simulated/floor/open)
 
-		if(old_fire)
-			old_fire.RemoveFire()
+		else if(istype(T, /turf/simulated/floor/open))
+			//world << "turf is open"
+			if(T != W)
+				//world << "calling level update"
+				T.levelupdate()
 
-		if(tell_universe)
-			universe.OnTurfChange(W)
-
-		if(air_master)
-			air_master.mark_for_update(src)
-
-		for(var/turf/space/S in range(W,1))
-			S.update_starlight()
-
-		W.levelupdate()
-		. =  W
+		if(T.ztransit_enabled_up())
+			//world << "transit up is enabled, proceeding to next cycle"
+			T = locate(T.x, T.y, T.z - 1)
+		else
+			//world << "transit up is disabled"
+			T = null
+///// Z-Level Stuff
 
 	lighting_overlay = old_lighting_overlay
 	affecting_lights = old_affecting_lights
