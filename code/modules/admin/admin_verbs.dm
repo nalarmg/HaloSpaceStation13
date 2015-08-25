@@ -501,6 +501,31 @@ var/list/admin_verbs_mentor = list(
 	feedback_add_details("admin_verb","OC") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
+/client/proc/global_erp()
+        set category = "Fun"
+        set name = "ERP Detected Global"
+        set desc = "Alerts everyone that ERP has been detected, and that spiders /will/ be deployed."
+
+        for (var/mob/T as mob in mob_list)
+                T << "<br><center><span class='notice'><b><font size=4>ERP DETECTED.<br> Deploying spiders.</font></b><br></span></center><br>"
+                T << 'sound/effects/erpdetected.wav'
+
+        log_admin("[key_name(usr)] told everyone that ERP has been detected, and spiders will be on their way.")
+        message_admins("\blue [key_name_admin(usr)] told everyone that ERP has been detected, and spiders will be on their way.", 1)
+
+/client/proc/erp(mob/T as mob in mob_list)
+        set category = "Fun"
+        set name = "ERP Detected"
+        set desc = "Alerts someone that ERP has been detected, and that spiders /will/ be deployed."
+
+        T << "<span class='danger'><b><font size=3>ERP DETECTED.</font></b></span>"
+        T << "<span class='danger'>Deploying spiders.</span>"
+        T << 'sound/effects/erpdetected.wav'
+
+
+        log_admin("[key_name(usr)] told [key_name(T)] that ERP has been detected, and spiders will be on their way.")
+        message_admins("\blue [key_name_admin(usr)] told [key_name(T)] that ERP has been detected, and spiders will be on their way.", 1)
+
 /client/proc/stealth()
 	set category = "Admin"
 	set name = "Stealth Mode"
