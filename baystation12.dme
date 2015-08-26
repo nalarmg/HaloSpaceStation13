@@ -1879,4 +1879,5 @@
 #include "maps\exodus-4.dmm"
 #include "maps\exodus-5.dmm"
 #include "maps\exodus-6.dmm"
+#include "maps\innie_base.dmm"
 // END_INCLUDE

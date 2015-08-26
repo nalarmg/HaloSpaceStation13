@@ -392,6 +392,13 @@ area/space/atmosalert()
 	name = "\improper Elite Mercenary Squad"
 	icon_state = "syndie-elite"
 
+//INSURRECTION
+
+/area/innie_base
+	name = "\improper Insurectionist Base"
+	icon_state = "syndie-ship"
+	requires_power = 0
+
 //EXTRA
 
 /area/asteroid					// -- TLE
