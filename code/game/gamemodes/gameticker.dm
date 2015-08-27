@@ -91,11 +91,14 @@ var/global/datum/controller/gameticker/ticker
 	else
 		src.mode = config.pick_mode(master_mode)
 
+	src.mode.pre_setup()
+
 	job_master.DivideOccupations() // Apparently important for new antagonist system to register specific job antags properly.
 
 	if(!mode_started && !src.mode.can_start())
 		world << "<B>Unable to start [mode.name].</B> Not enough players, [mode.required_players] players needed. Reverting to pre-game lobby."
 		current_state = GAME_STATE_PREGAME
+		mode.fail_setup()
 		mode = null
 		job_master.ResetOccupations()
 		return 0
@@ -149,8 +152,6 @@ var/global/datum/controller/gameticker/ticker
 	*/
 
 	processScheduler.start()
-
-	for(var/obj/multiz/ladder/L in world) L.connect() //Lazy hackfix for ladders. TODO: move this to an actual controller. ~ Z
 
 	if(config.sql_enabled)
 		statistic_cycle() // Polls population totals regularly and stores them in an SQL DB -- TLE
