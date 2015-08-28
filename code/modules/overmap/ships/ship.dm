@@ -10,7 +10,7 @@
 	var/fore_dir = NORTH
 	var/list/ship_levels = list()
 	var/list/ship_turfs = list()
-	var/shipname = "Generic Space Vessel"
+	var/sectorname = "Generic Space Vessel"
 
 	var/obj/effect/map/current_sector
 	var/obj/machinery/computer/helm/nav_control
@@ -29,11 +29,11 @@
 
 
 /obj/effect/map/ship/New(var/obj/effect/mapinfo/data)
-	tag = "ship_[data.shipname]"
+	tag = "ship_[data.sectorname]"
 	map_z = data.z
 
 	name = data.name
-	shipname = data.shipname
+	sectorname = data.sectorname
 	always_known = data.known
 	if (data.icon != 'icons/mob/screen1.dmi')
 		icon = data.icon
