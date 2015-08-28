@@ -4,7 +4,7 @@
 "d" = (/obj/machinery/light{dir = 1},/turf/simulated/floor,/area/bridge)
 "e" = (/turf/simulated/floor/open,/area/bridge)
 "f" = (/obj/machinery/light,/turf/simulated/floor,/area/bridge)
-"g" = (/obj/effect/mapinfo/ship{mapx = 15; mapy = 15; name = "Test Ship"; obj_type = /obj/effect/map/ship/poa; sectorname = "Test Ship"},/turf/space,/area/space)
+"g" = (/obj/effect/mapinfo/ship,/turf/space,/area/space)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

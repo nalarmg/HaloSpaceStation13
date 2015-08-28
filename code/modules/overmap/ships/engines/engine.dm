@@ -5,6 +5,7 @@ var/list/ship_engines = list()
 	var/name = "ship engine"
 	var/obj/machinery/engine	//actual engine object
 	var/zlevel = 0
+	var/is_maneuvring_thruster = 1
 
 /datum/ship_engine/New(var/obj/machinery/holder)
 	engine = holder
@@ -12,8 +13,11 @@ var/list/ship_engines = list()
 	var/obj/effect/map/ship/linked = map_sectors["[holder.z]"] || cached_spacepre["[holder.z]"]
 	if ( linked )
 		for(var/obj/machinery/computer/engines/E in machines)
-			if ((E.z in linked.ship_levels) && !(src in E.engines))
-				E.engines += src
+			if ((E.z in linked.ship_levels) && !(src in E.maneuvring_engines) && !(src in E.main_engines))
+				if(is_maneuvring_thruster)
+					E.maneuvring_engines += src
+				else
+					E.main_engines += src
 				break
 
 //Tries to fire the engine. If successfull, returns 1
@@ -57,6 +61,9 @@ var/list/ship_engines = list()
 /datum/ship_engine/proc/die()
 	for(var/obj/machinery/computer/engines/E in machines)
 		if (E.z == zlevel)
-			E.engines -= src
+			if(is_maneuvring_thruster)
+				E.maneuvring_engines -= src
+			else
+				E.main_engines -= src
 			break
 	del(src)
