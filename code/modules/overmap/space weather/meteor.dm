@@ -1,6 +1,6 @@
 /obj/effect/mapinfo/precreated/meteors
 	name = "Meteor Shower"
-	shipname = "Asteroid Belt"
+	sectorname = "Asteroid Belt"
 	obj_type = /obj/effect/map/sector/meteor
 	desc = "A belt of giant meteors, don't stay here"
 	known = 0

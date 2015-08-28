@@ -20,7 +20,7 @@
 	init()
 
 /turf/simulated/floor/open/proc/init()
-	if(z_transit_enabled.len)
+	if(map_sectors.len)
 		if(ztransit_enabled_down())
 			levelupdate()
 		else
@@ -71,6 +71,10 @@
 
 	//if AM is being thrown just fly over (dont worry about arcing flight)
 	if(falling_atom.throw_source)
+		return 1
+
+	//leave anchored stuff alone for now
+	if(falling_atom.anchored)
 		return 1
 
 	//if there is a ladder or lattice secured in this turf, mobs can walk across it
