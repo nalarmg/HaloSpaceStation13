@@ -63,11 +63,18 @@
 		linked.relaymove(user,direction)
 		return 1
 
+/obj/machinery/computer/helm/proc/thrust_forward()
+	if(manual_control && linked)
+		linked.thrust_forward()
+		return 1
+
 /obj/machinery/computer/helm/check_eye(var/mob/user as mob)
 	if (!manual_control)
+		user.reset_view(null, 0)
 		return -1
 	if (!get_dist(user, src) > 1 || user.blinded || !linked )
 		return -1
+	user.reset_view(linked, 0)
 	return 0
 
 /obj/machinery/computer/helm/attack_hand(var/mob/user as mob)
@@ -116,7 +123,7 @@
 
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
-		ui = new(user, src, ui_key, "helm.tmpl", "[linked.name] Helm Control", 380, 530)
+		ui = new(user, src, ui_key, "helm.tmpl", "[linked.name] Helm Control", 380, 560)
 		ui.set_initial_data(data)
 		ui.open()
 		ui.set_auto_update(1)
@@ -178,10 +185,25 @@
 		autopilot = !autopilot
 
 	if (href_list["manual"])
-		manual_control = !manual_control
+		if(manual_control)
+			manual_control = 0
+		else
+			manual_control = 1
 
 	if (href_list["state"])
 		state = href_list["state"]
 	add_fingerprint(usr)
 	updateUsrDialog()
 
+
+
+//some extra player controls for the ship
+//the numpad and arrow keys hook into standard mob controls, but this gives the players extra control
+//see code\modules\mob\mob_movement.dm, code\modules\mob\mob.dm and interface\skin.dmf for that code
+
+/client/verb/ship_thrust()
+	set hidden = 1
+
+	if(istype(src.mob) && istype(src.mob.machine, /obj/machinery/computer/helm))
+		var/obj/machinery/computer/helm/H = src.mob.machine
+		H.thrust_forward()

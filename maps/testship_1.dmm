@@ -1,6 +1,6 @@
 "a" = (/turf/space,/area/space)
 "b" = (/turf/simulated/floor,/area/space)
-"c" = (/obj/effect/mapinfo/ship{mapx = 15; mapy = 15; name = "Test Ship"; obj_type = /obj/effect/map/ship/poa; sectorname = "Test Ship"},/turf/space,/area/space)
+"c" = (/obj/effect/mapinfo/ship,/turf/space,/area/space)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

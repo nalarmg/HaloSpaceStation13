@@ -36,7 +36,7 @@
 "J" = (/obj/machinery/atmospherics/pipe/manifold/visible{dir = 4},/turf/simulated/floor,/area/bridge)
 "K" = (/obj/structure/bed/chair{dir = 8},/obj/effect/landmark{name = "JoinLate"},/obj/machinery/light,/turf/simulated/shuttle/floor,/area/bridge)
 "L" = (/obj/machinery/atmospherics/unary/engine{dir = 1},/turf/simulated/wall/r_wall,/area/bridge)
-"M" = (/obj/effect/mapinfo/ship{mapx = 15; mapy = 15; name = "Test Ship"; obj_type = /obj/effect/map/ship/poa; sectorname = "Test Ship"},/turf/space,/area/space)
+"M" = (/obj/effect/mapinfo/ship,/turf/space,/area/space)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

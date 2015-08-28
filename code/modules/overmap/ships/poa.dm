@@ -1,7 +1,6 @@
 /obj/effect/map/ship/poa
 	name = "Pillar of Autumn"
 	desc = "UNSC Halcyon Class Cruiser Pillar of Autumn"
-	icon = 'code/modules/overmap/ships/sector_icons.dmi'
 	icon_state = "poa"
 	sectorname = "UNSC Pillar of Autumn"
 	vessel_mass = 9590

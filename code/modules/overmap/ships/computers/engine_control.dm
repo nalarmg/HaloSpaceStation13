@@ -5,7 +5,8 @@
 	icon_keyboard = "tech_key"
 	icon_screen = "engine1"
 	var/state = "status"
-	var/list/engines = list()
+	var/list/maneuvring_engines = list()
+	var/list/main_engines = list()
 	var/obj/effect/map/ship/linked
 
 /obj/machinery/computer/engines/initialize()
@@ -17,9 +18,9 @@
 	else
 		testing("Engines console at level [z] was unable to find a corresponding overmap object.")
 
-	for(var/datum/ship_engine/E in engines)
+	/*for(var/datum/ship_engine/E in engines)
 		if ((E.zlevel in linked.ship_levels) && !(E in engines))
-			engines += E
+			engines += E*/
 
 	for(var/level in linked.ship_levels)
 		testing("Z-level [level] is connected to this engine controller.")
@@ -42,9 +43,20 @@
 	data["state"] = state
 
 	var/list/enginfo[0]
-	for(var/datum/ship_engine/E in engines)
+
+	for(var/datum/ship_engine/E in maneuvring_engines)
 		var/list/rdata[0]
 		rdata["eng_type"] = E.name
+		rdata["eng_on"] = E.is_on()
+		rdata["eng_thrust"] = E.get_thrust()
+		rdata["eng_thrust_limiter"] = round(E.get_thrust_limit()*100)
+		rdata["eng_status"] = E.get_status()
+		rdata["eng_reference"] = "\ref[E]"
+		enginfo.Add(list(rdata))
+
+	for(var/datum/ship_engine/E in main_engines)
+		var/list/rdata[0]
+		rdata["eng_type"] = "Main engine " + E.name
 		rdata["eng_on"] = E.is_on()
 		rdata["eng_thrust"] = E.get_thrust()
 		rdata["eng_thrust_limiter"] = round(E.get_thrust_limit()*100)
@@ -91,13 +103,18 @@
 	updateUsrDialog()
 
 /obj/machinery/computer/engines/proc/burn()
-	if(engines.len == 0)
+	if(maneuvring_engines.len == 0)
 		return 0
 	var/res = 0
-	for(var/datum/ship_engine/E in engines)
+	for(var/datum/ship_engine/E in maneuvring_engines)
 		res |= E.burn()
 	return res
 
-/obj/machinery/computer/engines/proc/get_total_thrust()
-	for(var/datum/ship_engine/E in engines)
+/obj/machinery/computer/engines/proc/get_maneuvring_thrust(var/thrust_dir = NORTH)
+	for(var/datum/ship_engine/E in maneuvring_engines)
+		if(E.engine.dir & thrust_dir)
+			. += E.get_thrust()
+
+/obj/machinery/computer/engines/proc/get_main_thrust()
+	for(var/datum/ship_engine/E in main_engines)
 		. += E.get_thrust()
