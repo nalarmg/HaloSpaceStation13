@@ -25,6 +25,7 @@
 	var/is_thrusting_exhaust = 0
 
 	var/vessel_mass = 0 //tonnes
+	var/mass_multiplier = 30
 	var/highest_x_turf = 0
 	var/lowest_x_turf = 0
 	var/highest_y_turf = 0
@@ -32,9 +33,13 @@
 	var/center_x = 0
 	var/center_y = 0
 
-	var/last_update = 0
-	var/pixel_x_progress = 0
+
+	var/last_update = 0	var/pixel_x_progress = 0
 	var/pixel_y_progress = 0
+	var/max_speed = 4
+	animate_movement = 0
+
+	var/list/smooth_client_eyes = list()
 
 /obj/effect/map/ship/initialize()
 	for(var/obj/machinery/computer/engines/E in machines)
@@ -93,11 +98,11 @@
 
 					//we'll only use turfs to calculate total mass
 					if(istype(T, /turf/simulated/wall/r_wall))
-						vessel_mass += 60
+						vessel_mass += 3 * mass_multiplier
 					else if(istype(T, /turf/simulated/wall))
-						vessel_mass += 40
+						vessel_mass += 2 * mass_multiplier
 					else
-						vessel_mass += 20
+						vessel_mass += 1 * mass_multiplier
 
 	var/dif_x = highest_x_turf - lowest_x_turf
 	var/dif_y = highest_y_turf - lowest_y_turf
@@ -178,7 +183,7 @@
 	return eng_control.get_maneuvring_thrust(accel_dir) / vessel_mass
 
 /obj/effect/map/ship/proc/get_speed()
-	return round(sqrt(speed[1]*speed[1] + speed[2]*speed[2]))
+	return sqrt(speed[1]*speed[1] + speed[2]*speed[2])
 
 /obj/effect/map/ship/proc/get_heading()
 	return heading
@@ -256,9 +261,9 @@
 	if(world.time - last_update > 30)
 		update()
 
-	if(!is_still())
+	/*if(!is_still())
 		src.pixel_x += speed[1]
-		src.pixel_y += speed[2]
+		src.pixel_y += speed[2]*/
 
 		/*var/list/deltas = list(0,0)
 		for(var/i=1, i<=2, i++)
@@ -303,7 +308,17 @@
 		pixel_y += 32
 
 	if(newy != src.y || newx != src.x)
-		src.Move(locate(newx, newy, src.z))
+		var/turf/newloc = locate(newx, newy, src.z)
+		if(newloc)
+			src.loc = newloc
+
+	//smooth out client movement so the screen isn't constantly jumping around the place
+	for(var/mob/M in smooth_client_eyes)
+		if(M.client && M.client.eye == src)
+			M.client.pixel_x = src.pixel_x
+			M.client.pixel_y = src.pixel_y
+		else
+			smooth_client_eyes -= M
 
 	spawn(1)
 		update(start_time)
@@ -323,9 +338,21 @@
 	speed[1] += x_accel
 	speed[2] += y_accel
 
+	//work out if we're getting close to max speed
+	var/total_speed = get_speed()
+
+	if(total_speed > max_speed)
+		//we're over max speed, so normalise then cap the speed
+		speed[1] /= total_speed
+		speed[1] *= max_speed
+		speed[2] /= total_speed
+		speed[2] *= max_speed
+
 	//cap speed at 10 turfs per second for now
-	speed[1] = min(speed[1], 32)
-	speed[2] = min(speed[2], 32)
+	speed[1] = min(speed[1], max_speed)
+	speed[1] = max(speed[1], -max_speed)
+	speed[2] = min(speed[2], max_speed)
+	speed[2] = max(speed[2], -max_speed)
 
 	if(!is_thrusting)
 		is_thrusting = 1

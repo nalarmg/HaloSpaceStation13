@@ -69,13 +69,41 @@
 		return 1
 
 /obj/machinery/computer/helm/check_eye(var/mob/user as mob)
-	if (!manual_control)
-		user.reset_view(null, 0)
-		return -1
-	if (!get_dist(user, src) > 1 || user.blinded || !linked )
-		return -1
-	user.reset_view(linked, 0)
-	return 0
+
+	. = 0
+
+	//a player is trying to manually fly the ship
+	if(manual_control)
+		//if it's a player we already know about, and we have a ship for them to control...
+		if(manual_control == user && linked)
+			//...but somehow they can't see where the ship is flying, let's reset their view for them
+			if(user.client && user.client.eye != linked)
+				user.reset_view(linked, 0)
+				linked.smooth_client_eyes.Remove(user)		//so we can avoid doubleups
+				linked.smooth_client_eyes.Add(user)
+
+		//here are various fail conditions to check if the player needs to be looking via their own mob
+		else
+			. = -1
+		if(get_dist(user, src) > 1 && !issilicon(user))
+			. = -1
+		if(user.blinded)
+			. = -1
+		if(!linked)
+			. = -1
+		if(user.stat)
+			. = -1
+	else
+		if(user.client && user.client.eye == linked)
+			. = -1
+
+	//reset some custom view settings for ship control before resetting the view entirely
+	if(. < 0)
+		if(linked)
+			linked.smooth_client_eyes.Remove(user)
+		if(user.client)
+			user.client.pixel_x = 0
+			user.client.pixel_y = 0
 
 /obj/machinery/computer/helm/attack_hand(var/mob/user as mob)
 	if(..())
@@ -85,8 +113,6 @@
 
 	if(!isAI(user))
 		user.set_machine(src)
-		if(linked)
-			user.reset_view(linked)
 
 	ui_interact(user)
 
@@ -106,7 +132,7 @@
 	data["d_y"] = dy
 	data["speed"] = linked.get_speed()
 	data["accel"] = round(linked.get_acceleration())
-	data["heading"] = linked.get_heading() ? dir2angle(linked.get_heading()) : 0
+	data["heading"] = linked.get_heading()
 	data["autopilot"] = autopilot
 	data["manual_control"] = manual_control
 
@@ -186,9 +212,11 @@
 
 	if (href_list["manual"])
 		if(manual_control)
-			manual_control = 0
-		else
-			manual_control = 1
+			manual_control = null
+			check_eye(manual_control)
+		else if(ismob(usr))
+			manual_control = usr
+			check_eye(manual_control)
 
 	if (href_list["state"])
 		state = href_list["state"]
