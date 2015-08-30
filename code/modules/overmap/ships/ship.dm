@@ -34,7 +34,8 @@
 	var/center_y = 0
 
 
-	var/last_update = 0	var/pixel_x_progress = 0
+	var/last_update = 0
+	var/pixel_x_progress = 0
 	var/pixel_y_progress = 0
 	var/max_speed = 4
 	animate_movement = 0
