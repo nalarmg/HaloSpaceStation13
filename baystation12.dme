@@ -1533,6 +1533,7 @@
 #include "code\modules\overmap\ships\computers\helm.dm"
 #include "code\modules\overmap\ships\computers\shuttle.dm"
 #include "code\modules\overmap\ships\engines\engine.dm"
+#include "code\modules\overmap\ships\engines\slipspace.dm"
 #include "code\modules\overmap\ships\engines\thermal.dm"
 #include "code\modules\overmap\space weather\meteor.dm"
 #include "code\modules\overmap\space weather\radstorm.dm"
