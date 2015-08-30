@@ -1,6 +1,6 @@
 /obj/effect/mapinfo/precreated/radiate
 	name = "Radiation Storm"
-	shipname = "Radiation Storm"
+	sectorname = "Radiation Storm"
 	obj_type = /obj/effect/map/sector/radiate
 	desc = "Field of lethal radiation"
 	known = 0

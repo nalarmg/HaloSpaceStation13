@@ -19,16 +19,16 @@ datum/controller/process/overmap/setup()
 		testing("Z-Level [level] is a sector")
 		if(istype(data, /obj/effect/mapinfo/ship))							//First we'll check for ships, because they can occupy multiplie levels
 			testing("Sector is a ship with tag [data.tag]!")
-			var/obj/effect/map/ship/found_ship = locate("ship_[data.shipname]")
+			var/obj/effect/map/ship/found_ship = locate("ship_[data.sectorname]")
 			if(found_ship)													//If there is a ship with such a name...
-				testing("Ship \"[data.shipname]\" found at [data.mapx],[data.mapy] corresponding to zlevel [level]")
+				testing("Ship \"[data.sectorname]\" found at [data.mapx],[data.mapy] corresponding to zlevel [level]")
 				found_ship.ship_levels += level								//Adding this z-level to the list of the ship's z-levels.
 				map_sectors["[level]"] = found_ship
 			else
 				found_ship = new data.obj_type(data)	//If there is no ship with such name, we will create one.
 				found_ship.ship_levels += level
 				map_sectors["[level]"] = found_ship
-				testing("Ship \"[data.shipname]\" created \"[data.name]\" at [data.mapx],[data.mapy] corresponding to zlevel [level]")
+				testing("Ship \"[data.sectorname]\" created \"[data.name]\" at [data.mapx],[data.mapy] corresponding to zlevel [level]")
 		else if(istype(data, /obj/effect/mapinfo/precreated))
 			testing("Adding precreated ship! Tag: [data.tag] Name: [data.name] at [data.mapx],[data.mapy] corresponding to z[level]")
 			//map_sectors["[level]"] = new data.obj_type(data)
@@ -53,7 +53,6 @@ datum/controller/process/overmap/setup()
 	for(var/obj/machinery/computer/helm/H in machines)
 		H.reinit()
 
-
 	return 1
 
 //===================================================================================
@@ -71,7 +70,7 @@ datum/controller/process/overmap/setup()
 	var/mapx			//coordinates on the
 	var/mapy			//overmap zlevel
 	var/known = 1
-	var/shipname = "Generic Sector"
+	var/sectorname = "Generic Sector"
 
 /obj/effect/mapinfo/New()
 	tag = "sector[z]"
@@ -86,7 +85,7 @@ datum/controller/process/overmap/setup()
 	obj_type = /obj/effect/map/ship
 	var/ship_turfs
 	var/ship_levels
-	shipname = "Generic Space Vessel"
+	sectorname = "Generic Space Vessel"
 
 //===================================================================================
 //Overmap object representing zlevel

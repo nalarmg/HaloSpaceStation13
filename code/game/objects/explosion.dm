@@ -1,8 +1,6 @@
 //TODO: Flash range does nothing currently
 
-///// Z-Level Stuff
-proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1, z_transfer = 1)
-///// Z-Level Stuff
+proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1)
 	src = null	//so we don't abort once src is deleted
 	spawn(0)
 		if(config.use_recursive_explosions)
@@ -15,9 +13,17 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 		if(!epicenter) return
 
 ///// Z-Level Stuff
-		if(z_transfer && (devastation_range > 0 || heavy_impact_range > 0))
-			//transfer the explosion in both directions
-			explosion_z_transfer(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range)
+		//note that these calls are recursive but each successive explosive is weaker than the last
+		//explosion strength fall off is linear but fairly steep
+		if( (devastation_range > 0 || heavy_impact_range > 0) && epicenter.ztransit_enabled_down() )
+			//start a child explosion, no admin log
+			spawn(0)
+				explosion(locate(epicenter.x, epicenter.y, epicenter.z + 1), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0)
+
+		if( (devastation_range > 0 || heavy_impact_range > 0) && epicenter.ztransit_enabled_up() )
+			//start the child explosion, no admin log
+			spawn(0)
+				explosion(locate(epicenter.x, epicenter.y, epicenter.z - 1), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0, 0)
 ///// Z-Level Stuff
 
 		var/max_range = max(devastation_range, heavy_impact_range, light_impact_range, flash_range)
@@ -119,20 +125,3 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 proc/secondaryexplosion(turf/epicenter, range)
 	for(var/turf/tile in range(range, epicenter))
 		tile.ex_act(2)
-
-///// Z-Level Stuff
-proc/explosion_z_transfer(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, up = 1, down = 1)
-	var/turf/controllerlocation = locate(1, 1, epicenter.z)
-	for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-		if(controller.down)
-			//start the child explosion, no admin log and no additional transfers
-			explosion(locate(epicenter.x, epicenter.y, controller.down_target), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0, 0)
-			if(devastation_range - 2 > 0 || heavy_impact_range - 2 > 0) //only transfer further if the explosion is still big enough
-				explosion(locate(epicenter.x, epicenter.y, controller.down_target), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0, 1)
-
-		if(controller.up)
-			//start the child explosion, no admin log and no additional transfers
-			explosion(locate(epicenter.x, epicenter.y, controller.up_target), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0, 0)
-			if(devastation_range - 2 > 0 || heavy_impact_range - 2 > 0) //only transfer further if the explosion is still big enough
-				explosion(locate(epicenter.x, epicenter.y, controller.up_target), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 1, 0)
-///// Z-Level Stuff

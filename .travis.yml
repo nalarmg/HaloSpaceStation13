@@ -5,6 +5,7 @@ sudo: false
 env:
   BYOND_MAJOR="508"
   BYOND_MINOR="1287"
+  MACRO_COUNT=1234
   
 cache:
   directories:
@@ -32,7 +33,7 @@ script:
   - (! grep 'step_[xy]' maps/**/*.dmm)
   - (! find nano/templates/ -type f -exec md5sum {} + | sort | uniq -D -w 32 | grep nano)
   - (! grep -E "<\s*span\s+class\s*=\s*('[^'>]+|[^'>]+')\s*>" **/*.dm)
-  - (num=`grep -E '\\\\(red|blue|green|black|b|i[^mc])' **/*.dm | wc -l`; echo "$num escapes (expecting 1257 or less)"; [ $num -le 1257 ])
+  - (num=`grep -E '\\\\(red|blue|green|black|b|i[^mc])' **/*.dm | wc -l`; echo "$num escapes (expecting ${MACRO_COUNT} or less)"; [ $num -le ${MACRO_COUNT} ])
   - python tools/TagMatcher/tag-matcher.py ../..
   - python tools/GenerateChangelog/ss13_genchangelog.py html/changelog.html html/changelogs
   - source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup

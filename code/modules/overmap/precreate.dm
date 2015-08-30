@@ -1,6 +1,6 @@
 /obj/effect/mapinfo/precreated
 	name = "precreated sector"
-	shipname = "CHANGE ME"
+	sectorname = "CHANGE ME"
 	obj_type = /obj/effect/map/sector
 
 
