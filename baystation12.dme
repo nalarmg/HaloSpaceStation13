@@ -5,10 +5,6 @@
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
-#define FILE_DIR "code"
-#define FILE_DIR "code/modules"
-#define FILE_DIR "code/modules/halo"
-#define FILE_DIR "code/modules/halo/icons"
 #define FILE_DIR "html"
 #define FILE_DIR "html/images"
 #define FILE_DIR "icons"
@@ -1582,6 +1578,9 @@
 #include "code\modules\power\singularity\particle_accelerator\particle_control.dm"
 #include "code\modules\power\singularity\particle_accelerator\particle_emitter.dm"
 #include "code\modules\power\singularity\particle_accelerator\particle_power.dm"
+#include "code\modules\power\UNSC_fusion\cooling_manifold.dm"
+#include "code\modules\power\UNSC_fusion\fuel_packet.dm"
+#include "code\modules\power\UNSC_fusion\reactor.dm"
 #include "code\modules\projectiles\ammunition.dm"
 #include "code\modules\projectiles\effects.dm"
 #include "code\modules\projectiles\gun.dm"
