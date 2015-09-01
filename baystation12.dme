@@ -5,6 +5,12 @@
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
+#define FILE_DIR "code"
+#define FILE_DIR "code/modules"
+#define FILE_DIR "code/modules/halo"
+#define FILE_DIR "code/modules/halo/icons"
+#define FILE_DIR "code/modules/power"
+#define FILE_DIR "code/modules/power/UNSC_fusion"
 #define FILE_DIR "html"
 #define FILE_DIR "html/images"
 #define FILE_DIR "icons"
@@ -68,7 +74,6 @@
 #define FILE_DIR "sound/voice"
 #define FILE_DIR "sound/voice/Serithi"
 #define FILE_DIR "sound/weapons"
-#define FILE_DIR "UNSC"
 // END_FILE_DIR
 // BEGIN_PREFERENCES
 #define DEBUG
@@ -1878,5 +1883,5 @@
 #include "maps\exodus-4.dmm"
 #include "maps\exodus-5.dmm"
 #include "maps\exodus-6.dmm"
-#include "maps\innie_base.dmm"
+#include "maps\poa-2.dmm"
 // END_INCLUDE

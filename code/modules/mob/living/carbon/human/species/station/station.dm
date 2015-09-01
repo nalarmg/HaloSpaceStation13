@@ -324,7 +324,7 @@
 /datum/species/elite
 	name = "Elite"
 	name_plural = "Elites"
-	icobase = 'UNSC/r_minor.dmi'
+	icobase = 'code/modules/halo/icons/r_minor.dmi'
 	deform = 'icons/mob/human_races/r_def_vox.dmi'
 	default_language = "Sol Common"
 	language = "Galactic Common"
