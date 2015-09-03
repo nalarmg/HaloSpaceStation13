@@ -1595,6 +1595,7 @@
 #include "code\modules\projectiles\effects.dm"
 #include "code\modules\projectiles\gun.dm"
 #include "code\modules\projectiles\projectile.dm"
+#include "code\modules\projectiles\projectile_pixel_movement.dm"
 #include "code\modules\projectiles\targeting.dm"
 #include "code\modules\projectiles\ammunition\boxes.dm"
 #include "code\modules\projectiles\ammunition\bullets.dm"
