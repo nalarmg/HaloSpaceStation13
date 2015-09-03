@@ -98,6 +98,10 @@ datum/controller/process/overmap/setup()
 	var/map_z = 0
 	var/area/shuttle/shuttle_landing
 	var/always_known = 1
+	var/heading = 0
+	dir = 1
+	var/list/my_observers = list()
+	var/list/my_turrets = list()
 
 /obj/effect/map/New(var/obj/effect/mapinfo/data)
 	map_z = data.zlevel
@@ -116,20 +120,28 @@ datum/controller/process/overmap/setup()
 		shuttle_landing = locate(data.landing_area)
 
 /obj/effect/map/CanPass(atom/movable/A)
-	testing("[A] attempts to enter sector\"[name]\"")
+	//testing("[A] attempts to enter sector\"[name]\"")
 	return 1
 
 /obj/effect/map/Crossed(atom/movable/A)
-	testing("[A] has entered sector\"[name]\"")
+	//testing("[A] has entered sector\"[name]\"")
 	if (istype(A,/obj/effect/map/ship))
 		var/obj/effect/map/ship/S = A
 		S.current_sector = src
 
 /obj/effect/map/Uncrossed(atom/movable/A)
-	testing("[A] has left sector\"[name]\"")
+
+	//testing("[A] has left sector\"[name]\"")
 	if (istype(A,/obj/effect/map/ship))
 		var/obj/effect/map/ship/S = A
 		S.current_sector = null
+
+/obj/effect/map/bullet_act(var/obj/item/projectile/P, def_zone)
+	if(P.firer == src)
+		world << "overmap projectile skipping source [src]"
+		return PROJECTILE_CONTINUE
+
+	world << "[src] has been hit by [P]"
 
 /obj/effect/map/sector
 	name = "generic sector"
