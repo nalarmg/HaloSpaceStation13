@@ -41,6 +41,7 @@
 
 /obj/machinery/computer/helm/process()
 	..()
+
 	if (autopilot && dx && dy)
 		var/turf/T = locate(dx,dy,1)
 		if(linked.loc == T)
@@ -79,8 +80,8 @@
 			//...but somehow they can't see where the ship is flying, let's reset their view for them
 			if(user.client && user.client.eye != linked)
 				user.reset_view(linked, 0)
-				linked.smooth_client_eyes.Remove(user)		//so we can avoid doubleups
-				linked.smooth_client_eyes.Add(user)
+				linked.my_observers.Remove(user)		//so we can avoid doubleups
+				linked.my_observers.Add(user)
 
 		//here are various fail conditions to check if the player needs to be looking via their own mob
 		else
@@ -94,13 +95,15 @@
 		if(user.stat)
 			. = -1
 	else
-		if(user.client && user.client.eye == linked)
+		if(!user)
+			. = -1
+		else if(user.client && user.client.eye == linked)
 			. = -1
 
 	//reset some custom view settings for ship control before resetting the view entirely
-	if(. < 0)
+	if(. < 0 && user)
 		if(linked)
-			linked.smooth_client_eyes.Remove(user)
+			linked.my_observers.Remove(user)
 		if(user.client)
 			user.client.pixel_x = 0
 			user.client.pixel_y = 0

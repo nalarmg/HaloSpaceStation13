@@ -4,7 +4,6 @@
 	desc = "Space faring vessel."
 	icon = 'code/modules/overmap/ships/ships.dmi'
 	icon_state = "frigate"
-	dir = 1
 	var/default_delay = 60
 	var/list/speed = list(0,0)
 	var/last_burn = 0
@@ -20,7 +19,6 @@
 
 	var/obj/effect/overlay/target_overlay
 	var/icon/frigate_icon
-	var/heading = 0
 	var/is_thrusting = 0
 	var/is_thrusting_exhaust = 0
 
@@ -33,14 +31,11 @@
 	var/center_x = 0
 	var/center_y = 0
 
-
 	var/last_update = 0
 	var/pixel_x_progress = 0
 	var/pixel_y_progress = 0
 	var/max_speed = 4
 	animate_movement = 0
-
-	var/list/smooth_client_eyes = list()
 
 /obj/effect/map/ship/initialize()
 	for(var/obj/machinery/computer/engines/E in machines)
@@ -166,6 +161,11 @@
 
 			//world << "rotating [heading_change * rotate_speed] degrees from heading [heading] ([angle2dir(heading)]) to face heading [target_heading] ([angle2dir(target_heading)])"
 
+			//inform our turrets we about the new heading so they can update their targetting overlays
+			for(var/obj/machinery/overmap_turret/T in my_turrets)
+				T.rotate_targetting_overlay(new_heading - heading)
+
+			//change the heading
 			heading = new_heading
 			while(heading > 360)
 				heading -= 360
@@ -314,12 +314,12 @@
 			src.loc = newloc
 
 	//smooth out client movement so the screen isn't constantly jumping around the place
-	for(var/mob/M in smooth_client_eyes)
+	for(var/mob/M in my_observers)
 		if(M.client && M.client.eye == src)
 			M.client.pixel_x = src.pixel_x
 			M.client.pixel_y = src.pixel_y
 		else
-			smooth_client_eyes -= M
+			my_observers -= M
 
 	spawn(1)
 		update(start_time)
