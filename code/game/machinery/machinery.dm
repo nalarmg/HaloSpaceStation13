@@ -91,6 +91,13 @@ Class Procs:
 
 
 	Compiled by Aygar
+
+	machineClickOn(var/atom/A, var/params)      'game/machinery/machine.dm'
+		Called by '/mob/proc/ClickOn' in 'code\_onclick\click.dm' if the usr has a machine set.
+		A generalised system for mobs interacting with atoms via obj/machineryry eg for use with targetting systems
+		To use, define within your machine and return 1
+		For the equivalent proc with an obj held in the hand, see '/obj/item/proc/afterattack' in 'code\_onclick\item_attack.dm'
+
 */
 
 /obj/machinery
@@ -340,3 +347,7 @@ Class Procs:
 		I.loc = loc
 	qdel(src)
 	return 1
+
+//called when the player clicks on something while using a machine
+/obj/machinery/proc/machineClickOn(var/atom/A, var/params)
+	return 0
