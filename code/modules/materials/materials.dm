@@ -500,6 +500,17 @@ var/list/name_to_material
 	composite_material = list() //todo
 	rod_product = null
 
+/material/glass/alon
+	name = "bulletproof glass"
+	display_name = "bulletproof glass"
+	stack_type = /obj/item/stack/material/glass/alon
+	stack_origin_tech = list(TECH_MATERIAL = 4)
+	composite_material = list()
+	created_window = /obj/structure/window/alon
+	hardness = 77
+	weight = 15
+	flags = MATERIAL_BRITTLE
+
 /material/plastic
 	name = "plastic"
 	stack_type = /obj/item/stack/material/plastic
