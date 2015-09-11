@@ -98,6 +98,7 @@ var/list/ghostteleportlocs = list()
 	icon_state = "space"
 	requires_power = 1
 	always_unpowered = 1
+	lighting_use_dynamic = 1
 	power_light = 0
 	power_equip = 0
 	power_environ = 0
@@ -391,6 +392,22 @@ area/space/atmosalert()
 /area/syndicate_mothership/elite_squad
 	name = "\improper Elite Mercenary Squad"
 	icon_state = "syndie-elite"
+
+//INSURRECTION
+
+/area/innie_base
+	name = "\improper Insurectionist Base"
+	icon_state = "syndie-control"
+	requires_power = 0
+
+/area/innie_base/shuttle
+	name = "\improper Insurrectionist Shuttle"
+	icon_state = "syndie-ship"
+	requires_power = 0
+
+/area/innie_base/transit
+	name = "\improper Insurrectionist Shuttle Slipspace Bubble"
+	icon_state = "shuttle"
 
 //EXTRA
 

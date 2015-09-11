@@ -252,3 +252,21 @@ var/global/datum/shuttle_controller/shuttle_controller
 	MS.warmup_time = 0
 	shuttles["Mercenary"] = MS
 
+	var/datum/shuttle/multi_shuttle/IS = new/datum/shuttle/multi_shuttle()
+	IS.origin = locate(/area/innie_base/shuttle)
+	IS.start_location = "Insurrectionist Base"
+	IS.destinations = list()
+
+	IS.docking_controller_tag = "innie_shuttle"
+	IS.destination_dock_targets = list(
+	"Insurrectionist Base" = "innie_base",
+	)
+
+	IS.announcer = "Remote Sensor Probe"
+	IS.arrival_message = "Alert, [station_short], anomalous sensor readings detected in system. Possible slipspace jump."
+	IS.departure_message = "[station_short], a ship has been detected leaving the system. Whoever they were they're long gone."
+	IS.interim = locate(/area/innie_base/transit)
+
+	IS.warmup_time = 0
+	shuttles["Innie"] = IS
+
