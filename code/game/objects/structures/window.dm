@@ -298,7 +298,7 @@
 
 	if(usr.incapacitated())
 		return 0
-	
+
 	if(anchored)
 		usr << "It is fastened to the floor therefore you can't rotate it!"
 		return 0
@@ -450,6 +450,56 @@
 	damage_per_fire_tick = 2.0
 	glasstype = /obj/item/stack/material/glass/reinforced
 
+/obj/structure/window/alon
+	name = "transparent aluminum armor"
+	desc = "Looks incredibly strong. A small sticker in the corner says \"ALON - Unbreakable\""
+	icon_state = "window"
+	basestate = "window"
+	maxhealth = 160.0
+	maximal_heat = T0C + 2150
+	damage_per_fire_tick = 10
+	shardtype = /obj/item/weapon/material/shard/alon
+	glasstype = /obj/item/stack/material/glass/alon
+
+/obj/structure/window/alon/bullet_act(var/obj/item/projectile/Proj)
+
+	//Tasers and the like should not damage windows.
+	if(!(Proj.damage_type == BRUTE || Proj.damage_type == BURN))
+		return
+
+	visible_message("<span class='danger'>[Proj] crumples against [src].</span>")
+	take_damage(Proj.damage/10)
+	return
+
+
+/obj/structure/window/alon/ex_act(severity)
+	switch(severity)
+		if(1.0)
+			if(prob(75))
+				qdel(src)
+				return
+		if(2.0)
+			if(prob(50))
+				shatter(0)
+				return
+		if(3.0)
+			if(prob(25))
+				shatter(0)
+				return
+
+/obj/structure/window/alon/hitby(AM as mob|obj)
+	visible_message("<span class='danger'>[AM] harmlessly bounces off [src].</span>")
+
+/obj/structure/window/alon/hit(var/damage, var/sound_effect = 1)
+	damage = 0.1 * damage
+	take_damage(damage)
+	return
+
+/obj/structure/window/alon/attackby(obj/item/W as obj, mob/user as mob)
+	if(istype(W))
+		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
+		playsound(loc, 'sound/effects/Glasshit.ogg', 75, 1)
+		visible_message("<span class='danger'>[W] harmlessly bounces off [src].</span>")
 
 /obj/structure/window/New(Loc, constructed=0)
 	..()

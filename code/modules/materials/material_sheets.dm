@@ -208,3 +208,10 @@
 	singular_name = "reinforced borosilicate glass sheet"
 	icon_state = "sheet-phoronrglass"
 	default_type = "reinforced borosilicate glass"
+
+/obj/item/stack/material/glass/alon
+	name = "bulletproof glass"
+	desc = "Three inch sheet of aluminium oxynitride. Impervious to small arms fire, resistant to up to .50 caliber."
+	singular_name = "bulletproof glass sheet"
+	icon_state = "sheet-glass"
+	default_type = "bulletproof glass"
