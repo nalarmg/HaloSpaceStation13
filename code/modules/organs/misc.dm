@@ -68,3 +68,21 @@
 
 /obj/item/organ/stack/vox
 	name = "vox cortical stack"
+
+//Covie Organs
+/obj/item/organ/secondary_heart
+	name = "Secondary heart"
+	parent_organ = "chest"
+	icon_state = "heart-on"
+	robotic = 0
+	vital = 0
+
+/obj/item/organ/seconday_heart/process()
+	if(owner.species && owner.species.has_organ["heart"])
+		var/obj/item/organ/heart/heart = owner.internal_organs_by_name["heart"]
+		var/blood_volume = round(owner.vessel.get_reagent_amount("blood"))
+
+		if(!heart)
+			blood_volume += 0.5
+		else if(heart.damage > 1)
+			blood_volume += (blood_volume * 0.2)

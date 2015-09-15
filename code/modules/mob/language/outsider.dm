@@ -110,3 +110,13 @@
 	colour = "cult"
 	key = "m"
 	flags = RESTRICTED | HIVEMIND
+
+/datum/language/sangheili
+	name = "Sangheili"
+	desc = "Standard language of the Sangheili"
+	key = "c"
+	colour = "alien"
+	flags = RESTRICTED
+	native = 1
+	syllables = list("wort", "wort wort", "wort wort wort", "wuudagraan", "yanmee", "lohbaba", "wart", "houfh", "for the Covenant")
+	space_chance = 100

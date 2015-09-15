@@ -23,6 +23,7 @@
 #define IS_UNATHI  4
 #define IS_XENOS   5
 #define IS_MACHINE 6
+#define IS_ELITE   7
 
 #define CE_STABLE "stable" // Inaprovaline
 #define CE_ANTIBIOTIC "antibiotic" // Spaceacilin
