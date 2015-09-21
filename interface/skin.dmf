@@ -299,7 +299,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "SPACE+REP"
-		command = "ship-thrust"
+		command = "vehicle-thrust"
 		is-disabled = false
 	elem 
 		name = "NORTHEAST"
@@ -446,8 +446,8 @@ macro "macro"
 		command = ".northwest"
 		is-disabled = false
 	elem 
-		name = "NUMPAD5+REP"
-		command = "ship-thrust"
+		name = "NUMPAD5"
+		command = "vehicle-thrust-toggle"
 		is-disabled = false
 	elem 
 		name = "NUMPAD6+REP"
