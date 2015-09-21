@@ -98,7 +98,6 @@ datum/controller/process/overmap/setup()
 	var/map_z = 0
 	var/area/shuttle/shuttle_landing
 	var/always_known = 1
-	var/heading = 0
 	dir = 1
 	var/list/my_observers = list()
 	var/list/my_turrets = list()

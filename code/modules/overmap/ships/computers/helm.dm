@@ -13,8 +13,8 @@
 /obj/machinery/computer/helm/initialize()
 	linked = map_sectors["[z]"] || cached_spacepre["[z]"]
 	if (linked)
-		if(!linked.nav_control)
-			linked.nav_control = src
+		/*if(!linked.nav_control)
+			linked.nav_control = src*/
 		testing("Helm console at level [z] found a corresponding overmap object '[linked.name]'.")
 	else
 		testing("Helm console at level [z] was unable to find a corresponding overmap object.")
@@ -42,7 +42,7 @@
 /obj/machinery/computer/helm/process()
 	..()
 
-	if (autopilot && dx && dy)
+/*	if (autopilot && dx && dy)
 		var/turf/T = locate(dx,dy,1)
 		if(linked.loc == T)
 			if(linked.is_still())
@@ -57,7 +57,7 @@
 		else
 			linked.decelerate()
 
-		return
+		return*/
 
 /obj/machinery/computer/helm/relaymove(var/mob/user, direction)
 	if(manual_control && linked)
@@ -133,7 +133,7 @@
 	data["dest"] = dy && dx
 	data["d_x"] = dx
 	data["d_y"] = dy
-	data["speed"] = linked.get_speed()
+	data["speed"] = linked.get_speed() * 10
 	data["accel"] = round(linked.get_acceleration())
 	data["heading"] = linked.get_heading()
 	data["autopilot"] = autopilot
@@ -207,8 +207,8 @@
 		var/ndir = text2num(href_list["move"])
 		linked.relaymove(usr, ndir)
 
-	if (href_list["brake"])
-		linked.decelerate()
+	/*if (href_list["brake"])
+		linked.decelerate()*/
 
 	if (href_list["apilot"])
 		autopilot = !autopilot
@@ -226,15 +226,6 @@
 	add_fingerprint(usr)
 	updateUsrDialog()
 
-
-
-//some extra player controls for the ship
-//the numpad and arrow keys hook into standard mob controls, but this gives the players extra control
-//see code\modules\mob\mob_movement.dm, code\modules\mob\mob.dm and interface\skin.dmf for that code
-
-/client/verb/ship_thrust()
-	set hidden = 1
-
-	if(istype(src.mob) && istype(src.mob.machine, /obj/machinery/computer/helm))
-		var/obj/machinery/computer/helm/H = src.mob.machine
-		H.thrust_forward()
+/obj/machinery/computer/helm/proc/thrust_forward_toggle()
+	if(linked)
+		linked.thrust_forward_toggle()

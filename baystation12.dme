@@ -1529,6 +1529,7 @@
 #include "code\modules\organs\subtypes\xenos.dm"
 #include "code\modules\overmap\precreate.dm"
 #include "code\modules\overmap\sectors.dm"
+#include "code\modules\overmap\vehicle_transform.dm"
 #include "code\modules\overmap\ships\poa.dm"
 #include "code\modules\overmap\ships\ship.dm"
 #include "code\modules\overmap\ships\areas\landing.dm"
