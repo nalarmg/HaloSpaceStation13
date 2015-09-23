@@ -96,7 +96,7 @@
 				icon_state = "ladder-[zdir]"
 
 				//once we remove the ladder, force any mobs standing on it to fall
-				if(check_ztransit_up(src.z))
+				if(HasAbove(src.z))
 					var/turf/above = locate(src.x, src.y, src.z - 1)
 					for(var/mob/living/M in above)
 						above.Enter(M)
@@ -121,7 +121,8 @@
 	//check if the ladder has been setup to lead somewhere
 	if(zdir)
 		//check if we already know what direction we want to go
-		if(movedir)
+		var/turf/cur_turf = src.loc
+		if(movedir && cur_turf.ztransit_enabled(movedir))
 			//check if the ladder works in that direction
 			if(movedir & zdir)
 				var/turf/curturf = get_turf(src)
@@ -184,7 +185,8 @@
 					else
 						return
 			//try again with a proper direction
-			attempt_traverse(M, movedir)
+			if(cur_turf.ztransit_enabled(movedir))
+				attempt_traverse(M, movedir)
 	else
 		M << "<span class='warning'>[src] is not connected to anything.</span>"
 

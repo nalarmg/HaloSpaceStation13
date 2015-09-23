@@ -613,7 +613,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	var/mob/living/M = usr
 
 	if(istype(M) && !M.restrained() && !M.stat && !M.paralysis && ! M.stunned)
-		if(check_ztransit_up(M.z))
+		if(HasAbove(M.z))
 			var/turf/above = locate(M.x, M.y, M.z - 1)
 			if(above)
 				turf_place(above, M)
