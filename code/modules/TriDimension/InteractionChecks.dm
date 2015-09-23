@@ -12,9 +12,9 @@
 
 //Check turf above
 /turf/proc/ztransit_enabled_up()
-	return check_ztransit_up(src.z)
+	return HasAbove(src.z)
 
-/proc/check_ztransit_up(var/curZ)
+/proc/HasAbove(var/curZ)
 	if(curZ == 1)
 		return 0
 
@@ -26,12 +26,20 @@
 
 	return z_transit_enabled[curZ - 1]
 
+proc/GetAbove(var/atom/atom)
+	var/turf/turf = get_turf(atom)
+	if(!turf)
+		return null
+	if(HasAbove(turf.z))
+		return locate(turf.x, turf.y, turf.z - 1)
+	return null
+
 
 //Check turf below
 /turf/proc/ztransit_enabled_down()
-	return check_ztransit_down(src.z)
+	return HasBelow(src.z)
 
-/proc/check_ztransit_down(var/curZ)
+/proc/HasBelow(var/curZ)
 	while(z_transit_enabled.len < curZ)
 		z_transit_enabled.Add(0)
 
@@ -42,3 +50,11 @@
 		return 0
 
 	return z_transit_enabled[curZ + 1]
+
+proc/GetBelow(var/atom/atom)
+	var/turf/turf = get_turf(atom)
+	if(!turf)
+		return null
+	if(HasBelow(turf.z))
+		return locate(turf.x, turf.y, turf.z + 1)
+	return null

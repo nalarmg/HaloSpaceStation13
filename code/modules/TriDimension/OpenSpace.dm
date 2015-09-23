@@ -8,7 +8,8 @@
 
 /turf/simulated/floor/open
 	name = "open space"
-	icon_state = "elevatorshaft"	//placeholder
+	icon = 'icons/turf/space.dmi'
+	icon_state = "black"
 	density = 0
 	pathweight = 100000 //Seriously, don't try and path over this one numbnuts
 	var/list/z_overlays
