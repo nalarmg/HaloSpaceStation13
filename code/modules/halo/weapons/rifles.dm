@@ -5,8 +5,8 @@
 /obj/item/weapon/gun/projectile/automatic/assault
 	name = "\improper MA5B Assault Rifle"
 	desc = "standard-issue service rifle of the UNSC Marines."
-	icon_state = "assault-loaded"
-	item_state = "assault"
+	icon_state = "ma5d"
+	item_state = "ma5d"
 	w_class = 3
 	force = 10
 	caliber = "7.62mm"
@@ -18,9 +18,3 @@
 	auto_eject = 1
 	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
 
-/obj/item/weapon/gun/projectile/assault/update_icon()
-	..()
-	if(loaded.len)
-		icon_state = "assault-loaded"
-	else
-		icon_state = "assault-empty"

@@ -17,6 +17,25 @@
 	siemens_coefficient = 0.7
 	w_class = 3
 
+/obj/item/clothing/head/helmet/marine
+	name = "CH252 Helmet"
+	desc = "the standard issue combat helmet worn by the members of the UNSC Marine Corps, UNSC Army, and UNSC Air Force;"
+	icon_state = "marine"
+	item_state_slots = list(
+		slot_l_hand_str = "marine",
+		slot_r_hand_str = "marine",
+		)
+	item_flags = THICKMATERIAL
+	body_parts_covered = HEAD
+	armor = list(melee = 50, bullet = 15, laser = 50,energy = 10, bomb = 25, bio = 0, rad = 0)
+	flags_inv = HIDEEARS|HIDEEYES
+	cold_protection = HEAD
+	min_cold_protection_temperature = HELMET_MIN_COLD_PROTECTION_TEMPERATURE
+	heat_protection = HEAD
+	max_heat_protection_temperature = HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
+	siemens_coefficient = 0.7
+	w_class = 3
+
 /obj/item/clothing/head/helmet/riot
 	name = "riot helmet"
 	desc = "It's a helmet specifically designed to protect against close range attacks."
@@ -49,6 +68,18 @@
 	name = "gladiator helmet"
 	desc = "Ave, Imperator, morituri te salutant."
 	icon_state = "gladiator"
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|BLOCKHAIR
+	body_parts_covered = HEAD|FACE
+	siemens_coefficient = 1
+
+/obj/item/clothing/head/helmet/spartan
+	name = "MJOLNIR Powered Assault Armor Helmet"
+	desc = "Ave, Imperator, morituri te salutant."
+	icon_state = "spartan5"
+	item_state_slots = list(
+		slot_l_hand_str = "spartan5",
+		slot_r_hand_str = "spartan5",
+		)
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|BLOCKHAIR
 	body_parts_covered = HEAD|FACE
 	siemens_coefficient = 1
