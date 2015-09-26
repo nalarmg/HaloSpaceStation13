@@ -1167,8 +1167,10 @@
 #include "code\modules\games\cards.dm"
 #include "code\modules\genetics\side_effects.dm"
 #include "code\modules\ghosttrap\trap.dm"
+#include "code\modules\halo\gamemodes\insurrection\innie.dm"
 #include "code\modules\halo\gamemodes\insurrection\insurrection.dm"
 #include "code\modules\halo\weapons\ammo.dm"
+#include "code\modules\halo\weapons\energy.dm"
 #include "code\modules\halo\weapons\pistols.dm"
 #include "code\modules\halo\weapons\rifles.dm"
 #include "code\modules\holodeck\HolodeckControl.dm"
@@ -1883,5 +1885,6 @@
 #include "maps\exodus-4.dmm"
 #include "maps\exodus-5.dmm"
 #include "maps\exodus-6.dmm"
+#include "maps\innie_base.dmm"
 #include "maps\poa-2.dmm"
 // END_INCLUDE

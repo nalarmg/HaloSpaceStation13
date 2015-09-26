@@ -451,3 +451,8 @@
 /datum/access/crate_cash
 	id = access_crate_cash
 	access_type = ACCESS_TYPE_NONE
+
+/var/const/access_insurrectionist = 250
+/datum/access/insurrectionist
+	id = access_insurrectionist
+	access_type = ACCESS_TYPE_NONE

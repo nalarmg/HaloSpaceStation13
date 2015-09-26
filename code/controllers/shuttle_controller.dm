@@ -260,6 +260,7 @@ var/global/datum/shuttle_controller/shuttle_controller
 	IS.docking_controller_tag = "innie_shuttle"
 	IS.destination_dock_targets = list(
 	"Insurrectionist Base" = "innie_base",
+	"Arrivals" = "arrivals_dock_innie",
 	)
 
 	IS.announcer = "Remote Sensor Probe"

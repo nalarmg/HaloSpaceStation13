@@ -1,13 +1,17 @@
 var/datum/antagonist/innie/innies
 //
 /datum/antagonist/innie
+	role_type = BE_INNIE
 	id = MODE_INNIE
+	landmark_id = "Insurrectionist-Spawn"
 	role_text = "Insurrectionist"
 	role_text_plural = "Insurrectionists"
+	welcome_text = "You are an Insurrectionist, you do not agree with the UNSC's laws and decisons."
 	restricted_jobs = list("Cyborg")
 	protected_jobs = list("Military Police", "Warden", "Detective", "ONI Agent", "Chief Security Officer", "Captain")
-	flags = ANTAG_SUSPICIOUS | ANTAG_RANDSPAWN | ANTAG_VOTABLE
+	flags = ANTAG_SUSPICIOUS | ANTAG_RANDSPAWN | ANTAG_VOTABLE | ANTAG_CLEAR_EQUIPMENT
 	max_antags = 5 // No upper limit.
+	id_type = /obj/item/weapon/card/id/insurrectionist
 
 	var/list/innie_uniforms = list(
 		/obj/item/clothing/under/color/red,
@@ -55,6 +59,7 @@ var/datum/antagonist/innie/innies
 
 /datum/antagonist/innie/equip(var/mob/living/carbon/human/player)
 
+
 	var/new_shoes =   pick(innie_shoes)
 	var/new_uniform = pick(innie_uniforms)
 	var/new_glasses = pick(innie_glasses)
@@ -67,13 +72,11 @@ var/datum/antagonist/innie/innies
 	player.equip_to_slot_or_del(new new_helmet(player),slot_head)
 	player.equip_to_slot_or_del(new new_suit(player),slot_wear_suit)
 	player.update_icons()
-	equip_weapons()
 
-/datum/antagonist/innie/proc/equip_weapons(var/mob/living/carbon/human/player)
-	var/new_gun = pick(innie_guns)
-	var/innie_special = /obj/item/weapon/gun/energy/railrifle/innie
-
-	player.put_in_any_hand_if_possible(new_gun)
-
-	if(prob(1))
-		player.put_in_any_hand_if_possible(innie_special)
+/datum/antagonist/innie/place_all_mobs()
+	var/spawnpos = 1
+	for(var/datum/mind/player in current_antagonists)
+		player.current.loc = starting_locations[spawnpos]
+		spawnpos++
+		if(spawnpos > starting_locations.len)
+			spawnpos = 1

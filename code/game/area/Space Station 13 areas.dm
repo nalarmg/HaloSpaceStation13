@@ -404,6 +404,11 @@ area/space/atmosalert()
 	icon_state = "syndie-ship"
 	requires_power = 0
 
+/area/innie_base/arrivals_dock_innie
+	name = "\improper Insurrectionist Shuttle Docked w/ Station"
+	icon_state = "syndie-ship"
+	requires_power = 0
+
 /area/innie_base/transit
 	name = "\improper Insurrectionist Shuttle Slipspace Bubble"
 	icon_state = "shuttle"
