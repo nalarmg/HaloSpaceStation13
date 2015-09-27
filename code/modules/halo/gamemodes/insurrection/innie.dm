@@ -59,6 +59,8 @@ var/datum/antagonist/innie/innies
 
 /datum/antagonist/innie/equip(var/mob/living/carbon/human/player)
 
+	if(!..())
+		return
 
 	var/new_shoes =   pick(innie_shoes)
 	var/new_uniform = pick(innie_uniforms)

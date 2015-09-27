@@ -255,7 +255,15 @@ var/global/datum/shuttle_controller/shuttle_controller
 	var/datum/shuttle/multi_shuttle/IS = new/datum/shuttle/multi_shuttle()
 	IS.origin = locate(/area/innie_base/shuttle)
 	IS.start_location = "Insurrectionist Base"
-	IS.destinations = list()
+	MS.destinations = list(
+		"Northwest of the station" = locate(/area/syndicate_station/northwest),
+		"North of the station" = locate(/area/syndicate_station/north),
+		"Northeast of the station" = locate(/area/syndicate_station/northeast),
+		"Southwest of the station" = locate(/area/syndicate_station/southwest),
+		"South of the station" = locate(/area/syndicate_station/south),
+		"Southeast of the station" = locate(/area/syndicate_station/southeast),
+		"Arrivals dock" = locate(/area/innie_base/arrivals_dock_innie),
+		)
 
 	IS.docking_controller_tag = "innie_shuttle"
 	IS.destination_dock_targets = list(
