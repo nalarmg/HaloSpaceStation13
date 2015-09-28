@@ -1,5 +1,5 @@
 
-/obj/item/projectile/proc/launch_heading(var/heading, var/target_zone, var/pixel_speed = world.icon_size)
+/obj/item/projectile/proc/launch_heading(var/heading, var/pixel_speed = 32)
 	var/turf/curloc = get_turf(src)
 	if (!istype(curloc))
 		return 1
