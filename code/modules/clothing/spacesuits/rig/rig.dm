@@ -92,7 +92,7 @@
 
 	if(src.loc == usr)
 		usr << "The maintenance panel is [open ? "open" : "closed"]."
-		usr << "Hardsuit systems are [offline ? "<font color='red'>offline</font>" : "<font color='green'>online</green>"]."
+		usr << "Hardsuit systems are [offline ? "<font color='red'>offline</font>" : "<font color='green'>online</font>"]."
 
 /obj/item/weapon/rig/New()
 	..()
@@ -304,7 +304,7 @@
 			if(istype(piece.loc, /mob/living))
 				M = piece.loc
 				M.drop_from_inventory(piece)
-			piece.loc = src
+			piece.forceMove(src)
 
 	if(!istype(wearer) || loc != wearer || wearer.back != src || canremove || !cell || cell.charge <= 0)
 		if(!cell || cell.charge <= 0)
@@ -558,7 +558,7 @@
 			if(M && M.back == src)
 				M.back = null
 				M.drop_from_inventory(src)
-			src.loc = get_turf(src)
+			src.forceMove(get_turf(src))
 			return
 
 	if(istype(M) && M.back == src)
@@ -615,22 +615,25 @@
 						H << "<font color='blue'><b>Your [use_obj.name] [use_obj.gender == PLURAL ? "retract" : "retracts"] swiftly.</b></font>"
 						use_obj.canremove = 1
 						holder.drop_from_inventory(use_obj)
-						use_obj.loc = get_turf(src)
+						use_obj.forceMove(get_turf(src))
 						use_obj.dropped()
 						use_obj.canremove = 0
-						use_obj.loc = src
+						use_obj.forceMove(src)
 
 		else if (deploy_mode != ONLY_RETRACT)
-			if(check_slot)
-				if(check_slot != use_obj)
-					H << "<span class='danger'>You are unable to deploy \the [piece] as \the [check_slot] [check_slot.gender == PLURAL ? "are" : "is"] in the way.</span>"
+			if(check_slot && check_slot == use_obj)
 				return
+			use_obj.forceMove(H)
+			if(!H.equip_to_slot_if_possible(use_obj, equip_to, 0, 1))
+				use_obj.forceMove(src)
+				if(check_slot)
+					H << "<span class='danger'>You are unable to deploy \the [piece] as \the [check_slot] [check_slot.gender == PLURAL ? "are" : "is"] in the way.</span>"
 			else
-				use_obj.loc = H
+				use_obj.forceMove(H)
 				if(!H.equip_to_slot_if_possible(use_obj, equip_to, 0))
-					use_obj.loc = src
+					use_obj.forceMove(src)
 				else
-					H << "<font color='blue'><b>Your [use_obj.name] [use_obj.gender == PLURAL ? "deploy" : "deploys"] swiftly.</b></span>"
+					H << "<span class='notice'>Your [use_obj.name] [use_obj.gender == PLURAL ? "deploy" : "deploys"] swiftly.</span>"
 
 	if(piece == "helmet" && helmet)
 		helmet.update_light(H)
@@ -746,7 +749,7 @@
 		if(dam_module.damage >= 2)
 			wearer << "<span class='danger'>The [source] has disabled your [dam_module.interface_name]!</span>"
 		else
-			wearer << "<span class='warning'>The [source] has damaged your [dam_module.interface_name]!"
+			wearer << "<span class='warning'>The [source] has damaged your [dam_module.interface_name]!</span>"
 	dam_module.deactivate()
 
 /obj/item/weapon/rig/proc/malfunction_check(var/mob/living/carbon/human/user)

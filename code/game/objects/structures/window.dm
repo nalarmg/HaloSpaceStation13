@@ -8,6 +8,8 @@
 	anchored = 1.0
 	flags = ON_BORDER
 	var/maxhealth = 14.0
+	var/maximal_heat = T0C + 100 		// Maximal heat before this window begins taking damage from fire
+	var/damage_per_fire_tick = 2.0 		// Amount of damage per fire tick. Regular windows are not fireproof so they might as well break quickly.
 	var/health
 	var/ini_dir = null
 	var/state = 2
@@ -99,12 +101,11 @@
 
 /obj/structure/window/bullet_act(var/obj/item/projectile/Proj)
 
-	//Tasers and the like should not damage windows.
-	if(!(Proj.damage_type == BRUTE || Proj.damage_type == BURN))
-		return
+	var/proj_damage = Proj.get_structure_damage()
+	if(!proj_damage) return
 
 	..()
-	take_damage(Proj.damage)
+	take_damage(proj_damage)
 	return
 
 
@@ -296,7 +297,7 @@
 
 	if(usr.incapacitated())
 		return 0
-	
+
 	if(anchored)
 		usr << "It is fastened to the floor therefore you can't rotate it!"
 		return 0
@@ -398,8 +399,8 @@
 	return
 
 /obj/structure/window/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if(exposed_temperature > T0C + 800)
-		hit(round(exposed_volume / 100), 0)
+	if(exposed_temperature > maximal_heat)
+		hit(damage_per_fire_tick, 0)
 	..()
 
 
@@ -409,43 +410,95 @@
 	icon_state = "window"
 	basestate = "window"
 	glasstype = /obj/item/stack/material/glass
-
+	maximal_heat = T0C + 100
+	damage_per_fire_tick = 2.0
+	maxhealth = 12.0
 
 /obj/structure/window/phoronbasic
 	name = "phoron window"
-	desc = "A phoron-glass alloy window. It looks insanely tough to break. It appears it's also insanely tough to burn through."
+	desc = "A borosilicate alloy window. It seems to be quite strong."
 	basestate = "phoronwindow"
 	icon_state = "phoronwindow"
 	shardtype = /obj/item/weapon/material/shard/phoron
 	glasstype = /obj/item/stack/material/glass/phoronglass
-	maxhealth = 120
-
-/obj/structure/window/phoronbasic/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if(exposed_temperature > T0C + 32000)
-		hit(round(exposed_volume / 1000), 0)
-	..()
+	maximal_heat = T0C + 2000
+	damage_per_fire_tick = 1.0
+	maxhealth = 40.0
 
 /obj/structure/window/phoronreinforced
-	name = "reinforced phoron window"
-	desc = "A phoron-glass alloy window, with rods supporting it. It looks hopelessly tough to break. It also looks completely fireproof, considering how basic phoron windows are insanely fireproof."
+	name = "reinforced borosilicate window"
+	desc = "A borosilicate alloy window, with rods supporting it. It seems to be very strong."
 	basestate = "phoronrwindow"
 	icon_state = "phoronrwindow"
 	shardtype = /obj/item/weapon/material/shard/phoron
 	glasstype = /obj/item/stack/material/glass/phoronrglass
 	reinf = 1
-	maxhealth = 160
+	maximal_heat = T0C + 4000
+	damage_per_fire_tick = 1.0 // This should last for 80 fire ticks if the window is not damaged at all. The idea is that borosilicate windows have something like ablative layer that protects them for a while.
+	maxhealth = 80.0
 
-/obj/structure/window/phoronreinforced/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	return
 
 /obj/structure/window/reinforced
 	name = "reinforced window"
 	desc = "It looks rather strong. Might take a few good hits to shatter it."
 	icon_state = "rwindow"
 	basestate = "rwindow"
-	maxhealth = 40
+	maxhealth = 40.0
 	reinf = 1
+	maximal_heat = T0C + 750
+	damage_per_fire_tick = 2.0
 	glasstype = /obj/item/stack/material/glass/reinforced
+
+/obj/structure/window/alon
+	name = "transparent aluminum armor"
+	desc = "Looks incredibly strong. A small sticker in the corner says \"ALON - Unbreakable\""
+	icon_state = "window"
+	basestate = "window"
+	maxhealth = 160.0
+	maximal_heat = T0C + 2150
+	damage_per_fire_tick = 10
+	shardtype = /obj/item/weapon/material/shard/alon
+	glasstype = /obj/item/stack/material/glass/alon
+
+/obj/structure/window/alon/bullet_act(var/obj/item/projectile/Proj)
+
+	//Tasers and the like should not damage windows.
+	if(!(Proj.damage_type == BRUTE || Proj.damage_type == BURN))
+		return
+
+	visible_message("<span class='danger'>[Proj] crumples against [src].</span>")
+	take_damage(Proj.damage/10)
+	return
+
+
+/obj/structure/window/alon/ex_act(severity)
+	switch(severity)
+		if(1.0)
+			if(prob(75))
+				qdel(src)
+				return
+		if(2.0)
+			if(prob(50))
+				shatter(0)
+				return
+		if(3.0)
+			if(prob(25))
+				shatter(0)
+				return
+
+/obj/structure/window/alon/hitby(AM as mob|obj)
+	visible_message("<span class='danger'>[AM] harmlessly bounces off [src].</span>")
+
+/obj/structure/window/alon/hit(var/damage, var/sound_effect = 1)
+	damage = 0.1 * damage
+	take_damage(damage)
+	return
+
+/obj/structure/window/alon/attackby(obj/item/W as obj, mob/user as mob)
+	if(istype(W))
+		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
+		playsound(loc, 'sound/effects/Glasshit.ogg', 75, 1)
+		visible_message("<span class='danger'>[W] harmlessly bounces off [src].</span>")
 
 /obj/structure/window/New(Loc, constructed=0)
 	..()

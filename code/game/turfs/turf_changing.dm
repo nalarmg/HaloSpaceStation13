@@ -73,7 +73,7 @@
 				//world << "can transit down"
 				var/turf/below = locate(T.x, T.y, T.z + 1)
 				// dont make open space into space, its pointless and makes people drop out of the station
-				if(!istype(below, /turf/space))
+				if(istype(below) && air_master.has_valid_zone(below))
 					//world << "turf below is ground (plating etc), changing this one to open"
 					if(T == W)
 						spawn(0)

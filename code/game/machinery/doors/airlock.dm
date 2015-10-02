@@ -656,7 +656,7 @@ About the new airlock wires panel:
 	return
 
 /obj/machinery/door/airlock/CanUseTopic(var/mob/user)
-	if(!user.isSilicon())
+	if(issilicon(user))
 		return STATUS_CLOSE
 
 	if(operating < 0) //emagged
@@ -910,6 +910,9 @@ About the new airlock wires panel:
 	. = ..()
 	health -= crush_damage
 	healthcheck()
+
+/obj/effect/energy_field/airlock_crush(var/crush_damage)
+	Stress(crush_damage)
 
 /obj/structure/closet/airlock_crush(var/crush_damage)
 	..()

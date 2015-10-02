@@ -124,7 +124,7 @@
 	if(user.a_intent != I_HURT || !isGlass)
 		return ..()
 
-	var/obj/item/organ/external/affecting = user.zone_sel.selecting //Find what the player is aiming at
+	var/affecting = user.zone_sel.selecting //Find what the player is aiming at
 
 	var/armor_block = 0 //Get the target's armour values for normal attack damage.
 	var/armor_duration = 0 //The more force the bottle has, the longer the duration.
@@ -140,12 +140,11 @@
 
 	// You are going to knock someone out for longer if they are not wearing a helmet.
 	var/do_smash = smash_check(1) //won't always break on the first hit
-	if(affecting == "head" && istype(target, /mob/living/carbon/) && do_smash)
-
+	var/mob/living/carbon/human/H = target
+	if(do_smash && istype(H) && H.headcheck(affecting))
 		//Display an attack message.
-		for(var/mob/O in viewers(user, null))
-			if(target != user) O.show_message(text("\red <B>[target] has been hit over the head with a bottle of [src.name], by [user]!</B>"), 1)
-			else O.show_message(text("\red <B>[target] hit \himself with a bottle of [src.name] on the head!</B>"), 1)
+		var/obj/item/organ/O = H.get_organ(affecting)
+		user.visible_message("<span class='danger'>[user] smashes [src] into [H]'s [O.name]!</span>")
 		//Weaken the target for the duration that we calculated and divide it by 5.
 		if(armor_duration)
 			target.apply_effect(min(armor_duration, 5) , WEAKEN, armor_block) // Never weaken more than a flash!
@@ -346,6 +345,33 @@
 	New()
 		..()
 		reagents.add_reagent("grenadine", 100)
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/cola
+	name = "\improper Space Cola"
+	desc = "Cola. in space"
+	icon_state = "colabottle"
+	center_of_mass = list("x"=16, "y"=6)
+	New()
+		..()
+		reagents.add_reagent("cola", 100)
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/space_up
+	name = "\improper Space-Up"
+	desc = "Tastes like a hull breach in your mouth."
+	icon_state = "space-up_bottle"
+	center_of_mass = list("x"=16, "y"=6)
+	New()
+		..()
+		reagents.add_reagent("space_up", 100)
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/space_mountain_wind
+	name = "\improper Space Mountain Wind"
+	desc = "Blows right through you like a space wind."
+	icon_state = "space_mountain_wind_bottle"
+	center_of_mass = list("x"=16, "y"=6)
+	New()
+		..()
+		reagents.add_reagent("spacemountainwind", 100)
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/pwine
 	name = "Warlock's Velvet"

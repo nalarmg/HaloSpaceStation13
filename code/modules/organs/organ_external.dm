@@ -35,6 +35,7 @@
 	var/cannot_break
 	var/s_tone
 	var/list/s_col
+	var/list/h_col
 	var/list/wounds = list()
 	var/number_wounds = 0 // cache the number of wounds, which is NOT wounds.len!
 	var/perma_injury = 0
@@ -55,6 +56,7 @@
 	var/dislocated = 0    // If you target a joint, you can dislocate the limb, causing temporary damage to the organ.
 	var/can_grasp //It would be more appropriate if these two were named "affects_grasp" and "affects_stand" at this point
 	var/can_stand
+	var/body_hair
 
 /obj/item/organ/external/Destroy()
 	if(parent && parent.children)
@@ -258,7 +260,7 @@
 				createwound(BURN, min(burn,can_inflict))
 				//How much burn damage is left to inflict
 				spillover += max(0, burn - can_inflict)
-		
+
 		//If there are still hurties to dispense
 		if (spillover)
 			owner.shock_stage += spillover * config.organ_damage_spillover_multiplier
@@ -268,14 +270,14 @@
 	owner.updatehealth() //droplimb will call updatehealth() again if it does end up being called
 
 	//If limb took enough damage, try to cut or tear it off
-	if(owner && loc == owner)
+	if(owner && loc == owner && !is_stump())
 		if(!cannot_amputate && config.limbs_can_break && (brute_dam + burn_dam) >= (max_damage * config.organ_health_multiplier))
 			//organs can come off in three cases
 			//1. If the damage source is edge_eligible and the brute damage dealt exceeds the edge threshold, then the organ is cut off.
 			//2. If the damage amount dealt exceeds the disintegrate threshold, the organ is completely obliterated.
 			//3. If the organ has already reached or would be put over it's max damage amount (currently redundant),
 			//   and the brute damage dealt exceeds the tearoff threshold, the organ is torn off.
-			
+
 			//Check edge eligibility
 			var/edge_eligible = 0
 			if(edge)
@@ -895,6 +897,8 @@ Note that amputating the affected organ does in fact remove the infection from t
 	if(company)
 		model = company
 		var/datum/robolimb/R = all_robolimbs[company]
+		if(species && (species.name in R.species_cannot_use))
+			R = basic_robolimb
 		if(R)
 			force_icon = R.icon
 			name = "[R.company] [initial(name)]"
