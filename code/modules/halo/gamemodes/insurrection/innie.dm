@@ -59,22 +59,21 @@ var/datum/antagonist/innie/innies
 
 /datum/antagonist/innie/equip(var/mob/living/carbon/human/player)
 
-	if(!..())
-		return
-
 	var/new_shoes =   pick(innie_shoes)
 	var/new_uniform = pick(innie_uniforms)
-	var/new_glasses = pick(innie_glasses)
+//	var/new_glasses = pick(innie_glasses)
 	var/new_helmet =  pick(innie_helmets)
 	var/new_suit =    pick(innie_suits)
 
 	player.equip_to_slot_or_del(new new_shoes(player),slot_shoes)
 	player.equip_to_slot_or_del(new new_uniform(player),slot_w_uniform)
-	player.equip_to_slot_or_del(new new_glasses(player),slot_glasses)
+//	player.equip_to_slot_or_del(new new_glasses(player),slot_glasses)
 	player.equip_to_slot_or_del(new new_helmet(player),slot_head)
 	player.equip_to_slot_or_del(new new_suit(player),slot_wear_suit)
 	player.update_icons()
 
+
+/*
 /datum/antagonist/innie/place_all_mobs()
 	var/spawnpos = 1
 	for(var/datum/mind/player in current_antagonists)
@@ -82,3 +81,4 @@ var/datum/antagonist/innie/innies
 		spawnpos++
 		if(spawnpos > starting_locations.len)
 			spawnpos = 1
+*/

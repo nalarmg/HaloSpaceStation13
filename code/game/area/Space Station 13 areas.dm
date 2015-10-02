@@ -405,7 +405,7 @@ area/space/atmosalert()
 	requires_power = 0
 
 /area/innie_base/base_dock_innie
-	name = "\improper Insurrectionist Shuttle Base Dock
+	name = "\improper Insurrectionist Shuttle Base Dock"
 
 /area/innie_base/arrivals_dock_innie
 	name = "\improper Insurrectionist Shuttle Arrivals Dock"
