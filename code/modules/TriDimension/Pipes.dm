@@ -154,16 +154,18 @@ obj/machinery/atmospherics/pipe/zpipe/up/initialize()
 				node1 = target
 				break
 
-	var/turf/T = src.loc
-	if(T.ztransit_enabled_up())
-		var/turf/above = locate(src.x, src.y, src.z - 1)
+	var/turf/above = GetAbove(src)
+	if(above)
 		for(var/obj/machinery/atmospherics/target in above)
 			if(target.initialize_directions && istype(target, /obj/machinery/atmospherics/pipe/zpipe/down))
 				if (check_connect_types(target,src))
 					node2 = target
 					break
 
-	hide(!T.is_plating())///////////////////////
+	var/turf/T = get_turf(src)
+	hide(!T.is_plating())
+
+///////////////////////
 // and the down pipe //
 ///////////////////////
 
@@ -189,17 +191,17 @@ obj/machinery/atmospherics/pipe/zpipe/down/initialize()
 				node1 = target
 				break
 
-	var/turf/T = src.loc
-	if(T.ztransit_enabled_down())
-		var/turf/below = locate(src.x, src.y, src.z + 1)
+	var/turf/below = GetBelow(src)
+	if(below)
 		for(var/obj/machinery/atmospherics/target in below)
 			if(target.initialize_directions && istype(target, /obj/machinery/atmospherics/pipe/zpipe/up))
 				if (check_connect_types(target,src))
 					node2 = target
 					break
 
-
+	var/turf/T = get_turf(src)
 	hide(!T.is_plating())			// hide if turf is not intact
+
 ///////////////////////
 // supply/scrubbers  //
 ///////////////////////

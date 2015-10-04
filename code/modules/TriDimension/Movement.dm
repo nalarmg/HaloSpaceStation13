@@ -18,11 +18,8 @@
 		return
 
 	var/turf/curturf = get_turf(M)
-	if(curturf.ztransit_enabled(zdir))
-		var/newZ = 1
-		if(zdir == UP)
-			newZ = -1
-		var/turf/T = locate(curturf.x, curturf.y, curturf.z + newZ)
+	if(HasAboveBelow(curturf.z, zdir))
+		var/turf/T = GetAboveBelow(curturf, zdir)
 		var/blocked = 0
 		if(!T || !T.CanPass(M, T))
 			blocked = T

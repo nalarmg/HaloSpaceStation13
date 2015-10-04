@@ -121,21 +121,17 @@
 	//check if the ladder has been setup to lead somewhere
 	if(zdir)
 		//check if we already know what direction we want to go
-		var/turf/cur_turf = src.loc
-		if(movedir && cur_turf.ztransit_enabled(movedir))
+		if(movedir && HasAboveBelow(src.z, movedir))
 			//check if the ladder works in that direction
 			if(movedir & zdir)
 				var/turf/curturf = get_turf(src)
-				var/newz = 1
-				if(zdir & UP)
-					newz = -1
-				var/turf/T = locate(curturf.x, curturf.y, curturf.z + newz)
+				var/turf/T = GetAboveBelow(src, movedir)
 
 				//check whether there is floor or wall in the way
 				var/turf/block_turf = curturf.CanPass(M, T)
 				if(!block_turf || !istype(block_turf) || !block_turf.blocks_air_downwards)
 					//check if transit to that zlevel is actually enabled
-					if(curturf.ztransit_enabled(movedir))
+					if(HasAboveBelow(curturf.z, movedir))
 						if(block_turf && istype(block_turf))
 							M << "<span class='notice'>\icon[block_turf] [block_turf] is blocking the top of [src].</span>"
 						else
@@ -157,8 +153,7 @@
 								//hit the ground with a bang if we fall onto a floor below
 								if(!L && !istype(T, /turf/space))
 									M << "<span class='warning'>[src] does not reach all the way down and you drop the rest of the way.</span>"
-									spawn(0)
-										playsound(curturf, 'sound/machines/door_close.ogg', 100, 1)
+									playsound(curturf, 'sound/machines/door_close.ogg', 100, 1)
 
 							if(success)
 								M.Move(curturf)
@@ -185,7 +180,7 @@
 					else
 						return
 			//try again with a proper direction
-			if(cur_turf.ztransit_enabled(movedir))
+			if(HasAboveBelow(src.z, movedir))
 				attempt_traverse(M, movedir)
 	else
 		M << "<span class='warning'>[src] is not connected to anything.</span>"
