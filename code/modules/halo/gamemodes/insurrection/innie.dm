@@ -38,7 +38,7 @@ var/datum/antagonist/innie/innies
 
 	var/list/innie_suits = list(
 		/obj/item/clothing/suit/armor/marine,
-		/obj/item/clothing/suit/armor,
+		/obj/item/clothing/suit/armor/vest,
 		)
 
 	var/list/innie_guns = list(
@@ -64,16 +64,18 @@ var/datum/antagonist/innie/innies
 //	var/new_glasses = pick(innie_glasses)
 	var/new_helmet =  pick(innie_helmets)
 	var/new_suit =    pick(innie_suits)
+	var/insurrection_faction = pick("United Rebel Front", "Eridanus Rebels", "Secessionist Union", "Freedom and Liberation Party", "New Colonial Alliance")
 
 	player.equip_to_slot_or_del(new new_shoes(player),slot_shoes)
 	player.equip_to_slot_or_del(new new_uniform(player),slot_w_uniform)
 //	player.equip_to_slot_or_del(new new_glasses(player),slot_glasses)
 	player.equip_to_slot_or_del(new new_helmet(player),slot_head)
 	player.equip_to_slot_or_del(new new_suit(player),slot_wear_suit)
+
+
+	create_id("[insurrection_faction] Member", player)
+
 	player.update_icons()
-
-
-/*
 /datum/antagonist/innie/place_all_mobs()
 	var/spawnpos = 1
 	for(var/datum/mind/player in current_antagonists)
@@ -81,4 +83,3 @@ var/datum/antagonist/innie/innies
 		spawnpos++
 		if(spawnpos > starting_locations.len)
 			spawnpos = 1
-*/

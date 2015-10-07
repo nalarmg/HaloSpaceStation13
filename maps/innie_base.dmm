@@ -84,9 +84,10 @@
 "bF" = (/turf/simulated/shuttle/floor,/turf/simulated/shuttle/wall{dir = 4; icon_state = "diagonalWall3"},/area/innie_base/shuttle)
 "bG" = (/turf/simulated/shuttle/floor,/area/innie_base/shuttle)
 "bH" = (/turf/simulated/shuttle/floor,/turf/simulated/shuttle/wall{icon_state = "diagonalWall3"},/area/innie_base/shuttle)
-"bI" = (/obj/structure/window/shuttle{icon_state = "window4"},/turf/space,/area/innie_base/shuttle)
-"bJ" = (/obj/structure/window/shuttle{icon_state = "window12"},/turf/space,/area/innie_base/shuttle)
-"bK" = (/obj/structure/window/shuttle{icon_state = "window8"},/turf/space,/area/innie_base/shuttle)
+"bI" = (/obj/machinery/computer/shuttle_control/multi/innie,/turf/simulated/shuttle/floor,/area/innie_base/shuttle)
+"bJ" = (/obj/structure/window/shuttle{icon_state = "window4"},/turf/space,/area/innie_base/shuttle)
+"bK" = (/obj/structure/window/shuttle{icon_state = "window12"},/turf/space,/area/innie_base/shuttle)
+"bL" = (/obj/structure/window/shuttle{icon_state = "window8"},/turf/space,/area/innie_base/shuttle)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -151,6 +152,6 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabmbFbGbGbGbGbGbGbGbGbGbGbHbm
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabxbGbGbGbGbGbGbGbGbGbGbGbGbAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabzbGbGbGbGbGbGbGbGbGbGbGbGbzaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabzbGbGbGbGbGbGbGbGbGbGbGbGbzaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabAbGbGbGbGbGbGbGbGbGbGbGbGbAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabmbIbJbJbJbJbJbJbJbJbJbJbKbmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabAbGbGbGbGbGbIbGbGbGbGbGbGbAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabmbJbKbKbKbKbKbKbKbKbKbKbLbmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 "}

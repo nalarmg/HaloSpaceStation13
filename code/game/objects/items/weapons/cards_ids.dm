@@ -216,7 +216,7 @@
 	desc = "a almost perfect replica of a UNSC ID card, the only difference is that the UNSC logo is scratched out and besides it reads: 'UNSC SUKS DIKS'"
 	registered_name = "UNSC"
 	assignment = "?????"
-	access = list(access_insurrectionist, access_external_airlocks, access_maint_tunnels)
+	access = list(access_syndicate, access_external_airlocks, access_maint_tunnels)
 
 /obj/item/weapon/card/id/captains_spare
 	name = "captain's spare ID"

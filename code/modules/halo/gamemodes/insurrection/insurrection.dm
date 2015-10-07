@@ -6,3 +6,6 @@
 
 	var/nuke_off_station = 0 //Used for tracking if the syndies actually haul the nuke to the station
 	var/innies_didnt_escape = 0 //Used for tracking if the syndies got the shuttle off of the z-level
+
+//map stuff
+
