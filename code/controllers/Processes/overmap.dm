@@ -3,12 +3,20 @@
 //How far from the edge of overmap zlevel could randomly placed objects spawn
 #define OVERMAP_EDGE 7
 
-//list used to track which zlevels are being 'moved' by the proc below
-var/list/moving_levels = list()
-//Proc to 'move' stars in spess
-//yes it looks ugly, but it should only fire when state actually change.
-//null direction stops movement
-proc/toggle_move_stars(zlevel, direction)
+//see code\modules\overmap
+
+var/global/datum/controller/process/overmap/overmap_controller
+var/global/list/map_sectors = list()
+var/global/list/cached_spacepre = list()
+
+/datum/controller/process/overmap
+	name = "overmap controller"
+	var/list/cached_space = list()
+	var/list/moving_levels = list()
+	var/list/map_sectors_reference
+	var/list/cached_space_prec
+
+/datum/controller/process/overmap/proc/toggle_move_stars(zlevel, direction)
 	if(!zlevel)
 		return
 
@@ -34,12 +42,9 @@ proc/toggle_move_stars(zlevel, direction)
 							if (!AM.anchored)
 								AM.throw_at(get_step(T,reverse_direction(direction)), 5, 1)
 
-
-//list used to cache empty zlevels to avoid nedless map bloat
-var/list/cached_space = list()
-
-proc/overmap_spacetravel(var/turf/space/T, var/atom/movable/A)
+/datum/controller/process/overmap/proc/overmap_spacetravel(var/turf/space/T, var/atom/movable/A)
 	var/obj/effect/map/M = map_sectors["[T.z]"]
+
 	if (!M)
 		return
 	var/mapx = M.x
@@ -99,3 +104,6 @@ proc/overmap_spacetravel(var/turf/space/T, var/atom/movable/A)
 			testing("Catching [M] for future use")
 			source.loc = null
 			cached_space += source
+
+/datum/controller/process/overmap/doWork()
+	cached_space_prec = cached_spacepre
