@@ -46,6 +46,7 @@
 /obj/machinery/power/apc/super
 	cell_type = /obj/item/weapon/cell/super
 
+
 /obj/machinery/power/apc/super/critical
 	is_critical = 1
 
@@ -162,6 +163,10 @@
 		name = "[area.name] APC"
 		stat |= MAINT
 		src.update_icon()
+
+	if(config.infinite_apc)
+		cell = /obj/item/weapon/cell/infinite
+		cell_type = null //set this to null so the if in init() doesnt reset the cell.
 
 /obj/machinery/power/apc/Destroy()
 	src.update()
@@ -716,6 +721,10 @@
 			//user << "You remove the power cell."
 			charging = 0
 			src.update_icon()
+
+		if(cell == /obj/item/weapon/cell/infinite)
+			return
+
 		return
 	if(stat & (BROKEN|MAINT))
 		return
