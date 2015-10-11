@@ -2,8 +2,6 @@
 UNSC Insurrection roundtype
 */
 
-var/list/nuke_disks = list()
-
 datum/objective/insurrection
 	explanation_text = "Capture the UNSC ship or destroy it with a nuclear device."
 

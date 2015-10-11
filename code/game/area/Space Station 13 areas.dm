@@ -98,6 +98,7 @@ var/list/ghostteleportlocs = list()
 	icon_state = "space"
 	requires_power = 1
 	always_unpowered = 1
+	lighting_use_dynamic = 1
 	power_light = 0
 	power_equip = 0
 	power_environ = 0
@@ -323,13 +324,6 @@ area/space/atmosalert()
 /area/airtunnel1/      // referenced in airtunnel.dm:759
 
 /area/dummy/           // Referenced in engine.dm:261
-
-/area/start            // will be unused once kurper gets his login interface patch done
-	name = "start area"
-	icon_state = "start"
-	requires_power = 0
-	lighting_use_dynamic = 0
-	has_gravity = 1
 
 // === end remove
 
@@ -2060,6 +2054,10 @@ area/space/atmosalert()
 	name = "\improper Fore Block"
 	icon_state = "away3"
 
+/area/awaymission/BMPship4
+	name = "\improper Yonhet Ship Landing Site"
+	icon_state = "away"
+
 /area/awaymission/spacebattle
 	name = "\improper Space Battle"
 	icon_state = "away"
@@ -2096,6 +2094,9 @@ area/space/atmosalert()
 	name = "\improper Listening Post"
 	icon_state = "away"
 	requires_power = 0
+
+/area/awaymission/listeningpost/shuttle
+	name = "\improper Listening Post Dock"
 
 /area/awaymission/beach
 	name = "Beach"

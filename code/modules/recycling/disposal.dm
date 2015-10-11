@@ -984,13 +984,13 @@
 		var/turf/T = get_turf(src)
 		var/obj/structure/disposalpipe/P
 
-		if((nextdir & UP) && !T.ztransit_enabled_up())
+		if((nextdir & UP) && !HasAbove(src.z))
 			return null
-		if((nextdir & DOWN) && !T.ztransit_enabled_down())
+		if((nextdir & DOWN) && !HasBelow(src.z))
 			return null
 
 		if(nextdir & UP)
-			T = locate(x, y, z - 1)
+			T = GetAbove(src)
 			//only traverse up if there isn't a turf in the way
 			if(T.blocks_air_downwards)
 				T = null
@@ -1035,15 +1035,15 @@
 		var/turf/T = get_turf(src)
 		var/obj/structure/disposalpipe/P
 
-		if((nextdir & UP) && !T.ztransit_enabled_up())
+		if((nextdir & UP) && !HasAbove(src.z))
 			return null
-		if((nextdir & DOWN) && !T.ztransit_enabled_down())
+		if((nextdir & DOWN) && !HasBelow(src.z))
 			return null
 
 		if(nextdir & DOWN)
 			//only traverse down if there isn't a turf in the way
 			if(!T.blocks_air_downwards)
-				T = locate(x, y, z + 1)
+				T = GetBelow(src)
 		else
 			T = get_step(src, nextdir)
 		P = H.findpipe(T)

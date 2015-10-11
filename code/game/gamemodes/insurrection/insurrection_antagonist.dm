@@ -1,8 +1,8 @@
 var/datum/antagonist/insurrectionist/innies
 
 /datum/antagonist/insurrectionist
-	id = MODE_MERCENARY
-	role_type = BE_OPERATIVE
+	id = MODE_INNIE
+	role_type = BE_INNIE
 	role_text = "Insurrectionist"
 	bantype = "operative"
 	antag_indicator = "innie"
@@ -50,6 +50,6 @@ var/datum/antagonist/insurrectionist/innies
 
 	player.update_icons()
 
-	create_id("Civilian", player)
+	create_id("Insurrectionist", player)
 	create_radio(SYND_FREQ, player)
 	return 1

@@ -93,6 +93,11 @@
 	desc = "A card used to provide ID and determine access across the ship."
 	icon_state = "id"
 	item_state = "card-id"
+
+	sprite_sheets = list(
+		"Resomi" = 'icons/mob/species/resomi/id.dmi'
+		)
+
 	var/access = list()
 	var/registered_name = "Unknown" // The name registered_name on the card
 	slot_flags = SLOT_ID
@@ -237,7 +242,7 @@
 	assignment = "Synthetic"
 
 /obj/item/weapon/card/id/synthetic/New()
-	access = get_all_station_access()
+	access = get_all_station_access() + access_synth
 	..()
 
 /obj/item/weapon/card/id/centcom
