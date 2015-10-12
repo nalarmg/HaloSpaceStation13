@@ -47,6 +47,7 @@ var/list/gamemode_cache = list()
 	var/popup_admin_pm = 0				//adminPMs to non-admins show in a pop-up 'reply' window when set to 1.
 	var/Ticklag = 0.9
 	var/Tickcomp = 0
+	var/infinite_apc = 1
 	var/socket_talk	= 0					// use socket_talk to communicate with other processes
 	var/list/resource_urls = null
 	var/antag_hud_allowed = 0			// Ghosts can turn on Antagovision to see a HUD of who is the bad guys this round.
@@ -535,6 +536,9 @@ var/list/gamemode_cache = list()
 
 				if("ticklag")
 					Ticklag = text2num(value)
+
+				if("infinite_apc")
+					config.infinite_apc = 1
 
 				if("allow_antag_hud")
 					config.antag_hud_allowed = 1
