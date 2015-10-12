@@ -24,8 +24,8 @@
 #define BE_PLANT      0x1000
 #define BE_MUTINEER   0x2000
 #define BE_PAI        0x4000
-#define BE_INNIE      0x5000
-
+#define BE_LOYALIST   0x8000
+#define BE_INNIE      0x1600
 
 var/list/be_special_flags = list(
 	"Traitor"          = BE_TRAITOR,
@@ -34,6 +34,7 @@ var/list/be_special_flags = list(
 	"Wizard"           = BE_WIZARD,
 	"Malf AI"          = BE_MALF,
 	"Revolutionary"    = BE_REV,
+	"Loyalist"         = BE_LOYALIST,
 	"Xenomorph"        = BE_ALIEN,
 	"Positronic Brain" = BE_AI,
 	"Cultist"          = BE_CULTIST,
@@ -80,6 +81,7 @@ var/list/be_special_flags = list(
 #define MODE_MONKEY "monkey"
 #define MODE_RENEGADE "renegade"
 #define MODE_REVOLUTIONARY "revolutionary"
+#define MODE_LOYALIST "loyalist"
 #define MODE_MALFUNCTION "malf"
 #define MODE_TRAITOR "traitor"
 #define MODE_INNIE "insurrection"

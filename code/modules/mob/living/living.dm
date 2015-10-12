@@ -87,8 +87,8 @@ default behaviour is:
 
 			if((tmob.mob_always_swap || (tmob.a_intent == I_HELP || tmob.restrained()) && (a_intent == I_HELP || src.restrained())) && tmob.canmove && canmove && !dense && can_move_mob(tmob, 1, 0)) // mutual brohugs all around!
 				var/turf/oldloc = loc
-				loc = tmob.loc
-				tmob.loc = oldloc
+				forceMove(tmob.loc)
+				tmob.forceMove(oldloc)
 				now_pushing = 0
 				for(var/mob/living/carbon/slime/slime in view(1,tmob))
 					if(slime.Victim == tmob)
@@ -573,28 +573,17 @@ default behaviour is:
 	set name = "Resist"
 	set category = "IC"
 
-	if(can_resist())
+	if(!(stat || next_move > world.time))
 		setClickCooldown(20)
-		process_resist()
-
-/mob/living/proc/can_resist()
-	//need to allow !canmove, or otherwise neck grabs can't be resisted
-	//so just check weakened instead.
-	if(stat || weakened)
-		return 0
-	if(!canClick())
-		return 0
-	return 1
+		resist_grab()
+		if(!weakened)
+			process_resist()
 
 /mob/living/proc/process_resist()
 	//Getting out of someone's inventory.
 	if(istype(src.loc, /obj/item/weapon/holder))
 		escape_inventory(src.loc)
 		return
-
-	//resisting grabs (as if it helps anyone...)
-	if (!restrained())
-		resist_grab()
 
 	//unbuckling yourself
 	if(buckled)
@@ -616,7 +605,7 @@ default behaviour is:
 		src << "<span class='warning'>You wriggle out of [M]'s grip!</span>"
 	else if(istype(H.loc,/obj/item))
 		src << "<span class='warning'>You struggle free of [H.loc].</span>"
-		H.loc = get_turf(H)
+		H.forceMove(get_turf(H))
 
 	if(istype(M))
 		for(var/atom/A in M.contents)
@@ -657,7 +646,15 @@ default behaviour is:
 	set category = "IC"
 
 	resting = !resting
-	src << "<span class='notice'>You are now [resting ? "resting" : "getting up"].</span>"
+	src << "<span class='notice'>You are now [resting ? "resting" : "getting up"]</span>"
+
+/mob/living/proc/is_allowed_vent_crawl_item(var/obj/item/carried_item)
+	return isnull(get_inventory_slot(carried_item))
+
+/mob/living/simple_animal/spiderbot/is_allowed_vent_crawl_item(var/obj/item/carried_item)
+	if(carried_item == held_item)
+		return 0
+	return ..()
 
 /mob/living/proc/handle_ventcrawl(var/obj/machinery/atmospherics/unary/vent_pump/vent_found = null, var/ignore_items = 0) // -- TLE -- Merged by Carn
 	if(stat)
@@ -721,9 +718,10 @@ default behaviour is:
 
 	if(!ignore_items)
 		for(var/obj/item/carried_item in contents)//If the monkey got on objects.
-			if( !istype(carried_item, /obj/item/weapon/implant) && !istype(carried_item, /obj/item/clothing/mask/facehugger) )//If it's not an implant or a facehugger
-				src << "\red You can't be carrying items or have items equipped when vent crawling!"
-				return
+			if(is_allowed_vent_crawl_item(carried_item))
+				continue
+			src << "<span class='warning'>You can't be carrying items or have items equipped when vent crawling!</span>"
+			return
 
 	if(isslime(src))
 		var/mob/living/carbon/slime/S = src
@@ -779,8 +777,8 @@ default behaviour is:
 
 	//check for nuke disks
 	if(client && stat != DEAD) //if they are clientless and dead don't bother, the parent will treat them as any other container
-		if(ticker && istype(ticker.mode, /datum/game_mode/nuclear)) //only really care if the game mode is nuclear
-			var/datum/game_mode/nuclear/G = ticker.mode
+		if(ticker && istype(ticker.mode, /datum/game_mode/insurrection)) //only really care if the game mode is nuclear
+			var/datum/game_mode/insurrection/G = ticker.mode
 			if(G.check_mob(src))
 				if(x <= TRANSITIONEDGE)
 					inertia_dir = 4
