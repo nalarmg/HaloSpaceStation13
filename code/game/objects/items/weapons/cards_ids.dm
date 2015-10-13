@@ -89,8 +89,8 @@
 	return 1
 
 /obj/item/weapon/card/id
-	name = "identification card"
-	desc = "A card used to provide ID and determine access across the station."
+	name = "UNSC identification card"
+	desc = "A card used to provide ID and determine access across the ship."
 	icon_state = "id"
 	item_state = "card-id"
 
@@ -215,6 +215,13 @@
 	registered_name = "Syndicate"
 	assignment = "Syndicate Overlord"
 	access = list(access_syndicate, access_external_airlocks)
+
+/obj/item/weapon/card/id/insurrectionist
+	name = "UNSC identification card"
+	desc = "a almost perfect replica of a UNSC ID card, the only difference is that the UNSC logo is scratched out and besides it reads: 'UNSC SUKS DIKS'"
+	registered_name = "UNSC"
+	assignment = "?????"
+	access = list(access_syndicate, access_external_airlocks, access_maint_tunnels)
 
 /obj/item/weapon/card/id/captains_spare
 	name = "captain's spare ID"
