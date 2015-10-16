@@ -3,7 +3,7 @@
 	icon_keyboard = "med_key"
 	icon_screen = "steering"
 	var/state = "status"
-	var/obj/effect/map/ship/linked			//connected overmap object
+	var/obj/effect/overmapobj/ship/linked			//connected overmap object
 	var/autopilot = 0
 	var/manual_control = 0
 	var/list/known_sectors = list()
@@ -20,7 +20,7 @@
 		testing("Helm console at level [z] was unable to find a corresponding overmap object.")
 	known_sectors = list()
 	for(var/level in map_sectors)
-		var/obj/effect/map/sector/S = map_sectors["[level]"]
+		var/obj/effect/overmapobj/sector/S = map_sectors["[level]"]
 		if (istype(S) && S.always_known)
 			var/datum/data/record/R = new()
 			R.fields["name"] = S.name
@@ -31,7 +31,7 @@
 /obj/machinery/computer/helm/proc/reinit()
 	known_sectors = list()
 	for(var/level in map_sectors)
-		var/obj/effect/map/sector/S = map_sectors["[level]"]
+		var/obj/effect/overmapobj/sector/S = map_sectors["[level]"]
 		if (istype(S) && S.always_known)
 			var/datum/data/record/R = new()
 			R.fields["name"] = S.name

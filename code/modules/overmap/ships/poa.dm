@@ -1,4 +1,4 @@
-/obj/effect/map/ship/poa
+/obj/effect/overmapobj/ship/poa
 	name = "Pillar of Autumn"
 	desc = "UNSC Halcyon Class Cruiser Pillar of Autumn"
 	icon_state = "poa"

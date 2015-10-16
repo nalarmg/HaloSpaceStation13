@@ -1,16 +1,16 @@
-/obj/effect/mapinfo/precreated/radiate
+/obj/effect/overmapinfo/precreated/radiate
 	name = "Radiation Storm"
 	sectorname = "Radiation Storm"
-	obj_type = /obj/effect/map/sector/radiate
+	obj_type = /obj/effect/overmapobj/sector/radiate
 	desc = "Field of lethal radiation"
 	known = 0
 
-/obj/effect/map/sector/radiate
+/obj/effect/overmapobj/sector/radiate
 	always_known = 0
 	icon = 'icons/invisible_tile.dmi'
 	icon_state = "invis"
 
-/obj/effect/map/sector/radiate/Crossed(atom/movable/a)
+/obj/effect/overmapobj/sector/radiate/Crossed(atom/movable/a)
 	..()
 	command_announcement.Announce("High levels of high-energy radiation detected near the ship. Please evacuate into one of the shielded maintenance tunnels.", "Radiation Alert", new_sound = 'sound/AI/radiation.ogg')
 	spawn(2)
@@ -21,7 +21,7 @@
 			if(A.flags & !RAD_SHIELDED)
 				C.apply_effect(rand(15,35),IRRADIATE,0)
 
-/obj/effect/map/sector/radiate/Uncrossed(atom/movable/a)
+/obj/effect/overmapobj/sector/radiate/Uncrossed(atom/movable/a)
 	..()
 	command_announcement.Announce("The ship is now clearing the radiation storm.", "Radiation Alert Canceled")
 	revoke_maint_all_access()

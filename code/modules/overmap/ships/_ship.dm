@@ -1,5 +1,5 @@
 
-/obj/effect/map/ship
+/obj/effect/overmapobj/ship
 	name = "generic ship"
 	desc = "Space faring vessel."
 	icon = 'code/modules/overmap/ships/ships.dmi'
@@ -13,7 +13,7 @@
 	var/list/ship_turfs = list()
 	var/sectorname = "Generic Space Vessel"
 
-	var/obj/effect/map/current_sector
+	var/obj/effect/overmapobj/current_sector
 	var/obj/machinery/computer/helm/nav_control
 	var/obj/machinery/computer/engines/eng_control
 
@@ -37,7 +37,7 @@
 	var/max_speed = 4
 	animate_movement = 0
 
-/obj/effect/map/ship/initialize()
+/obj/effect/overmapobj/ship/initialize()
 	for(var/obj/machinery/computer/engines/E in machines)
 		if (E.z in ship_levels)
 			eng_control = E
@@ -50,7 +50,7 @@
 
 	recalculate_physics_properties()
 
-/obj/effect/map/ship/New(var/obj/effect/mapinfo/data)
+/obj/effect/overmapobj/ship/New(var/obj/effect/overmapinfo/data)
 	tag = "ship_[data.sectorname]"
 	map_z = data.z
 
@@ -69,7 +69,7 @@
 	if(data.landing_area)
 		shuttle_landing = locate(data.landing_area)
 
-/obj/effect/map/ship/proc/recalculate_physics_properties()
+/obj/effect/overmapobj/ship/proc/recalculate_physics_properties()
 	//calculate physics properties
 
 	//first, loop over the zlevel and work out the dimensions and mass
@@ -111,13 +111,13 @@
 	//r = distance from center
 	//a = aT / r
 
-/obj/effect/map/ship/proc/update_spaceturfs()
+/obj/effect/overmapobj/ship/proc/update_spaceturfs()
 	set background = 1
 	for(var/turf/space/S in world)
 		if(S.z in src.ship_levels)
 			ship_turfs.Add(S)
 
-/obj/effect/map/ship/relaymove(mob/user, direction)
+/obj/effect/overmapobj/ship/relaymove(mob/user, direction)
 	//accelerate forward and apply torque towards desired direction
 	if(direction in cardinal)
 		accelerate(direction)
@@ -177,16 +177,16 @@
 			I.Turn(heading)
 			src.icon = I
 
-/obj/effect/map/ship/proc/is_still()
+/obj/effect/overmapobj/ship/proc/is_still()
 	return !(speed[1] || speed[2])
 
-/obj/effect/map/ship/proc/get_acceleration(var/accel_dir)
+/obj/effect/overmapobj/ship/proc/get_acceleration(var/accel_dir)
 	return eng_control.get_maneuvring_thrust(accel_dir) / vessel_mass
 
-/obj/effect/map/ship/proc/get_speed()
+/obj/effect/overmapobj/ship/proc/get_speed()
 	return sqrt(speed[1]*speed[1] + speed[2]*speed[2])
 
-/obj/effect/map/ship/proc/get_heading()
+/obj/effect/overmapobj/ship/proc/get_heading()
 	return heading
 
 	//return heading in increments of 45
@@ -203,7 +203,7 @@
 			res |= SOUTH
 	return res*/
 
-/obj/effect/map/ship/proc/adjust_speed(n_x, n_y)
+/obj/effect/overmapobj/ship/proc/adjust_speed(n_x, n_y)
 	speed[1] = Clamp(speed[1] + n_x, -default_delay, default_delay)
 	speed[2] = Clamp(speed[2] + n_y, -default_delay, default_delay)
 	for(var/shipz in ship_levels)
@@ -214,7 +214,7 @@
 
 	heading = -Atan2(speed[1], speed[2]) - 90
 
-/obj/effect/map/ship/proc/can_burn()
+/obj/effect/overmapobj/ship/proc/can_burn()
 	if (!eng_control)
 		return 0
 	if (world.time < last_burn + 10)
@@ -223,13 +223,13 @@
 		return 0
 	return 1
 
-/obj/effect/map/ship/proc/get_brake_path()
+/obj/effect/overmapobj/ship/proc/get_brake_path()
 	if(!get_acceleration(SOUTH))
 		return INFINITY
 	return max(abs(speed[1]),abs(speed[2]))/get_acceleration(SOUTH)
 
 #define SIGN(X) (X == 0 ? 0 : (X > 0 ? 1 : -1))
-/obj/effect/map/ship/proc/decelerate()
+/obj/effect/overmapobj/ship/proc/decelerate()
 	if(!is_still() && can_burn())
 		if (speed[1])
 			adjust_speed(-SIGN(speed[1]) * min(get_acceleration(),abs(speed[1])), 0)
@@ -237,7 +237,7 @@
 			adjust_speed(0, -SIGN(speed[2]) * min(get_acceleration(),abs(speed[2])))
 		last_burn = world.time
 
-/obj/effect/map/ship/proc/accelerate(var/accel_dir)
+/obj/effect/overmapobj/ship/proc/accelerate(var/accel_dir)
 	if(can_burn())
 		last_burn = world.time
 
@@ -257,7 +257,7 @@
 		if(accel_dir & SOUTH)
 			adjust_speed(0, -get_acceleration(adjusted_dir))
 
-/obj/effect/map/ship/process()
+/obj/effect/overmapobj/ship/process()
 	//if there's a 3 second delay, start a new update loop
 	if(world.time - last_update > 30)
 		update()
@@ -276,7 +276,7 @@
 			dir = get_dir(src, newloc)
 			Move(newloc)*/
 
-/obj/effect/map/ship/proc/update(var/start_time = 0)
+/obj/effect/overmapobj/ship/proc/update(var/start_time = 0)
 	last_update = world.time
 	if(!start_time)
 		start_time = world.time
@@ -324,7 +324,7 @@
 	spawn(1)
 		update(start_time)
 
-/obj/effect/map/ship/proc/thrust_forward()
+/obj/effect/overmapobj/ship/proc/thrust_forward()
 	var/acceleration = eng_control.get_maneuvring_thrust() / vessel_mass
 
 	//work out the x and y components according to our heading

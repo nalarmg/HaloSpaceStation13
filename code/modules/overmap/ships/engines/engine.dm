@@ -10,7 +10,7 @@ var/list/ship_engines = list()
 /datum/ship_engine/New(var/obj/machinery/holder)
 	engine = holder
 	zlevel = holder.z
-	var/obj/effect/map/ship/linked = map_sectors["[holder.z]"] || cached_spacepre["[holder.z]"]
+	var/obj/effect/overmapobj/ship/linked = map_sectors["[holder.z]"] || cached_spacepre["[holder.z]"]
 	if ( linked )
 		for(var/obj/machinery/computer/engines/E in machines)
 			if ((E.z in linked.ship_levels) && !(src in E.maneuvring_engines) && !(src in E.main_engines))
