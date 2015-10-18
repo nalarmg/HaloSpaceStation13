@@ -1,5 +1,10 @@
 
 /datum/controller/process/overmap/proc/overmap_spacetravel(var/turf/space/T, var/atom/movable/A)
+
+	//todo: make a complete list of stuff banned from travelling... most stuff can be just deleted (lost to deep space)
+	if(istype(A, /obj/effect))
+		return
+
 	var/obj/effect/overmapobj/M = map_sectors["[T.z]"]
 
 	if (!M)
@@ -48,6 +53,7 @@
 		else
 			world.maxz++
 			nz = world.maxz
+			admin_notice("<span class='danger'>Adding new temporary space sector (zlevel)...</span>", R_DEBUG)
 			TM = new /obj/effect/overmapobj/temporary_sector(mapx, mapy, nz)
 			testing("Destination: *new* [TM]")
 

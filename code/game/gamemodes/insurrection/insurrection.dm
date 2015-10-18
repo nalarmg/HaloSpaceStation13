@@ -17,6 +17,8 @@ datum/objective/insurrection
 	var/syndies_didnt_escape = 0 //Used for tracking if the innies got the shuttle away from the ship
 	antag_tags = list(MODE_MERCENARY)
 
+	var/obj/effect/overmapobj/innie_base
+
 //delete all nuke disks not on a station zlevel
 /datum/game_mode/insurrection/proc/check_nuke_disks()
 	for(var/obj/item/weapon/disk/nuclear/N in nuke_disks)
@@ -28,6 +30,15 @@ datum/objective/insurrection
 		if(N.storage_depth(L) >= 0)
 			return 1
 	return 0
+
+/datum/game_mode/insurrection/pre_setup()
+	//load Insurrection base zlevel
+	innie_base = overmap_controller.load_precreated('innie_base.dmm')
+	innie_base.name = "Insurrection Asteroid Base"
+	innie_base.icon = 'sector_icons.dmi'
+	innie_base.icon_state = "listening_post"
+
+	return ..()
 
 /datum/game_mode/insurrection/declare_completion()
 	if(config.objectives_disabled)
