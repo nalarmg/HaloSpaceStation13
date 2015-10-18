@@ -7,7 +7,7 @@
 	var/state = "status"
 	var/list/maneuvring_engines = list()
 	var/list/main_engines = list()
-	var/obj/effect/map/ship/linked
+	var/obj/effect/overmapobj/ship/linked
 
 /obj/machinery/computer/engines/initialize()
 	linked = map_sectors["[z]"] || cached_spacepre["[z]"]

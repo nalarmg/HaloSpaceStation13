@@ -4,7 +4,7 @@
 "d" = (/obj/machinery/light{dir = 1},/turf/simulated/floor,/area/bridge)
 "e" = (/turf/simulated/floor/stairs{dir = 4},/area/bridge)
 "f" = (/obj/machinery/light,/turf/simulated/floor,/area/bridge)
-"g" = (/obj/effect/mapinfo/ship,/turf/space,/area/space)
+"g" = (/obj/effect/overmapinfo/ship,/turf/space,/area/space)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

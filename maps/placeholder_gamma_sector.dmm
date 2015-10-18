@@ -1,4 +1,4 @@
-"a" = (/obj/effect/mapinfo/sector{mapx = 13; mapy = 25; name = "Gamma Sector"; sectorname = "Gamma Sector"},/turf/space,/area/space)
+"a" = (/obj/effect/overmapinfo/sector{mapx = 13; mapy = 25; name = "Gamma Sector"; sectorname = "Gamma Sector"},/turf/space,/area/space)
 "b" = (/turf/space,/area/space)
 
 (1,1,1) = {"

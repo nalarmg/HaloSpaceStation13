@@ -58,8 +58,8 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 	return z_transit_enabled[curZ - 1]
 	*/
 
-	var/obj/effect/mapinfo/cur_level = locate("sector[curZ]")
-	var/obj/effect/mapinfo/target_level = locate("sector[curZ - 1]")
+	var/obj/effect/overmapinfo/cur_level = locate("sector[curZ]")
+	var/obj/effect/overmapinfo/target_level = locate("sector[curZ - 1]")
 
 	//check to make sure it exists and its part of the same sector
 	if(cur_level && target_level && \
@@ -95,8 +95,8 @@ proc/GetAbove(var/atom/atom)
 	return z_transit_enabled[curZ + 1]
 	*/
 
-	var/obj/effect/mapinfo/cur_level = locate("sector[curZ]")
-	var/obj/effect/mapinfo/target_level = locate("sector[curZ + 1]")
+	var/obj/effect/overmapinfo/cur_level = locate("sector[curZ]")
+	var/obj/effect/overmapinfo/target_level = locate("sector[curZ + 1]")
 
 	if(cur_level && target_level && \
 	cur_level.sectorname && target_level.sectorname && \

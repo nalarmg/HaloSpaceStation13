@@ -12,7 +12,7 @@
 
 /obj/machinery/power/engine/electric/initialize()
 	ship = map_sectors["[z]"]
-	if(ship && istype(ship, /obj/effect/map/ship)
+	if(ship && istype(ship, /obj/effect/overmapobj/ship)
 		testing("SF Drive at level [z] has linked to ship object [ship.name]")
 	else
 		testing("SF Drive at level [z] unable to find overmap object!")
