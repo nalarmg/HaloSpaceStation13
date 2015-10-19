@@ -45,6 +45,13 @@ datum/controller/process/overmap/setup()
 			testing("Adding precreated ship! Tag: [data.tag] Name: [data.name] at [data.mapx],[data.mapy] corresponding to z[level]")
 			//map_sectors["[level]"] = new data.obj_type(data)
 			cached_spacepre["[data.name]"] = data
+		else if(istype(data, /obj/effect/overmapinfo/cached_space))
+			testing("Adding pre-cached empty space corresponding to z[level]")
+			var/sector_x = rand(OVERMAP_EDGE, world.maxx - OVERMAP_EDGE)
+			var/sector_y = rand(OVERMAP_EDGE, world.maxy - OVERMAP_EDGE)
+			var/obj/effect/overmapobj/precached_space = new /obj/effect/overmapobj/temporary_sector(sector_x, sector_y, data.z)
+			precached_space.loc = null
+			cached_space += precached_space
 		else if (data)
 			testing("Sector is a normal sector")
 			testing("Located sector \"[data.name]\" at [data.mapx],[data.mapy] corresponding to zlevel [level]")

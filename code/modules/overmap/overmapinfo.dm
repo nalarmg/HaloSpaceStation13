@@ -32,3 +32,6 @@
 	var/ship_turfs
 	var/ship_levels
 	sectorname = "Generic Space Vessel"
+
+//place this onto empty space levels to be automatically added to the cache of preloaded temporary sectors
+/obj/effect/overmapinfo/cached_space
