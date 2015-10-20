@@ -186,5 +186,3 @@ var/max_explosion_range = 14
 var/global/obj/item/device/radio/intercom/global_announcer = new(null)
 
 var/list/station_departments = list("Command", "Medical", "Engineering", "Science", "Security", "Cargo", "Civilian")
-
-
