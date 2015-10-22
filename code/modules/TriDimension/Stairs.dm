@@ -2,6 +2,7 @@
 /turf/simulated/floor/stairs
 	name = "Stairs"
 	desc = "Stairs.  You walk up and down them."
+	icon = 'icons/turf/floors.dmi'
 	icon_state = "stairs"
 	layer = 1.9
 	var/atom/movable/lastmove
@@ -29,13 +30,13 @@
 		if(O != lastmove)
 			//return 0 here so we don't travel in a 2d cardinal direction instead of moving up a level
 			. = 0
-			if(src.ztransit_enabled(UP))
-				var/turf/simulated/floor/open/above = locate(x, y, z - 1)
+			var/turf/above = GetAbove(src)
+			if(above)
 				for(var/obj/obstacle in above)
 					if(!obstacle.CanPass(O, above))
 						O << "<span class='notice'>Your way up is blocked by \the [obstacle].</span>"
 						return 0
-				if(istype(above))
+				if(istype(above, /turf/simulated/floor/open))
 					var/turf/target = get_step(above, dir)
 					for(var/obj/obstacle in target)
 						if(!obstacle.CanPass(O, target))

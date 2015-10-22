@@ -398,6 +398,14 @@ area/space/atmosalert()
 	icon_state = "syndie-ship"
 	requires_power = 0
 
+/area/innie_base/base_dock_innie
+	name = "\improper Insurrectionist Shuttle Base Dock"
+
+/area/innie_base/arrivals_dock_innie
+	name = "\improper Insurrectionist Shuttle Arrivals Dock"
+	icon_state = "syndie-ship"
+	requires_power = 0
+
 /area/innie_base/transit
 	name = "\improper Insurrectionist Shuttle Slipspace Bubble"
 	icon_state = "shuttle"
@@ -2046,6 +2054,10 @@ area/space/atmosalert()
 	name = "\improper Fore Block"
 	icon_state = "away3"
 
+/area/awaymission/BMPship4
+	name = "\improper Yonhet Ship Landing Site"
+	icon_state = "away"
+
 /area/awaymission/spacebattle
 	name = "\improper Space Battle"
 	icon_state = "away"
@@ -2082,6 +2094,9 @@ area/space/atmosalert()
 	name = "\improper Listening Post"
 	icon_state = "away"
 	requires_power = 0
+
+/area/awaymission/listeningpost/shuttle
+	name = "\improper Listening Post Dock"
 
 /area/awaymission/beach
 	name = "Beach"

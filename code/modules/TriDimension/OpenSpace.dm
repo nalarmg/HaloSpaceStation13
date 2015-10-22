@@ -21,8 +21,8 @@
 	init()
 
 /turf/simulated/floor/open/proc/init()
-	if(z_transit_enabled.len)
-		if(ztransit_enabled_down())
+	if(map_sectors.len)
+		if(HasBelow(src.z))
 			levelupdate()
 		else
 			ChangeTurf(get_base_turf(src.z))
@@ -74,6 +74,10 @@
 	if(falling_atom.throw_source)
 		return 1
 
+	//leave anchored stuff alone for now
+	if(falling_atom.anchored)
+		return 1
+
 	//if there is a ladder or lattice secured in this turf, mobs can walk across it
 	var/mob/living/falling_mob
 	if(istype(falling_atom, /mob/living/))
@@ -88,7 +92,7 @@
 			return 1
 
 	//otherwise, we'll fall down onto the zlevel below
-	if(falling_atom && istype(falling_atom) && ztransit_enabled_down())
+	if(falling_atom && istype(falling_atom) && HasBelow(src.z))
 		//if there are stairs below, move smoothly down a level without "falling"
 		var/turf/floorbelow = locate(x, y, z + 1)
 		if(istype(floorbelow, /turf/simulated/floor/stairs))
@@ -201,7 +205,7 @@
 
 //overwrite the attackby of space to transform it to openspace if necessary
 /*/turf/space/attackby(obj/item/C as obj, mob/user as mob)
-	if (istype(C, /obj/item/stack/cable_coil) && ztransit_enabled_down())
+	if (istype(C, /obj/item/stack/cable_coil) && HasBelow(src.z))
 		var/turf/simulated/floor/open/W = src.ChangeTurf(/turf/simulated/floor/open)
 		W.attackby(C, user)
 		return

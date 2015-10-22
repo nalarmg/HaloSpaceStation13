@@ -8,7 +8,7 @@ Metaobjects are used to make it not affected by map order in .dme and carry some
 *************************************************************
 Metaobject
 *************************************************************
-/obj/effect/mapinfo, sectors.dm
+/obj/effect/overmapinfo, sectors.dm
 Used to build overmap in beginning, has basic information needed to create overmap objects and make shuttles work.
 Its name and icon (if non-standard) vars will be applied to resulting overmap object.
 'mapy' and 'mapx' vars are optional, sector will be assigned random overmap coordinates if they are not set.
@@ -22,7 +22,7 @@ Right after creation it sends itself to nullspace and creates an overmap object,
 *************************************************************
 Overmap object
 *************************************************************
-/obj/effect/map, sectors.dm
+/obj/effect/overmapobj, sectors.dm
 Represents a zlevel on the overmap. Spawned by metaobjects at the startup.
 	var/area/shuttle/shuttle_landing - keeps a reference to the area of where inbound shuttles should land
 
@@ -102,3 +102,9 @@ non-zlevel overmap objects
 				EMP
 		nebulaes
 */
+
+//Zlevel where overmap objects should be
+#define OVERMAP_ZLEVEL 1
+
+//How far from the edge of overmap zlevel could randomly placed objects spawn
+#define OVERMAP_EDGE 7

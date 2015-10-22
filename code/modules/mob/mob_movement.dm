@@ -11,7 +11,7 @@
 	return
 
 /mob/proc/setMoveCooldown(var/timeout)
-	if(client) 
+	if(client)
 		client.move_delay = max(world.time + timeout, client.move_delay)
 
 /client/North()
@@ -43,6 +43,19 @@
 	diagonal_action(SOUTHWEST)
 
 /client/proc/diagonal_action(direction)
+
+	if(mob)
+
+		//if we're inside an object, pass it on
+		if(isobj(mob.loc) || ismob(mob.loc))
+			var/atom/O = mob.loc
+			return O.relaymove(mob, client_dir(direction))
+
+		//if we have a machine that accepts diagonal commands, pass it on
+		if(istype(mob.machine, /obj/machinery))
+			if(mob.machine.relaymove(mob, client_dir(direction)))
+				return
+
 	switch(client_dir(direction, 1))
 		if(NORTHEAST)
 			swap_hand()
