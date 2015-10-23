@@ -18,15 +18,6 @@
 	var/temp = null
 	var/printing = null
 
-	var/datum/html_interface/interface
-
-
-
-
-
-
-
-
 /obj/machinery/computer/med_data/verb/eject_id()
 	set category = "Object"
 	set name = "Eject ID Card"
