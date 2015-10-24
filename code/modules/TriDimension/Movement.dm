@@ -18,10 +18,10 @@
 		return
 
 	var/turf/curturf = get_turf(M)
-	if(HasAboveBelow(curturf.z, zdir))
-		var/turf/T = GetAboveBelow(curturf, zdir)
+	var/turf/T = GetAboveBelow(curturf, zdir)
+	if(T)
 		var/blocked = 0
-		if(!T || !T.CanPass(M, T))
+		if(!T.CanPass(M, T))
 			blocked = T
 		else if(zdir == UP && T.blocks_air_downwards)
 			blocked = T

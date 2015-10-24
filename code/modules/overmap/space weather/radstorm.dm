@@ -1,7 +1,6 @@
-/obj/effect/overmapinfo/precreated/radiate
+/obj/effect/zlevelinfo/precreated/radiate
 	name = "Radiation Storm"
-	sectorname = "Radiation Storm"
-	obj_type = /obj/effect/overmapobj/sector/radiate
+	//obj_type = /obj/effect/overmapobj/sector/radiate
 	desc = "Field of lethal radiation"
 	known = 0
 
@@ -26,7 +25,7 @@
 	command_announcement.Announce("The ship is now clearing the radiation storm.", "Radiation Alert Canceled")
 	revoke_maint_all_access()
 
-/hook/customOvermap/proc/radStorms()
+/*/hook/customOvermap/proc/radStorms()
 	for(var/x in 1 to 3)
 		load_prepared_sector("Radiation Storm", "RadiationStorm[x]")
-	return 1
+	return 1*/

@@ -4,10 +4,11 @@
 //------------------------------------------------------
 
 /*
-Thanks to Sukasa/Googolplexed for the original code.
+Thanks to Sukasa/Googolplexed for the original code. This implementation has been specifically linked into HS13's overmap
 
-When loading sectors, all sectors with matching sector_name will be considered part of the same sector
-If the maps for each zlevel are loaded out of order however, they will be inaccessable via normal means (ladders, stairs, travelup/traveldown etc)
+All zlevelinfo with matching names will have their zlevels considered linked across multiz
+As long as overmap is setup those zlevels do not have to be adjacent depthwise
+Make sure the maps for each zlevel are loaded in the right order (highest to lowest)
 Mappers just make sure the maps are next to each other in the map list so they're loaded correctly
 
 Notes: the previous implementation used '11' as down and '12' as up
@@ -19,11 +20,13 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 // Cross-z interaction checks
 //------------------------------------------------------
 
+/*
 /proc/HasAboveBelow(var/curZ, var/zdir)
 	if(zdir & UP)
 		return HasAbove(curZ)
 	if(zdir & DOWN)
 		return HasBelow(curZ)
+*/
 
 /proc/GetAboveBelow(var/atom/atom, var/zdir)
 	if(zdir & UP)
@@ -31,85 +34,70 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 	if(zdir & DOWN)
 		return GetBelow(atom)
 
-/*/turf/proc/ztransit_enabled(var/checkdir)
-	if(checkdir & UP)
-		return ztransit_enabled_up()
-	if(checkdir & DOWN)
-		return HasBelow(src.z)
-	return 0
-
-
 //Check turf above
-/turf/proc/ztransit_enabled_up()
-	return check_ztransit_up(src.z)*/
-
+/*
 /proc/HasAbove(var/curZ)
-//proc/check_ztransit_up(var/curZ)
 	if(curZ == 1)
 		return 0
 
-	/*
-	while(z_transit_enabled.len < curZ)
-		z_transit_enabled.Add(0)
-
-	if(!z_transit_enabled[curZ])
-		return 0
-
-	return z_transit_enabled[curZ - 1]
-	*/
-
-	var/obj/effect/overmapinfo/cur_level = locate("sector[curZ]")
-	var/obj/effect/overmapinfo/target_level = locate("sector[curZ - 1]")
-
-	//check to make sure it exists and its part of the same sector
-	if(cur_level && target_level && \
-	cur_level.sectorname && target_level.sectorname && \
-	cur_level.sectorname == target_level.sectorname)
+	var/turf/test_turf = locate(1, 1, curZ)
+	if(GetAbove(test_turf))
 		return 1
+		*/
 
-	return 0
-
-proc/GetAbove(var/atom/atom)
-	var/turf/turf = get_turf(atom)
-	if(!turf)
+/proc/GetAbove(var/atom/atom, var/testing = 0)
+	var/turf/base_turf = get_turf(atom)
+	if(!base_turf)
 		return null
-	if(HasAbove(turf.z))
-		return locate(turf.x, turf.y, turf.z - 1)
+
+	var/obj/effect/zlevelinfo/cur_level = locate("zlevel[base_turf.z]")
+	if(cur_level)
+		var/curz = base_turf.z - 1
+		while(curz > 0)
+
+			var/obj/effect/zlevelinfo/target_level = locate("zlevel[curz]")
+
+			if(target_level && cur_level.name == target_level.name)
+				if(testing)
+					testing("[cur_level.name]: z[cur_level.z] and z[target_level.z] are connected")
+				return locate(base_turf.x, base_turf.y, target_level.z)
+
+			curz -= 1
+
+	//testing("	There is not")
 	return null
 
 
 //Check turf below
-/*/turf/proc/HasBelow(src.z)
-	return check_ztransit_down(src.z)*/
-
+/*
 /proc/HasBelow(var/curZ)
 //proc/check_ztransit_down(var/curZ)
-
-	/*
-	if(!z_transit_enabled[curZ])
+	if(curZ == world.maxz)
 		return 0
 
-	if(curZ == z_transit_enabled.len)
-		return 0
-
-	return z_transit_enabled[curZ + 1]
-	*/
-
-	var/obj/effect/overmapinfo/cur_level = locate("sector[curZ]")
-	var/obj/effect/overmapinfo/target_level = locate("sector[curZ + 1]")
-
-	if(cur_level && target_level && \
-	cur_level.sectorname && target_level.sectorname && \
-	cur_level.sectorname == target_level.sectorname)
+	var/turf/test_turf = locate(1, 1, curZ)
+	if(GetBelow(test_turf))
 		return 1
+*/
 
-	return 0
-
-
-proc/GetBelow(var/atom/atom)
-	var/turf/turf = get_turf(atom)
-	if(!turf)
+/proc/GetBelow(var/atom/atom, var/testing = 0)
+	var/turf/base_turf = get_turf(atom)
+	if(!base_turf)
 		return null
-	if(HasBelow(turf.z))
-		return locate(turf.x, turf.y, turf.z + 1)
+
+	//see if there is a linked turf
+	var/obj/effect/zlevelinfo/cur_level = locate("zlevel[base_turf.z]")
+	if(cur_level)
+		var/curz = base_turf.z + 1
+		while(curz <= world.maxz)
+
+			var/obj/effect/zlevelinfo/target_level = locate("zlevel[curz]")
+
+			if(target_level && cur_level.name == target_level.name)
+				if(testing)
+					testing("[cur_level.name]: z[cur_level.z] and z[target_level.z] are connected")
+				return locate(base_turf.x, base_turf.y, target_level.z)
+
+			curz += 1
+
 	return null

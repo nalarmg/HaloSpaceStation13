@@ -4,18 +4,22 @@
 //===================================================================================
 
 /obj/effect/overmapobj
-	name = "map object"
+	name = "undefined overmapobj"
 	icon = 'sector_icons.dmi'
 	icon_state = ""		//default warning signal to show a missing sprite
-	var/map_z = 0
+	dir = 1
 	var/area/shuttle/shuttle_landing
 	var/always_known = 1
-	var/heading = 0
-	dir = 1
 	var/list/my_observers = list()
 	var/list/my_turrets = list()
+	var/faction = ""
+	var/list/obj_turfs = list()
+	var/list/linked_zlevelinfos = list()
 
-/obj/effect/overmapobj/New(var/obj/effect/overmapinfo/data)
+	var/initialised = 0
+
+/*
+/obj/effect/overmapobj/New(var/obj/effect/zlevelinfo/data)
 	map_z = data.zlevel
 	name = data.name
 	always_known = data.known
@@ -30,6 +34,7 @@
 
 	if(data.landing_area)
 		shuttle_landing = locate(data.landing_area)
+*/
 
 /obj/effect/overmapobj/CanPass(atom/movable/A)
 	//testing("[A] attempts to enter sector\"[name]\"")
@@ -54,8 +59,3 @@
 		return PROJECTILE_CONTINUE
 
 	world << "[src] has been hit by [P]"
-
-/obj/effect/overmapobj/sector
-	name = "generic sector"
-	desc = "Sector with some stuff in it."
-	anchored = 1

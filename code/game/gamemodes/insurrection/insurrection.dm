@@ -8,14 +8,16 @@ datum/objective/insurrection
 /datum/game_mode/insurrection
 	name = "Insurrection"
 	config_tag = "insurrection"
-	required_players = 15
-	required_players_secret = 25
-	required_enemies = 4
+	required_players = 0
+	required_players_secret = 0
+	required_enemies = 1
 	round_description = "A UNSC ship has been dispatched to eliminate a secret Insurrection base. The insurrectionists are far from defenceless however..."
-	end_on_antag_death = 1
+	end_on_antag_death = 0
 	var/nuke_off_station = 0 //Used for tracking if the innies actually haul the nuke to the ship
 	var/syndies_didnt_escape = 0 //Used for tracking if the innies got the shuttle away from the ship
-	antag_tags = list(MODE_MERCENARY)
+	antag_tags = list(MODE_INNIE)
+
+	var/list/innie_base_paths = list('maps/innie_base1.dmm','maps/innie_base2.dmm')		//make sure these are in the order from highest -> lowest
 
 	var/obj/effect/overmapobj/innie_base
 
@@ -33,12 +35,41 @@ datum/objective/insurrection
 
 /datum/game_mode/insurrection/pre_setup()
 	//load Insurrection base zlevel
-	innie_base = overmap_controller.load_precreated('innie_base.dmm')
-	innie_base.name = "Insurrection Asteroid Base"
-	innie_base.icon = 'sector_icons.dmi'
-	innie_base.icon_state = "listening_post"
+	for(var/level_path in innie_base_paths)
+
+		var/obj/effect/overmapobj/loaded_obj = overmap_controller.load_premade_map(level_path, innie_base)
+		if(innie_base)
+			innie_base.linked_zlevelinfos.Add(loaded_obj.linked_zlevelinfos)
+			qdel(loaded_obj)
+		else
+			innie_base = loaded_obj
+
+	if(innie_base)
+		innie_base.name = "Insurrection Asteroid Base"
+		innie_base.tag = "Insurrection Asteroid Base"
+		innie_base.icon = 'sector_icons.dmi'
+		innie_base.icon_state = "listening_post"
+		overmap_controller.antagonist_home = innie_base
+
+		//link all the levels together
+		for(var/obj/effect/zlevelinfo/data in innie_base.linked_zlevelinfos)
+			data.name = innie_base.tag
+
+		//grab a rantom antag datum and reload the antagonist spawn locations
+		//this is a really odd way of doing things
+		var/datum/antagonist/antagonist = antag_templates[1]
+		antagonist.get_starting_locations()
 
 	return ..()
+
+/*
+/datum/game_mode/insurrection/can_start()
+	//fail and return to lobby
+	if(!innie_base)
+		world << "<span class='danger'>[innie_base_paths[1]] not loaded</span>"
+
+	return ..()
+	*/
 
 /datum/game_mode/insurrection/declare_completion()
 	if(config.objectives_disabled)
@@ -54,13 +85,13 @@ datum/objective/insurrection
 	*/
 
 	if(station_was_nuked)
-		feedback_set_details("round_end_result","win - insurrectionist nuke")
-		world << "<FONT size = 3><B>Insurrectionist Victory!</B></FONT>"
-		world << "<B>[syndicate_name()] operatives have destroyed [station_name()]!</B>"
+		feedback_set_details("round_end_result","win - nuke detonated")
+		world << "<span class='h1'>Insurrectionist Victory!</span>"
+		world << "<span class='danger'>Insurrection operatives have destroyed the UNSC ship!</span>"
 	else
-		feedback_set_details("round_end_result","lose - UNSC survived")
-		world << "<FONT size = 3><B>UNSC Victory!</B></FONT>"
-		world << "<B>[station_name()] has survived the counterattack by [syndicate_name()]!</B>"
+		feedback_set_details("round_end_result","lose - UNSC ship survived")
+		world << "<span class='h1'>UNSC Victory!</span>"
+		world << "<span class='danger'>The UNSC ship has survived the counterattack by the Insurrection!</span>"
 
 	/*
 	if(!disk_rescued &&  station_was_nuked && !syndies_didnt_escape)
