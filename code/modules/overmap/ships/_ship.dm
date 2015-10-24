@@ -1,9 +1,9 @@
 
 /obj/effect/overmapobj/ship
-	name = "generic ship"
-	desc = "Space faring vessel."
+	name = "unnamed ship"
+	desc = "A generic space faring vessel."
 	icon = 'code/modules/overmap/ships/ships.dmi'
-	icon_state = "frigate"
+	//icon_state = "frigate"
 	var/default_delay = 60
 	var/list/speed = list(0,0)
 	var/last_burn = 0
@@ -11,7 +11,7 @@
 	var/fore_dir = NORTH
 	var/list/ship_levels = list()
 	var/list/ship_turfs = list()
-	var/sectorname = "Generic Space Vessel"
+	var/ship_name = "Unnamed ship"
 
 	var/obj/effect/overmapobj/current_sector
 	var/obj/machinery/computer/helm/nav_control
@@ -22,6 +22,7 @@
 	var/is_thrusting = 0
 	var/is_thrusting_exhaust = 0
 
+	var/heading = 0
 	var/vessel_mass = 0 //tonnes
 	var/mass_multiplier = 30
 	var/highest_x_turf = 0
@@ -50,12 +51,12 @@
 
 	recalculate_physics_properties()
 
-/obj/effect/overmapobj/ship/New(var/obj/effect/overmapinfo/data)
-	tag = "ship_[data.sectorname]"
+/*/obj/effect/overmapobj/ship/New(var/obj/effect/zlevelinfo/data)
+	tag = "ship_[data.overmapobj_name]"
 	map_z = data.z
 
 	name = data.name
-	sectorname = data.sectorname
+	overmapobj_name = data.overmapobj_name
 	always_known = data.known
 	if (data.icon != 'icons/mob/screen1.dmi')
 		icon = data.icon
@@ -67,7 +68,7 @@
 	loc = locate(new_x, new_y, OVERMAP_ZLEVEL)
 
 	if(data.landing_area)
-		shuttle_landing = locate(data.landing_area)
+		shuttle_landing = locate(data.landing_area)*/
 
 /obj/effect/overmapobj/ship/proc/recalculate_physics_properties()
 	//calculate physics properties

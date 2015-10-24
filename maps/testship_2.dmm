@@ -15,7 +15,7 @@
 "o" = (/obj/machinery/overmap_turret_controlseat/unsc,/turf/simulated/floor,/area/bridge)
 "p" = (/obj/machinery/light,/turf/simulated/floor,/area/bridge)
 "q" = (/obj/machinery/overmap_turret/autocannon{dir = 2},/turf/simulated/floor/plating,/area/space)
-"r" = (/obj/effect/overmapinfo/ship,/turf/space,/area/space)
+"r" = (/obj/effect/zlevelinfo/ship{name = "UNSC Test Ship Please Ignore"},/turf/space,/area/space)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

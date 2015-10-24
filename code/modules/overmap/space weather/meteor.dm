@@ -1,7 +1,6 @@
-/obj/effect/overmapinfo/precreated/meteors
+/obj/effect/zlevelinfo/precreated/meteors
 	name = "Meteor Shower"
-	sectorname = "Asteroid Belt"
-	obj_type = /obj/effect/overmapobj/sector/meteor
+	//obj_type = /obj/effect/overmapobj/sector/meteor
 	desc = "A belt of giant meteors, don't stay here"
 	known = 0
 
@@ -27,5 +26,5 @@
 	if(istype(A,/obj/effect/overmapobj/ship))
 		command_announcement.Announce("The ship will clear the meteor belt shortly.", "Meteor Alert")
 
-/obj/effect/overmapinfo/precreated/meteors/New()
+/obj/effect/zlevelinfo/precreated/meteors/New()
 	..()

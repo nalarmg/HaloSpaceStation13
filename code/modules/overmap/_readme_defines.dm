@@ -8,7 +8,7 @@ Metaobjects are used to make it not affected by map order in .dme and carry some
 *************************************************************
 Metaobject
 *************************************************************
-/obj/effect/overmapinfo, sectors.dm
+/obj/effect/zlevelinfo, sectors.dm
 Used to build overmap in beginning, has basic information needed to create overmap objects and make shuttles work.
 Its name and icon (if non-standard) vars will be applied to resulting overmap object.
 'mapy' and 'mapx' vars are optional, sector will be assigned random overmap coordinates if they are not set.
