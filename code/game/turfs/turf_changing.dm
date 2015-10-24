@@ -70,17 +70,17 @@
 		//world << "	new cycle ([T.type] z[T.z])"
 		if(istype(T, /turf/space))
 			var/turf/below = GetBelow(src)
-			if(below)
-				// dont make open space into space, its pointless and makes people drop out of the station
-				if(istype(below) && air_master.has_valid_zone(below))
-					//world << "turf below is ground (plating etc), changing this one to open"
-					if(T == W)
-						spawn(0)
-							W = T.ChangeTurf(/turf/simulated/floor/open)
-							. = W
-						break
-					else
-						T = T.ChangeTurf(/turf/simulated/floor/open)
+			// dont make open space into space, its pointless and makes people drop out of the station
+			if(below && !istype(below, /turf/space))
+				//world << "turf below is ground (plating etc), changing this one to open"
+				if(T == W)
+					//change this turf type later
+					spawn(0)
+						W = T.ChangeTurf(/turf/simulated/floor/open)
+						. = W
+					break
+				else
+					T = T.ChangeTurf(/turf/simulated/floor/open)
 
 		else if(istype(T, /turf/simulated/floor/open))
 			//world << "turf is open"

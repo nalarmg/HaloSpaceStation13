@@ -15,15 +15,17 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 ///// Z-Level Stuff
 		//note that these calls are recursive but each successive explosive is weaker than the last
 		//explosion strength fall off is linear but fairly steep
-		if( (devastation_range > 0 || heavy_impact_range > 0) && HasBelow(epicenter.z) )
+		var/turf/below = GetBelow(epicenter)
+		if( (devastation_range > 0 || heavy_impact_range > 0) && below )
 			//start a child explosion, no admin log
 			spawn(0)
-				explosion(GetBelow(epicenter), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0)
+				explosion(below, max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0)
 
-		if( (devastation_range > 0 || heavy_impact_range > 0) && HasAbove(epicenter.z) )
+		var/turf/above = GetAbove(epicenter)
+		if( (devastation_range > 0 || heavy_impact_range > 0) && above )
 			//start the child explosion, no admin log
 			spawn(0)
-				explosion(GetAbove(epicenter), max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0, 0)
+				explosion(above, max(devastation_range - 2, 0), max(heavy_impact_range - 2, 0), max(light_impact_range - 2, 0), max(flash_range - 2, 0), 0, 0)
 ///// Z-Level Stuff
 
 		var/max_range = max(devastation_range, heavy_impact_range, light_impact_range, flash_range)

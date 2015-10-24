@@ -2,8 +2,11 @@
 //init the image overlays for open space on the map at roundstart
 //this is necessary because turf/New is run before obj/New which means zlevels are init later
 /hook/roundstart/proc/open_space_turfs()
+	log_admin("Initialising open space...")
+	var/start_time = world.time
 	for(var/turf/simulated/floor/open/O in world)
 		O.init()
+	log_admin("	Done ([(world.time - start_time) / 10]s)")
 	return 1
 
 /turf/simulated/floor/open
@@ -18,14 +21,17 @@
 
 /turf/simulated/floor/open/New()
 	..()
-	init()
+
+	//only init straightaway if we are in the middle of a round
+	if(ticker && ticker.current_state == GAME_STATE_PLAYING)
+		init()
 
 /turf/simulated/floor/open/proc/init()
-	if(map_sectors.len)
-		if(HasBelow(src.z))
-			levelupdate()
-		else
-			ChangeTurf(get_base_turf(src.z))
+	var/turf/below = GetBelow(src)
+	if(below)
+		levelupdate()
+	else
+		ChangeTurf(get_base_turf(src.z))
 
 // override to make sure nothing is hidden
 /turf/simulated/floor/open/levelupdate()
@@ -39,7 +45,7 @@
 	var/turf/T = src
 	var/levels_high = 0
 	while(T && istype(T, /turf/simulated/floor/open))
-		T = locate(x, y, z + 1)
+		T = GetBelow(src)
 		levels_high += 1
 
 		//accessways count as "ground" turfs
@@ -92,9 +98,9 @@
 			return 1
 
 	//otherwise, we'll fall down onto the zlevel below
-	if(falling_atom && istype(falling_atom) && HasBelow(src.z))
+	var/turf/floorbelow = GetBelow(src)
+	if(falling_atom && istype(falling_atom) && floorbelow)
 		//if there are stairs below, move smoothly down a level without "falling"
-		var/turf/floorbelow = locate(x, y, z + 1)
 		if(istype(floorbelow, /turf/simulated/floor/stairs))
 			//if we came up from the stairs, just stand at the top of them
 			if(falling_atom.loc == floorbelow)
