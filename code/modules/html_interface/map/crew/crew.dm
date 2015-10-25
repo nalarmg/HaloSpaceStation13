@@ -100,7 +100,7 @@ var/global/datum/interactive_map/crewmonitor/crewmonitor = new
 		var/datum/html_interface/hi
 
 		if (!src.interfaces["[z]"])
-			src.interfaces["[z]"] = new/datum/html_interface/nanotrasen(src, "Crew Monitoring", 900, 800, "[MAPHEADER] <link rel=\"stylesheet\" type=\"text/css\" href=\"crewmonitor.css\" /></script><script type=\"text/javascript\">var z = [z]; var tile_size = [world.icon_size]; var maxx = [world.maxx]; var maxy = [world.maxy];</script><script type=\"text/javascript\" src=\"crewmonitor.js\"></script>")
+			src.interfaces["[z]"] = new/datum/html_interface/UNSC(src, "Crew Monitoring", 900, 800, "[MAPHEADER] <link rel=\"stylesheet\" type=\"text/css\" href=\"crewmonitor.css\" /></script><script type=\"text/javascript\">var z = [z]; var tile_size = [world.icon_size]; var maxx = [world.maxx]; var maxy = [world.maxy];</script><script type=\"text/javascript\" src=\"crewmonitor.js\"></script>")
 
 			hi = src.interfaces["[z]"]
 

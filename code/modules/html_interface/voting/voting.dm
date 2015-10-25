@@ -9,13 +9,13 @@ var/global/list/round_voters = list()
 #define VOTE_SCREEN_HEIGHT 400
 
 
-/datum/html_interface/nanotrasen/sendResources(client/C)
+/datum/html_interface/UNSC/sendResources(client/C)
 	..()
 	C << browse_rsc('voting.js')
 	C << browse_rsc('voting.css')
 	return
 
-/datum/html_interface/nanotrasen/Topic(href, href_list[])
+/datum/html_interface/UNSC/Topic(href, href_list[])
 	..()
 	if(href_list["html_interface_action"] == "onclose")
 
@@ -38,7 +38,7 @@ var/global/list/round_voters = list()
 	var/list/ismapvote
 	var/chosen_map
 	var/name = "datum"
-	var/datum/html_interface/nanotrasen/interface
+	var/datum/html_interface/UNSC/interface
 	var/list/data
 	var/list/status_data
 	var/last_update = 0
@@ -51,7 +51,7 @@ var/global/list/round_voters = list()
 	src.status_data = list()
 	spawn(5)
 		if(!src.interface)
-			src.interface = new/datum/html_interface/nanotrasen(src, "Voting Panel", 400, 400, vote_head)
+			src.interface = new/datum/html_interface/UNSC(src, "Voting Panel", 400, 400, vote_head)
 			src.interface.updateContent("content", "<div id='vote_main'></div><div id='vote_choices'></div><div id='vote_admin'></div>")
 		initialized = 1
 	if (vote != src)
@@ -335,7 +335,7 @@ datum/controller/vote/proc/autogamemode()
 
 /datum/controller/vote/proc/update(refresh = 0)
 	if(!interface)
-		interface = new/datum/html_interface/nanotrasen(src, "Voting Panel", 400, 400, vote_head)
+		interface = new/datum/html_interface/UNSC(src, "Voting Panel", 400, 400, vote_head)
 		interface.updateContent("content", "<div id='vote_main'></div><div id='vote_choices'></div><div id='vote_admin'></div>")
 
 	if(world.time < last_update + 2)

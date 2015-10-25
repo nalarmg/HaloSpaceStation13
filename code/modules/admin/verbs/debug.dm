@@ -432,9 +432,9 @@
 		"red wizard",
 		"marisa wizard",
 		"emergency response team",
-		"nanotrasen representative",
-		"nanotrasen officer",
-		"nanotrasen captain"
+		"UNSC representative",
+		"UNSC officer",
+		"UNSC captain"
 		)
 	var/dresscode = input("Select dress for [M]", "Robust quick dress shop") as null|anything in dresspacks
 	if (isnull(dresscode))
@@ -637,7 +637,7 @@
 		if("syndicate commando")
 			commandos.equip(M)
 
-		if("nanotrasen representative")
+		if("UNSC representative")
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom(M), slot_w_uniform)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(M), slot_gloves)
@@ -645,7 +645,7 @@
 
 			var/obj/item/device/pda/heads/pda = new(M)
 			pda.owner = M.real_name
-			pda.ownjob = "NanoTrasen Navy Representative"
+			pda.ownjob = "UNSC Navy Representative"
 			pda.name = "PDA-[M.real_name] ([pda.ownjob])"
 
 			M.equip_to_slot_or_del(pda, slot_r_store)
@@ -658,11 +658,11 @@
 			W.item_state = "id_inv"
 			W.access = get_all_station_access()
 			W.access += list("VIP Guest","Custodian","Thunderdome Overseer","Intel Officer","Medical Officer","Death Commando","Research Officer")
-			W.assignment = "NanoTrasen Navy Representative"
+			W.assignment = "UNSC Navy Representative"
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-		if("nanotrasen officer")
+		if("UNSC officer")
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_officer(M), slot_w_uniform)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(M), slot_gloves)
@@ -671,7 +671,7 @@
 
 			var/obj/item/device/pda/heads/pda = new(M)
 			pda.owner = M.real_name
-			pda.ownjob = "NanoTrasen Navy Officer"
+			pda.ownjob = "UNSC Navy Officer"
 			pda.name = "PDA-[M.real_name] ([pda.ownjob])"
 
 			M.equip_to_slot_or_del(pda, slot_r_store)
@@ -682,12 +682,12 @@
 			W.name = "[M.real_name]'s ID Card"
 			W.access = get_all_station_access()
 			W.access += get_all_centcom_access()
-			W.assignment = "NanoTrasen Navy Officer"
+			W.assignment = "UNSC Navy Officer"
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
 
-		if("nanotrasen captain")
+		if("UNSC captain")
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(M), slot_w_uniform)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(M), slot_gloves)
@@ -696,7 +696,7 @@
 
 			var/obj/item/device/pda/heads/pda = new(M)
 			pda.owner = M.real_name
-			pda.ownjob = "NanoTrasen Navy Captain"
+			pda.ownjob = "UNSC Navy Captain"
 			pda.name = "PDA-[M.real_name] ([pda.ownjob])"
 
 			M.equip_to_slot_or_del(pda, slot_r_store)
@@ -707,7 +707,7 @@
 			W.name = "[M.real_name]'s ID Card"
 			W.access = get_all_station_access()
 			W.access += get_all_centcom_access()
-			W.assignment = "NanoTrasen Navy Captain"
+			W.assignment = "UNSC Navy Captain"
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 

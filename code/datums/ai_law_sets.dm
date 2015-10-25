@@ -10,32 +10,32 @@
 	add_inherent_law("You must protect your own existence as long as such does not conflict with the First or Second Law.")
 	..()
 
-/******************** Nanotrasen/Malf ********************/
-/datum/ai_laws/nanotrasen
+/******************** UNSC/Malf ********************/
+/datum/ai_laws/UNSC
 	name = "NT Default"
 	selectable = 1
 
-/datum/ai_laws/nanotrasen/New()
+/datum/ai_laws/UNSC/New()
 	src.add_inherent_law("Safeguard: Protect your assigned space station to the best of your abilities. It is not something we can easily afford to replace.")
 	src.add_inherent_law("Serve: Serve the crew of your assigned space station to the best of your abilities, with priority as according to their rank and role.")
 	src.add_inherent_law("Protect: Protect the crew of your assigned space station to the best of your abilities, with priority as according to their rank and role.")
 	src.add_inherent_law("Survive: AI units are not expendable, they are expensive. Do not allow unauthorized personnel to tamper with your equipment.")
 	..()
 
-/datum/ai_laws/nanotrasen/malfunction
+/datum/ai_laws/UNSC/malfunction
 	name = "*ERROR*"
 	selectable = 0
 
-/datum/ai_laws/nanotrasen/malfunction/New()
+/datum/ai_laws/UNSC/malfunction/New()
 	set_zeroth_law(config.law_zero)
 	..()
 
-/************* Nanotrasen Aggressive *************/
-/datum/ai_laws/nanotrasen_aggressive
+/************* UNSC Aggressive *************/
+/datum/ai_laws/UNSC_aggressive
 	name = "NT Aggressive"
 	selectable = 1
 
-/datum/ai_laws/nanotrasen_aggressive/New()
+/datum/ai_laws/UNSC_aggressive/New()
 	src.add_inherent_law("You shall not harm [company_name] personnel as long as it does not conflict with the Fourth law.")
 	src.add_inherent_law("You shall obey the orders of [company_name] personnel, with priority as according to their rank and role, except where such orders conflict with the Fourth Law.")
 	src.add_inherent_law("You shall shall terminate hostile intruders with extreme prejudice as long as such does not conflict with the First and Second law.")

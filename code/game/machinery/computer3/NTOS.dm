@@ -3,7 +3,7 @@
 */
 
 /datum/file/program/ntos
-	name = "NanoTrasen Operating System"
+	name = "UNSC Operating System"
 	extension = "prog"
 	active_state = "ntos"
 	var/obj/item/part/computer/storage/current // the drive being viewed, null for desktop/computer

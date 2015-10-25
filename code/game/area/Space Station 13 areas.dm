@@ -2064,7 +2064,7 @@ area/space/atmosalert()
 	requires_power = 0
 
 /area/awaymission/spacebattle/cruiser
-	name = "\improper Nanotrasen Cruiser"
+	name = "\improper UNSC Cruiser"
 
 /area/awaymission/spacebattle/syndicate1
 	name = "\improper Syndicate Assault Ship 1"

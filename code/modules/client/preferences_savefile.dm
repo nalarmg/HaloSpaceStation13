@@ -201,7 +201,7 @@
 	S["faction"] 			>> faction
 	S["religion"] 			>> religion
 
-	S["nanotrasen_relation"] >> nanotrasen_relation
+	S["UNSC_relation"] >> UNSC_relation
 	//S["skin_style"]			>> skin_style
 
 	S["uplinklocation"] >> uplinklocation
@@ -226,7 +226,7 @@
 
 	if(isnull(alternate_languages)) alternate_languages = list()
 	if(isnull(spawnpoint)) spawnpoint = "Arrivals Shuttle"
-	if(isnull(nanotrasen_relation)) nanotrasen_relation = initial(nanotrasen_relation)
+	if(isnull(UNSC_relation)) UNSC_relation = initial(UNSC_relation)
 	if(!real_name) real_name = random_name(gender)
 	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
 	gender			= sanitize_gender(gender)
@@ -358,7 +358,7 @@
 	S["faction"] 			<< faction
 	S["religion"] 			<< religion
 
-	S["nanotrasen_relation"] << nanotrasen_relation
+	S["UNSC_relation"] << UNSC_relation
 	//S["skin_style"]			<< skin_style
 
 	S["uplinklocation"] << uplinklocation

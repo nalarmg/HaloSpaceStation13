@@ -444,7 +444,7 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/janitor/New()
 	src.modules += new /obj/item/device/flash(src)
-	src.modules += new /obj/item/weapon/soap/nanotrasen(src)
+	src.modules += new /obj/item/weapon/soap/UNSC(src)
 	src.modules += new /obj/item/weapon/storage/bag/trash(src)
 	src.modules += new /obj/item/weapon/mop(src)
 	src.modules += new /obj/item/device/lightreplacer(src)

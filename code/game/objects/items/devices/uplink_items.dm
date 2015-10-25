@@ -508,7 +508,7 @@ datum/uplink_item/dd_SortValue()
 
 /datum/uplink_item/item/badassery/balloon/NT
 	name = "For showing that you love NT SOO much (Useless Balloon)"
-	path = /obj/item/toy/nanotrasenballoon
+	path = /obj/item/toy/UNSCballoon
 
 /**************
 * Random Item *

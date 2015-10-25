@@ -43,7 +43,7 @@
 
 	var/loyalty = 1
 	if(H.client)
-		switch(H.client.prefs.nanotrasen_relation)
+		switch(H.client.prefs.UNSC_relation)
 			if(COMPANY_LOYAL)		loyalty = 1.30
 			if(COMPANY_SUPPORTATIVE)loyalty = 1.15
 			if(COMPANY_NEUTRAL)		loyalty = 1

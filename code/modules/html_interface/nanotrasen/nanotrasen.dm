@@ -2,7 +2,7 @@
 Author: NullQuery
 Created on: 2014-09-25
 
-Extension to implement Nanotrasen styled windows.
+Extension to implement UNSC styled windows.
 
 Additional procs:
 
@@ -14,14 +14,14 @@ The client is optional and may be a /mob, /client or /html_interface_client obje
 
 */
 
-/datum/html_interface/nanotrasen/New()
+/datum/html_interface/UNSC/New()
 	. = ..()
 
 	// Add appropriate CSS and set the default layout.
-	src.head = src.head + "<link rel=\"stylesheet\" type=\"text/css\" href=\"nanotrasen.css\" />"
+	src.head = src.head + "<link rel=\"stylesheet\" type=\"text/css\" href=\"UNSC.css\" />"
 	src.updateLayout("")
 
-/datum/html_interface/nanotrasen/updateLayout(nlayout)
+/datum/html_interface/UNSC/updateLayout(nlayout)
 	// Wrap the layout in our custom HTML
 	return ..("<div id=\"ntbgcenter\"></div><div id=\"content\">[nlayout]</div>")
 
@@ -29,14 +29,14 @@ The client is optional and may be a /mob, /client or /html_interface_client obje
 	// Update the title in our custom header (in addition to default functionality)
 	winset(hclient.client, "browser_\ref[src].uiTitle", list2params(list("text" = "[src.title]")))
 
-/datum/html_interface/nanotrasen/sendResources(client/client)
+/datum/html_interface/UNSC/sendResources(client/client)
 	. = ..() // we need the default resources
 
 	client << browse_rsc('uiBg.png')
 	client << browse_rsc('uiBgcenter.png')
 	client << browse_rsc('nanotrasen.css')
 
-/datum/html_interface/nanotrasen/createWindow(datum/html_interface_client/hclient)
+/datum/html_interface/UNSC/createWindow(datum/html_interface_client/hclient)
 	. = ..() // we want the default window
 
 	// Remove the titlebar
@@ -63,7 +63,7 @@ The client is optional and may be a /mob, /client or /html_interface_client obje
 		"is-disabled" = "true"
 	)))
 
-	// Add Nanotrasen logo
+	// Add UNSC logo
 	winset(hclient.client, "browser_\ref[src].uiTitleFluff", list2params(list(
 		"parent"      = "browser_\ref[src]",
 		"type"        = "label",
@@ -146,18 +146,18 @@ The client is optional and may be a /mob, /client or /html_interface_client obje
 		"font-size"      = "12" // ~ 16px - should be unnecessary if image is used
 	)))
 
-/datum/html_interface/nanotrasen/enableFor(datum/html_interface_client/hclient)
+/datum/html_interface/UNSC/enableFor(datum/html_interface_client/hclient)
 	. = ..()
 
 	src.setEyeColor("green", hclient)
 
-/datum/html_interface/nanotrasen/disableFor(datum/html_interface_client/hclient)
+/datum/html_interface/UNSC/disableFor(datum/html_interface_client/hclient)
 	hclient.active = FALSE
 
 	src.setEyeColor("red", hclient)
 
-/datum/html_interface/nanotrasen/proc/setEyeColor(color, datum/html_interface_client/hclient)
-	//writepanic("[__FILE__].[__LINE__] ([src.type])([usr ? usr.ckey : ""])  \\/datum/html_interface/nanotrasen/proc/setEyeColor() called tick#: [world.time]")
+/datum/html_interface/UNSC/proc/setEyeColor(color, datum/html_interface_client/hclient)
+	//writepanic("[__FILE__].[__LINE__] ([src.type])([usr ? usr.ckey : ""])  \\/datum/html_interface/UNSC/proc/setEyeColor() called tick#: [world.time]")
 	hclient = getClient(hclient)
 
 	if (istype(hclient))
@@ -173,4 +173,4 @@ The client is optional and may be a /mob, /client or /html_interface_client obje
 
 			winset(hclient.client, "browser_\ref[src].uiTitleEye", list2params(list("image" = "[resource]")))
 	else
-		WARNING("Invalid object passed to /datum/html_interface/nanotrasen/proc/setEyeColor")
+		WARNING("Invalid object passed to /datum/html_interface/UNSC/proc/setEyeColor")
