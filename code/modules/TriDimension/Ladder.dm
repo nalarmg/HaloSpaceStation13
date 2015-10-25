@@ -7,13 +7,19 @@
 	density = 0
 	opacity = 0
 	anchored = 0
-	var/zdir = 0
+	var/zdir
+	var/zdirtext
+	var/zdirraw
 
 /obj/structure/ladder/New()
 	. = ..()
+	init_zdir()
 
+/obj/structure/ladder/proc/init_zdir()
 	var/dash = findtext(icon_state, "-")
-	zdir = text2num( copytext(icon_state, dash + 1) ) & (UP|DOWN)
+	zdirtext = copytext(icon_state, dash + 1)
+	zdirraw = text2num(zdirtext)
+	zdir = zdirraw & (UP|DOWN)
 
 /obj/structure/ladder/ex_act(severity)
 	switch(severity)
@@ -58,7 +64,7 @@
 
 	else if(istype(C, /obj/item/weapon/wrench))
 		if(zdir & DOWN)
-			user << "<span class='notice'>You start loosening the  ladder to the floor...</span>"
+			user << "<span class='notice'>You start loosening [src] from the floor...</span>"
 		else
 			user << "<span class='notice'>You start securing the ladder to the floor...</span>"
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
@@ -67,12 +73,12 @@
 			return
 
 		if(zdir & DOWN)
-			user << "<span class='info'>You remove the bolts anchoring the ladder.</span>"
+			user << "<span class='info'>You remove the bolts anchoring [src].</span>"
 			if( !(zdir & UP) )
 				anchored = 0
 		else
 			anchored = 1
-			user << "<span class='info'>You secure the bolts anchoring the ladder.</span>"
+			user << "<span class='info'>You secure the bolts anchoring [src].</span>"
 		zdir ^= DOWN
 		icon_state = "ladder-[zdir]"
 
@@ -96,8 +102,8 @@
 				icon_state = "ladder-[zdir]"
 
 				//once we remove the ladder, force any mobs standing on it to fall
-				if(HasAbove(src.z))
-					var/turf/above = locate(src.x, src.y, src.z - 1)
+				var/turf/above = GetAbove(src)
+				if(above)
 					for(var/mob/living/M in above)
 						above.Enter(M)
 
@@ -121,50 +127,57 @@
 	//check if the ladder has been setup to lead somewhere
 	if(zdir)
 		//check if we already know what direction we want to go
-		if(movedir && HasAboveBelow(src.z, movedir))
+		if(movedir)
 			//check if the ladder works in that direction
+			var/move_string = (movedir & UP ? "up" : "down")
 			if(movedir & zdir)
 				var/turf/curturf = get_turf(src)
-				var/turf/T = GetAboveBelow(src, movedir)
+				var/turf/target_turf = GetAboveBelow(src, movedir)
 
-				//check whether there is floor or wall in the way
-				var/turf/block_turf = curturf.CanPass(M, T)
-				if(!block_turf || !istype(block_turf) || !block_turf.blocks_air_downwards)
-					//check if transit to that zlevel is actually enabled
-					if(HasAboveBelow(curturf.z, movedir))
-						if(block_turf && istype(block_turf))
-							M << "<span class='notice'>\icon[block_turf] [block_turf] is blocking the top of [src].</span>"
-						else
-							var/obj/structure/ladder/L = locate(/obj/structure/ladder/) in T
+				//check if ztransit is actually enabled
+				if(target_turf)
 
-							//if we're going up, we need a ladder above us
-							var/success = 0
-							if(movedir == UP)
-								if(L)
-									success = 1
-									M.visible_message("<span class='notice'>[M] climbs up \the [src]!</span>", \
-							 		"<span class='notice'>You climb up \the [src]!</span>")
-								else
-									M << "<span class='notice'>[src] does not reach high enough to get to the floor above.</span>"
-							else
+					//check whether there is floor or wall in the way
+					var/turf/block_turf = curturf.CanPass(M, target_turf)
+					if(istype(block_turf))
+						M << "<span class='notice'>[block_turf] is blocking your way [src] [move_string] there.</span>"
+					else if(block_turf)
+						var/obj/structure/ladder/L = locate(/obj/structure/ladder/) in target_turf
+
+						//if we're going up, we need a ladder above us
+						var/success = 0
+						if(movedir == UP)
+							if(L && (L.zdir & DOWN))
 								success = 1
-								M.visible_message("<span class='notice'>[M] climbs down \the [src]!</span>", \
-								"<span class='notice'>You climb down \the [src]!</span>")
-								//hit the ground with a bang if we fall onto a floor below
-								if(!L && !istype(T, /turf/space))
+								M.visible_message("<span class='notice'>[M] begins climbing up \the [src]!</span>", \
+						 		"<span class='notice'>You begin climbing up \the [src]!</span>")
+							else
+								M << "<span class='notice'>[src] does not reach high enough to get to the floor above.</span>"
+						else
+							success = 1
+							M.visible_message("<span class='notice'>[M] climbs down \the [src]!</span>", \
+							"<span class='notice'>You climb down \the [src]!</span>")
+
+							//hit the ground with a bang if we fall onto a floor below
+							if(!istype(target_turf, /turf/space))
+								if(!L || !(L.zdir & UP))
 									M << "<span class='warning'>[src] does not reach all the way down and you drop the rest of the way.</span>"
 									playsound(curturf, 'sound/machines/door_close.ogg', 100, 1)
 
-							if(success)
-								M.Move(curturf)
-								if(M.loc == curturf)
-									return M.Move(T)
+						if(success)
+							success = 0
+							M.Move(curturf)
+							if(M.loc == curturf)
+								success = M.Move(target_turf)
+
+							if(!success)
+								M << "<span class='warning'>The way [move_string] [src] was blocked.</span>"
 					else
-						M << "<span class='notice'>There is nothing interesting [movedir == UP ? "up" : "down"] there.</span>"
+						M << "<span class='warning'>The way [move_string] [src] was blocked.</span>"
 				else
-					M << "<span class='notice'>[block_turf] is in the way, you must cut a hole in it with a welder first.</span>"
+					M << "<span class='notice'>There is nothing interesting [move_string] there.</span>"
 			else
-				M << "<span class='notice'>[src] does not go in that direction.</span>"
+				M << "<span class='notice'>[src] does not go [move_string] there.</span>"
 		else
 			if(zdir ^ (UP|DOWN))
 				//there's only one direction to go
@@ -178,10 +191,10 @@
 					if("Down")
 						movedir = DOWN
 					else
-						return
+						return 0
+
 			//try again with a proper direction
-			if(HasAboveBelow(src.z, movedir))
-				attempt_traverse(M, movedir)
+			return attempt_traverse(M, movedir)
 	else
 		M << "<span class='warning'>[src] is not connected to anything.</span>"
 

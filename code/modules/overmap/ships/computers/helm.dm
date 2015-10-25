@@ -11,7 +11,7 @@
 	var/dy		//coordinates
 
 /obj/machinery/computer/helm/initialize()
-	linked = map_sectors["[z]"] || cached_spacepre["[z]"]
+	linked = map_sectors["[z]"]
 	if (linked)
 		if(!linked.nav_control)
 			linked.nav_control = src
@@ -126,6 +126,7 @@
 	var/data[0]
 	data["state"] = state
 
+	data["shipname"] = linked.ship_name		//currently unused
 	data["sector"] = linked.current_sector ? linked.current_sector.name : "Deep Space"
 	data["sector_info"] = linked.current_sector ? linked.current_sector.desc : "Not Available"
 	data["s_x"] = linked.x

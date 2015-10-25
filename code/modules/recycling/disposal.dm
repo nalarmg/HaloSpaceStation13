@@ -984,13 +984,12 @@
 		var/turf/T = get_turf(src)
 		var/obj/structure/disposalpipe/P
 
-		if((nextdir & UP) && !HasAbove(src.z))
-			return null
-		if((nextdir & DOWN) && !HasBelow(src.z))
-			return null
-
-		if(nextdir & UP)
+		//assume we're going up
+		if(nextdir & (DOWN|UP))
 			T = GetAbove(src)
+			if(!T)
+				return null
+
 			//only traverse up if there isn't a turf in the way
 			if(T.blocks_air_downwards)
 				T = null
@@ -1035,12 +1034,8 @@
 		var/turf/T = get_turf(src)
 		var/obj/structure/disposalpipe/P
 
-		if((nextdir & UP) && !HasAbove(src.z))
-			return null
-		if((nextdir & DOWN) && !HasBelow(src.z))
-			return null
-
-		if(nextdir & DOWN)
+		//assume we're going down
+		if(nextdir & (DOWN|UP))
 			//only traverse down if there isn't a turf in the way
 			if(!T.blocks_air_downwards)
 				T = GetBelow(src)

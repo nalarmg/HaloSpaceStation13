@@ -2,7 +2,7 @@ var/datum/antagonist/insurrectionist/innies
 
 /datum/antagonist/insurrectionist
 	id = MODE_INNIE
-	role_type = BE_INNIE
+	role_type = BE_OPERATIVE
 	role_text = "Insurrectionist"
 	bantype = "operative"
 	antag_indicator = "innie"
@@ -10,9 +10,9 @@ var/datum/antagonist/insurrectionist/innies
 	landmark_id = "Insurrectionist-Spawn"
 	leader_welcome_text = "You are the leader of the Insurrectionist forces, down with the UNSC! Use :t to speak to your underlings."
 	welcome_text = "To speak on your group's private channel use :t."
-	flags = ANTAG_OVERRIDE_JOB | ANTAG_CLEAR_EQUIPMENT | ANTAG_CHOOSE_NAME | ANTAG_HAS_NUKE | ANTAG_SET_APPEARANCE | ANTAG_HAS_LEADER
+	flags = ANTAG_OVERRIDE_JOB | ANTAG_CLEAR_EQUIPMENT | ANTAG_CHOOSE_NAME | ANTAG_HAS_NUKE | ANTAG_HAS_LEADER
 	id_type = /obj/item/weapon/card/id/syndicate
-	antaghud_indicator = "hudoperative"
+	antaghud_indicator = "hudinnie"
 
 	hard_cap = 4
 	hard_cap_round = 8
@@ -32,7 +32,7 @@ var/datum/antagonist/insurrectionist/innies
 
 /datum/antagonist/insurrectionist/equip(var/mob/living/carbon/human/player)
 
-	if(!..())
+	if(!..(player))
 		return 0
 
 	player.equip_to_slot_or_del(new /obj/item/clothing/under/syndicate(player), slot_w_uniform)

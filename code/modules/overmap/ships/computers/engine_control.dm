@@ -10,13 +10,14 @@
 	var/obj/effect/overmapobj/ship/linked
 
 /obj/machinery/computer/engines/initialize()
-	linked = map_sectors["[z]"] || cached_spacepre["[z]"]
-	if (linked)
+	linked = map_sectors["[z]"]
+	if(linked && istype(linked, /obj/effect/overmapobj/ship))
 		if (!linked.eng_control)
 			linked.eng_control = src
 		testing("Engines console at level [z] found a corresponding overmap object '[linked.name]'.")
 	else
-		testing("Engines console at level [z] was unable to find a corresponding overmap object.")
+		linked = null
+		testing("Engines console at level [z] was unable to find a corresponding overmapobj (requires ship).")
 
 	/*for(var/datum/ship_engine/E in engines)
 		if ((E.zlevel in linked.ship_levels) && !(E in engines))

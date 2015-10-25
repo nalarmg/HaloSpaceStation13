@@ -33,7 +33,7 @@
 	var/image/target_overlay
 
 	var/mob/living/control_mob
-	var/obj/effect/overmapobj/linked
+	var/obj/effect/overmapobj/ship/linked
 
 	var/obj/item/projectile/overmap/last_fired_overmap_projectile
 
