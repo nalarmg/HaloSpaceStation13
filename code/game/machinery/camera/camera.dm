@@ -59,7 +59,8 @@
 		qdel(assembly)
 		assembly = null
 	qdel(wires)
-	..()
+	wires = null
+	return ..()
 
 /obj/machinery/camera/emp_act(severity)
 	if(!isEmpProof())
@@ -90,10 +91,6 @@
 		destroy()
 
 	..() //and give it the regular chance of being deleted outright
-
-
-/obj/machinery/camera/blob_act()
-	return
 
 /obj/machinery/camera/hitby(AM as mob|obj)
 	..()
@@ -303,7 +300,7 @@
 	var/turf/pos = get_turf(src)
 	if(!pos)
 		return list()
-	
+
 	if(isXRay())
 		see = range(view_range, pos)
 	else
