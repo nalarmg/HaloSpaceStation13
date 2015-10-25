@@ -99,7 +99,7 @@
 		var/mob/M = AM
 		if(world.time - M.last_bumped <= 10) return	//Can bump-open one airlock per second. This is to prevent shock spam.
 		M.last_bumped = world.time
-		if(!M.restrained() && !M.small)
+		if(!M.restrained() && !issmall(M))
 			bumpopen(M)
 		return
 
@@ -330,12 +330,6 @@
 		if ((O.client && !( O.blinded )))
 			O.show_message("[src.name] breaks!" )
 	update_icon()
-	return
-
-
-/obj/machinery/door/blob_act()
-	if(prob(40))
-		qdel(src)
 	return
 
 

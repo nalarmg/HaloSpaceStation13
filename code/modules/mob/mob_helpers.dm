@@ -6,10 +6,9 @@
 	return 0
 
 /proc/issmall(A)
-	if(A && istype(A, /mob/living/carbon/human))
-		var/mob/living/carbon/human/H = A
-		if(H.species && H.species.is_small)
-			return 1
+	if(A && istype(A, /mob/living))
+		var/mob/living/L = A
+		return L.mob_size <= MOB_SMALL
 	return 0
 
 /mob/living/proc/isSynthetic()
@@ -290,7 +289,7 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 
 
 /proc/shake_camera(mob/M, duration, strength=1)
-	if(!M || !M.client || M.shakecamera)
+	if(!M || !M.client || M.shakecamera || M.stat || isEye(M) || isAI(M))
 		return
 	M.shakecamera = 1
 	spawn(1)

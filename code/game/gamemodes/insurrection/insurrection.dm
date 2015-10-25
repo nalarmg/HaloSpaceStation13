@@ -9,7 +9,6 @@ datum/objective/insurrection
 	name = "Insurrection"
 	config_tag = "insurrection"
 	required_players = 0
-	required_players_secret = 0
 	required_enemies = 1
 	round_description = "A UNSC ship has been dispatched to eliminate a secret Insurrection base. The insurrectionists are far from defenceless however..."
 	end_on_antag_death = 0
