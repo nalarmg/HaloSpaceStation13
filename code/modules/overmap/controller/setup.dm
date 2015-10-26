@@ -65,7 +65,7 @@ datum/controller/process/overmap/setup()
 	/*for(var/x in 1 to 3)
 		load_prepared_sector("Meteor Shower", "MeteorShower[x]")*/
 
-	callHook("customOvermap", list(overmap_controller))
+	//callHook("customOvermap", list(overmap_controller))
 
 	for(var/obj/machinery/computer/helm/H in machines)
 		H.reinit()

@@ -72,7 +72,7 @@
 
 	//make sure the overlay turns with the ship, and make it twice the size of the ship
 	var/matrix/M = target_overlay.transform
-	M.Turn(dir2angle(src.dir) + linked.heading)
+	M.Turn(dir2angle(src.dir) + linked.get_heading())
 	M.Scale(2)
 	target_overlay.transform = M
 
@@ -143,7 +143,7 @@
 	//constrain the aiming to match the weapon cone
 	var/centre_angle = dir2angle(dir)
 	if(linked)
-		centre_angle += linked.heading
+		centre_angle += linked.get_heading()
 		if(centre_angle >= 360)
 			centre_angle -= 360
 		else if(centre_angle < 0)
@@ -159,19 +159,19 @@
 
 	if(adjusted_aim_angle > adjusted_centre_angle + (max_fire_angle / 2))
 		//aiming too far clockwise
-		world << "aiming too far clockwise with fire_angle [fire_angle]"
+		//world << "aiming too far clockwise with fire_angle [fire_angle]"
 		fire_angle = centre_angle + (max_fire_angle / 2)
 		if(fire_angle > 360)
 			fire_angle -= 360
-		world << "	new fire_angle [fire_angle]"
+		//world << "	new fire_angle [fire_angle]"
 
 	if(adjusted_aim_angle  < adjusted_centre_angle - (max_fire_angle / 2))
 		//aiming too far counterclockwise
-		world << "aiming too far counterclockwise with fire_angle [fire_angle]"
+		//world << "aiming too far counterclockwise with fire_angle [fire_angle]"
 		fire_angle = centre_angle - (max_fire_angle / 2)
 		if(fire_angle < 0)
 			fire_angle += 360
-		world << "	new fire_angle [fire_angle]"
+		//world << "	new fire_angle [fire_angle]"
 
 	var/obj/item/projectile/P = new projectile_type(src.loc)
 
@@ -205,7 +205,7 @@
 		fire_angle += rand(0, degrees_inaccurate) - degrees_inaccurate / 2
 
 		//when we fire, slow down pixel speed to a more overmap-friendly one
-		OP.launch_heading(fire_angle, pixel_speed = overmap_pixel_speed)
+		OP.launch_heading(fire_angle, overmap_pixel_speed)
 
 /obj/machinery/overmap_turret/proc/halt_fire()
 	if(continuous_firing)
