@@ -107,3 +107,20 @@
 
 #define COMPANY_ALIGNMENTS		list(COMPANY_LOYAL,COMPANY_SUPPORTATIVE,COMPANY_NEUTRAL,COMPANY_SKEPTICAL,COMPANY_OPPOSED)
 
+
+// Defines mob sizes, used by lockers and to determine what is considered a small sized mob, etc.
+#define MOB_LARGE  		40
+#define MOB_MEDIUM 		20
+#define MOB_SMALL 		10
+#define MOB_TINY 		5
+#define MOB_MINISCULE	1
+
+#define TINT_NONE 0
+#define TINT_MODERATE 1
+#define TINT_HEAVY 2
+#define TINT_BLIND 3
+
+#define FLASH_PROTECTION_REDUCED -1
+#define FLASH_PROTECTION_NONE 0
+#define FLASH_PROTECTION_MODERATE 1
+#define FLASH_PROTECTION_MAJOR 2

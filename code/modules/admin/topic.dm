@@ -85,7 +85,7 @@
 				banreason = "[banreason] (CUSTOM CID)"
 		else
 			message_admins("Ban process: A mob matching [playermob.ckey] was found at location [playermob.x], [playermob.y], [playermob.z]. Custom ip and computer id fields replaced with the ip and computer id from the located mob")
-		notes_add(playermob.ckey,banreason,usr)
+		notes_add(banckey,banreason,usr)
 
 		DB_ban_record(bantype, playermob, banduration, banreason, banjob, null, banckey, banip, bancid )
 
@@ -1118,16 +1118,6 @@
 		message_admins("\red Admin [key_name_admin(usr)] AIized [key_name_admin(H)]!", 1)
 		log_admin("[key_name(usr)] AIized [key_name(H)]")
 		H.AIize()
-
-	else if(href_list["makealien"])
-		if(!check_rights(R_SPAWN))	return
-
-		var/mob/living/carbon/human/H = locate(href_list["makealien"])
-		if(!istype(H))
-			usr << "This can only be used on instances of type /mob/living/carbon/human"
-			return
-
-		usr.client.cmd_admin_alienize(H)
 
 	else if(href_list["makeslime"])
 		if(!check_rights(R_SPAWN))	return

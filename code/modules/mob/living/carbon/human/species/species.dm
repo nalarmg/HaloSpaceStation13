@@ -20,6 +20,7 @@
 
 	var/prone_icon                                       // If set, draws this from icobase when mob is prone.
 	var/eyes = "eyes_s"                                  // Icon for eyes.
+	var/has_floating_eyes                                // Eyes will overlay over darkness (glow)
 	var/blood_color = "#A10808"                          // Red.
 	var/flesh_color = "#FFC896"                          // Pink.
 	var/base_color                                       // Used by changelings. Should also be used for icon previes..
@@ -28,7 +29,7 @@
 	var/tail_hair
 	var/race_key = 0       	                             // Used for mob icon cache string.
 	var/icon/icon_template                               // Used for mob icon generation for non-32x32 species.
-	var/is_small
+	var/mob_size	= MOB_MEDIUM
 	var/show_ssd = "fast asleep"
 	var/virus_immune
 	var/short_sighted
@@ -149,6 +150,11 @@
 	var/bump_flag = HUMAN	// What are we considered to be when bumped?
 	var/push_flags = ~HEAVY	// What can we push?
 	var/swap_flags = ~HEAVY	// What can we swap place with?
+
+	var/pass_flags = 0
+
+/datum/species/proc/get_eyes(var/mob/living/carbon/human/H)
+	return
 
 /datum/species/New()
 	if(hud_type)
@@ -282,6 +288,8 @@
 	H.mob_bump_flag = bump_flag
 	H.mob_swap_flags = swap_flags
 	H.mob_push_flags = push_flags
+	H.pass_flags = pass_flags
+	H.mob_size = mob_size
 
 /datum/species/proc/handle_death(var/mob/living/carbon/human/H) //Handles any species-specific death events (such as dionaea nymph spawns).
 	return
@@ -326,3 +334,42 @@
 
 /datum/species/proc/get_vision_flags(var/mob/living/carbon/human/H)
 	return vision_flags
+
+/datum/species/proc/handle_vision(var/mob/living/carbon/human/H)
+	H.update_sight()
+	H.sight |= get_vision_flags(H)
+	H.sight |= H.equipment_vision_flags
+
+	if(H.stat == DEAD)
+		return 1
+
+	if(!H.druggy)
+		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 8 : min(darksight + H.equipment_darkness_modifier, 8)
+		if(H.seer)
+			var/obj/effect/rune/R = locate() in H.loc
+			if(R && R.word1 == cultwords["see"] && R.word2 == cultwords["hell"] && R.word3 == cultwords["join"])
+				H.see_invisible = SEE_INVISIBLE_CULT
+		if(H.see_invisible != SEE_INVISIBLE_CULT && H.equipment_see_invis)
+			H.see_invisible = min(H.see_invisible, H.equipment_see_invis)
+
+	if(H.equipment_tint_total >= TINT_BLIND)
+		H.eye_blind = max(H.eye_blind, 1)
+
+	if(H.blind)
+		H.blind.layer = (H.eye_blind ? 18 : 0)
+
+	if(!H.client)//no client, no screen to update
+		return 1
+
+	if(config.welder_vision)
+		if(short_sighted || (H.equipment_tint_total >= TINT_HEAVY))
+			H.client.screen += global_hud.darkMask
+		else if((!H.equipment_prescription && (H.disabilities & NEARSIGHTED)) || H.equipment_tint_total == TINT_MODERATE)
+			H.client.screen += global_hud.vimpaired
+	if(H.eye_blurry)	H.client.screen += global_hud.blurry
+	if(H.druggy)		H.client.screen += global_hud.druggy
+
+	for(var/overlay in H.equipment_overlays)
+		H.client.screen |= overlay
+
+	return 1

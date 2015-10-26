@@ -175,21 +175,19 @@
 	area.power_equip = 0
 	area.power_environ = 0
 	area.power_change()
-	if(wires)
-		qdel(wires)
-		wires = null
+	qdel(wires)
+	wires = null
+	qdel(terminal)
+	terminal = null
 	if(cell)
-		cell.loc = loc
+		cell.forceMove(loc)
 		cell = null
-	if(terminal)
-		qdel(terminal)
-		terminal = null
 
 	// Malf AI, removes the APC from AI's hacked APCs list.
 	if((hacker) && (hacker.hacked_apcs) && (src in hacker.hacked_apcs))
 		hacker.hacked_apcs -= src
 
-	..()
+	return ..()
 
 /obj/machinery/power/apc/proc/make_terminal()
 	// create a terminal object at the same position as original turf loc
@@ -473,7 +471,7 @@
 			return
 
 		user.drop_item()
-		W.loc = src
+		W.forceMove(src)
 		cell = W
 		user.visible_message(\
 			"<span class='warning'>[user.name] has inserted the power cell to [src.name]!</span>",\
@@ -1188,12 +1186,6 @@ obj/machinery/power/apc/proc/autoset(var/val, var/on)
 				if (cell && prob(25))
 					cell.ex_act(3.0)
 	return
-
-/obj/machinery/power/apc/blob_act()
-	if (prob(75))
-		set_broken()
-		if (cell && prob(5))
-			cell.blob_act()
 
 /obj/machinery/power/apc/disconnect_terminal()
 	if(terminal)
