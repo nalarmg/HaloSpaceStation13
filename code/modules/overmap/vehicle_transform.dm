@@ -50,7 +50,7 @@
 
 /datum/vehicle_transform/proc/accelerate_forward(var/acceleration)
 
-	add_pixel_speed_angle(heading, heading)
+	add_pixel_speed_angle(acceleration, heading)
 
 /datum/vehicle_transform/proc/add_pixel_speed_direction(var/acceleration, var/direction)
 	add_pixel_speed_angle(acceleration, dir2angle(direction))

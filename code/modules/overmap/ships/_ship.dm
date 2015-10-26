@@ -36,7 +36,7 @@
 	var/thrusting = 0
 
 	var/main_update_start_time = -1
-	var/update_interval = 1
+	var/update_interval = 5
 
 /obj/effect/map/ship/New(var/obj/effect/mapinfo/data)
 	tag = "ship_[data.sectorname]"
@@ -166,7 +166,8 @@
 	return vehicle_transform.is_still()
 
 /obj/effect/map/ship/proc/get_acceleration(var/accel_dir)
-	return eng_control.get_maneuvring_thrust(accel_dir) / vessel_mass
+	//return eng_control.get_maneuvring_thrust(accel_dir) / vessel_mass
+	return forward_acceleration
 
 /obj/effect/map/ship/proc/get_speed()
 	return vehicle_transform.get_speed()
