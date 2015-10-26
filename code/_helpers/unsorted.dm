@@ -1360,3 +1360,65 @@ var/mob/dview/dview_mob = new
 // call to generate a stack trace and print to runtime logs
 /proc/crash_with(msg)
 	CRASH(msg)
+
+/proc/shortest_angle_to_dir(var/current_heading, var/target_dir, var/max_angle)
+
+	var/target_heading = dir2angle(target_dir)
+	if(current_heading == target_heading)
+		return 0
+
+	//hardcode the expected values, until someone can work out a general solution
+	var/heading_change = 0
+	switch(target_dir)
+		if(NORTH)
+			if(current_heading < 180)
+				heading_change = -1
+			else
+				heading_change = 1
+		if(NORTHEAST)
+			if(current_heading > 225 || current_heading < 45)
+				heading_change = 1
+			else
+				heading_change = -1
+		if(EAST)
+			if(current_heading < 90 || current_heading > 270)
+				heading_change = 1
+			else
+				heading_change = -1
+		if(SOUTHEAST)
+			if(current_heading < 135 || current_heading > 315)
+				heading_change = 1
+			else
+				heading_change = -1
+		if(SOUTH)
+			if(current_heading < 180)
+				heading_change = 1
+			else
+				heading_change = -1
+		if(SOUTHWEST)
+			if(current_heading > 225 || current_heading < 45)
+				heading_change = -1
+			else
+				heading_change = 1
+		if(WEST)
+			if(current_heading < 90 || current_heading > 270)
+				heading_change = -1
+			else
+				heading_change = 1
+		if(NORTHWEST)
+			if(current_heading < 135 || current_heading > 315)
+				heading_change = -1
+			else
+				heading_change = 1
+
+	var/rotate_angle = 0
+	if(heading_change)
+
+		rotate_angle = heading_change * max_angle
+
+		//update the heading
+		var/new_heading = current_heading + rotate_angle
+		if(abs(target_heading - new_heading) < max_angle)
+			rotate_angle = target_heading - current_heading
+
+	return rotate_angle

@@ -12,6 +12,7 @@ var/datum/antagonist/insurrectionist/innies
 	welcome_text = "To speak on your group's private channel use :t."
 	flags = ANTAG_OVERRIDE_JOB | ANTAG_CLEAR_EQUIPMENT | ANTAG_CHOOSE_NAME | ANTAG_HAS_NUKE | ANTAG_HAS_LEADER
 	id_type = /obj/item/weapon/card/id/syndicate
+	default_access = list(access_insurrectionist)
 	antaghud_indicator = "hudinnie"
 
 	hard_cap = 4

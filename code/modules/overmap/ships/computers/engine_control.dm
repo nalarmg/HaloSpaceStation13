@@ -23,8 +23,9 @@
 		if ((E.zlevel in linked.ship_levels) && !(E in engines))
 			engines += E*/
 
-	for(var/level in linked.ship_levels)
-		testing("Z-level [level] is connected to this engine controller.")
+	if(linked)
+		for(var/level in linked.ship_levels)
+			testing("Z-level [level] is connected to this engine controller.")
 
 /obj/machinery/computer/engines/attack_hand(var/mob/user as mob)
 	if(..())

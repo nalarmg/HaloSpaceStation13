@@ -299,7 +299,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "SPACE+REP"
-		command = "ship-thrust"
+		command = "vehicle-thrust"
 		is-disabled = false
 	elem 
 		name = "NORTHEAST"
@@ -438,23 +438,39 @@ macro "macro"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
-		name = "NUMPAD2+REP"
+		name = "NUMPAD1+REP"
 		command = ".southwest"
 		is-disabled = false
 	elem 
-		name = "NUMPAD4+REP"
-		command = ".northwest"
+		name = "NUMPAD2+REP"
+		command = ".south"
 		is-disabled = false
 	elem 
-		name = "NUMPAD5+REP"
-		command = "ship-thrust"
-		is-disabled = false
-	elem 
-		name = "NUMPAD6+REP"
+		name = "NUMPAD3+REP"
 		command = ".southeast"
 		is-disabled = false
 	elem 
+		name = "NUMPAD4+REP"
+		command = ".west"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "vehicle-thrust-toggle"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6+REP"
+		command = ".east"
+		is-disabled = false
+	elem 
+		name = "NUMPAD7+REP"
+		command = ".northwest"
+		is-disabled = false
+	elem 
 		name = "NUMPAD8+REP"
+		command = ".north"
+		is-disabled = false
+	elem 
+		name = "NUMPAD9+REP"
 		command = ".northeast"
 		is-disabled = false
 	elem 

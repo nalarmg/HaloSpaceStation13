@@ -1,8 +1,10 @@
 
 /datum/controller/process/overmap/proc/overmap_spacetravel(var/turf/space/T, var/atom/movable/A)
 
-	//todo: make a complete list of stuff banned from travelling... most stuff can be just deleted (lost to deep space)
-	if(istype(A, /obj/effect))
+	//only let mobs and overmap vehicles change zlevel for now, everything else can get "lost" in space
+	if(!istype(A, /obj/machinery/overmap_vehicle) && !istype(A, /mob))
+		if(!istype(A, /obj/effect))
+			qdel(A)
 		return
 
 	var/obj/effect/overmapobj/current_obj = map_sectors["[T.z]"]
