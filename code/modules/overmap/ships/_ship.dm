@@ -57,7 +57,7 @@
 	/*if(data.landing_area)
 		shuttle_landing = locate(data.landing_area)*/*/
 
-/obj/effect/overmapobj/ship/initialize()
+/obj/effect/overmapobj/ship/New()
 	for(var/obj/machinery/computer/engines/E in machines)
 		if (E.z in ship_levels)
 			eng_control = E
