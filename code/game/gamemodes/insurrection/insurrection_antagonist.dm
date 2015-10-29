@@ -1,13 +1,13 @@
-var/datum/antagonist/insurrectionist/innies
 
 /datum/antagonist/insurrectionist
 	id = MODE_INNIE
-	role_type = BE_OPERATIVE
+	role_type = BE_INNIE
 	role_text = "Insurrectionist"
 	bantype = "operative"
 	antag_indicator = "innie"
 	role_text_plural = "Insurrectionists"
 	landmark_id = "Insurrectionist-Spawn"
+	welcome_text = "You are a member of the Insurrectionist forces, down with the UNSC! Use :t to speak to the rest of your rebels."
 	leader_welcome_text = "You are the leader of the Insurrectionist forces, down with the UNSC! Use :t to speak to your underlings."
 	welcome_text = "To speak on your group's private channel use :t."
 	flags = ANTAG_OVERRIDE_JOB | ANTAG_CLEAR_EQUIPMENT | ANTAG_CHOOSE_NAME | ANTAG_HAS_NUKE | ANTAG_HAS_LEADER
@@ -20,15 +20,12 @@ var/datum/antagonist/insurrectionist/innies
 	initial_spawn_req = 4
 	initial_spawn_target = 6
 
-/datum/antagonist/insurrectionist/New()
-	..()
-	innies = src
-
 /datum/antagonist/insurrectionist/create_global_objectives()
 	if(!..())
 		return 0
 	global_objectives = list()
-	global_objectives |= new /datum/objective/insurrection
+	global_objectives |= new /datum/objective/insurrection_nuke
+	global_objectives |= new /datum/objective/insurrection_capture
 	return 1
 
 /datum/antagonist/insurrectionist/equip(var/mob/living/carbon/human/player)
@@ -54,3 +51,14 @@ var/datum/antagonist/insurrectionist/innies
 	create_id("Insurrectionist", player)
 	create_radio(SYND_FREQ, player)
 	return 1
+
+//spawn some sympathisers among the crew
+/datum/antagonist/traitor/insurrectionist
+	id = MODE_INNIE_TRAITOR
+	welcome_text = "You are an Insurrection sympathiser! Work to undermine the crew, but don't reveal your true loyalties until the right moment."
+
+	//not too many
+	hard_cap = 2
+	hard_cap_round = 3
+	initial_spawn_req = 0
+	initial_spawn_target = 1

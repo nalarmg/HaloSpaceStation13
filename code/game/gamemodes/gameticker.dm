@@ -33,7 +33,11 @@ var/global/datum/controller/gameticker/ticker
 
 	var/round_end_announced = 0 // Spam Prevention. Announce round end only once.
 
+	var/list/gamemodes
+
 /datum/controller/gameticker/proc/pregame()
+	gamemodes = gamemode_cache
+
 	login_music = pick(\
 	/*'sound/music/halloween/skeletons.ogg',\
 	'sound/music/halloween/halloween.ogg',\
@@ -311,7 +315,7 @@ var/global/datum/controller/gameticker/ticker
 		var/game_finished = 0
 		var/mode_finished = 0
 		if (config.continous_rounds)
-			game_finished = (emergency_shuttle.returned() || mode.station_was_nuked)
+			game_finished = (emergency_shuttle.returned() || mode.nuked_zlevel)
 			mode_finished = (!post_game && mode.check_finished())
 		else
 			game_finished = (mode.check_finished() || (emergency_shuttle.returned() && emergency_shuttle.evac == 1)) || universe_has_ended
@@ -326,7 +330,7 @@ var/global/datum/controller/gameticker/ticker
 			spawn(50)
 				callHook("roundend")
 
-				if (mode.station_was_nuked)
+				if (mode.nuked_zlevel)
 					feedback_set_details("end_proper","nuke")
 					if(!delay_end)
 						world << "<span class='notice'><b>Rebooting due to destruction of station in [restart_timeout/10] seconds</b></span>"
@@ -358,7 +362,7 @@ var/global/datum/controller/gameticker/ticker
 				if(!round_end_announced) // Spam Prevention. Now it should announce only once.
 					world << "<span class='danger'>The round has ended!</span>"
 					round_end_announced = 1
-				vote.autotransfer()
+					vote.autotransfer()
 
 		return 1
 

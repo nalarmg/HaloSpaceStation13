@@ -773,6 +773,7 @@ default behaviour is:
 		return
 	..()
 
+/*
 /mob/living/touch_map_edge()
 
 	//check for nuke disks
@@ -792,6 +793,7 @@ default behaviour is:
 				return
 
 	..()
+*/
 
 //damage/heal the mob ears and adjust the deaf amount
 /mob/living/adjustEarDamage(var/damage, var/deaf)

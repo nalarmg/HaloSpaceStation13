@@ -175,7 +175,7 @@ var/list/gamemode_cache = list()
 	var/admin_irc = ""
 	var/python_path = "" //Path to the python executable.  Defaults to "python" on windows and "/usr/bin/env python2" on unix
 	var/use_lib_nudge = 0 //Use the C library nudge instead of the python nudge.
-	var/use_overmap = 0
+	var/use_overmap = 1
 
 	var/list/station_levels = list(1)				// Defines which Z-levels the station exists on.
 	var/list/admin_levels= list(2)					// Defines which Z-levels which are for admin functionality, for example including such areas as Central Command and the Syndicate Shuttle
@@ -623,7 +623,7 @@ var/list/gamemode_cache = list()
 					config.max_maint_drones = text2num(value)
 
 				if("use_overmap")
-					config.use_overmap = 1
+					config.use_overmap = text2num(value)
 
 				if("station_levels")
 					config.station_levels = text2numlist(value, ";")
