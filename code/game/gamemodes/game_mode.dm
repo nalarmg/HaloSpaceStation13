@@ -12,7 +12,8 @@ var/global/list/additional_antag_types = list()
 	var/required_players = 0                 // Minimum players for round to start if voted in.
 	var/required_enemies = 0                 // Minimum antagonists for round to start.
 	var/newscaster_announcements = null
-	var/end_on_antag_death = 0               // Round will end when all antagonists are dead.
+	var/end_on_antag_death = 1               // Round will end when all antagonists are dead.
+	var/end_on_protag_death = 1
 	var/antags_are_dead = 0
 	var/ert_disabled = 0                     // ERT cannot be called.
 	var/deny_respawn = 0	                 // Disable respawn during this round.
@@ -276,7 +277,7 @@ var/global/list/additional_antag_types = list()
 			emergency_shuttle.auto_recall = 0
 			return 0
 		return 1
-	if(protags_are_dead())
+	if(end_on_protag_death && protags_are_dead())
 		protags_are_dead = 1
 		return 1
 	return 0

@@ -2,17 +2,19 @@
 UNSC Insurrection roundtype
 */
 
-datum/objective/insurrection
-	explanation_text = "Capture the UNSC ship or destroy it with a nuclear device."
+datum/objective/insurrection_nuke
+	explanation_text = "Destroy the UNSC ship with a nuclear device."
+
+datum/objective/insurrection_capture
+	explanation_text = "Capture the UNSC ship by killing the crew."
 
 /datum/game_mode/insurrection
 	name = "Insurrection"
 	config_tag = "insurrection"
 	required_players = 0
-	required_enemies = 1
+	required_enemies = 0
 	round_description = "A UNSC ship has been dispatched to eliminate a secret Insurrection base. The insurrectionists are far from defenceless however..."
-	end_on_antag_death = 0
-	antag_tags = list(MODE_INNIE)
+	antag_tags = list(MODE_INNIE, MODE_INNIE_TRAITOR)
 
 	var/list/innie_base_paths = list('maps/innie_base1.dmm','maps/innie_base2.dmm')		//make sure these are in the order from top level -> bottom level
 	var/innie_base_discovered = 0
@@ -109,6 +111,8 @@ datum/objective/insurrection
 			//UNSC ship destroyed
 			innie_score += 2
 			result_text.Add("<span class='info'>- Insurrection operatives have destroyed the UNSC ship.</span>")
+			/*for(var/datum/objective/insurrection_nuke/O in global_objectives)
+				O.completed = 1*/
 		if(1)
 			//innie base destroyed
 			unsc_score += 2
@@ -123,6 +127,8 @@ datum/objective/insurrection
 		innie_score += 1
 		unsc_score -= 1
 		result_text.Add("<span class='info'>- The UNSC crew are all dead.</span>")
+		/*for(var/datum/objective/insurrection_capture/O in global_objectives)
+			O.completed = 1*/
 
 	//todo: score bonus if it was a short round
 
