@@ -256,9 +256,9 @@
 			y = TRANSITIONEDGE + 1
 			x = rand(TRANSITIONEDGE + 2, world.maxx - TRANSITIONEDGE - 2)
 
-		if(ticker && istype(ticker.mode, /datum/game_mode/insurrection)) //only really care if the game mode is insurrection
+		/*if(ticker && istype(ticker.mode, /datum/game_mode/insurrection)) //only really care if the game mode is insurrection
 			var/datum/game_mode/insurrection/G = ticker.mode
-			G.check_nuke_disks()
+			G.check_nuke_disks()*/
 
 		spawn(0)
 			if(loc) loc.Entered(src)
