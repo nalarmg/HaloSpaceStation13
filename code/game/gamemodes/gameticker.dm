@@ -33,7 +33,11 @@ var/global/datum/controller/gameticker/ticker
 
 	var/round_end_announced = 0 // Spam Prevention. Announce round end only once.
 
+	var/list/gamemodes
+
 /datum/controller/gameticker/proc/pregame()
+	gamemodes = gamemode_cache
+
 	login_music = pick(\
 	/*'sound/music/halloween/skeletons.ogg',\
 	'sound/music/halloween/halloween.ogg',\
@@ -358,7 +362,7 @@ var/global/datum/controller/gameticker/ticker
 				if(!round_end_announced) // Spam Prevention. Now it should announce only once.
 					world << "<span class='danger'>The round has ended!</span>"
 					round_end_announced = 1
-				vote.autotransfer()
+					vote.autotransfer()
 
 		return 1
 
