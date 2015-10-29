@@ -12,14 +12,14 @@ datum/objective/insurrection
 	required_enemies = 1
 	round_description = "A UNSC ship has been dispatched to eliminate a secret Insurrection base. The insurrectionists are far from defenceless however..."
 	end_on_antag_death = 0
-	var/nuke_off_station = 0 //Used for tracking if the innies actually haul the nuke to the ship
-	var/syndies_didnt_escape = 0 //Used for tracking if the innies got the shuttle away from the ship
 	antag_tags = list(MODE_INNIE)
 
-	var/list/innie_base_paths = list('maps/innie_base1.dmm','maps/innie_base2.dmm')		//make sure these are in the order from highest -> lowest
-
+	var/list/innie_base_paths = list('maps/innie_base1.dmm','maps/innie_base2.dmm')		//make sure these are in the order from top level -> bottom level
+	var/innie_base_discovered = 0
 	var/obj/effect/overmapobj/innie_base
+	var/nuke_result = -1
 
+/*
 //delete all nuke disks not on a station zlevel
 /datum/game_mode/insurrection/proc/check_nuke_disks()
 	for(var/obj/item/weapon/disk/nuclear/N in nuke_disks)
@@ -31,6 +31,7 @@ datum/objective/insurrection
 		if(N.storage_depth(L) >= 0)
 			return 1
 	return 0
+*/
 
 /datum/game_mode/insurrection/pre_setup()
 	//load Insurrection base zlevel
@@ -70,6 +71,22 @@ datum/objective/insurrection
 	return ..()
 	*/
 
+/datum/game_mode/insurrection/handle_nuke_explosion()
+	//todo: rework this proc
+	//0: station hit
+	//1: nuke near station
+	//2: nuke missed
+	//lets say option 1 for innie base blown up, option 2 for UNSC ship blown up
+	nuke_result = 2
+	if(nuked_zlevel)
+		if(overmap_controller.protagonist_home && nuked_zlevel in overmap_controller.protagonist_home.linked_zlevelinfos)
+			nuke_result = 0
+		else if(innie_base && nuked_zlevel in innie_base.linked_zlevelinfos)
+			nuke_result = 1
+
+	ticker.station_explosion_cinematic(nuke_result,null)
+	return 1
+
 /datum/game_mode/insurrection/declare_completion()
 	if(config.objectives_disabled)
 		return
@@ -83,61 +100,59 @@ datum/objective/insurrection
 	var/crew_evacuated = (emergency_shuttle.returned())
 	*/
 
-	if(station_was_nuked)
-		feedback_set_details("round_end_result","win - nuke detonated")
-		world << "<span class='h1'>Insurrectionist Victory!</span>"
-		world << "<span class='danger'>Insurrection operatives have destroyed the UNSC ship!</span>"
+	var/innie_score = 0
+	var/unsc_score = 0
+	var/list/result_text = list()
+
+	switch(nuke_result)
+		if(0)
+			//UNSC ship destroyed
+			innie_score += 2
+			result_text.Add("<span class='info'>- Insurrection operatives have destroyed the UNSC ship.</span>")
+		if(1)
+			//innie base destroyed
+			unsc_score += 2
+			result_text.Add("<span class='info'>- The UNSC have destroyed the Insurrection base.</span>")
+
+	if(antags_are_dead)
+		unsc_score += 1
+		innie_score -= 1
+		result_text.Add("<span class='info'>- The insurrectionists are all dead.</span>")
+
+	if(protags_are_dead)
+		innie_score += 1
+		unsc_score -= 1
+		result_text.Add("<span class='info'>- The UNSC crew are all dead.</span>")
+
+	//todo: score bonus if it was a short round
+
+	//work out who won
+	var/win_faction = ""
+	var/win_type = ""
+	var/winning_score = 0
+
+	if(unsc_score > innie_score)
+		winning_score = unsc_score
+		win_faction = "UNSC "
+	else if(innie_score > unsc_score)
+		winning_score = innie_score
+		win_faction = "Insurrection "
 	else
-		feedback_set_details("round_end_result","lose - UNSC ship survived")
-		world << "<span class='h1'>UNSC Victory!</span>"
-		world << "<span class='danger'>The UNSC ship has survived the counterattack by the Insurrection!</span>"
+		win_type = "Draw!"
 
-	/*
-	if(!disk_rescued &&  station_was_nuked && !syndies_didnt_escape)
-		feedback_set_details("round_end_result","win - syndicate nuke")
-		world << "<FONT size = 3><B>Mercenary Major Victory!</B></FONT>"
-		world << "<B>[syndicate_name()] operatives have destroyed [station_name()]!</B>"
+	if(winning_score >= 4)
+		win_type = "Supreme Victory!"
+	if(winning_score >= 3)
+		win_type = "Major Victory!"
+	if(winning_score >= 2)
+		win_type = "Moderate Victory!"
+	else
+		win_type = "Minor Victory!"
 
-	else if (!disk_rescued &&  station_was_nuked && syndies_didnt_escape)
-		feedback_set_details("round_end_result","halfwin - syndicate nuke - did not evacuate in time")
-		world << "<FONT size = 3><B>Total Annihilation</B></FONT>"
-		world << "<B>[syndicate_name()] operatives destroyed [station_name()] but did not leave the area in time and got caught in the explosion.</B> Next time, don't lose the disk!"
-
-	else if (!disk_rescued && !station_was_nuked &&  nuke_off_station && !syndies_didnt_escape)
-		feedback_set_details("round_end_result","halfwin - blew wrong station")
-		world << "<FONT size = 3><B>Crew Minor Victory</B></FONT>"
-		world << "<B>[syndicate_name()] operatives secured the authentication disk but blew up something that wasn't [station_name()].</B> Next time, don't lose the disk!"
-
-	else if (!disk_rescued && !station_was_nuked &&  nuke_off_station && syndies_didnt_escape)
-		feedback_set_details("round_end_result","halfwin - blew wrong station - did not evacuate in time")
-		world << "<FONT size = 3><B>[syndicate_name()] operatives have earned Darwin Award!</B></FONT>"
-		world << "<B>[syndicate_name()] operatives blew up something that wasn't [station_name()] and got caught in the explosion.</B> Next time, don't lose the disk!"
-
-	else if (disk_rescued && mercs.antags_are_dead())
-		feedback_set_details("round_end_result","loss - evacuation - disk secured - syndi team dead")
-		world << "<FONT size = 3><B>Crew Major Victory!</B></FONT>"
-		world << "<B>The Research Staff has saved the disc and killed the [syndicate_name()] Operatives</B>"
-
-	else if ( disk_rescued                                        )
-		feedback_set_details("round_end_result","loss - evacuation - disk secured")
-		world << "<FONT size = 3><B>Crew Major Victory</B></FONT>"
-		world << "<B>The Research Staff has saved the disc and stopped the [syndicate_name()] Operatives!</B>"
-
-	else if (!disk_rescued && mercs.antags_are_dead())
-		feedback_set_details("round_end_result","loss - evacuation - disk not secured")
-		world << "<FONT size = 3><B>Mercenary Minor Victory!</B></FONT>"
-		world << "<B>The Research Staff failed to secure the authentication disk but did manage to kill most of the [syndicate_name()] Operatives!</B>"
-
-	else if (!disk_rescued && crew_evacuated)
-		feedback_set_details("round_end_result","halfwin - detonation averted")
-		world << "<FONT size = 3><B>Mercenary Minor Victory!</B></FONT>"
-		world << "<B>[syndicate_name()] operatives recovered the abandoned authentication disk but detonation of [station_name()] was averted.</B> Next time, don't lose the disk!"
-
-	else if (!disk_rescued && !crew_evacuated)
-		feedback_set_details("round_end_result","halfwin - interrupted")
-		world << "<FONT size = 3><B>Neutral Victory</B></FONT>"
-		world << "<B>Round was mysteriously interrupted!</B>"
-	*/
+	feedback_set_details("round_end_result","[win_faction][win_type] - score: [winning_score]")
+	world << "<span class='h1'>[win_faction][win_type]</span>"
+	for(var/entry in result_text)
+		world << entry
 
 	..()
 	return

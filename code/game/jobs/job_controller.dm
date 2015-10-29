@@ -59,6 +59,7 @@ var/global/datum/controller/occupations/job_master
 				Debug("Player: [player] is now Rank: [rank], JCP:[job.current_positions], JPL:[position_limit]")
 				player.mind.assigned_role = rank
 				player.mind.role_alt_title = GetPlayerAltTitle(player, rank)
+				player.mind.faction_text = job.faction
 				unassigned -= player
 				job.current_positions++
 				return 1

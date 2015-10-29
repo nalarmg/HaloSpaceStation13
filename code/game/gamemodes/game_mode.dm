@@ -13,6 +13,7 @@ var/global/list/additional_antag_types = list()
 	var/required_enemies = 0                 // Minimum antagonists for round to start.
 	var/newscaster_announcements = null
 	var/end_on_antag_death = 0               // Round will end when all antagonists are dead.
+	var/antags_are_dead = 0
 	var/ert_disabled = 0                     // ERT cannot be called.
 	var/deny_respawn = 0	                 // Disable respawn during this round.
 
@@ -25,7 +26,11 @@ var/global/list/additional_antag_types = list()
 	var/antag_scaling_coeff = 5              // Coefficient for scaling max antagonists to player count.
 	var/require_all_templates = 0            // Will only start if all templates are checked and can spawn.
 
-	var/station_was_nuked = 0                // See nuclearbomb.dm and malfunction.dm.
+	var/obj/effect/zlevelinfo/nuked_zlevel
+	var/protagonist_faction = "Station"
+	var/list/protagonists = list()
+	var/protags_are_dead = 0
+
 	var/explosion_in_progress = 0            // Sit back and relax
 	var/waittime_l = 600                     // Lower bound on time before intercept arrives (in tenths of seconds)
 	var/waittime_h = 1800                    // Upper bound on time before intercept arrives (in tenths of seconds)
@@ -260,16 +265,28 @@ var/global/list/additional_antag_types = list()
 	command_announcement.Announce("The presence of [pick(reasons)] in the region is tying up all available local emergency resources; emergency response teams cannot be called at this time, and post-evacuation recovery efforts will be substantially delayed.","Emergency Transmission")
 
 /datum/game_mode/proc/check_finished()
-	if(emergency_shuttle.returned() || station_was_nuked)
+	if(emergency_shuttle.returned() || nuked_zlevel)
 		return 1
 	if(end_on_antag_death && antag_templates && antag_templates.len)
 		for(var/datum/antagonist/antag in antag_templates)
 			if(!antag.antags_are_dead())
 				return 0
+		antags_are_dead = 1
 		if(config.continous_rounds)
 			emergency_shuttle.auto_recall = 0
 			return 0
 		return 1
+	if(protags_are_dead())
+		protags_are_dead = 1
+		return 1
+	return 0
+
+/datum/game_mode/proc/protags_are_dead()
+	for(var/mob/living/L in protagonists)
+		if(L.stat == DEAD)
+			continue
+		return 1
+
 	return 0
 
 /datum/game_mode/proc/cleanup()	//This is called when the round has ended but not the game, if any cleanup would be necessary in that case.
@@ -605,3 +622,6 @@ proc/get_nt_opposed()
 	else
 		usr << "<i>Shhhh</i>. It's a secret."
 	return
+
+/datum/game_mode/proc/handle_nuke_explosion()
+	return 0

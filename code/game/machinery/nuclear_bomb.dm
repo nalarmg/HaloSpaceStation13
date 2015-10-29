@@ -1,5 +1,7 @@
 var/bomb_set
 
+var/list/nuke_disks = list()
+
 /obj/machinery/nuclearbomb
 	name = "\improper Nuclear Fission Explosive"
 	desc = "Uh oh. RUN!!!!"
@@ -378,6 +380,7 @@ obj/machinery/nuclearbomb/proc/nukehack_win(mob/user as mob)
 		ticker.mode.explosion_in_progress = 1
 	sleep(100)
 
+	/*
 	var/off_station = 0
 	var/turf/bomb_location = get_turf(src)
 	if(bomb_location && (bomb_location.z in config.station_levels))
@@ -385,21 +388,28 @@ obj/machinery/nuclearbomb/proc/nukehack_win(mob/user as mob)
 			off_station = 1
 	else
 		off_station = 2
+		*/
 
 	if(ticker)
+		/*
 		if(ticker.mode && (ticker.mode.name == "Mercenary" || ticker.mode.name == "Insurrection"))
 			var/obj/machinery/computer/shuttle_control/multi/syndicate/syndie_location = locate(/obj/machinery/computer/shuttle_control/multi/syndicate)
 			if(syndie_location)
 				ticker.mode:syndies_didnt_escape = (syndie_location.z > 1 ? 0 : 1)	//muskets will make me change this, but it will do for now
 			ticker.mode:nuke_off_station = off_station
-		ticker.station_explosion_cinematic(off_station,null)
+			*/
 		if(ticker.mode)
+			ticker.mode.nuked_zlevel = locate("zlevel[z]")
+			if(!ticker.mode.nuked_zlevel)
+				log_admin("Error: nuke detonated in unknown zlevel")
+			if(!ticker.mode.handle_nuke_explosion())
+				ticker.station_explosion_cinematic(1,null)		//generic space explosion
 			ticker.mode.explosion_in_progress = 0
+			/*
 			world << "<B>The station was destoyed by the nuclear blast!</B>"
-
 			ticker.mode.station_was_nuked = (off_station<2)	//offstation==1 is a draw. the station becomes irradiated and needs to be evacuated.
 															//kinda shit but I couldn't  get permission to do what I wanted to do.
-
+			*/
 			if(!ticker.mode.check_finished())//If the mode does not deal with the nuke going off so just reboot because everyone is stuck as is
 				world << "<B>Resetting in 30 seconds!</B>"
 
@@ -419,6 +429,7 @@ obj/machinery/nuclearbomb/proc/nukehack_win(mob/user as mob)
 
 /obj/item/weapon/disk/nuclear/Destroy()
 	nuke_disks -= src
+/*
 	if(!nuke_disks.len)
 		var/turf/T = pick_area_turf(/area/maintenance, list(/proc/is_station_turf, /proc/not_turf_contains_dense_objects))
 		if(T)
@@ -427,6 +438,9 @@ obj/machinery/nuclearbomb/proc/nukehack_win(mob/user as mob)
 		else
 			log_and_message_admins("[src], the last authentication disk, has been destroyed. Failed to respawn disc!")
 	..()
+*/
 
+/*
 /obj/item/weapon/disk/nuclear/touch_map_edge()
 	qdel(src)
+*/

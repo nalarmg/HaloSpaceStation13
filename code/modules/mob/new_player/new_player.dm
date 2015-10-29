@@ -434,6 +434,10 @@
 			mind.original = new_character
 			mind.transfer_to(new_character)					//won't transfer key since the mind is not active
 
+			//faction tracking for gamemode purposes
+			if(mind.faction_text == ticker.mode.protagonist_faction)
+				ticker.mode.protagonists.Add(new_character)
+
 		new_character.name = real_name
 		new_character.dna.ready_dna(new_character)
 		new_character.dna.b_type = client.prefs.b_type
