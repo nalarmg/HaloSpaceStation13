@@ -47,6 +47,9 @@ var/religion_name = null
 	return "Nyx"
 
 /proc/station_name()
+	if(overmap_controller.protagonist_home)
+		return overmap_controller.protagonist_home.name
+
 	if (station_name)
 		return station_name
 
