@@ -38,7 +38,6 @@
 /obj/item/clothing/under/unsc/cmo
 	desc = "standard issue command uniform, medical variant"
 	name = "CMO's uniform"
-	icon = 'code/modules/halo/icons/CMO Fancyman.dmi'
 	icon_state = "cmo_unsc_s"
 	item_state = "cmo_unsc_s"
 	worn_state = "cmo_unsc"
