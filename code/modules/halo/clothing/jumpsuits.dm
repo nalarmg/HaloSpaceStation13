@@ -5,7 +5,7 @@
 	worn_state = "unscgrey"
 
 /obj/item/clothing/under/unsc/highcom //this is intended for admin usage only!
-	desc = "an ornate uniform, composed of carbon nanofiber, bearing the rank insignia of Commander, UNSC"
+	desc = "an ornate uniform, composed of carbon nanofiber, bearing the rank insignia of Fleet Admiral"
 	name = "high command uniform"
 	icon_state = "centcom_s"
 	item_state = "centcom_s"
