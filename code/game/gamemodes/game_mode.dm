@@ -266,23 +266,35 @@ var/global/list/additional_antag_types = list()
 	command_announcement.Announce("The presence of [pick(reasons)] in the region is tying up all available local emergency resources; emergency response teams cannot be called at this time, and post-evacuation recovery efforts will be substantially delayed.","Emergency Transmission")
 
 /datum/game_mode/proc/check_finished()
+
+	//check if protagonists or antagonists are dead first, to assist with victory conditions
+	if(!antags_are_dead)
+		antags_are_dead = 1
+		if(antag_templates && antag_templates.len)
+			for(var/datum/antagonist/antag in antag_templates)
+				if(!antag.antags_are_dead())
+					antags_are_dead = 0
+					break
+		else
+			world << "<span class='danger'>Warning: Unable to detect any antagonists. The gamemode may end early.</span>"
+
+	if(!protags_are_dead)
+		protags_are_dead = protags_are_dead()
+
+	if( (end_on_antag_death && antags_are_dead) || (end_on_protag_death && protags_are_dead) )
+		return 1
+
 	if(emergency_shuttle.returned() || nuked_zlevel)
 		return 1
-	if(end_on_antag_death && antag_templates && antag_templates.len)
-		for(var/datum/antagonist/antag in antag_templates)
-			if(!antag.antags_are_dead())
-				return 0
-		antags_are_dead = 1
-		if(config.continous_rounds)
-			emergency_shuttle.auto_recall = 0
-			return 0
-		return 1
-	if(end_on_protag_death && protags_are_dead())
-		protags_are_dead = 1
-		return 1
+
 	return 0
 
 /datum/game_mode/proc/protags_are_dead()
+	if(!protagonists || !protagonists.len)
+		world << "<span class='danger'>Error: unable to detect any protagonists. Gamemode will probably end early. \
+		To disable this set var/end_on_protag_death = 0 in the gamemode.</span>"
+		return 1
+
 	for(var/mob/living/L in protagonists)
 		if(L.stat == DEAD)
 			continue

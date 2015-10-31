@@ -5,12 +5,12 @@
 	role_text = "Insurrectionist"
 	bantype = "operative"
 	antag_indicator = "innie"
-	role_text_plural = "Insurrectionists"
+	role_text_plural = "Insurrectionist"
 	landmark_id = "Insurrectionist-Spawn"
 	welcome_text = "You are a member of the Insurrectionist forces, down with the UNSC! Use :t to speak to the rest of your rebels."
 	leader_welcome_text = "You are the leader of the Insurrectionist forces, down with the UNSC! Use :t to speak to your underlings."
 	welcome_text = "To speak on your group's private channel use :t."
-	flags = ANTAG_OVERRIDE_JOB | ANTAG_CLEAR_EQUIPMENT | ANTAG_CHOOSE_NAME | ANTAG_HAS_NUKE | ANTAG_HAS_LEADER
+	flags = ANTAG_OVERRIDE_JOB | ANTAG_CLEAR_EQUIPMENT | ANTAG_CHOOSE_NAME | ANTAG_HAS_LEADER
 	id_type = /obj/item/weapon/card/id/syndicate
 	default_access = list(access_insurrectionist)
 	antaghud_indicator = "hudinnie"
@@ -23,9 +23,8 @@
 /datum/antagonist/insurrectionist/create_global_objectives()
 	if(!..())
 		return 0
-	global_objectives = list()
-	global_objectives |= new /datum/objective/insurrection_nuke
-	global_objectives |= new /datum/objective/insurrection_capture
+
+	global_objectives |= insurrection_objectives
 	return 1
 
 /datum/antagonist/insurrectionist/equip(var/mob/living/carbon/human/player)
@@ -62,3 +61,10 @@
 	hard_cap_round = 3
 	initial_spawn_req = 0
 	initial_spawn_target = 1
+
+/datum/antagonist/traitor/insurrectionist/create_global_objectives()
+	if(!..())
+		return 0
+
+	global_objectives |= insurrection_objectives
+	return 1
