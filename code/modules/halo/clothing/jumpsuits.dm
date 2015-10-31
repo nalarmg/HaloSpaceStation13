@@ -39,9 +39,9 @@
 	desc = "standard issue command uniform, medical variant"
 	name = "CMO's uniform"
 	icon = 'code/modules/halo/icons/CMO Fancyman.dmi'
-	icon_state = "cmo-unsc_s"
-	item_state = "cmo-unsc_s"
-	worn_state = "cmo-unsc"
+	icon_state = "cmo_unsc_s"
+	item_state = "cmo_unsc_s"
+	worn_state = "cmo_unsc"
 
 /obj/item/clothing/under/unsc/engineering
 	desc = "standard issue engineering uniform"
@@ -104,12 +104,10 @@
 
 //Marine Gear\\
 
-/obj/item/clothing/under/unsc/marine
-	icon = 'code/modules/halo/icons/item_marine.dmi'
-
-/obj/item/clothing/under/unsc/marine/fatigues
+/obj/item/clothing/under/unsc/marine_fatigues
 	desc = "standard issue for UNSC marines"
 	name = "UNSC Marine fatigues"
+	icon = 'code/modules/halo/icons/item_marine.dmi'
 	icon_state = "uniform"
 	item_state = "uniform"
-	worn_state = "jumpsuit-marine"
+	worn_state = "jumpsuit_marine"
