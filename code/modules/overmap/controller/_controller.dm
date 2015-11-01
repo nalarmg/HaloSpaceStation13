@@ -23,6 +23,9 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 
 	var/list/trash_zlevels = list()
 
+	var/obj/effect/starsystem/current_starsystem
+	var/list/all_starsystems = list()
+
 /datum/controller/process/overmap/doWork()
 	//see temporary_sector.dm
 	process_temp_sectors()

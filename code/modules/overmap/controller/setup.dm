@@ -62,6 +62,13 @@ datum/controller/process/overmap/setup()
 	for(var/obj/effect/overmapobj/ship/S in world)
 		S.update_spaceturfs()
 
+	current_starsystem = new()
+	current_starsystem.name = "Nyx"
+	all_starsystems.Add(current_starsystem)
+
+	world << "<span class='danger'>Populating asteroid fields...</span>"
+	current_starsystem.generate_asteroid_fields()
+
 	/*for(var/x in 1 to 3)
 		load_prepared_sector("Meteor Shower", "MeteorShower[x]")*/
 
