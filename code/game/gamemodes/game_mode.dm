@@ -275,7 +275,7 @@ var/global/list/additional_antag_types = list()
 				if(!antag.antags_are_dead())
 					antags_are_dead = 0
 					break
-		else
+		if(end_on_antag_death && antags_are_dead)
 			world << "<span class='danger'>Warning: Unable to detect any antagonists. The gamemode may end early.</span>"
 
 	if(!protags_are_dead)
