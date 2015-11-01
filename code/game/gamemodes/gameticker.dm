@@ -39,14 +39,12 @@ var/global/datum/controller/gameticker/ticker
 	gamemodes = gamemode_cache
 
 	login_music = pick(\
-	/*'sound/music/halloween/skeletons.ogg',\
-	'sound/music/halloween/halloween.ogg',\
-	'sound/music/halloween/ghosts.ogg'*/
-	'sound/music/space.ogg',\
-	'sound/music/traitor.ogg',\
-	'sound/music/title2.ogg',\
-	'sound/music/clouds.s3m',\
-	'sound/music/space_oddity.ogg') //Ground Control to Major Tom, this song is cool, what's going on?
+	'sound/music/Halo 2 Anniversary OST - A Spartan Rises.ogg',\
+	'sound/music/Halo 3- never forget.ogg',\
+	'sound/music/Halo 3-One Final Effort.ogg',\
+	'sound/music/Halo Reach OST - Overture.ogg',\
+	'sound/music/SecondPrelude.ogg')
+
 	do
 		pregame_timeleft = 180
 		world << "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>"
@@ -101,7 +99,7 @@ var/global/datum/controller/gameticker/ticker
 	job_master.DivideOccupations() // Apparently important for new antagonist system to register specific job antags properly.
 
 	if(!src.mode.can_start())
-		world << "<B>Unable to start [mode.name].</B> Not enough players, [mode.required_players] players needed. Reverting to pre-game lobby."
+		world << "<B>Unable to start [mode.name].</B> [mode.required_players] players are required for this gamemode. Reverting to pre-game lobby."
 		current_state = GAME_STATE_PREGAME
 		mode.fail_setup()
 		mode = null
@@ -312,7 +310,8 @@ var/global/datum/controller/gameticker/ticker
 
 //		emergency_shuttle.process() //handled in scheduler
 
-		var/game_finished = 0
+		var/game_finished = mode.check_finished() || emergency_shuttle.returned() || universe_has_ended
+		/*
 		var/mode_finished = 0
 		if (config.continous_rounds)
 			game_finished = (emergency_shuttle.returned() || mode.nuked_zlevel)
@@ -320,20 +319,19 @@ var/global/datum/controller/gameticker/ticker
 		else
 			game_finished = (mode.check_finished() || (emergency_shuttle.returned() && emergency_shuttle.evac == 1)) || universe_has_ended
 			mode_finished = game_finished
-
-		if(!mode.explosion_in_progress && game_finished && (mode_finished || post_game))
+		*/
+		if(!mode.explosion_in_progress && game_finished)
 			current_state = GAME_STATE_FINISHED
 
 			spawn
-				declare_completion()
-
-			spawn(50)
 				callHook("roundend")
+
+				declare_completion()
 
 				if (mode.nuked_zlevel)
 					feedback_set_details("end_proper","nuke")
 					if(!delay_end)
-						world << "<span class='notice'><b>Rebooting due to destruction of station in [restart_timeout/10] seconds</b></span>"
+						world << "<span class='notice'><b>Rebooting due to detonation of nuclear device in [restart_timeout/10] seconds</b></span>"
 				else
 					feedback_set_details("end_proper","proper completion")
 					if(!delay_end)
@@ -352,6 +350,7 @@ var/global/datum/controller/gameticker/ticker
 				else
 					world << "<span class='notice'><b>An admin has delayed the round end</b></span>"
 
+		/*
 		else if (mode_finished)
 			post_game = 1
 
@@ -363,6 +362,7 @@ var/global/datum/controller/gameticker/ticker
 					world << "<span class='danger'>The round has ended!</span>"
 					round_end_announced = 1
 					vote.autotransfer()
+					*/
 
 		return 1
 
@@ -371,18 +371,25 @@ var/global/datum/controller/gameticker/ticker
 	for(var/mob/Player in player_list)
 		if(Player.mind && !isnewplayer(Player))
 			if(Player.stat != DEAD)
-				var/turf/playerTurf = get_turf(Player)
-				if(emergency_shuttle.departed && emergency_shuttle.evac)
-					if(isNotAdminLevel(playerTurf.z))
-						Player << "<font color='blue'><b>You managed to survive, but were marooned on [station_name()] as [Player.real_name]...</b></font>"
-					else
-						Player << "<font color='green'><b>You managed to survive the events on [station_name()] as [Player.real_name].</b></font>"
-				else if(isAdminLevel(playerTurf.z))
-					Player << "<font color='green'><b>You successfully underwent crew transfer after events on [station_name()] as [Player.real_name].</b></font>"
+				//todo: check if we made it onto the evac ship
+				//var/turf/playerTurf = get_turf(Player)
+				//var/obj/effect/zlevelinfo/current_zlevel = locate("zlevel[Player.z]")
+				var/obj/effect/overmapobj/current_obj = map_sectors["[Player.z]"]
+				var/played_evacuated = 0
+				//if(emergency_shuttle.departed && emergency_shuttle.evac)
+				if(played_evacuated)
+					Player << "<font color='green'><b>You managed to survive the events on [station_name()] as [Player.real_name].</b></font>"
 				else if(issilicon(Player))
+					//todo: the AI needs to be retrieved or destroyed in the event of evacuation
 					Player << "<font color='green'><b>You remain operational after the events on [station_name()] as [Player.real_name].</b></font>"
+				else if(current_obj)
+					Player << "<font color='blue'><b>You managed to survive, but were marooned in [current_obj.name] as [Player.real_name]...</b></font>"
+				/*else if(isAdminLevel(playerTurf.z))
+					Player << "<font color='green'><b>You successfully underwent crew transfer after events on [station_name()] as [Player.real_name].</b></font>"*/
+				/*else
+					Player << "<font color='blue'><b>You missed the crew transfer after the events on [station_name()] as [Player.real_name].</b></font>"*/
 				else
-					Player << "<font color='blue'><b>You missed the crew transfer after the events on [station_name()] as [Player.real_name].</b></font>"
+					Player << "<font color='blue'><b>You managed to survive, but were marooned in Deep Space as [Player.real_name]...</b></font>"
 			else
 				if(istype(Player,/mob/dead/observer))
 					var/mob/dead/observer/O = Player
