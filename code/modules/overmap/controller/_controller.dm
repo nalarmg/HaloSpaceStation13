@@ -21,6 +21,21 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 	var/protagonist_faction = "UNSC"
 	var/galaxy_travel_enabled = 0
 
+	var/list/trash_zlevels = list()
+
+	var/obj/effect/starsystem/current_starsystem
+	var/list/all_starsystems = list()
+
 /datum/controller/process/overmap/doWork()
 	//see temporary_sector.dm
 	process_temp_sectors()
+
+//just a placeholder proc for now. eventually have the mapunloader run over these levels to turn them back to empty space
+//then add them to the list to be reused
+/datum/controller/process/overmap/proc/recycle_omapobj(var/obj/effect/overmapobj/trash)
+	for(var/obj/effect/zlevelinfo/trashlevel in trash.linked_zlevelinfos)
+		trash_zlevels.Add(trashlevel)
+	qdel(trash)
+
+/datum/controller/process/overmap/proc/recycle_zlevel(var/obj/effect/zlevelinfo/trashlevel)
+	trash_zlevels.Add(trashlevel)

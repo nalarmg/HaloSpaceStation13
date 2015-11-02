@@ -3,7 +3,7 @@
 
 /obj/effect/overmapobj/temporary_sector
 	name = "Deep Space"
-	icon_state = ""
+	icon_state = "blank"
 	always_known = 0
 	var/map_z
 

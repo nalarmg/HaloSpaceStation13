@@ -66,7 +66,6 @@
 		if (H.z in ship_levels)
 			nav_control = H
 			break*/
-	processing_objects.Add(src)
 
 	vehicle_transform = init_vehicle_transform(src)
 	vehicle_transform.max_pixel_speed = max_pixel_speed

@@ -2,24 +2,34 @@
 UNSC Insurrection roundtype
 */
 
-datum/objective/insurrection_nuke
-	explanation_text = "Destroy the UNSC ship with a nuclear device."
+//in order to preload an innie base, place this on the map
+/obj/effect/overmapobj/innie_base
 
-datum/objective/insurrection_capture
-	explanation_text = "Capture the UNSC ship by killing the crew."
+var/obj/effect/overmapobj/innie_base
+var/list/insurrection_objectives = list()
+
+datum/objective/insurrection_killcrew
+	explanation_text = "Kill the crew of the UNSC ship."
+
+datum/objective/insurrection_nuke
+	explanation_text = "Destroy the UNSC ship with its own nuke if capture is impossible."
 
 /datum/game_mode/insurrection
 	name = "Insurrection"
 	config_tag = "insurrection"
 	required_players = 0
 	required_enemies = 0
+	end_on_antag_death = 0
+	end_on_protag_death = 0
 	round_description = "A UNSC ship has been dispatched to eliminate a secret Insurrection base. The insurrectionists are far from defenceless however..."
 	antag_tags = list(MODE_INNIE, MODE_INNIE_TRAITOR)
 
 	var/list/innie_base_paths = list('maps/innie_base1.dmm','maps/innie_base2.dmm')		//make sure these are in the order from top level -> bottom level
 	var/innie_base_discovered = 0
-	var/obj/effect/overmapobj/innie_base
 	var/nuke_result = -1
+	var/minutes_to_detect_innie_base = 15
+	var/time_autofind_innie_base = 0
+	var/announced_innie_base_loc = 0
 
 /*
 //delete all nuke disks not on a station zlevel
@@ -37,32 +47,103 @@ datum/objective/insurrection_capture
 
 /datum/game_mode/insurrection/pre_setup()
 	//load Insurrection base zlevel
-	for(var/level_path in innie_base_paths)
+	if(!innie_base)
+		//this is advanced mode: just assume the overmapobj has already been setup with everything it needs
+		innie_base = locate(/obj/effect/overmapobj/innie_base)
 
-		var/obj/effect/overmapobj/loaded_obj = overmap_controller.load_premade_map(level_path, innie_base)
+	if(!innie_base)
+		//automatically load the map from file and prepare it for the round
+		world << "<span class='danger'>Loading Insurrectionist base...</span>"
+		for(var/level_path in innie_base_paths)
+
+			var/obj/effect/overmapobj/loaded_obj = overmap_controller.load_premade_map(level_path, innie_base)
+			if(innie_base)
+				innie_base.linked_zlevelinfos.Add(loaded_obj.linked_zlevelinfos)
+				qdel(loaded_obj)
+			else
+				innie_base = loaded_obj
+
 		if(innie_base)
-			innie_base.linked_zlevelinfos.Add(loaded_obj.linked_zlevelinfos)
-			qdel(loaded_obj)
-		else
-			innie_base = loaded_obj
+			innie_base.name = "Insurrection Asteroid Base"
+			innie_base.tag = "Insurrection Asteroid Base"
+			innie_base.icon = 'sector_icons.dmi'
+			innie_base.icon_state = "listening_post"
+			overmap_controller.antagonist_home = innie_base
+
+			//link all the levels together
+			for(var/obj/effect/zlevelinfo/data in innie_base.linked_zlevelinfos)
+				data.name = innie_base.tag
+
+			//grab a rantom antag datum and reload the antagonist spawn locations
+			//this is a really odd way of doing things
+			var/datum/antagonist/antagonist = antag_templates[1]
+			antagonist.get_starting_locations()
+			world << "<span class='danger'>Done.</span>"
 
 	if(innie_base)
-		innie_base.name = "Insurrection Asteroid Base"
-		innie_base.tag = "Insurrection Asteroid Base"
-		innie_base.icon = 'sector_icons.dmi'
-		innie_base.icon_state = "listening_post"
-		overmap_controller.antagonist_home = innie_base
+		insurrection_objectives = list()
+		insurrection_objectives |= new /datum/objective/insurrection_killcrew
+		insurrection_objectives |= new /datum/objective/insurrection_nuke
 
-		//link all the levels together
-		for(var/obj/effect/zlevelinfo/data in innie_base.linked_zlevelinfos)
-			data.name = innie_base.tag
-
-		//grab a rantom antag datum and reload the antagonist spawn locations
-		//this is a really odd way of doing things
-		var/datum/antagonist/antagonist = antag_templates[1]
-		antagonist.get_starting_locations()
+	else
+		world << "<span class='danger'>Could not load Insurrectionist base!</span>"
+		return 0
 
 	return ..()
+
+/datum/game_mode/insurrection/post_setup()
+	time_autofind_innie_base = world.time + minutes_to_detect_innie_base * 60 * 10
+	return ..()
+
+/datum/game_mode/insurrection/process()
+	if(world.time > time_autofind_innie_base && !announced_innie_base_loc)
+		announced_innie_base_loc = 1
+
+		if(innie_base)
+			var/report_text = "<FONT size = 3><B>ONI Intelligence Report:</B> Mission critical status update:</FONT><HR>"
+			report_text += "Radio listening stations in your sector have managed to triangulate the location of \
+			the Insurrection base you are hunting for in a nearby asteroid field.<br>"
+			report_text += "<BR>"
+			report_text += "The coordinates of the hidden Insurrection asteroid base are: <B>[innie_base.x],[innie_base.y]</B><br>"
+			report_text += "<BR>"
+
+			report_text += "Good luck on your mission, <i>[station_name()]</i>. \
+			Remember we've got a stealth prowler on standby for retrieval if everything goes [pick("belly up","pear shaped","to hell")].<br>"
+
+			for (var/obj/machinery/computer/communications/comm in machines)
+				if (!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept)
+					var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
+					intercept.name = "ONI Intelligence Report"
+					intercept.info = report_text
+
+					comm.messagetitle.Add("ONI Intelligence Report")
+					comm.messagetext.Add(report_text)
+			world << sound('sound/AI/commandreport.ogg')
+
+	..()
+
+/datum/game_mode/insurrection/handle_nuke_explosion()
+	//todo: rework this proc
+	//0: station hit (protagonist/unsc ship)
+	//1: nuke near station (insurrection base)
+	//2: nuke missed
+	//lets say option 1 for innie base blown up, option 2 for UNSC ship blown up
+	nuke_result = 2
+	if(nuked_zlevel)
+		if(overmap_controller.protagonist_home && nuked_zlevel in overmap_controller.protagonist_home.linked_zlevelinfos)
+			nuke_result = 0
+		if(innie_base && nuked_zlevel in innie_base.linked_zlevelinfos)
+			nuke_result = 1
+
+	ticker.station_explosion_cinematic(nuke_result,null)
+	return 1
+
+/datum/game_mode/insurrection/check_finished()
+	. = ..()
+
+	if(protags_are_dead)
+		for(var/datum/objective/insurrection_killcrew/killcrew in insurrection_objectives)
+			killcrew.completed = 1
 
 /*
 /datum/game_mode/insurrection/can_start()
@@ -73,34 +154,9 @@ datum/objective/insurrection_capture
 	return ..()
 	*/
 
-/datum/game_mode/insurrection/handle_nuke_explosion()
-	//todo: rework this proc
-	//0: station hit
-	//1: nuke near station
-	//2: nuke missed
-	//lets say option 1 for innie base blown up, option 2 for UNSC ship blown up
-	nuke_result = 2
-	if(nuked_zlevel)
-		if(overmap_controller.protagonist_home && nuked_zlevel in overmap_controller.protagonist_home.linked_zlevelinfos)
-			nuke_result = 0
-		else if(innie_base && nuked_zlevel in innie_base.linked_zlevelinfos)
-			nuke_result = 1
-
-	ticker.station_explosion_cinematic(nuke_result,null)
-	return 1
-
 /datum/game_mode/insurrection/declare_completion()
 	if(config.objectives_disabled)
 		return
-	/*
-	var/disk_rescued = 1
-	for(var/obj/item/weapon/disk/nuclear/D in world)
-		var/disk_area = get_area(D)
-		if(!is_type_in_list(disk_area, centcom_areas))
-			disk_rescued = 0
-			break
-	var/crew_evacuated = (emergency_shuttle.returned())
-	*/
 
 	var/innie_score = 0
 	var/unsc_score = 0
@@ -110,23 +166,27 @@ datum/objective/insurrection_capture
 		if(0)
 			//UNSC ship destroyed
 			innie_score += 2
-			result_text.Add("<span class='info'>- Insurrection operatives have destroyed the UNSC ship.</span>")
-			/*for(var/datum/objective/insurrection_nuke/O in global_objectives)
-				O.completed = 1*/
+			unsc_score -= 2
+			result_text.Add("<span class='rose'>- Insurrection operatives have destroyed the UNSC ship (2 pts).</span>")
+
+			for(var/datum/objective/insurrection_nuke/nuke in insurrection_objectives)
+				nuke.completed = 1
+
 		if(1)
 			//innie base destroyed
 			unsc_score += 2
-			result_text.Add("<span class='info'>- The UNSC have destroyed the Insurrection base.</span>")
+			innie_score -= 2
+			result_text.Add("<span class='khaki'>- The UNSC have destroyed the Insurrection base (2 pts).</span>")
 
 	if(antags_are_dead)
 		unsc_score += 1
 		innie_score -= 1
-		result_text.Add("<span class='info'>- The insurrectionists are all dead.</span>")
+		result_text.Add("<span class='khaki'>- The insurrectionists are all dead (1 pt).</span>")
 
 	if(protags_are_dead)
 		innie_score += 1
 		unsc_score -= 1
-		result_text.Add("<span class='info'>- The UNSC crew are all dead.</span>")
+		result_text.Add("<span class='rose'>- The UNSC crew are all dead (1 pt).</span>")
 		/*for(var/datum/objective/insurrection_capture/O in global_objectives)
 			O.completed = 1*/
 
@@ -148,17 +208,22 @@ datum/objective/insurrection_capture
 
 	if(winning_score >= 4)
 		win_type = "Supreme Victory!"
-	if(winning_score >= 3)
+	else if(winning_score >= 3)
 		win_type = "Major Victory!"
-	if(winning_score >= 2)
+	else if(winning_score >= 2)
 		win_type = "Moderate Victory!"
 	else
 		win_type = "Minor Victory!"
 
 	feedback_set_details("round_end_result","[win_faction][win_type] - score: [winning_score]")
-	world << "<span class='h1'>[win_faction][win_type]</span>"
+	world << "<span class='info'>UNSC score: [unsc_score] points, Insurrection score: [innie_score] points</span>"
+	world << "<span class='infobold'>Result is: [win_faction][win_type]</span>"
 	for(var/entry in result_text)
 		world << entry
+
+	//get rid of the innie base
+	overmap_controller.recycle_omapobj(innie_base)
+	innie_base = null
 
 	..()
 	return

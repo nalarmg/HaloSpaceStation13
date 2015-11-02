@@ -16,7 +16,20 @@
 	var/list/obj_turfs = list()
 	var/list/linked_zlevelinfos = list()
 
+	var/in_meteor_sector = 0
+
 	var/initialised = 0
+
+/obj/effect/overmapobj/proc/start_meteors()
+	if(!in_meteor_sector)
+		processing_objects += src
+		in_meteor_sector = 1
+
+/obj/effect/overmapobj/proc/stop_meteors()
+	if(in_meteor_sector)
+		processing_objects -= src
+		in_meteor_sector = 0
+		time_next_meteor = world.time
 
 /*
 /obj/effect/overmapobj/New(var/obj/effect/zlevelinfo/data)
