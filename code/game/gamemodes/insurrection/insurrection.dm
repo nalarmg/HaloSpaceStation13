@@ -2,17 +2,11 @@
 UNSC Insurrection roundtype
 */
 
+//the unique loaded insurrection base
+var/obj/effect/overmapobj/innie_base
+
 //in order to preload an innie base, place this on the map
 /obj/effect/overmapobj/innie_base
-
-var/obj/effect/overmapobj/innie_base
-var/list/insurrection_objectives = list()
-
-datum/objective/insurrection_killcrew
-	explanation_text = "Kill the crew of the UNSC ship."
-
-datum/objective/insurrection_nuke
-	explanation_text = "Destroy the UNSC ship with its own nuke if capture is impossible."
 
 /datum/game_mode/insurrection
 	name = "Insurrection"
@@ -23,6 +17,7 @@ datum/objective/insurrection_nuke
 	end_on_protag_death = 0
 	round_description = "A UNSC ship has been dispatched to eliminate a secret Insurrection base. The insurrectionists are far from defenceless however..."
 	antag_tags = list(MODE_INNIE, MODE_INNIE_TRAITOR)
+	hub_descriptions = list("putting down the Insurrection", "securing a hidden rebel base", "pacifying the outer colonies")
 
 	var/list/innie_base_paths = list('maps/innie_base1.dmm','maps/innie_base2.dmm')		//make sure these are in the order from top level -> bottom level
 	var/innie_base_discovered = 0
@@ -93,6 +88,7 @@ datum/objective/insurrection_nuke
 
 /datum/game_mode/insurrection/post_setup()
 	time_autofind_innie_base = world.time + minutes_to_detect_innie_base * 60 * 10
+	overmap_controller.current_starsystem.name = pick(insurrection_systems)
 	return ..()
 
 /datum/game_mode/insurrection/process()

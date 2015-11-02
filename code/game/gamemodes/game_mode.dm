@@ -38,6 +38,7 @@ var/global/list/additional_antag_types = list()
 
 	var/event_delay_mod_moderate             // Modifies the timing of random events.
 	var/event_delay_mod_major                // As above.
+	var/list/hub_descriptions = list()       // Picks a random fun flavour text about the current round to display on the hub
 
 /datum/game_mode/New()
 	..()
