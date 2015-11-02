@@ -5,6 +5,7 @@
 	icon = 'icons/obj/meteor.dmi'
 	icon_state = "large"
 	opacity = 1
+	var/datum/asteroidfield/owner
 
 /obj/effect/overmapobj/bigasteroid/New()
 	if(prob(50))
@@ -19,6 +20,7 @@
 	icon_state = "dust"
 	desc = "A load of rocky debris unpredictably bouncing off each other. Probably a bad idea to linger nearby."
 	opacity = 1
+	var/datum/asteroidfield/owner
 
 /obj/effect/overmapobj/asteroidsector/Crossed(atom/movable/O)
 	if(istype(O, /obj/effect/overmapobj))
@@ -63,6 +65,7 @@
 		var/chance = 40 * (1 - (cur_dist / max_dist))
 		if(prob(chance))
 			var/obj/effect/overmapobj/asteroidsector/newsector = new(current_turf)
+			newsector.owner = src
 			fieldsectors.Add(newsector)
 
 		//grab adjacent turfs for the next process loop
@@ -71,13 +74,14 @@
 				turfs_to_process.Add(T)*/
 
 	var/num_big_asteroids = pick(3,4)		//can't have too many, each is a separate zlevel
-	while(num_big_asteroids > 0)
+	while(num_big_asteroids > 0 && fieldsectors.len > 0)
 		num_big_asteroids -= 1
 		var/obj/effect/overmapobj/asteroidsector/spawn_sector = pick(fieldsectors)
 		fieldsectors -= spawn_sector
 
 		var/obj/effect/overmapobj/bigasteroid/new_asteroid = new(spawn_sector.loc)
 		big_asteroids.Add(new_asteroid)
+		new_asteroid.owner = src
 
 		qdel(spawn_sector)
 
