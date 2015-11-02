@@ -161,6 +161,8 @@ var/global/datum/controller/gameticker/ticker
 	if(config.sql_enabled)
 		statistic_cycle() // Polls population totals regularly and stores them in an SQL DB -- TLE
 
+	world.update_status()
+
 	return 1
 
 /datum/controller/gameticker

@@ -13,7 +13,9 @@
 				break
 
 	if(overmap_controller.protagonist_home)
-		world << "<span class='info'>Protagonist home is [overmap_controller.protagonist_home]</span>"
+		log_debug("Protagonist home is [overmap_controller.protagonist_home]")
+		station_name = overmap_controller.protagonist_home.name
+		station_short = station_name
 	else
 		world << "<span class='warning'>Unable to locate protagonist home!</span>"
 

@@ -44,7 +44,8 @@ var/religion_name = null
 	return capitalize(name)
 
 /proc/system_name()
-	return "Nyx"
+	if(overmap_controller.current_starsystem)
+		return overmap_controller.current_starsystem.name
 
 /proc/station_name()
 	if(overmap_controller.protagonist_home)
@@ -229,3 +230,8 @@ var/syndicate_code_response//Code response for traitors.
 			code_phrase += ", "
 
 	return code_phrase
+
+/proc/round_description()
+	. = ""
+	if(ticker && master_mode != "secret" && ticker.mode && ticker.mode.hub_descriptions && ticker.mode.hub_descriptions.len)
+		return pick(ticker.mode.hub_descriptions)

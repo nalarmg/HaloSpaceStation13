@@ -1,10 +1,13 @@
+
 var/list/available_quadrants = list()
 
 /obj/effect/starsystem
-	name = "Undefined starsystem"
 	var/list/static_objs = list()
 	var/list/ships = list()
 	var/list/asteroid_fields = list()
+
+/obj/effect/starsystem/New()
+	name = pick(outer_colony_systems)
 
 /obj/effect/starsystem/proc/generate_asteroid_fields()
 	set background = 1
