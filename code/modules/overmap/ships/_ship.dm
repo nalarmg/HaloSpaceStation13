@@ -37,6 +37,7 @@
 
 	var/main_update_start_time = -1
 	var/update_interval = 5
+	var/autobraking = 0
 
 /*/obj/effect/overmapobj/ship/New(var/obj/effect/overmapobjinfo/data)
 	tag = "ship_[data.sectorname]"
@@ -72,6 +73,7 @@
 	vehicle_transform.heading = dir2angle(src.dir)
 	vehicle_transform.my_observers = my_observers
 	vehicle_transform.icon_state_thrust = "[icon_state]_thrust"
+	vehicle_transform.icon_state_brake = "[icon_state]_brake"
 
 	//recalculate_physics_properties()
 
@@ -130,8 +132,14 @@
 
 	//heading = -Atan2(speed[1], speed[2]) - 90
 
+/obj/effect/overmapobj/ship/proc/toggle_autobrake()
+	autobraking = !autobraking
+	thrusting = 0
+	thrust_loop()
+
 /obj/effect/overmapobj/ship/proc/thrust_forward_toggle()
 	thrusting = !thrusting
+	autobraking = 0
 	thrust_loop()
 
 //todo: should this be moved out to the vehicle_control datum?
@@ -151,6 +159,13 @@
 
 		spawn(update_interval)
 			thrust_loop(my_update_start_time)
+
+	else if(autobraking)
+		brake()
+
+		spawn(update_interval)
+			thrust_loop(my_update_start_time)
+
 	else
 		main_update_start_time = -1
 
@@ -159,7 +174,10 @@
 	//var/acceleration = eng_control.get_maneuvring_thrust() / vessel_mass
 
 	//use pixels per microsecond instead
-	vehicle_transform.accelerate_forward(forward_acceleration)
+	vehicle_transform.accelerate_forward(get_acceleration(NORTH))
+
+/obj/effect/overmapobj/ship/proc/brake()
+	vehicle_transform.brake(get_acceleration(SOUTH))
 
 /obj/effect/overmapobj/ship/proc/is_still()
 	return vehicle_transform.is_still()

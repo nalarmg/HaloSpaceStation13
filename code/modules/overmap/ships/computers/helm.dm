@@ -10,6 +10,8 @@
 	var/dx		//desitnation
 	var/dy		//coordinates
 
+	var/set_autobrake = 0
+
 /obj/machinery/computer/helm/initialize()
 	linked = map_sectors["[z]"]
 	if (linked)
@@ -41,6 +43,9 @@
 
 /obj/machinery/computer/helm/process()
 	..()
+
+	/*if(linked && set_autobrake != linked.autobraking)
+		linked.toggle_autobrake()*/
 
 /*	if (autopilot && dx && dy)
 		var/turf/T = locate(dx,dy,1)
@@ -139,6 +144,7 @@
 	data["heading"] = linked.get_heading()
 	data["autopilot"] = autopilot
 	data["manual_control"] = manual_control
+	data["autobraking"] = linked.autobraking
 
 	var/list/locations[0]
 	for (var/datum/data/record/R in known_sectors)
@@ -213,6 +219,10 @@
 
 	if (href_list["apilot"])
 		autopilot = !autopilot
+
+	if (href_list["abrake"])
+		if(linked)
+			linked.toggle_autobrake()
 
 	if (href_list["manual"])
 		if(manual_control)

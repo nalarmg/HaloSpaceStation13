@@ -92,6 +92,15 @@
 	</div>
 </div> 
 
+<div class='item'>
+	<div class="itemLabel">
+		<h3>Autobrake</h3>
+	</div>
+	<div class="itemContent" style="padding-top: 10px;">
+		{{:helper.link(data.autobraking ? 'Engaged' : 'Disengaged', 'shuffle', { 'abrake' : 1 }, null, data.autobraking ? 'selected' : null)}}
+	</div>
+</div> 
+
 <h3>Navigation data</h3>
 <div class='item'>
 	{{:helper.link('Save current position', 'disk', { 'add' : 'current' }, null)}}
