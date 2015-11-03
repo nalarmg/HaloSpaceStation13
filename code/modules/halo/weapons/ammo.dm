@@ -4,7 +4,8 @@
 
 /obj/item/ammo_magazine/magnum
 	name = "magazine (12.7x40mm)"
-	icon_state = "magnum"
+	icon = 'code/modules/halo/icons/halohumanweps.dmi'
+	icon_state = "magnumclip"
 	mag_type = MAGAZINE
 	ammo_type = /obj/item/ammo_casing/magnum
 	matter = list(DEFAULT_WALL_MATERIAL = 525) //metal costs are very roughly based around 1 .45 casing = 75 metal
@@ -18,7 +19,8 @@
 
 /obj/item/ammo_magazine/assault
 	name = "magazine (12.7x40mm)"
-	icon_state = "assault"
+	icon = 'code/modules/halo/icons/halohumanweps.dmi'
+	icon_state = "ma5clip"
 	mag_type = MAGAZINE
 	ammo_type = /obj/item/ammo_casing/magnum
 	matter = list(DEFAULT_WALL_MATERIAL = 525) //metal costs are very roughly based around 1 .45 casing = 75 metal
