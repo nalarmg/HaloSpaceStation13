@@ -1952,8 +1952,9 @@
 #include "maps\emptyspace2.dmm"
 #include "maps\emptyspace3.dmm"
 #include "maps\emptyspace4.dmm"
-#include "maps\testship_1.dmm"
-#include "maps\testship_2.dmm"
-#include "maps\testship_3.dmm"
-#include "maps\testship_4.dmm"
+#include "maps\unsc_cruiser-1.dmm"
+#include "maps\unsc_cruiser-2.dmm"
+#include "maps\unsc_cruiser-3.dmm"
+#include "maps\unsc_cruiser-4.dmm"
+#include "maps\unsc_cruiser-5.dmm"
 // END_INCLUDE
