@@ -5,9 +5,6 @@ UNSC Insurrection roundtype
 //the unique loaded insurrection base
 var/obj/effect/overmapobj/innie_base
 
-//in order to preload an innie base, place this on the map
-/obj/effect/overmapobj/innie_base
-
 /datum/game_mode/insurrection
 	name = "Insurrection"
 	config_tag = "insurrection"
@@ -44,7 +41,7 @@ var/obj/effect/overmapobj/innie_base
 	//load Insurrection base zlevel
 	if(!innie_base)
 		//this is advanced mode: just assume the overmapobj has already been setup with everything it needs
-		innie_base = locate(/obj/effect/overmapobj/innie_base)
+		innie_base = locate("Insurrection Asteroid Base")
 
 	if(!innie_base)
 		//automatically load the map from file and prepare it for the round
@@ -93,30 +90,32 @@ var/obj/effect/overmapobj/innie_base
 
 /datum/game_mode/insurrection/process()
 	if(world.time > time_autofind_innie_base && !announced_innie_base_loc)
-		announced_innie_base_loc = 1
-
-		if(innie_base)
-			var/report_text = "<FONT size = 3><B>ONI Intelligence Report:</B> Mission critical status update:</FONT><HR>"
-			report_text += "Radio listening stations in your sector have managed to triangulate the location of \
-			the Insurrection base you are hunting for in a nearby asteroid field.<br>"
-			report_text += "<BR>"
-			report_text += "The coordinates of the hidden Insurrection asteroid base are: <B>[innie_base.x],[innie_base.y]</B><br>"
-			report_text += "<BR>"
-
-			report_text += "Good luck on your mission, <i>[station_name()]</i>. \
-			Remember we've got a stealth prowler on standby for retrieval if everything goes [pick("belly up","pear shaped","to hell")].<br>"
-
-			for (var/obj/machinery/computer/communications/comm in machines)
-				if (!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept)
-					var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
-					intercept.name = "ONI Intelligence Report"
-					intercept.info = report_text
-
-					comm.messagetitle.Add("ONI Intelligence Report")
-					comm.messagetext.Add(report_text)
-			world << sound('sound/AI/commandreport.ogg')
-
+		oni_report_base_coords()
 	..()
+
+/datum/game_mode/insurrection/proc/oni_report_base_coords()
+	announced_innie_base_loc = 1
+
+	if(innie_base)
+		var/report_text = "<FONT size = 3><B>ONI Intelligence Report:</B> Mission critical status update:</FONT><HR>"
+		report_text += "Radio listening stations in your sector have managed to triangulate the location of \
+		the Insurrection base you are hunting for in a nearby asteroid field.<br>"
+		report_text += "<BR>"
+		report_text += "The coordinates of the hidden Insurrection asteroid base are: <B>[innie_base.x],[innie_base.y]</B><br>"
+		report_text += "<BR>"
+
+		report_text += "Good luck on your mission, <i>[station_name()]</i>. \
+		Remember we've got a stealth prowler on standby for retrieval if everything goes [pick("belly up","pear shaped","to hell")].<br>"
+
+		for (var/obj/machinery/computer/communications/comm in machines)
+			if (!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept)
+				var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
+				intercept.name = "ONI Intelligence Report"
+				intercept.info = report_text
+
+				comm.messagetitle.Add("ONI Intelligence Report")
+				comm.messagetext.Add(report_text)
+		world << sound('sound/AI/commandreport.ogg')
 
 /datum/game_mode/insurrection/handle_nuke_explosion()
 	//todo: rework this proc
