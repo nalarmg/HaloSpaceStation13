@@ -19,6 +19,7 @@
 	var/icon_state
 	var/icon_state_original
 	var/icon_state_thrust
+	var/icon_state_brake
 
 	var/icon/overlay_thrust_base
 	var/icon/overlay_thrust
@@ -30,6 +31,7 @@
 
 	var/heading = 180
 
+	var/pixel_speed = 0
 	var/max_pixel_speed = 10
 
 	var/list/my_observers = list()
@@ -49,8 +51,24 @@
 		*/
 
 /datum/vehicle_transform/proc/accelerate_forward(var/acceleration)
-
 	add_pixel_speed_angle(acceleration, heading)
+
+/datum/vehicle_transform/proc/brake(var/acceleration)
+
+	//can we take a shortcut here?
+	if(pixel_speed <= acceleration)
+		pixel_speed_x = 0
+		pixel_speed_y = 0
+		pixel_speed = 0
+	else
+		//calculate the exact speed loss
+		var/target_speed = pixel_speed - acceleration
+		var/speed_multiplier = target_speed / pixel_speed
+
+		var/accel_x = pixel_speed_x * speed_multiplier - pixel_speed_x
+		var/accel_y = pixel_speed_y * speed_multiplier - pixel_speed_y
+
+		add_pixel_speed(accel_x, accel_y)
 
 /datum/vehicle_transform/proc/add_pixel_speed_direction(var/acceleration, var/direction)
 	add_pixel_speed_angle(acceleration, dir2angle(direction))
@@ -72,6 +90,7 @@
 	pixel_speed_x += accel_x
 	pixel_speed_y += accel_y
 
+	recalc_speed()
 	limit_speed()
 
 	if(!is_still())
@@ -90,6 +109,8 @@
 			pixel_speed_y /= total_speed
 			pixel_speed_y *= max_pixel_speed
 			//world << "normalised down to: [get_speed()]"
+
+			recalc_speed()
 
 /datum/vehicle_transform/proc/try_update()
 	//world << "try_update() 1"
@@ -162,12 +183,14 @@
 				//world << "[control_object] collided with something"
 				pixel_speed_x = 0
 				pixel_speed_y = 0
+				pixel_speed = 0
 		else
 			//we're at the edge of the map, stop moving
 			pixel_speed_x = 0
 			pixel_speed_y = 0
 			control_object.pixel_y = 0
 			control_object.pixel_x = 0
+			pixel_speed = 0
 
 	//move observers smoothly with each pixel
 	for(var/mob/M in my_observers)
@@ -222,7 +245,10 @@
 	return !(pixel_speed_x || pixel_speed_y)
 
 /datum/vehicle_transform/proc/get_speed()
-	return sqrt(pixel_speed_x * pixel_speed_x + pixel_speed_y * pixel_speed_y)
+	return pixel_speed
+
+/datum/vehicle_transform/proc/recalc_speed()
+	pixel_speed = sqrt(pixel_speed_x * pixel_speed_x + pixel_speed_y * pixel_speed_y)
 
 /datum/vehicle_transform/proc/spawn_thrust()
 	if(world.time - last_thrust >= 4)

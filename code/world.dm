@@ -463,52 +463,31 @@ var/world_topic_spam_protect_time = world.timeofday
 /world/proc/update_status()
 	var/s = ""
 
-	if (config && config.server_name)
-		s += "<b>[config.server_name]</b> &#8212; "
+	/*if (config && config.server_name)
+		s += "<b>[config.server_name]</b> &#8212; "*/
 
-	s += "<b>[station_name()]</b>";
-	s += " ("
-	s += "<a href=\"http://\">" //Change this to wherever you want the hub to link to.
-//	s += "[game_version]"
-	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
-	s += "</a>"
-	s += ")"
+	s += "<a href=\"http://projectunsc.com/\">"
+	s += "<b>Halo Spacestation Evolved Alpha</b>"
+	s += "</a>\]"
+	s += "<br><br>"
+	if(ticker && ticker.mode)
+		var/hub_ship_name = station_name()
+		var/hub_round_desc = round_description()
+		var/hub_system_name = system_name()
 
-	var/list/features = list()
-
-	if(ticker)
-		if(master_mode)
-			features += master_mode
+		if(hub_ship_name)
+			s += " \[Players are onboard the <i>[hub_ship_name]</i>"
+			if(hub_round_desc)
+				s += " [hub_round_desc]"
+			if(hub_system_name)
+				s += " in the <b>[hub_system_name]</b> system"
+		s += "<br>"
+		s += "<br>"
 	else
-		features += "<b>STARTING</b>"
-
-	if (!config.enter_allowed)
-		features += "closed"
-
-	features += config.abandon_allowed ? "respawn" : "no respawn"
-
-	if (config && config.allow_vote_mode)
-		features += "vote"
-
-	if (config && config.allow_ai)
-		features += "AI allowed"
-
-	var/n = 0
-	for (var/mob/M in player_list)
-		if (M.client)
-			n++
-
-	if (n > 1)
-		features += "~[n] players"
-	else if (n > 0)
-		features += "~[n] player"
-
-
-	if (config && config.hostedby)
-		features += "hosted by <b>[config.hostedby]</b>"
-
-	if (features)
-		s += ": [list2text(features, ", ")]"
+		s += "<br>"
+		s += "<br>"
+		s += "\[<b>ROUND CURRENTLY STARTING</b>"
+		//&#8212;
 
 	/* does this help? I do not know */
 	if (src.status != s)

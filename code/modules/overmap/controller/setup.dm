@@ -63,7 +63,6 @@ datum/controller/process/overmap/setup()
 		S.update_spaceturfs()
 
 	current_starsystem = new()
-	current_starsystem.name = "Nyx"
 	all_starsystems.Add(current_starsystem)
 
 	world << "<span class='danger'>Populating asteroid fields...</span>"
