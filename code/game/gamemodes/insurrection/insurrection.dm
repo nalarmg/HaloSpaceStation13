@@ -2,9 +2,6 @@
 UNSC Insurrection roundtype
 */
 
-//in order to preload an innie base, place this on the map
-/obj/effect/overmapobj/innie_base
-
 var/obj/effect/overmapobj/innie_base
 var/list/insurrection_objectives = list()
 
@@ -49,7 +46,7 @@ datum/objective/insurrection_nuke
 	//load Insurrection base zlevel
 	if(!innie_base)
 		//this is advanced mode: just assume the overmapobj has already been setup with everything it needs
-		innie_base = locate(/obj/effect/overmapobj/innie_base)
+		innie_base = locate("Insurrection Asteroid Base")
 
 	if(!innie_base)
 		//automatically load the map from file and prepare it for the round
@@ -97,6 +94,10 @@ datum/objective/insurrection_nuke
 
 /datum/game_mode/insurrection/process()
 	if(world.time > time_autofind_innie_base && !announced_innie_base_loc)
+		oni_report_base_coords()
+	..()
+
+/datum/game_mode/insurrection/proc/oni_report_base_coords()
 		announced_innie_base_loc = 1
 
 		if(innie_base)
@@ -119,8 +120,6 @@ datum/objective/insurrection_nuke
 					comm.messagetitle.Add("ONI Intelligence Report")
 					comm.messagetext.Add(report_text)
 			world << sound('sound/AI/commandreport.ogg')
-
-	..()
 
 /datum/game_mode/insurrection/handle_nuke_explosion()
 	//todo: rework this proc

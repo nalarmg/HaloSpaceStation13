@@ -176,40 +176,48 @@
 
 /obj/effect/overmapobj/ship/proc/update_spaceturfs()
 	set background = 1
-	for(var/turf/space/S in world)
-		if(S.z in src.ship_levels)
-			ship_turfs.Add(S)
+	for(var/obj/effect/zlevelinfo/zlevelinfo in src.ship_levels)
+		for(var/curx = 1 to world.maxx)
+			for(var/cury = 1 to world.maxy)
+				//we don't care about space turfs
+				var/turf/T = locate(curx, cury, zlevelinfo.z)
+				ship_turfs.Add(T)
 
 /obj/effect/overmapobj/ship/proc/recalculate_physics_properties()
 	//calculate physics properties
 
 	//first, loop over the zlevel and work out the dimensions and mass
 	vessel_mass = 1
+	var/curx = 0
+	var/cury = 0
 
-	for(var/curz in src.ship_levels)
-		for(var/curx = 1 to world.maxx)
-			for(var/cury = 1 to world.maxy)
-				//we don't care about space turfs
-				var/turf/T = locate(curx, cury, curz)
+	for(var/turf/T in ship_turfs)
 
-				if(istype(T, /turf/simulated/))
-					//expand the dimensions
-					if(curx > highest_x_turf)
-						highest_x_turf = curx
-					else if(curx < lowest_x_turf)
-						lowest_x_turf = curx
-					if(cury > highest_y_turf)
-						highest_y_turf = curx
-					else if(cury < lowest_y_turf)
-						lowest_y_turf = curx
+		//we don't care about space turfs
+		if(istype(T, /turf/simulated/))
+			if(!curx)
+				curx = T.x
+			if(!cury)
+				cury = T.y
 
-					//we'll only use turfs to calculate total mass
-					if(istype(T, /turf/simulated/wall/r_wall))
-						vessel_mass += 3 * mass_multiplier
-					else if(istype(T, /turf/simulated/wall))
-						vessel_mass += 2 * mass_multiplier
-					else
-						vessel_mass += 1 * mass_multiplier
+			//expand the dimensions
+			if(curx > highest_x_turf)
+				highest_x_turf = curx
+			else if(curx < lowest_x_turf)
+				lowest_x_turf = curx
+			//
+			if(cury > highest_y_turf)
+				highest_y_turf = curx
+			else if(cury < lowest_y_turf)
+				lowest_y_turf = curx
+
+			//we'll only use turfs to calculate total mass
+			if(istype(T, /turf/simulated/wall/r_wall))
+				vessel_mass += 3 * mass_multiplier
+			else if(istype(T, /turf/simulated/wall))
+				vessel_mass += 2 * mass_multiplier
+			else
+				vessel_mass += 1 * mass_multiplier
 
 	var/dif_x = highest_x_turf - lowest_x_turf
 	var/dif_y = highest_y_turf - lowest_y_turf
