@@ -37,22 +37,6 @@
 	heat_protection = FEET
 	max_heat_protection_temperature = SHOE_MAX_HEAT_PROTECTION_TEMPERATURE
 
-
-/obj/item/clothing/shoes/marine
-	name = "VZG7 Armored Boots"
-	desc = "standard issue combat boots for the UNSC Marines, worn as a part of the Marine BDU."
-	icon_state = "marine"
-	item_state = "marine"
-	force = 5
-	armor = list(melee = 40, bullet = 60, laser = 5, energy = 4, bomb = 40, bio = 0, rad = 0)
-	item_flags = NOSLIP
-	siemens_coefficient = 0.6
-
-	cold_protection = FEET
-	min_cold_protection_temperature = SHOE_MIN_COLD_PROTECTION_TEMPERATURE
-	heat_protection = FEET
-	max_heat_protection_temperature = SHOE_MAX_HEAT_PROTECTION_TEMPERATURE
-
 /obj/item/clothing/shoes/sandal
 	desc = "A pair of rather plain, wooden sandals."
 	name = "sandals"
