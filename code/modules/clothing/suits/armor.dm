@@ -10,31 +10,6 @@
 	max_heat_protection_temperature = ARMOR_MAX_HEAT_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.6
 
-
-/obj/item/clothing/suit/armor/vest
-	name = "armor"
-	desc = "An armored vest that protects against some damage."
-	icon_state = "unsc"
-	item_state = "unsc"
-	blood_overlay_type = "armor"
-	armor = list(melee = 50, bullet = 15, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
-
-/obj/item/clothing/suit/armor/marine
-	name = "M52B Body Armor"
-	desc = "an armored protective vest worn by the members of the UNSC Marine Corps."
-	icon_state = "marine"
-	item_state = "marine"
-	blood_overlay_type = "armor"
-	armor = list(melee = 50, bullet = 95, laser = 4, energy = 4, bomb = 60, bio = 0, rad = 0)
-
-/obj/item/clothing/suit/armor/spartan
-	name = "MJOLNIR Powered Assault Armor Mark V"
-	desc = "a technologically-advanced combat exoskeleton system designed to vastly improve the strength, speed, agility, reflexes and durability of a SPARTAN-II, supersolider in the field of combat."
-	icon_state = "spartan5"
-	item_state = "spartan5"
-	blood_overlay_type = "armor"
-	armor = list(melee = 80, bullet = 95, laser = 50, energy = 50, bomb = 60, bio = 25, rad = 25)
-
 /obj/item/clothing/suit/armor/vest/security
 	name = "security armor"
 	desc = "An armored vest that protects against some damage. This one has a corporate badge."
@@ -82,7 +57,7 @@
 /obj/item/clothing/suit/armor/laserproof/handle_shield(mob/user, var/damage, atom/damage_source = null, mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
 	if(istype(damage_source, /obj/item/projectile/energy) || istype(damage_source, /obj/item/projectile/beam))
 		var/obj/item/projectile/P = damage_source
-	
+
 		var/reflectchance = 40 - round(damage/3)
 		if(!(def_zone in list("chest", "groin")))
 			reflectchance /= 2
@@ -162,12 +137,12 @@
 		if(!turfs.len) turfs += pick(/turf in orange(6))
 		var/turf/picked = pick(turfs)
 		if(!isturf(picked)) return
-		
+
 		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
 		spark_system.set_up(5, 0, user.loc)
 		spark_system.start()
 		playsound(user.loc, "sparks", 50, 1)
-		
+
 		user.loc = picked
 		return PROJECTILE_FORCE_MISS
 	return 0
