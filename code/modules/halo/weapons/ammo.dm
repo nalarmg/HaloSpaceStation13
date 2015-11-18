@@ -4,7 +4,7 @@
 
 /obj/item/ammo_magazine/magnum
 	name = "magazine (12.7x40mm)"
-	icon = 'code/modules/halo/icons/halohumanweps.dmi'
+	icon = 'code/modules/halo/icons/Weapon Sprites.dmi'
 	icon_state = "magnumclip"
 	mag_type = MAGAZINE
 	ammo_type = /obj/item/ammo_casing/magnum
@@ -19,7 +19,7 @@
 
 /obj/item/ammo_magazine/assault
 	name = "magazine (12.7x40mm)"
-	icon = 'code/modules/halo/icons/halohumanweps.dmi'
+	icon = 'code/modules/halo/icons/Weapon Sprites.dmi'
 	icon_state = "ma5clip"
 	mag_type = MAGAZINE
 	ammo_type = /obj/item/ammo_casing/magnum
