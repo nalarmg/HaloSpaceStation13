@@ -1199,6 +1199,7 @@
 #include "code\modules\halo\weapons\energy.dm"
 #include "code\modules\halo\weapons\pistols.dm"
 #include "code\modules\halo\weapons\rifles.dm"
+#include "code\modules\halo\weapons\projectiles\beams.dm"
 #include "code\modules\holodeck\HolodeckControl.dm"
 #include "code\modules\holodeck\HolodeckObjects.dm"
 #include "code\modules\holodeck\HolodeckPrograms.dm"
