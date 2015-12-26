@@ -104,7 +104,7 @@
 	vehicle_transform.my_overmap_object = overmap_object
 	vehicle_transform.overmap_icon_base = overmap_object.icon
 
-	verbs -= /obj/machinery/overmap_vehicle/verb/disable_cruise
+	//verbs -= /obj/machinery/overmap_vehicle/verb/disable_cruise
 
 //obj/machinery/overmap_vehicle/process()
 
@@ -281,7 +281,10 @@
 	if(ishuman(usr))
 		var/mob/living/H = usr
 		if(pilot && pilot.machine == src)
-			H << "<span class='info'>[src] is already being piloted by [pilot]</span>"
+			if(pilot == H)
+				H << "<span class='info'>You already control [src].</span>"
+			else
+				H << "<span class='info'>[src] is already being piloted by [pilot]</span>"
 		else
 			pilot = H
 			H.set_machine(src)
@@ -294,19 +297,21 @@
 	set src in oview(1)
 
 	if(ishuman(usr))
+		var/mob/user = usr
 		if(isturf(src.loc))
-			if(usr.loc != src)
+			if(user.loc != src)
 				if(crew.len < max_crew)
 					//todo: check for active jetpacks and disable the ion trail
-					usr.loc = src
-					my_observers.Add(usr)
-					if(usr.client)
-						usr.client.view = 14//world.view
-						usr << "<span class='info'><b>You enter [src].</b></span>"
-					crew.Add(usr)
+					user.loc = src
+					my_observers.Add(user)
+					if(user.client)
+						user.client.view = 14//world.view
+						user << "<span class='info'><b>You enter [src].</b></span>"
+					crew.Add(user)
+					user.reset_view(null)
 
 					if(!pilot)
-						pilot = usr
+						pilot = user
 						pilot.set_machine(src)
 
 					usr << "<span class='info'>You are now the pilot!.</span>"
@@ -344,7 +349,7 @@
 	set category = "Vehicle"
 	set src = usr.loc
 
-	disable_cruise()
+	//disable_cruise()
 	vehicle_transform.pixel_speed_x = 0
 	vehicle_transform.pixel_speed_y = 0
 
@@ -355,6 +360,7 @@
 
 	usr << "[src] is currently going at [vehicle_transform.get_speed()]"
 
+/*
 /obj/machinery/overmap_vehicle/verb/enable_cruise()
 	set name = "Enable engine cruise mode"
 	set category = "Vehicle"
@@ -380,7 +386,8 @@
 	vehicle_transform.set_new_maxspeed(max_speed)
 	verbs -= /obj/machinery/overmap_vehicle/verb/disable_cruise
 	verbs += /obj/machinery/overmap_vehicle/verb/enable_cruise
+*/
 
-//so passengers and pilots dont asphyxiate
-/obj/machinery/overmap_vehicle/return_air_for_internal_lifeform()
+//so passengers dont asphyxiate or die of pressure loss
+/obj/machinery/overmap_vehicle/return_air()
 	return internal_atmosphere
