@@ -1484,6 +1484,7 @@
 #include "code\modules\overmap\client.dm"
 #include "code\modules\overmap\overmap_meteors.dm"
 #include "code\modules\overmap\overmapobject.dm"
+#include "code\modules\overmap\overmapobject_observe.dm"
 #include "code\modules\overmap\overmapobject_process.dm"
 #include "code\modules\overmap\starsystem.dm"
 #include "code\modules\overmap\starsystem_names.dm"
