@@ -91,30 +91,26 @@ obj/machinery/overmap_vehicle/verb/toggle_iff_scanner()
 	else
 		user << "<span class='warning'>You are not the pilot of [src]</span>"
 
-/*
-/obj/machinery/overmap_vehicle/verb/enable_cruise()
-	set name = "Enable engine cruise mode"
+obj/machinery/overmap_vehicle/verb/cycle_iff_colours()
+	set name = "Cycle IFF colours"
 	set category = "Vehicle"
 	set src = usr.loc
 
-	usr << "<span class='info'>You enable engine cruise mode.</span>"
-	cruising = 1
-	if(!move_dir)
-		vehicle_controls.move_toggle(usr, NORTH)
-	vehicle_transform.set_new_maxspeed(cruise_speed)
-	verbs -= /obj/machinery/overmap_vehicle/verb/enable_cruise
-	verbs += /obj/machinery/overmap_vehicle/verb/disable_cruise
+	var/mob/user = usr
+	if(user == pilot)
+		//switch the colours
+		iff_faction_colours = !iff_faction_colours
+		if(iff_faction_colours)
+			user << "\icon[src] Identify friend/foe sensor colours cycled to <span class='info'>FACTION</span> colours"
+		else
+			user << "\icon[src] Identify friend/foe sensor colours cycled to <span class='info'>FRIEND/FOE</span> colours"
 
-/obj/machinery/overmap_vehicle/verb/disable_cruise()
-	set name = "Disable engine cruise mode"
-	set category = "Vehicle"
-	set src = usr.loc
-
-	usr << "<span class='info'>You disable engine cruise mode.</span>"
-	cruising = 0
-	if(move_dir)
-		vehicle_controls.move_toggle(usr, NORTH)
-	vehicle_transform.set_new_maxspeed(max_speed)
-	verbs -= /obj/machinery/overmap_vehicle/verb/disable_cruise
-	verbs += /obj/machinery/overmap_vehicle/verb/enable_cruise
-*/
+		//reset all tracking images
+		var/list/checked_vehicles = list()
+		for(var/obj/machinery/overmap_vehicle/V in tracked_vehicles)
+			stop_tracking_vehicle(V)
+			checked_vehicles.Add(V)
+		for(var/obj/machinery/overmap_vehicle/V in checked_vehicles)
+			start_tracking_vehicle(V)
+	else
+		user << "<span class='warning'>You are not the pilot of [src]</span>"

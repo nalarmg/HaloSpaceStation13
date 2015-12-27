@@ -27,9 +27,7 @@
 	var/list/tracked_vehicles = list()
 	var/list/all_sensor_objects = list()
 	var/list/mobs_tracking = list()
-	/*var/list/tracked_vehicle_types = list()
-	var/list/tracked_vehicle_dirs = list()
-	var/list/all_sensor_images = list()*/
+	var/iff_faction_colours = 1
 
 	var/obj/effect/overmapobj/vehicle/overmap_object
 

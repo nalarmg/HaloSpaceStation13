@@ -20,10 +20,10 @@ obj/machinery/overmap_vehicle/proc/enter_new_zlevel(var/obj/effect/zlevelinfo/cu
 obj/machinery/overmap_vehicle/proc/start_tracking_vehicle(var/obj/machinery/overmap_vehicle/V)
 
 	var/datum/sensor_object/S = PoolOrNew(/datum/sensor_object)
-	S.faction = V.iff_faction_broadcast
-	S.create_pointer_image()
-	S.create_object_image(V.sensor_icon_state)
-	S.tracking_object = V
+	S.my_faction = iff_faction_broadcast
+	S.object_faction = V.iff_faction_broadcast
+	S.use_faction_colours = iff_faction_colours
+	S.create_images(object_icon_state = V.sensor_icon_state)
 
 	//make sure all observing mobs have the image
 	for(var/mob/M in mobs_tracking)
