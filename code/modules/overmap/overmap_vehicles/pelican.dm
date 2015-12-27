@@ -12,6 +12,7 @@
 	yaw_speed = 5
 	accel_duration = 50
 	max_crew = 11
+	sensor_icon_state = "pelican"
 
 /obj/machinery/overmap_vehicle/pelican/New()
 	..()

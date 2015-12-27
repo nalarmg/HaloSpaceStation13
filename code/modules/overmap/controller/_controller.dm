@@ -19,6 +19,7 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 	var/obj/effect/overmapobj/antagonist_home
 
 	var/protagonist_faction = "UNSC"
+	var/list/faction_iff_colour = list("UNSC" = "#00FF00", "Insurrection" = "#FF0000", "Covenant" = "#FF00FF")
 	var/galaxy_travel_enabled = 0
 
 	var/list/trash_zlevels = list()

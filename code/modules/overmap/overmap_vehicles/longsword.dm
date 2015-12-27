@@ -10,6 +10,8 @@
 	max_speed_hover = 16
 	yaw_speed = 10
 	accel_duration = 50
+	sensor_icon_state = "longsword"
+	iff_faction_broadcast = "UNSC"
 
 /obj/machinery/overmap_vehicle/longsword/New()
 	..()
