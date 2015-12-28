@@ -19,7 +19,10 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 	var/obj/effect/overmapobj/antagonist_home
 
 	var/protagonist_faction = "UNSC"
+	var/list/faction_iff_colour = list("UNSC" = "#00FF00", "Insurrection" = "#FF0000", "Covenant" = "#FF00FF")
 	var/galaxy_travel_enabled = 0
+	var/friend_colour = "#00FF00"
+	var/foe_colour = "#FF0000"
 
 	var/list/trash_zlevels = list()
 
@@ -42,3 +45,12 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 
 /datum/controller/process/overmap/proc/recycle_zlevel(var/obj/effect/zlevelinfo/trashlevel)
 	trash_zlevels.Add(trashlevel)
+
+/datum/controller/process/overmap/proc/get_friend_foe_colour(var/my_faction, var/other_faction)
+	//just do the easy thing for now until we get a more complex faction and subfaction system developed
+	if(my_faction == other_faction)
+		return friend_colour
+
+	var/list/main_factions = list("UNSC", "Insurrection", "Covenant")
+	if((my_faction in main_factions) && (other_faction in main_factions))
+		return foe_colour
