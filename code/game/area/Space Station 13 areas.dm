@@ -843,16 +843,24 @@ area/space/atmosalert()
 	icon_state = "hallP"
 
 /area/hallway/primary/central_one
-	name = "\improper Central Primary Hallway"
+	name = "\improper Central Primary Hallway - Deck 1"
 	icon_state = "hallC1"
 
 /area/hallway/primary/central_two
-	name = "\improper Central Primary Hallway"
+	name = "\improper Central Primary Hallway - Deck 2"
 	icon_state = "hallC2"
 
 /area/hallway/primary/central_three
-	name = "\improper Central Primary Hallway"
+	name = "\improper Central Primary Hallway - Deck 3"
 	icon_state = "hallC3"
+
+/area/hallway/primary/central_four
+	name = "\improper Central Primary Hallway - Deck 4"
+	icon_state = "hallC4"
+
+/area/hallway/primary/central_five
+	name = "\improper Central Primary Hallway - Deck 5"
+	icon_state = "hallC5"
 
 /area/hallway/secondary/exit
 	name = "\improper Escape Shuttle Hallway"
