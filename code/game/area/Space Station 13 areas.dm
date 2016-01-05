@@ -132,8 +132,47 @@ area/space/atmosalert()
 	name = "\improper Admin room"
 	icon_state = "start"
 
+////////////////
+//MISSILE BAYS//
+////////////////
+/area/missilebay/starboard_1
+	name = "\improper Starboard Missile Bay - Deck 1"
+	icon_state = "missilebay_sb_1"
 
+/area/missilebay/starboard_4
+	name = "\improper Starboard Missile Bay - Deck 4"
+	icon_state = "missilebay_sb_4"
 
+/area/missilebay/port_1
+	name = "\improper Port Missile Bay - Deck 1"
+	icon_state = "missilebay_p_1"
+
+/area/missilebay/port_4
+	name = "\improper Port Missile Bay - Deck 4"
+	icon_state = "missilebay_p_4"
+
+/area/missilebay/fore_4
+	name = "\improper Fore Missile Bay - Deck 2"
+	icon_state = "missilebay_f_2"
+
+///////////
+//HANGARS//
+///////////
+/area/hangar/primary/starboard
+	name = "\improper Starboard Hangar - Deck 3"
+	icon_state = "hangar_sb_3"
+
+/area/hangar/primary/port
+	name = "\improper Port Hangar - Deck 3"
+	icon_state = "hangar_p_3"
+
+/area/hangar/auxiliary/starboard
+	name = "\improper Starboard Auxiliary Hangar - Deck 3"
+	icon_state = "hangar_a_sb_3"
+
+/area/hangar/auxiliary/port
+	name = "\improper Port Auxiliary Hangar - Deck 3"
+	icon_state = "hangar_a_p_3"
 ////////////
 //SHUTTLES//
 ////////////
