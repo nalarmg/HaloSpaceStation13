@@ -1,4 +1,4 @@
-SET z_levels=6
+SET z_levels=5
 cd ../../maps
 
 FOR /L %%i IN (1,1,%z_levels%) DO (
