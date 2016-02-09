@@ -41,7 +41,7 @@ obj/machinery/overmap_vehicle/proc/stop_tracking_vehicle(var/obj/machinery/overm
 	tracked_vehicles -= V
 	all_sensor_objects -= S
 
-	S.clear_self()
+	PlaceInPool(S)
 
 obj/machinery/overmap_vehicle/proc/update_tracking_overlays(var/iteration = 0)
 	set background = 1
@@ -96,7 +96,7 @@ obj/machinery/overmap_vehicle/proc/update_tracking_overlays(var/iteration = 0)
 	for(var/datum/sensor_object/S in all_sensor_objects)
 		for(var/mob/M in mobs_tracking)
 			S.remove_viewmob(M)
-			S.clear_self()
+			PlaceInPool(S)
 
 	//reset our lists so old images dont clog up our hud
 	all_sensor_objects = checked_sensor_objects

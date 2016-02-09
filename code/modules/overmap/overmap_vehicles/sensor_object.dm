@@ -45,9 +45,7 @@ datum/sensor_object/proc/remove_viewmob(var/mob/living/M)
 		M.client.images -= pointer_image
 		M.client.images -= object_image
 
-
-datum/sensor_object/proc/clear_self()
+datum/sensor_object/Destroy()
+	. = ..()
 	qdel(pointer_image)
 	qdel(object_image)
-
-	PlaceInPool(src)
