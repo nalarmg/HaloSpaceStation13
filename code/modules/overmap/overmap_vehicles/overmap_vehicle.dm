@@ -11,14 +11,13 @@
 
 	var/hovering_underlay = "hovering"
 
-	var/list/passengers = list()
-	var/max_passengers = 0
-	var/hovering = 0
+	var/list/occupants = list()
+	var/occupants_max = 1
 	var/move_dir = 0
+	var/turn_dir = 0
+	var/autobraking = 0
 
 	var/mob/living/pilot
-	var/max_crew = 1	//pilot + passengers
-	var/list/crew = list()
 
 	var/iff_faction_broadcast			//set this to a faction
 	var/sensor_icon_state = "unknown"	//the icon state for this vehicle on other vehicle's sensors
@@ -30,19 +29,16 @@
 	var/iff_faction_colours = 1
 
 	var/obj/effect/overmapobj/vehicle/overmap_object
-
-	var/landing_gear_extended = 1
-	var/extendable_landing_gear = 0
+	var/obj/effect/virtual_area/transit_area
 
 	var/armour = 100
 	var/hull_remaining = 100
 	var/hull_max = 100
 	var/max_speed = 32			//pixels per ms
-	var/max_speed_hover = 10
-	var/cruise_speed = 320		//overmap pixels per ms
 	var/accel_duration = 10		//how long until max speed in ms
 	var/yaw_speed = 5
-	var/internal_cells = 1
+
+	var/cruise_speed = 4		//overmap pixels per ms
 
 	var/damage_state = 0
 	var/icon/damage_overlay
@@ -63,7 +59,7 @@
 
 	//forward motion on nongravity/space turfs
 	//pixels per sec
-	var/datum/overmap_vehicle_component/thruster = new()
+	/*var/datum/overmap_vehicle_component/thruster = new()
 	//turn rate on nongravity/space turfs
 	//degrees per sec
 	var/datum/overmap_vehicle_component/thruster_turn = new()
@@ -78,10 +74,10 @@
 	var/datum/overmap_vehicle_component/slipspace = new()
 	//main energy generator
 	//watts per sec
-	var/datum/overmap_vehicle_component/power_gen = new()
+	var/datum/overmap_vehicle_component/power_gen = new()*/
 
 /obj/machinery/overmap_vehicle/New()
-	InitComponents()
+	//InitComponents()
 
 	vehicle_transform = init_vehicle_transform(src)
 	vehicle_transform.my_observers = my_observers
@@ -96,6 +92,7 @@
 	internal_atmosphere = new/datum/gas_mixture
 	internal_atmosphere.temperature = T20C
 	internal_atmosphere.group_multiplier = 1
+	var/internal_cells = (bound_width * bound_height) / (32 * 32)
 	internal_atmosphere.volume = CELL_VOLUME * internal_cells
 	internal_atmosphere.adjust_multi("oxygen", MOLES_O2STANDARD * internal_cells, "carbon_dioxide", 0, "nitrogen", MOLES_N2STANDARD * internal_cells, "phoron", 0)
 
@@ -108,7 +105,7 @@
 	overmap_object.name = src.name
 	overmap_object.overmap_vehicle = src
 	vehicle_transform.my_overmap_object = overmap_object
-	vehicle_transform.overmap_icon_base = overmap_object.icon
+	//vehicle.overmap_icon_base = overmap_object.icon
 
 	//verbs -= /obj/machinery/overmap_vehicle/verb/disable_cruise
 
@@ -119,8 +116,9 @@
 	curz.objects_preventing_recycle.Add(src)
 	enter_new_zlevel(curz)
 
-obj/machinery/overmap_vehicle/process()
+/obj/machinery/overmap_vehicle/process()
 
+	//update the iff sensor overlays
 	//todo: tweak the update delay
 	if(world.time >= time_next_sensor_update)
 		time_next_sensor_update = world.time + sensor_update_delay
@@ -144,7 +142,7 @@ obj/machinery/overmap_vehicle/process()
 			//just settle nice and gently onto the ground
 
 		//if(abs(O.pixel_speed_x) + abs(O.pixel_speed_y) <= 32)
-
+/*
 /obj/machinery/overmap_vehicle/proc/InitComponents()
 	//setup component verbs here
 	if(thruster)
@@ -152,15 +150,25 @@ obj/machinery/overmap_vehicle/process()
 			thruster.rate = max_speed
 		verbs += /datum/overmap_vehicle_component/verb/enable_hover
 	//setup component stats in child objs
+	*/
 
 /obj/machinery/overmap_vehicle/relaymove(mob/user, direction)
-	vehicle_controls.relay_move(user, direction)
+	if(user == pilot)
+		vehicle_controls.relay_move(user, direction)
+	else
+		user << "<span class='warning'>You are not the pilot of [src]!</span>"
 
 /obj/machinery/overmap_vehicle/proc/vehicle_thrust(var/mob/user)
-	vehicle_controls.move_vehicle(user, NORTH)
+	if(user == pilot)
+		vehicle_controls.move_vehicle(NORTH)
+	else
+		user << "<span class='warning'>You are not the pilot of [src]!</span>"
 
 /obj/machinery/overmap_vehicle/proc/vehicle_thrust_toggle(var/mob/user)
-	vehicle_controls.move_toggle(user, NORTH)
+	if(user == pilot)
+		vehicle_controls.move_toggle(NORTH)
+	else
+		user << "<span class='warning'>You are not the pilot of [src]!</span>"
 
 /obj/machinery/overmap_vehicle/proc/update(var/my_update_start_time = -1)
 
@@ -170,16 +178,31 @@ obj/machinery/overmap_vehicle/process()
 
 	if(main_update_start_time < 0)
 		my_update_start_time = world.time
-		main_update_start_time = my_update_start_time
+		main_update_start_time = world.time
 	else if(my_update_start_time != main_update_start_time)
 		return
 
 	var/continue_update = 0
 
 	//apply thrust if we've got it toggled on
-	if(move_dir)
+	if(handle_auto_moving())
 		continue_update = 1
-		vehicle_controls.move_vehicle(pilot, 0, move_dir)
+
+	//if we are cruising, force auto-accelerate forwards
+	if(handle_auto_cruising())
+		continue_update = 1
+
+	//if the player wants us to automatically orient to face a direction
+	if(handle_auto_turning())
+		continue_update = 1
+
+	//apply brake otherwise
+	if(autobraking)
+		if(vehicle_transform.is_still())
+			autobraking = 0
+		else
+			vehicle_transform.brake(get_relative_directional_thrust(NORTH))
+			continue_update = 1
 
 	//update the sprite
 	if(vehicle_transform.update(update_interval))
@@ -192,87 +215,52 @@ obj/machinery/overmap_vehicle/process()
 	else
 		main_update_start_time = -1
 
-/*/obj/machinery/overmap_vehicle/proc/thrust(var/thrust_direction)
-	//standard checks
-	if(thruster && thruster.integrity > 0 && thruster.rate > 0)
-		//check fuel
-		//
+//override in children if necessary
+/obj/machinery/overmap_vehicle/proc/handle_auto_turning()
+	//world << "/obj/machinery/overmap_vehicle/shuttle/handle_auto_turning() turn_dir:[turn_dir]"
+	if(turn_dir)
+		vehicle_controls.turn_vehicle(pilot, turn_dir)
+		var/datum/vehicle_transform/target_transform = vehicle_transform
+		if(is_cruising())
+			target_transform = overmap_object.vehicle_transform
 
-		if(dir_last_update)
-			dir_next_update = dir_last_update | thrust_direction
-		dir_last_update |= thrust_direction
-
-		//world << "move_dir in dir [direction]"
-
-/obj/machinery/overmap_vehicle/proc/ground_thrust(var/thrust_direction)
-	//standard checks
-	if(wheels && wheels.integrity > 0 && wheels.rate > 0)
-		//check fuel
-		//
-
-		//check if we have traction
-		//
-
-		world << "move_dir in dir [thrust_direction]"*/
-
-/obj/machinery/overmap_vehicle/proc/set_landing_gear(var/extended)
-	if(extendable_landing_gear)
-		landing_gear_extended = extended
-		if(landing_gear_extended)
-			visible_message("[src] extends its landing gear.")
-			verbs -= /datum/overmap_vehicle_component/verb/extend_landing_gear
-			verbs += /datum/overmap_vehicle_component/verb/retract_landing_gear
+		if(target_transform.heading == dir2angle(turn_dir))
+			turn_dir = 0
 		else
-			visible_message("[src] retracts its landing gear.")
-			verbs -= /datum/overmap_vehicle_component/verb/retract_landing_gear
-			verbs += /datum/overmap_vehicle_component/verb/extend_landing_gear
+			return 1
+	return 0
 
-/obj/machinery/overmap_vehicle/proc/set_hovering(var/hovering_state)
-	if(hovering_state)
-		if(thruster && thruster.rate > 0)
-			if(thruster.integrity > 0)
-				usr << "<span class='info'>You switch the thrusters over to hover mode.</span>"
-				hovering = 1
-				vehicle_transform.max_pixel_speed = max_speed_hover
-				verbs -= /datum/overmap_vehicle_component/verb/enable_hover
-				verbs += /datum/overmap_vehicle_component/verb/disable_hover
-				if(hovering_underlay)
-					underlays += hovering_underlay
-			else
-				usr << "<span class='info'>Thrusters are too damaged to enter hover mode.</span>"
-		else
-			verbs -= /datum/overmap_vehicle_component/verb/enable_hover
+//override in children if necessary
+/obj/machinery/overmap_vehicle/proc/handle_auto_cruising()
+	if(is_cruising())
+		overmap_object.vehicle_transform.accelerate_forward(cruise_speed)
+		return 1
+
+	return 0
+
+//override in children if necessary
+/obj/machinery/overmap_vehicle/proc/handle_auto_moving()
+	if(move_dir)
+		vehicle_controls.move_vehicle(pilot, move_dir)
+		return 1
+	return 0
+
+/obj/machinery/overmap_vehicle/proc/get_absolute_directional_thrust(var/direction)
+	//north = north on the map
+
+	return get_relative_directional_thrust(direction)
+
+/obj/machinery/overmap_vehicle/proc/get_relative_directional_thrust(var/direction)
+	//north = front of the shuttle
+
+	var/accel = max_speed
+	/*if(hovering || no_grav())
+		accel = thruster.rate
 	else
-		//let's do a safety check if we're not going fast enough to stay aloft
-		if(vehicle_transform.get_speed() <= 32)
-			if(alert("Please confirm you want to disable hovering at this time", "Disable hover alert", "Continue", "Cancel")  == "Cancel")
-				return
-		usr << "<span class='info'>You switch the thrusters from hover mode to thrust mode.</span>"
-		hovering = 0
-		vehicle_transform.max_pixel_speed = max_speed
-		verbs -= /datum/overmap_vehicle_component/verb/disable_hover
-		if(thruster && thruster.rate > 0)
-			verbs += /datum/overmap_vehicle_component/verb/enable_hover
-		if(hovering_underlay)
-			underlays -= hovering_underlay
+		accel = wheels.rate*/
+	accel /= accel_duration
 
-/obj/machinery/overmap_vehicle/bullet_act(obj/item/projectile/P, def_zone)
-	//todo: chance of component damage on hit
-	//todo: targetting of specific components via def_zone
-	if(P.damage >= armour)
-		hull_remaining -= P.damage / armour
-		health_update()
-
-/obj/machinery/overmap_vehicle/proc/health_update()
-	if(hull_remaining <= 0)
-		//destroy the vehicle
-		var/turf/centre_turf = get_step(src.loc, NORTHEAST)		//spawn the explosion on the centre turf
-		for(var/mob/M in contents)
-			M.loc = get_step_rand(centre_turf)
-			M.unset_machine()
-		//	proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1)
-		qdel(src)
-		explosion(centre_turf, 2, 3, 4, 5)
+	return accel
 
 /obj/machinery/overmap_vehicle/proc/fall()
 	//fall!
@@ -299,7 +287,6 @@ obj/machinery/overmap_vehicle/process()
 			H << "\icon[src] <span class='info'>[src] is already being piloted by [pilot]</span>"
 	else
 		pilot = H
-		H.set_machine(src)
 		usr << "\icon[src] <span class='info'>You are now the pilot!</span>"
 		add_tracking_overlays(H)
 
