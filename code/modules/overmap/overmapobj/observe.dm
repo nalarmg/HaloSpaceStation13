@@ -1,8 +1,11 @@
 
 /obj/effect/overmapobj/proc/observe_space(var/mob/user)
-	my_observers.Add(user)
+	if(!(user in my_observers))
+		my_observers.Add(user)
 	user.set_machine(src)
 	user.reset_view(src, 0)
+	if(user.client)
+		user.client.view = 7
 
 /obj/effect/overmapobj/check_eye(var/mob/user)
 	//a player is trying to manually look out the window

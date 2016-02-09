@@ -4,6 +4,7 @@
 	desc = "Space faring vessel."
 	icon = 'code/modules/overmap/ships/corvette.dmi'
 	icon_state = "base"
+	hide_vehicles = 1
 
 	var/fore_dir = NORTH
 	var/list/ship_levels = list()
@@ -26,7 +27,7 @@
 	var/center_x = 0
 	var/center_y = 0
 
-	var/datum/vehicle_transform/vehicle_transform
+	var/datum/pixel_transform/pixel_transform
 
 	var/move_mode_absolute = 0
 
@@ -89,12 +90,12 @@
 		index++
 
 /obj/effect/overmapobj/ship/overmap_init()
-	vehicle_transform = init_vehicle_transform(src)
-	vehicle_transform.max_pixel_speed = max_pixel_speed
-	vehicle_transform.heading = dir2angle(src.dir)
-	vehicle_transform.my_observers = my_observers
-	vehicle_transform.icon_state_thrust = "thrust"
-	vehicle_transform.icon_state_brake = "brake"
+	pixel_transform = init_pixel_transform(src)
+	pixel_transform.max_pixel_speed = max_pixel_speed
+	pixel_transform.heading = dir2angle(src.dir)
+	pixel_transform.my_observers = my_observers
+	pixel_transform.icon_state_thrust = "thrust"
+	pixel_transform.icon_state_brake = "brake"
 
 	//don't bother doing physics based acceleration and turning
 	//we'll just hardcode the values and tweak them as needed
@@ -104,7 +105,7 @@
 	if(move_mode_absolute && (direction in cardinal))
 		accelerate(user, direction)
 	else
-		var/rotate_angle = vehicle_transform.turn_to_dir(direction, yaw_speed)
+		var/rotate_angle = pixel_transform.turn_to_dir(direction, yaw_speed)
 		if(rotate_angle != 0)
 			//update the heading
 			/*heading += rotate_angle
@@ -128,7 +129,7 @@
 
 	//an accel_heading of 0 represents right (EAST) on the overmap
 	//here we adjust it by ship heading to get the actual dir on the ship zlevel
-	var/adjusted_heading = dir2angle(accel_dir) - vehicle_transform.heading
+	var/adjusted_heading = dir2angle(accel_dir) - pixel_transform.heading
 	if(adjusted_heading < 0)
 		adjusted_heading += 360
 
@@ -144,7 +145,7 @@
 
 /obj/effect/overmapobj/ship/proc/adjust_speed(n_x, n_y)
 
-	vehicle_transform.add_pixel_speed(n_x, n_y)
+	pixel_transform.add_pixel_speed(n_x, n_y)
 
 	//toggle the stars "moving"
 	for(var/shipz in ship_levels)
@@ -197,23 +198,23 @@
 	//var/acceleration = eng_control.get_maneuvring_thrust() / vessel_mass
 
 	//use pixels per microsecond instead
-	vehicle_transform.accelerate_forward(get_acceleration(NORTH))
+	pixel_transform.accelerate_forward(get_acceleration(NORTH))
 
 /obj/effect/overmapobj/ship/proc/brake()
-	vehicle_transform.brake(get_acceleration(SOUTH))
+	pixel_transform.brake(get_acceleration(SOUTH))
 
 /obj/effect/overmapobj/ship/proc/is_still()
-	return vehicle_transform.is_still()
+	return pixel_transform.is_still()
 
 /obj/effect/overmapobj/ship/proc/get_acceleration(var/accel_dir)
 	//return eng_control.get_maneuvring_thrust(accel_dir) / vessel_mass
 	return forward_acceleration
 
 /obj/effect/overmapobj/ship/proc/get_speed()
-	return vehicle_transform.get_speed()
+	return pixel_transform.get_speed()
 
 /obj/effect/overmapobj/ship/proc/get_heading()
-	return vehicle_transform.heading
+	return pixel_transform.heading
 
 /obj/effect/overmapobj/ship/proc/update_spaceturfs()
 	set background = 1

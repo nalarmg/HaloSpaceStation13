@@ -2,23 +2,21 @@
 /obj/machinery/overmap_vehicle/pelican
 	name = "D77-TC Pelican"
 	desc = "Versatile dropship and support gunship."
-	icon = 'pelican.dmi'
+	icon = 'code/modules/overmap/overmap_vehicles/icons/pelican.dmi'
 	icon_state = "pelican"
 	bound_width = 128
 	bound_height = 128
-	internal_cells = 16
-	max_speed_hover = 16
 	max_speed = 16
 	yaw_speed = 5
 	accel_duration = 50
-	max_crew = 11
+	occupants_max = 12
 	sensor_icon_state = "pelican"
 	iff_faction_broadcast = "UNSC"
 
 /obj/machinery/overmap_vehicle/pelican/New()
 	..()
 	overmap_object.icon_state = "pelican"
-	vehicle_transform.overlay_thrust_base = new('pelican.dmi', "thrust1")
+	pixel_transform.icon_state_thrust = "thrust1"
 
 /obj/machinery/overmap_vehicle/pelican/health_update()
 	//update damage overlays
@@ -38,7 +36,7 @@
 	if(new_damage_state != damage_state)
 		overlays -= damage_overlay
 		if(new_damage_state)
-			damage_overlay = new('pelican.dmi', "dam[damage_state]")
+			damage_overlay = new('code/modules/overmap/overmap_vehicles/icons/pelican.dmi', "dam[damage_state]")
 			overlays += damage_overlay
 
 		damage_state = new_damage_state

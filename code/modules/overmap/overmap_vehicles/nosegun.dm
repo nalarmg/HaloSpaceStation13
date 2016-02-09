@@ -69,7 +69,7 @@
 		target_atom = get_step(linked, angle2dir(fire_angle))*/
 
 	//add a bit of inaccuracy to the shots
-	var/fire_angle = vehicle_transform.heading
+	var/fire_angle = pixel_transform.heading
 	fire_angle += rand(0, 4) - 2
 
 	//when we fire, slow down pixel speed to a more overmap-friendly one

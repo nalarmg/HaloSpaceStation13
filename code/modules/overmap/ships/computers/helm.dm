@@ -62,10 +62,14 @@
 		linked.relaymove(user,direction)
 		return 1
 
-/obj/machinery/computer/helm/proc/thrust_forward()
+/obj/machinery/computer/helm/proc/thrust_forward(var/mob/user)
 	if(manual_control && linked)
 		linked.thrust_forward()
 		return 1
+
+/obj/machinery/computer/helm/proc/thrust_forward_toggle()
+	if(linked)
+		linked.thrust_forward_toggle()
 
 /obj/machinery/computer/helm/check_eye(var/mob/user as mob)
 
@@ -221,7 +225,7 @@
 		if(manual_control)
 			manual_control = null
 			check_eye(manual_control)
-		else if(ismob(usr))
+		else if(isliving(usr))
 			manual_control = usr
 			check_eye(manual_control)
 
@@ -229,7 +233,3 @@
 		state = href_list["state"]
 	add_fingerprint(usr)
 	updateUsrDialog()
-
-/obj/machinery/computer/helm/proc/thrust_forward_toggle()
-	if(linked)
-		linked.thrust_forward_toggle()

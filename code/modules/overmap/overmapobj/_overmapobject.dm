@@ -1,6 +1,9 @@
 
 //===================================================================================
 //Overmap object representing a zlevel or other notable object
+//See also:
+//	code\modules\overmap\controller\initialise_overmapobj.dm
+//	code\modules\overmap\overmap_vehicles\overmapobj.dm
 //===================================================================================
 
 /obj/effect/overmapobj
@@ -16,7 +19,7 @@
 	var/faction = ""
 	var/list/obj_turfs = list()
 	var/list/linked_zlevelinfos = list()
-
+	var/hide_vehicles = 0
 	var/in_meteor_sector = 0
 
 	var/initialised = 0

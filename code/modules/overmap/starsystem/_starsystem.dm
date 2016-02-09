@@ -12,6 +12,8 @@ var/list/available_quadrants = list()
 /obj/effect/starsystem/proc/generate_asteroid_fields()
 	set background = 1
 
+	world << "<span class='danger'>Populating asteroid fields for the [src] system...</span>"
+	
 	//create 2-4 asteroid fields
 	//to keep the asteroids nicely spread out, we'll puit one in each "quadrant" (corner) of the star system
 	//don't run this in a spawn()
