@@ -1131,6 +1131,7 @@
 #include "code\modules\ghosttrap\trap.dm"
 #include "code\modules\halo\clothing\jumpsuits.dm"
 #include "code\modules\halo\clothing\misc.dm"
+#include "code\modules\halo\doors\halo_doors.dm"
 #include "code\modules\halo\weapons\ammo.dm"
 #include "code\modules\halo\weapons\energy.dm"
 #include "code\modules\halo\weapons\pistols.dm"
