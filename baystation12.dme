@@ -1523,6 +1523,7 @@
 #include "code\modules\overmap\overmap_vehicles\overmap.dm"
 #include "code\modules\overmap\overmap_vehicles\overmap_vehicle.dm"
 #include "code\modules\overmap\overmap_vehicles\overmap_vehicle_component.dm"
+#include "code\modules\overmap\overmap_vehicles\overmap_vehicle_destroy.dm"
 #include "code\modules\overmap\overmap_vehicles\overmap_vehicle_object.dm"
 #include "code\modules\overmap\overmap_vehicles\overmap_vehicle_observe.dm"
 #include "code\modules\overmap\overmap_vehicles\overmap_vehicle_sensor.dm"
