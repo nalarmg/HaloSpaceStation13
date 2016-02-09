@@ -1,6 +1,9 @@
 
 //===================================================================================
 //Overmap object representing a zlevel or other notable object
+//See also:
+//	code\modules\overmap\controller\initialise_overmapobj.dm
+//	code\modules\overmap\overmap_vehicles\overmapobj.dm
 //===================================================================================
 
 /obj/effect/overmapobj

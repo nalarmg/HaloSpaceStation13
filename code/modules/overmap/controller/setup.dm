@@ -63,7 +63,6 @@ datum/controller/process/overmap/setup()
 	current_starsystem = new()
 	all_starsystems.Add(current_starsystem)
 
-	world << "<span class='danger'>Populating asteroid fields...</span>"
 	current_starsystem.generate_asteroid_fields()
 
 	/*for(var/x in 1 to 3)

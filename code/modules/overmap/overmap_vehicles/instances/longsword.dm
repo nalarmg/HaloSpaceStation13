@@ -2,7 +2,7 @@
 /obj/machinery/overmap_vehicle/longsword
 	name = "GA-TL1 Longsword"
 	desc = "Standard UNSC multirole starfighter"
-	icon = 'longsword.dmi'
+	icon = 'code/modules/overmap/overmap_vehicles/icons/longsword.dmi'
 	icon_state = "longsword"
 	bound_width = 128
 	bound_height = 128
@@ -32,7 +32,7 @@
 	if(new_damage_state != damage_state)
 		overlays -= damage_overlay
 		if(new_damage_state)
-			damage_overlay = new('longsword.dmi', "dam[damage_state]")
+			damage_overlay = new('code/modules/overmap/overmap_vehicles/icons/longsword.dmi', "dam[damage_state]")
 			overlays += damage_overlay
 
 		damage_state = new_damage_state

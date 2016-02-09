@@ -2,7 +2,7 @@
 /obj/machinery/overmap_vehicle/pelican
 	name = "D77-TC Pelican"
 	desc = "Versatile dropship and support gunship."
-	icon = 'pelican.dmi'
+	icon = 'code/modules/overmap/overmap_vehicles/icons/pelican.dmi'
 	icon_state = "pelican"
 	bound_width = 128
 	bound_height = 128
