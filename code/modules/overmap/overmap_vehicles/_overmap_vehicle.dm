@@ -43,7 +43,7 @@
 	var/damage_state = 0
 	var/icon/damage_overlay
 
-	var/datum/vehicle_transform/vehicle_transform
+	var/datum/pixel_transform/pixel_transform
 
 	var/default_controlscheme_type = /datum/vehicle_controls
 	var/datum/vehicle_controls/vehicle_controls
@@ -79,10 +79,10 @@
 /obj/machinery/overmap_vehicle/New()
 	//InitComponents()
 
-	vehicle_transform = init_vehicle_transform(src)
-	vehicle_transform.my_observers = my_observers
-	vehicle_transform.heading = dir2angle(dir)
-	vehicle_transform.max_pixel_speed = max_speed
+	pixel_transform = init_pixel_transform(src)
+	pixel_transform.my_observers = my_observers
+	pixel_transform.heading = dir2angle(dir)
+	pixel_transform.max_pixel_speed = max_speed
 
 	vehicle_controls = new default_controlscheme_type(src)
 
@@ -104,7 +104,7 @@
 		overmap_object.loc = overmapobj.loc
 	overmap_object.name = src.name
 	overmap_object.overmap_vehicle = src
-	vehicle_transform.my_overmap_object = overmap_object
+	pixel_transform.my_overmap_object = overmap_object
 	//vehicle.overmap_icon_base = overmap_object.icon
 
 	//verbs -= /obj/machinery/overmap_vehicle/verb/disable_cruise
@@ -198,14 +198,14 @@
 
 	//apply brake otherwise
 	if(autobraking)
-		if(vehicle_transform.is_still())
+		if(pixel_transform.is_still())
 			autobraking = 0
 		else
-			vehicle_transform.brake(get_relative_directional_thrust(NORTH))
+			pixel_transform.brake(get_relative_directional_thrust(NORTH))
 			continue_update = 1
 
 	//update the sprite
-	if(vehicle_transform.update(update_interval))
+	if(pixel_transform.update(update_interval))
 		continue_update = 1
 
 	//only spawn another update if there's something that needs updating
@@ -220,9 +220,9 @@
 	//world << "/obj/machinery/overmap_vehicle/shuttle/handle_auto_turning() turn_dir:[turn_dir]"
 	if(turn_dir)
 		vehicle_controls.turn_vehicle(pilot, turn_dir)
-		var/datum/vehicle_transform/target_transform = vehicle_transform
+		var/datum/pixel_transform/target_transform = pixel_transform
 		if(is_cruising())
-			target_transform = overmap_object.vehicle_transform
+			target_transform = overmap_object.pixel_transform
 
 		if(target_transform.heading == dir2angle(turn_dir))
 			turn_dir = 0
@@ -233,7 +233,7 @@
 //override in children if necessary
 /obj/machinery/overmap_vehicle/proc/handle_auto_cruising()
 	if(is_cruising())
-		overmap_object.vehicle_transform.accelerate_forward(cruise_speed)
+		overmap_object.pixel_transform.accelerate_forward(cruise_speed)
 		return 1
 
 	return 0

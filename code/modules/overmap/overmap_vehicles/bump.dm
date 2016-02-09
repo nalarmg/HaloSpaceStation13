@@ -6,7 +6,7 @@
 	if(world.time > last_bump + 0.5)
 		last_bump = world.time
 
-		var/myspeed = vehicle_transform.get_speed()
+		var/myspeed = pixel_transform.get_speed()
 
 		//take up to 100% hull damage at top speed collision, but reduced by armour
 		if(myspeed > PIXEL_IMPACT_SPEED)

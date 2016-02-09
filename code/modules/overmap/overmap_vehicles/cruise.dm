@@ -30,7 +30,7 @@
 		if(cur_sector)
 			if(istype(cur_sector, /obj/effect/overmapobj/temporary_sector))
 				//halt the vehicle
-				vehicle_transform.brake(vehicle_transform.max_pixel_speed + 1)
+				pixel_transform.brake(pixel_transform.max_pixel_speed + 1)
 
 				//put this in a separate proc so that it can be overriden in the children (ie shuttles) for custom behaviour6
 				//occupants_handle_cruise()
@@ -48,9 +48,9 @@
 					transit_area.overmap_eject_object = src.overmap_object
 
 				//make it go fast
-				//world << "starting cruise with heading [vehicle_transform.heading]"
+				//world << "starting cruise with heading [pixel_transform.heading]"
 				var/transit_dir = "ns"
-				var/snapped_dir = angle2dir(vehicle_transform.heading)
+				var/snapped_dir = angle2dir(pixel_transform.heading)
 				switch(snapped_dir)
 					if(SOUTH)
 						transit_dir = "sn"
@@ -75,9 +75,9 @@
 				user << "\icon[src] <span class='info'>You enable cruise mode.</span>"
 
 				//kick in the nos!
-				overmap_object.vehicle_transform.max_pixel_speed = cruise_speed
-				overmap_object.vehicle_transform.heading = src.vehicle_transform.heading
-				overmap_object.vehicle_transform.accelerate_forward(cruise_speed)
+				overmap_object.pixel_transform.max_pixel_speed = cruise_speed
+				overmap_object.pixel_transform.heading = src.pixel_transform.heading
+				overmap_object.pixel_transform.accelerate_forward(cruise_speed)
 
 				return 1
 
@@ -107,13 +107,13 @@
 		cruise_exit_orientation()
 
 		//reset speeds and kick it to max (normal) speed
-		overmap_object.vehicle_transform.brake(overmap_object.vehicle_transform.max_pixel_speed + 1)
-		overmap_object.vehicle_transform.max_pixel_speed = vehicle_transform.max_pixel_speed
-		src.vehicle_transform.add_pixel_speed_angle(src.vehicle_transform.max_pixel_speed, src.vehicle_transform.heading)
+		overmap_object.pixel_transform.brake(overmap_object.pixel_transform.max_pixel_speed + 1)
+		overmap_object.pixel_transform.max_pixel_speed = pixel_transform.max_pixel_speed
+		src.pixel_transform.add_pixel_speed_angle(src.pixel_transform.max_pixel_speed, src.pixel_transform.heading)
 
 		return 1
 
 /obj/machinery/overmap_vehicle/proc/cruise_exit_orientation()
-	src.vehicle_transform.heading = overmap_object.vehicle_transform.heading
+	src.pixel_transform.heading = overmap_object.pixel_transform.heading
 	src.transform = overmap_object.transform
 

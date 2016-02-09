@@ -120,7 +120,7 @@
 					user << "<span class='info'>\icon[src] [src] cannot initiate maglock while cruising.</span>"
 				return
 
-			if(!vehicle_transform.is_still())
+			if(!pixel_transform.is_still())
 				if(user)
 					user << "<span class='info'>\icon[src] [src] cannot initiate maglock while in motion.</span>"
 				return

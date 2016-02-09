@@ -106,7 +106,7 @@
 		//todo: it might not handle diagonal dirs nicely, so test this to make sure (restrict to cardinals if not)
 		if(source_obj && istype(source_obj, /obj/effect/overmapobj/vehicle))
 			var/obj/effect/overmapobj/vehicle/V = source_obj
-			throwdir = angle2dir(V.vehicle_transform.heading)
+			throwdir = angle2dir(V.pixel_transform.heading)
 		else
 			throwdir = pick(cardinal)
 

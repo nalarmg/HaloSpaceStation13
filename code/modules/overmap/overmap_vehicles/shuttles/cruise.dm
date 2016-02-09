@@ -16,25 +16,25 @@
 		//work out nearest cardinal angle to the overmapobj's heading
 		//todo: is there a helper for this? should there be?
 		var/target_dir = 0
-		if(overmap_object.vehicle_transform.heading < 45)
+		if(overmap_object.pixel_transform.heading < 45)
 			target_dir = NORTH
-		else if(overmap_object.vehicle_transform.heading < 135)
+		else if(overmap_object.pixel_transform.heading < 135)
 			target_dir = EAST
-		else if(overmap_object.vehicle_transform.heading < 225)
+		else if(overmap_object.pixel_transform.heading < 225)
 			target_dir = SOUTH
-		else if(overmap_object.vehicle_transform.heading < 315)
+		else if(overmap_object.pixel_transform.heading < 315)
 			target_dir = WEST
 		else
 			target_dir = NORTH
 		//world << "	calculated snap dir: [target_dir]"
 
 		//snap the heading to the calculated cardinal
-		overmap_object.vehicle_transform.turn_to_dir(target_dir, 360)
+		overmap_object.pixel_transform.turn_to_dir(target_dir, 360)
 
 		return ..()
 
 /obj/machinery/overmap_vehicle/shuttle/cruise_exit_orientation()
-	var/target_dir = angle2dir(overmap_object.vehicle_transform.heading)
+	var/target_dir = angle2dir(overmap_object.pixel_transform.heading)
 	//multiple turns may be necessary as shuttle can only turn in 90 degree increments
 	while(src.dir != target_dir)
 		//world << "	turning..."

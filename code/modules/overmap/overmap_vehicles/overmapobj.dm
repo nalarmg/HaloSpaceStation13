@@ -1,17 +1,17 @@
 
 /obj/effect/overmapobj/vehicle
-	icon = 'code/modules/overmap/overmap_vehicles/overmap_vehicles.dmi'
+	icon = 'code/modules/overmap/overmap_vehicles/icons/overmap_vehicles.dmi'
 	animate_movement = 0
 	var/obj/machinery/overmap_vehicle/overmap_vehicle
 	layer = 3.1
-	var/datum/vehicle_transform/vehicle_transform
+	var/datum/pixel_transform/pixel_transform
 
 /obj/effect/overmapobj/vehicle/New()
-	vehicle_transform = init_vehicle_transform(src)
-	//vehicle_transform.my_observers = my_observers
-	vehicle_transform.heading = dir2angle(dir)
-	vehicle_transform.my_observers = my_observers
-	//vehicle_transform.max_pixel_speed = max_speed
+	pixel_transform = init_pixel_transform(src)
+	//pixel_transform.my_observers = my_observers
+	pixel_transform.heading = dir2angle(dir)
+	pixel_transform.my_observers = my_observers
+	//pixel_transform.max_pixel_speed = max_speed
 
 /obj/effect/overmapobj/vehicle/observe_space(var/mob/user)
 	//stop the vehicle from taking back control

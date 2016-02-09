@@ -109,9 +109,9 @@
 	M.Turn(dir2angle(newdir))
 
 	//update the pixel transforms with the new orientation and heading
-	vehicle_transform.heading = dir2angle(newdir)
+	pixel_transform.heading = dir2angle(newdir)
 	overmap_object.transform = M
-	overmap_object.vehicle_transform.heading = vehicle_transform.heading
+	overmap_object.pixel_transform.heading = pixel_transform.heading
 
 	//let's translate the matrix so it's center is over the bottom left corner of the atom
 	M.Translate(-old_bound_width/2, -old_bound_height/2)
@@ -132,8 +132,8 @@
 	src.interior.rotate_contents(turn_angle / 90)
 
 	//reset existing speed and pixel offsets
-	src.vehicle_transform.pixel_speed_x = 0
-	src.vehicle_transform.pixel_speed_y = 0
+	src.pixel_transform.pixel_speed_x = 0
+	src.pixel_transform.pixel_speed_y = 0
 
 	src.pixel_x = 0
 	src.pixel_y = 0

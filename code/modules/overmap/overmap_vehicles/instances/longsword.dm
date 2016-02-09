@@ -14,7 +14,7 @@
 /obj/machinery/overmap_vehicle/longsword/New()
 	..()
 	overmap_object.icon_state = "longsword"
-	vehicle_transform.icon_state_thrust = "longsword_thruster"
+	pixel_transform.icon_state_thrust = "longsword_thruster"
 
 /obj/machinery/overmap_vehicle/longsword/health_update()
 	//update damage overlays

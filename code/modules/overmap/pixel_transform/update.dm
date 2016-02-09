@@ -1,5 +1,5 @@
 
-/datum/vehicle_transform/proc/update(var/delta_time)
+/datum/pixel_transform/proc/update(var/delta_time)
 
 	if(!control_object || !control_object.loc)
 		return 0
@@ -50,7 +50,7 @@
 
 	return 1
 
-/datum/vehicle_transform/proc/update_loop(var/my_update_start_time = -1)
+/datum/pixel_transform/proc/update_loop(var/my_update_start_time = -1)
 
 	if(main_update_start_time < 0)
 		my_update_start_time = world.time
@@ -64,7 +64,7 @@
 	else
 		main_update_start_time = -1
 
-/datum/vehicle_transform/proc/try_update()
+/datum/pixel_transform/proc/try_update()
 	//world << "try_update() 1"
 	//if our control_object has a custom update loop, use that
 	if(istype(control_object, /obj/machinery/overmap_vehicle))

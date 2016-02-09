@@ -2,7 +2,7 @@
 /obj/machinery/overmap_vehicle/sabre
 	name = "YSS-1000 Sabre"
 	desc = "A top secret prototype anti-ship spaceplane"
-	icon = 'sabre.dmi'
+	icon = 'code/modules/overmap/overmap_vehicles/icons/sabre.dmi'
 	icon_state = "sabre"
 	bound_width = 128
 	bound_height = 128
@@ -14,7 +14,7 @@
 /obj/machinery/overmap_vehicle/sabre/New()
 	..()
 	overmap_object.icon_state = "sabre"
-	vehicle_transform.icon_state_thrust = "Low thrust"
+	pixel_transform.icon_state_thrust = "Low thrust"
 
 /obj/machinery/overmap_vehicle/sabre/health_update()
 	//update damage overlays
@@ -32,7 +32,7 @@
 	if(new_damage_state != damage_state)
 		overlays -= damage_overlay
 		if(new_damage_state)
-			damage_overlay = new('sabre.dmi', "dam[damage_state]")
+			damage_overlay = new('code/modules/overmap/overmap_vehicles/icons/sabre.dmi', "dam[damage_state]")
 			overlays += damage_overlay
 
 		damage_state = new_damage_state

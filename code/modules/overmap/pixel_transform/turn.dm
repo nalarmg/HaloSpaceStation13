@@ -1,5 +1,5 @@
 
-/datum/vehicle_transform/proc/turn_to_dir(var/target_dir, var/max_degrees)
+/datum/pixel_transform/proc/turn_to_dir(var/target_dir, var/max_degrees)
 
 	//world << "turn_to_dir([target_dir])"
 

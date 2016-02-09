@@ -16,7 +16,7 @@
 /obj/machinery/overmap_vehicle/pelican/New()
 	..()
 	overmap_object.icon_state = "pelican"
-	vehicle_transform.icon_state_thrust = "thrust1"
+	pixel_transform.icon_state_thrust = "thrust1"
 
 /obj/machinery/overmap_vehicle/pelican/health_update()
 	//update damage overlays
@@ -36,7 +36,7 @@
 	if(new_damage_state != damage_state)
 		overlays -= damage_overlay
 		if(new_damage_state)
-			damage_overlay = new('pelican.dmi', "dam[damage_state]")
+			damage_overlay = new('code/modules/overmap/overmap_vehicles/icons/pelican.dmi', "dam[damage_state]")
 			overlays += damage_overlay
 
 		damage_state = new_damage_state

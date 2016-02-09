@@ -38,22 +38,22 @@
 	data["sector_info"] = "Not Available"//my_shuttle.current_sector ? my_shuttle.current_sector.desc : "Not Available"
 	data["s_x"] = my_shuttle.overmap_object.x
 	data["s_y"] = my_shuttle.overmap_object.y
-	data["speed"] = my_shuttle.vehicle_transform.get_speed()
+	data["speed"] = my_shuttle.pixel_transform.get_speed()
 	data["accel"] = round(my_shuttle.get_relative_directional_thrust(NORTH))
-	data["heading"] = my_shuttle.vehicle_transform.heading
+	data["heading"] = my_shuttle.pixel_transform.heading
 	data["move_dir"] = my_shuttle.move_dir
 	data["turn_dir"] = my_shuttle.turn_dir
 	data["view_shuttle"] = !user.machine
 	data["view_external"] = user.machine == my_shuttle
 	data["view_overmap"] = user.machine == my_shuttle.overmap_object
 	data["autobraking"] = my_shuttle.autobraking
-	data["brake_disabled"] = my_shuttle.vehicle_transform.is_still()
+	data["brake_disabled"] = my_shuttle.pixel_transform.is_still()
 	data["maglocked"] = my_shuttle.is_maglocked()
 
 	if(my_shuttle.is_cruising())
 		data["brake_disabled"] = 1
 		data["cruising"] = 1
-		data["heading"] = my_shuttle.overmap_object.vehicle_transform.heading
+		data["heading"] = my_shuttle.overmap_object.pixel_transform.heading
 
 	/*var/list/locations[0]
 	for (var/datum/data/record/R in known_sectors)
@@ -137,7 +137,7 @@
 	if (href_list["brake"])
 		var/mob/living/carbon/human/M = locate(href_list["brake"])
 		if(istype(M) && can_use(M))
-			if(!my_shuttle.is_maglocked() && !my_shuttle.is_cruising() && !my_shuttle.vehicle_transform.is_still())
+			if(!my_shuttle.is_maglocked() && !my_shuttle.is_cruising() && !my_shuttle.pixel_transform.is_still())
 				my_shuttle.move_dir = 0
 				my_shuttle.autobraking = 1
 

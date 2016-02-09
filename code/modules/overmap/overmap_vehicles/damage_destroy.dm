@@ -38,8 +38,8 @@
 	disable_cruise()
 
 	//clean up references
-	qdel(vehicle_transform)
-	qdel(overmap_object.vehicle_transform)
+	qdel(pixel_transform)
+	qdel(overmap_object.pixel_transform)
 	qdel(overmap_object)
 	qdel(vehicle_controls)
 	qdel(internal_atmosphere)

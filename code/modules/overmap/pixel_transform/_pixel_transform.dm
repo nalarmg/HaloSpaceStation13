@@ -1,17 +1,17 @@
 
-/proc/init_vehicle_transform(var/atom/movable/new_mover)
-	var/datum/vehicle_transform/vehicle_transform = new()
-	vehicle_transform.control_object = new_mover
-	vehicle_transform.heading = dir2angle(new_mover.dir)
+/proc/init_pixel_transform(var/atom/movable/new_mover)
+	var/datum/pixel_transform/pixel_transform = new()
+	pixel_transform.control_object = new_mover
+	pixel_transform.heading = dir2angle(new_mover.dir)
 	new_mover.animate_movement = 0
 
-	//vehicle_transform.icon_base = new(new_mover.icon)
-	//vehicle_transform.icon_state = new_mover.icon_state
-	//vehicle_transform.icon_state_original = vehicle_transform.icon_state
+	//pixel_transform.icon_base = new(new_mover.icon)
+	//pixel_transform.icon_state = new_mover.icon_state
+	//pixel_transform.icon_state_original = pixel_transform.icon_state
 
-	return vehicle_transform
+	return pixel_transform
 
-/datum/vehicle_transform
+/datum/pixel_transform
 	var/atom/movable/control_object
 
 	//var/icon/icon_base
@@ -46,7 +46,7 @@
 	var/update_interval = 1
 	var/main_update_start_time = -1
 
-/*/datum/vehicle_transform/New()
+/*/datum/pixel_transform/New()
 	loctracker = new /obj/effect(src)
 	loctracker.name = "loctracker"
 	loctracker.layer = MOB_LAYER
@@ -55,7 +55,7 @@
 
 //unused for now
 /*
-/datum/vehicle_transform/proc/set_pixel_speed(var/new_speed_x, var/new_speed_y)
+/datum/pixel_transform/proc/set_pixel_speed(var/new_speed_x, var/new_speed_y)
 	pixel_speed_x = new_speed_x
 	pixel_speed_y = new_speed_y
 
@@ -63,10 +63,10 @@
 		update()
 		*/
 
-/datum/vehicle_transform/proc/accelerate_forward(var/acceleration)
+/datum/pixel_transform/proc/accelerate_forward(var/acceleration)
 	add_pixel_speed_angle(acceleration, heading)
 
-/datum/vehicle_transform/proc/brake(var/acceleration)
+/datum/pixel_transform/proc/brake(var/acceleration)
 
 	//can we take a shortcut here?
 	if(pixel_speed <= acceleration)
@@ -83,13 +83,13 @@
 
 		add_pixel_speed(accel_x, accel_y)
 
-/datum/vehicle_transform/proc/add_pixel_speed_direction(var/acceleration, var/direction)
+/datum/pixel_transform/proc/add_pixel_speed_direction(var/acceleration, var/direction)
 	add_pixel_speed_angle(acceleration, dir2angle(direction))
 
-/datum/vehicle_transform/proc/add_pixel_speed_direction_relative(var/acceleration, var/relative_direction)
+/datum/pixel_transform/proc/add_pixel_speed_direction_relative(var/acceleration, var/relative_direction)
 	add_pixel_speed_angle(acceleration, dir2angle(relative_direction) + heading)
 
-/datum/vehicle_transform/proc/add_pixel_speed_angle(var/acceleration, var/angle)
+/datum/pixel_transform/proc/add_pixel_speed_angle(var/acceleration, var/angle)
 	//work out the x and y components according to our heading
 	var/x_accel = sin(angle) * acceleration
 	var/y_accel = cos(angle) * acceleration
@@ -99,7 +99,7 @@
 	if(angle == heading)
 		spawn_thrust()
 
-/datum/vehicle_transform/proc/add_pixel_speed(var/accel_x, var/accel_y)
+/datum/pixel_transform/proc/add_pixel_speed(var/accel_x, var/accel_y)
 	pixel_speed_x += accel_x
 	pixel_speed_y += accel_y
 
@@ -109,7 +109,7 @@
 	if(!is_still())
 		try_update()
 
-/datum/vehicle_transform/proc/limit_speed()
+/datum/pixel_transform/proc/limit_speed()
 	//work out if we're getting close to max speed
 	if(max_pixel_speed > 0)
 		var/total_speed = get_speed()
@@ -125,7 +125,7 @@
 
 			recalc_speed()
 
-/datum/vehicle_transform/proc/set_new_maxspeed(var/new_max_speed)
+/datum/pixel_transform/proc/set_new_maxspeed(var/new_max_speed)
 	var/total_speed = get_speed()
 	max_pixel_speed = new_max_speed
 
@@ -136,16 +136,16 @@
 		pixel_speed_y *= max_pixel_speed
 		recalc_speed()
 
-/datum/vehicle_transform/proc/is_still()
+/datum/pixel_transform/proc/is_still()
 	return !(pixel_speed_x || pixel_speed_y)
 
-/datum/vehicle_transform/proc/get_speed()
+/datum/pixel_transform/proc/get_speed()
 	return pixel_speed
 
-/datum/vehicle_transform/proc/recalc_speed()
+/datum/pixel_transform/proc/recalc_speed()
 	pixel_speed = sqrt(pixel_speed_x * pixel_speed_x + pixel_speed_y * pixel_speed_y)
 
-/datum/vehicle_transform/proc/spawn_thrust()
+/datum/pixel_transform/proc/spawn_thrust()
 	if(thrust_left)
 		thrust_left = 8
 	else
@@ -153,7 +153,7 @@
 		control_object.overlays += icon_state_thrust
 
 /*
-/datum/vehicle_transform/proc/enter_new_zlevel(var/obj/effect/overmapobj/target_obj)
+/datum/pixel_transform/proc/enter_new_zlevel(var/obj/effect/overmapobj/target_obj)
 	//if we have a separate overmap object, update its turf on the overmap
 	if(my_overmap_object)
 

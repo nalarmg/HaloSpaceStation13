@@ -8,8 +8,8 @@
 		move_dir = 0
 		turn_dir = 0
 		autobraking = 0
-		vehicle_transform.brake(vehicle_transform.max_pixel_speed + 1)
-		overmap_object.vehicle_transform.brake(overmap_object.vehicle_transform.max_pixel_speed + 1)
+		pixel_transform.brake(pixel_transform.max_pixel_speed + 1)
+		overmap_object.pixel_transform.brake(overmap_object.pixel_transform.max_pixel_speed + 1)
 
 		//make sure our interior is in the real world
 		init_maglock(forced = 1)

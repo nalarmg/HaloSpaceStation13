@@ -1,5 +1,5 @@
 
-/datum/vehicle_transform/proc/update_x()
+/datum/pixel_transform/proc/update_x()
 	//move along the x axis
 	//this will probably not work nicely with moving more than 1 turf at a time (visual and collision glitches)
 

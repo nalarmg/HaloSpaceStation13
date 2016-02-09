@@ -19,11 +19,11 @@
 
 	//if we're sending diagonals, just rotate
 	var/rotate_angle = 0
-	var/datum/vehicle_transform/target_vehicle_transform = vehicle.vehicle_transform
+	var/datum/pixel_transform/target_pixel_transform = vehicle.pixel_transform
 	if(vehicle.is_cruising())
-		target_vehicle_transform = vehicle.overmap_object.vehicle_transform
+		target_pixel_transform = vehicle.overmap_object.pixel_transform
 
-	rotate_angle = target_vehicle_transform.turn_to_dir(direction, vehicle.yaw_speed)
+	rotate_angle = target_pixel_transform.turn_to_dir(direction, vehicle.yaw_speed)
 	//world << "rotate_angle:[rotate_angle]"
 	if(rotate_angle != 0)
 
@@ -53,15 +53,15 @@
 	else
 		accel = vehicle.get_relative_directional_thrust(direction)		//north = front of the shuttle
 
-	var/datum/vehicle_transform/target_vehicle_transform = vehicle.vehicle_transform
+	var/datum/pixel_transform/target_pixel_transform = vehicle.pixel_transform
 	if(vehicle.is_cruising())
-		target_vehicle_transform = vehicle.overmap_object.vehicle_transform
+		target_pixel_transform = vehicle.overmap_object.pixel_transform
 
 	//check move mode
 	if(move_mode_absolute)
-		target_vehicle_transform.add_pixel_speed_direction(accel, direction)
+		target_pixel_transform.add_pixel_speed_direction(accel, direction)
 	else
-		target_vehicle_transform.add_pixel_speed_direction_relative(accel, direction)
+		target_pixel_transform.add_pixel_speed_direction_relative(accel, direction)
 
 /datum/vehicle_controls/proc/move_toggle(var/mob/user, var/direction)
 	//world << "move_toggle([is_absolute], [direction])
