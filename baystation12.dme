@@ -1174,6 +1174,7 @@
 #include "code\modules\lighting\~lighting_undefs.dm"
 #include "code\modules\liquid\splash_simulation.dm"
 #include "code\modules\maps\dmm_suite.dm"
+#include "code\modules\maps\load_onto_turf.dm"
 #include "code\modules\maps\reader.dm"
 #include "code\modules\maps\swapmaps.dm"
 #include "code\modules\maps\writer.dm"
