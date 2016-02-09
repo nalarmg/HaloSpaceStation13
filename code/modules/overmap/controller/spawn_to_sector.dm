@@ -29,11 +29,10 @@
 
 	//grab the actual spawnsector and direction to start drifting in
 	var/throwdir = 0
-	var/spawnz = 0
+	var/obj/effect/zlevelinfo/target_zlevel
 	if(spawn_obj && spawn_obj.linked_zlevelinfos.len)
 		//pick a random zlevel to come into
-		var/obj/effect/zlevelinfo/target_zlevel = pick(spawn_obj.linked_zlevelinfos)
-		spawnz = target_zlevel.z
+		target_zlevel = pick(spawn_obj.linked_zlevelinfos)
 
 		//spawn on the closest edge
 		//there might be a more concise way to do this (one that avoids repetition) but at least this should run fairly fast
@@ -91,36 +90,39 @@
 					throwdir = SOUTH
 	else
 		//otherwise we're going to spawn to a temporary deepspace sector
-		var/obj/effect/zlevelinfo/entry_level = get_or_create_cached_zlevel()
-		entry_level.name = "Temporary space sector"
-		spawnz = entry_level.z
+		target_zlevel = get_or_create_cached_zlevel()
+		target_zlevel.name = "Temporary space sector"
 
 		//create a corresponding deep space sector so we can be found
 		testing("	Adding new temporary space sector...")
-		spawn_obj = new /obj/effect/overmapobj/temporary_sector(overmap_turf.x, overmap_turf.y, spawnz)
-		spawn_obj.linked_zlevelinfos.Add(entry_level)
-		map_sectors["[entry_level.z]"] = spawn_obj
+		spawn_obj = new /obj/effect/overmapobj/temporary_sector(overmap_turf.x, overmap_turf.y, target_zlevel.z)
+		spawn_obj.linked_zlevelinfos.Add(target_zlevel)
+		map_sectors["[target_zlevel.z]"] = spawn_obj
 
 		//testing("Destination: z[nz] [target_obj]")
-		entry_level.objects_preventing_recycle.Add(A)
+		target_zlevel.objects_preventing_recycle.Add(A)
 
 		//throw in the approximate direction we are travelling - this will clamp to 45 degree increments but that's ok because tile based movement
 		//todo: it might not handle diagonal dirs nicely, so test this to make sure (restrict to cardinals if not)
 		if(source_obj && istype(source_obj, /obj/effect/overmapobj/vehicle))
 			var/obj/effect/overmapobj/vehicle/V = source_obj
-			throwdir = angle2dir(V.pixel_transform.heading)
+			throwdir = angle2dir(V.vehicle_transform.heading)
 		else
 			throwdir = pick(cardinal)
 
 	//spawn in at the target location at the sector
 	//world << "spawning to sector [spawnx],[spawny],[spawnz]"
-	var/turf/spawn_turf = locate(spawnx, spawny, spawnz)
+	var/turf/spawn_turf = locate(spawnx, spawny, target_zlevel.z)
 	A.loc = spawn_turf
 
 	//if we're a mob start floating off in the calculated direction
 	//todo: hack in throwcode here so that objs drift as well (most objs should have been already recycled at the start of this proc tho)
 	A.last_move = throwdir
 	spawn_turf.inertial_drift(A)
+
+	if(istype(A, /obj/machinery/overmap_vehicle))
+		var/obj/machinery/overmap_vehicle/V = A
+		V.enter_new_zlevel(target_zlevel)
 
 	//inform the unfortunate atom they've been left behind
 	if(source_obj)

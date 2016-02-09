@@ -41,31 +41,31 @@ var/list/delete_on_spacetravel = list(\
 	var/exit_dir = 0
 	if(T.x <= TRANSITIONEDGE)
 		nx = world.maxx - TRANSITIONEDGE - 2
-		ny = min(max(TRANSITIONEDGE + 2, A.y), world.maxy - TRANSITIONEDGE - 2)
+		ny = min(max(TRANSITIONEDGE + 2, T.y), world.maxy - TRANSITIONEDGE - 2)
 		mapx = max(1, mapx-1)
 		exit_dir = WEST
 
-	else if (A.x >= (world.maxx - TRANSITIONEDGE - 1))
+	else if (T.x >= (world.maxx - TRANSITIONEDGE - 1))
 		nx = TRANSITIONEDGE + 2
-		ny = min(max(TRANSITIONEDGE + 2, A.y), world.maxy - TRANSITIONEDGE - 2)
+		ny = min(max(TRANSITIONEDGE + 2, T.y), world.maxy - TRANSITIONEDGE - 2)
 		mapx = min(world.maxx, mapx+1)
 		exit_dir = EAST
 
 	else if (T.y <= TRANSITIONEDGE)
 		ny = world.maxy - TRANSITIONEDGE -2
-		nx = min(max(TRANSITIONEDGE + 2, A.x), world.maxx - TRANSITIONEDGE - 2)
+		nx = min(max(TRANSITIONEDGE + 2, T.x), world.maxx - TRANSITIONEDGE - 2)
 		mapy = max(1, mapy-1)
 		exit_dir = SOUTH
 
-	else if (A.y >= (world.maxy - TRANSITIONEDGE - 1))
+	else if (T.y >= (world.maxy - TRANSITIONEDGE - 1))
 		ny = TRANSITIONEDGE + 2
-		nx = min(max(TRANSITIONEDGE + 2, A.x), world.maxx - TRANSITIONEDGE - 2)
+		nx = min(max(TRANSITIONEDGE + 2, T.x), world.maxx - TRANSITIONEDGE - 2)
 		mapy = min(world.maxy, mapy+1)
 		exit_dir = NORTH
 
 	else
 		//not close enough to the edge to travel
-		//log_admin("[A] attemped space travel at [A.x],[A.y],[A.z] but was blocked because it was too far from the edge")
+		log_admin("[A] attemped space travel at [A.x],[A.y],[A.z] but was blocked because it was too far from the edge")
 		return
 
 	testing("[A] moving from [current_obj] ([current_obj.x], [current_obj.y]) to ([mapx],[mapy]) with dir [dir2text(exit_dir)].")
@@ -127,11 +127,18 @@ var/list/delete_on_spacetravel = list(\
 
 		//move the mini-fighter on the overmap to the new turf
 		/*if(V)
-			V.pixel_transform.enter_new_zlevel(target_obj)*/
+			V.vehicle.enter_new_zlevel(target_obj)*/
 
 	//update tracking HUDs
 	if(istype(V))
 		V.enter_new_zlevel(entry_level)
+
+		//update overmapobj
+		V.overmap_object.loc = target_obj.loc
+		if(target_obj.hide_vehicles)
+			V.overmap_object.invisibility = 101
+		else
+			V.overmap_object.invisibility = 0
 
 	return 1
 

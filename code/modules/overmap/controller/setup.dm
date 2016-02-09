@@ -58,7 +58,7 @@ datum/controller/process/overmap/setup()
 	for(var/obj/effect/overmapobj/ship/S in world)
 		S.update_spaceturfs()
 
-	transit_level = get_or_create_cached_zlevel()
+	init_virtual_areas()
 
 	current_starsystem = new()
 	all_starsystems.Add(current_starsystem)
@@ -90,8 +90,8 @@ datum/controller/process/overmap/proc/create_new_zlevel()
 	//extend the world depth by adding a whole new zlevel
 	world << "<span class='danger'>Adding new zlevel, server may lag for a few seconds to a minute...</span>"
 
-	spawn(1)
-		world.maxz++
-		var/obj/effect/zlevelinfo/data = new(locate(1, 1, world.maxz))
-		cached_zlevels += data
-		return data
+	sleep(1)
+	world.maxz++
+	var/obj/effect/zlevelinfo/data = new(locate(1, 1, world.maxz))
+	cached_zlevels += data
+	return data
