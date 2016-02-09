@@ -49,6 +49,7 @@ var/obj/effect/overmapobj/innie_base
 		for(var/level_path in innie_base_paths)
 
 			var/obj/effect/overmapobj/loaded_obj = overmap_controller.load_premade_map(level_path, innie_base)
+			loaded_obj.hide_vehicles = 1
 			if(innie_base)
 				innie_base.linked_zlevelinfos.Add(loaded_obj.linked_zlevelinfos)
 				qdel(loaded_obj)

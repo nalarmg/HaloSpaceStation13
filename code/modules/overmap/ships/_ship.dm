@@ -4,6 +4,7 @@
 	desc = "Space faring vessel."
 	icon = 'code/modules/overmap/ships/corvette.dmi'
 	icon_state = "base"
+	hide_vehicles = 1
 
 	var/fore_dir = NORTH
 	var/list/ship_levels = list()
