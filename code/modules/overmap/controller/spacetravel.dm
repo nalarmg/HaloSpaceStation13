@@ -63,6 +63,11 @@ var/list/delete_on_spacetravel = list(\
 		mapy = min(world.maxy, mapy+1)
 		exit_dir = NORTH
 
+	else
+		//not close enough to the edge to travel
+		//log_admin("[A] attemped space travel at [A.x],[A.y],[A.z] but was blocked because it was too far from the edge")
+		return
+
 	testing("[A] moving from [current_obj] ([current_obj.x], [current_obj.y]) to ([mapx],[mapy]) with dir [dir2text(exit_dir)].")
 
 	//sneakily reuse the existing zlevel
@@ -108,7 +113,7 @@ var/list/delete_on_spacetravel = list(\
 
 		//create a corresponding deep space sector so we can be found
 		testing("	Adding new temporary space sector...")
-		target_obj = new /obj/effect/overmapobj/temporary_sector(mapx, mapy, nz)
+		target_obj = new /obj/effect/overmapobj/temporary_sector(mapx, mapy, entry_level.z)
 		target_obj.linked_zlevelinfos.Add(entry_level)
 		map_sectors["[entry_level.z]"] = target_obj
 
@@ -121,12 +126,14 @@ var/list/delete_on_spacetravel = list(\
 		A.loc = dest
 
 		//move the mini-fighter on the overmap to the new turf
-		if(V)
-			V.vehicle_transform.enter_new_zlevel(target_obj)
+		/*if(V)
+			V.pixel_transform.enter_new_zlevel(target_obj)*/
 
 	//update tracking HUDs
 	if(istype(V))
 		V.enter_new_zlevel(entry_level)
+
+	return 1
 
 /datum/controller/process/overmap/proc/get_destination_object(var/turf/mapturf)
 	var/obj/effect/overmapobj/target_obj
