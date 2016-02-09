@@ -1905,6 +1905,7 @@
 #include "maps\emptyspace2.dmm"
 #include "maps\emptyspace3.dmm"
 #include "maps\emptyspace4.dmm"
+#include "maps\emptyspace5.dmm"
 #include "maps\unsc_cruiser-1.dmm"
 #include "maps\unsc_cruiser-2.dmm"
 #include "maps\unsc_cruiser-3.dmm"
