@@ -9,14 +9,18 @@
 	return 0
 
 //just stop motion, we can worry about even decelleration later
+//todo: replace this with a proper autobrake
 /obj/machinery/overmap_vehicle/verb/halt()
 	set name = "Halt movement"
 	set category = "Vehicle"
 	set src = usr.loc
 
-	//disable_cruise()
-	vehicle_transform.pixel_speed_x = 0
-	vehicle_transform.pixel_speed_y = 0
+	if(is_cruising())
+		usr << "You must exit cruise before you can halt"
+	else
+		pixel_transform.pixel_speed_x = 0
+		pixel_transform.pixel_speed_y = 0
+		pixel_transform.pixel_speed = 0
 
 /obj/machinery/overmap_vehicle/verb/enter()
 	set name = "Enter vehicle"
@@ -27,20 +31,22 @@
 		var/mob/user = usr
 		if(isturf(src.loc))
 			if(user.loc != src)
-				if(crew.len < max_crew)
+				if(occupants_max < 1 || occupants.len < occupants_max)
 					//todo: check for active jetpacks and disable the ion trail
 					user.loc = src
-					my_observers.Add(user)
 					if(user.client)
-						user.client.view = 14//world.view
+						user.client.view = 14//double the default world.view which is 7, and dont go any larger than this
 						user << "<span class='info'><b>You enter [src].</b></span>"
-					crew.Add(user)
-					user.reset_view(null)
+					user.set_machine(src)
+					check_eye(user)
+					occupants.Add(user)
 
 					if(!pilot)
 						make_pilot(user)
+
+					return 1
 				else
-					usr << "<span class='warning'>[src] is full, it can only hold [max_crew] people.</span>"
+					usr << "<span class='warning'>[src] is full, it can only hold [occupants_max] people.</span>"
 			else
 				usr << "<span class='info'>You are already inside [src].</span>"
 		else
@@ -62,18 +68,28 @@
 		pilot = null
 		usr << "\icon[src] <span class='info'>You are no longer the pilot!</span>"
 
-	crew -= usr
+	occupants -= usr
 	my_observers -= usr
 	if(usr.client)
 		usr.client.view = world.view
 		usr.client.eye = usr
+
+	if(is_cruising())
+		//this should handle all of the sector detection and placement logic
+		overmap_controller.spawn_to_sector(overmap_object.loc, usr, overmap_object)
 
 /obj/machinery/overmap_vehicle/verb/check_speed()
 	set name = "Get speed"
 	set category = "Vehicle"
 	set src = usr.loc
 
-	usr << "\icon[src] [src] is currently going at [vehicle_transform.get_speed()]"
+	var/speed
+	if(is_cruising())
+		speed = "[world.maxx * cruise_speed / 32] (cruising)"
+	else
+		speed = "[pixel_transform.get_speed()]"
+
+	usr << "\icon[src] [src] is currently going at [speed]"
 
 obj/machinery/overmap_vehicle/verb/toggle_iff_scanner()
 	set name = "Toggle fighter IFF scanner"
