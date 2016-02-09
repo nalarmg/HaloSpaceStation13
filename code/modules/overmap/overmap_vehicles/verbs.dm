@@ -18,9 +18,9 @@
 	if(is_cruising())
 		usr << "You must exit cruise before you can halt"
 	else
-		pixel_transform.pixel_speed_x = 0
-		pixel_transform.pixel_speed_y = 0
-		pixel_transform.pixel_speed = 0
+		vehicle_transform.pixel_speed_x = 0
+		vehicle_transform.pixel_speed_y = 0
+		vehicle_transform.pixel_speed = 0
 
 /obj/machinery/overmap_vehicle/verb/enter()
 	set name = "Enter vehicle"
@@ -87,7 +87,7 @@
 	if(is_cruising())
 		speed = "[world.maxx * cruise_speed / 32] (cruising)"
 	else
-		speed = "[pixel_transform.get_speed()]"
+		speed = "[vehicle_transform.get_speed()]"
 
 	usr << "\icon[src] [src] is currently going at [speed]"
 

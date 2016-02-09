@@ -6,19 +6,17 @@
 	icon_state = "pelican"
 	bound_width = 128
 	bound_height = 128
-	internal_cells = 16
-	max_speed_hover = 16
 	max_speed = 16
 	yaw_speed = 5
 	accel_duration = 50
-	max_crew = 11
+	occupants_max = 12
 	sensor_icon_state = "pelican"
 	iff_faction_broadcast = "UNSC"
 
 /obj/machinery/overmap_vehicle/pelican/New()
 	..()
 	overmap_object.icon_state = "pelican"
-	vehicle_transform.overlay_thrust_base = new('pelican.dmi', "thrust1")
+	vehicle_transform.icon_state_thrust = "thrust1"
 
 /obj/machinery/overmap_vehicle/pelican/health_update()
 	//update damage overlays

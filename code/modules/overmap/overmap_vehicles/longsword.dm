@@ -6,8 +6,6 @@
 	icon_state = "longsword"
 	bound_width = 128
 	bound_height = 128
-	internal_cells = 16
-	max_speed_hover = 16
 	yaw_speed = 10
 	accel_duration = 50
 	sensor_icon_state = "longsword"
@@ -16,8 +14,7 @@
 /obj/machinery/overmap_vehicle/longsword/New()
 	..()
 	overmap_object.icon_state = "longsword"
-	vehicle_transform.overmap_icon_state = "longsword"
-	vehicle_transform.overlay_thrust_base = new('longsword.dmi', "longsword_thruster")
+	vehicle_transform.icon_state_thrust = "longsword_thruster"
 
 /obj/machinery/overmap_vehicle/longsword/health_update()
 	//update damage overlays

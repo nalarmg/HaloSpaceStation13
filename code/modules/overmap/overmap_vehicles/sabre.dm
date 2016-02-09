@@ -6,8 +6,6 @@
 	icon_state = "sabre"
 	bound_width = 128
 	bound_height = 128
-	internal_cells = 16
-	max_speed_hover = 16
 	yaw_speed = 10
 	accel_duration = 50
 	sensor_icon_state = "sabre"
@@ -16,8 +14,7 @@
 /obj/machinery/overmap_vehicle/sabre/New()
 	..()
 	overmap_object.icon_state = "sabre"
-	vehicle_transform.overmap_icon_state = "sabre"
-	vehicle_transform.overlay_thrust_base = new('sabre.dmi', "Low thrust")
+	vehicle_transform.icon_state_thrust = "Low thrust"
 
 /obj/machinery/overmap_vehicle/sabre/health_update()
 	//update damage overlays
