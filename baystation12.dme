@@ -1516,6 +1516,7 @@
 #include "code\modules\overmap\controller\spacetravel.dm"
 #include "code\modules\overmap\controller\spawn_to_sector.dm"
 #include "code\modules\overmap\controller\toggle_move_stars.dm"
+#include "code\modules\overmap\controller\virtual_areas.dm"
 #include "code\modules\overmap\overmap_vehicles\lights.dm"
 #include "code\modules\overmap\overmap_vehicles\longsword.dm"
 #include "code\modules\overmap\overmap_vehicles\nosegun.dm"
