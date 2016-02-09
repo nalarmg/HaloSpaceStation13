@@ -367,7 +367,7 @@ var/list/nuke_disks = list()
 				var/list/nuked_zlevels = list()
 				ticker.mode.nuked_zlevel = locate("zlevel[z]")
 				if(ticker.mode.nuked_zlevel)
-					var/obj/effect/overmapobj/nuked_object = map_sectors[ticker.mode.nuked_zlevel]
+					var/obj/effect/overmapobj/nuked_object = map_sectors["[ticker.mode.nuked_zlevel]"]
 					if(nuked_object)
 						for(var/obj/effect/zlevelinfo/linked_zlevel in nuked_object.linked_zlevelinfos)
 							nuked_zlevels.Add(linked_zlevel.z)
