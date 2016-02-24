@@ -10,14 +10,14 @@ datum/sensor_object/proc/create_images(var/object_icon_state = "unknown", var/po
 		pointer_icon_state = "dirpointer"
 
 	//create the image
-	pointer_image = image('code/modules/overmap/overmap_vehicles/overmap_vehicle_hud.dmi', src, "icon_state" = pointer_icon_state)
+	pointer_image = image('code/modules/overmap/overmap_vehicles/icons/overmap_vehicle_hud.dmi', src, "icon_state" = pointer_icon_state)
 	pointer_image.appearance_flags = RESET_TRANSFORM|RESET_COLOR|RESET_ALPHA
 
 	if(!object_icon_state)
 		object_icon_state = "unknown"
 
 	//create the image
-	object_image = image('code/modules/overmap/overmap_vehicles/overmap_vehicle_hud.dmi', src, "icon_state" = object_icon_state)
+	object_image = image('code/modules/overmap/overmap_vehicles/icons/overmap_vehicle_hud.dmi', src, "icon_state" = object_icon_state)
 	object_image.appearance_flags = RESET_TRANSFORM|RESET_COLOR|RESET_ALPHA
 
 	//grab the faction colour
@@ -45,9 +45,7 @@ datum/sensor_object/proc/remove_viewmob(var/mob/living/M)
 		M.client.images -= pointer_image
 		M.client.images -= object_image
 
-
-datum/sensor_object/proc/clear_self()
+datum/sensor_object/Destroy()
+	. = ..()
 	qdel(pointer_image)
 	qdel(object_image)
-
-	PlaceInPool(src)

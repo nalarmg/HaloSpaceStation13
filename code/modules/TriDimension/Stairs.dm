@@ -13,12 +13,15 @@
 		if(O.level == 1)
 			O.hide(1)
 
+//disable this for now, because people are getting trapped inside large stairwells
+/*
 /turf/simulated/floor/stairs/Enter(atom/movable/O)
 	. = 1
 	//nothing can enter from "behind" the staircase
 	if(O.z == src.z && O.dir == turn(src.dir, 180))
 		O << "<span class='notice'>You cannot enter [src] from this side.</span>"
 		return 0
+		*/
 
 /turf/simulated/floor/stairs/Exit(atom/movable/O)
 	. = 1

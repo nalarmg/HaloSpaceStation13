@@ -112,3 +112,7 @@ non-zlevel overmap objects
 //largest number of tiles a single "object" can cover on the overmap
 //this can be an artbitrary value, it's just defined to make sure cross-sector travel works properly
 #define MAX_OVERMAP_DIMS 5
+
+#define PIXEL_KNOCK_SPEED 2.5
+#define PIXEL_IMPACT_SPEED 10
+#define PIXEL_CRASH_SPEED 32

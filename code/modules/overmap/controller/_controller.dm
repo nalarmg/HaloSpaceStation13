@@ -29,7 +29,6 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 	var/obj/effect/starsystem/current_starsystem
 	var/list/all_starsystems = list()
 
-	var/obj/effect/zlevelinfo/transit_level
 	var/list/overmap_vehicles_in_transit = list()
 	var/list/bases_by_faction[][]
 
@@ -64,8 +63,18 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 
 /datum/controller/process/overmap/proc/get_faction_bases(var/check_faction)
 	if(check_faction)
+		if(!bases_by_faction)
+			bases_by_faction = list()
 		if(!bases_by_faction[check_faction])
 			bases_by_faction[check_faction] = list()
 		var/list/faction_bases = bases_by_faction[check_faction]
 
 		return faction_bases
+
+/datum/controller/process/overmap/proc/attempt_recycle_deepspace_atom(var/atom/movable/A)
+	//keep tracking all mobs, otherwise everything else can get permanently "lost" in deep space
+	if(!ismob(A))
+		qdel(A)
+		return 1
+
+	return 0
