@@ -78,6 +78,9 @@
 		//this should handle all of the sector detection and placement logic
 		overmap_controller.spawn_to_sector(overmap_object.loc, usr, overmap_object)
 
+	//call movement related procs
+	src.loc.Enter(usr)
+
 /obj/machinery/overmap_vehicle/verb/check_speed()
 	set name = "Get speed"
 	set category = "Vehicle"
@@ -130,3 +133,25 @@ obj/machinery/overmap_vehicle/verb/cycle_iff_colours()
 			start_tracking_vehicle(V)
 	else
 		user << "<span class='warning'>You are not the pilot of [src]</span>"
+
+/obj/machinery/overmap_vehicle/verb/move_upwards()
+	set name = "Move up a level"
+	set category = "Vehicle"
+	set src = usr.loc
+
+	if(z_move)
+		z_move = 0
+	else
+		usr << "\icon[src] <span class='info'>You start to move up a level...</span>"
+		z_move = 1
+
+/obj/machinery/overmap_vehicle/verb/move_downwards()
+	set name = "Move down a level"
+	set category = "Vehicle"
+	set src = usr.loc
+
+	if(z_move)
+		z_move = 0
+	else
+		usr << "\icon[src] <span class='info'>You start to move down a level...</span>"
+		z_move = -1
