@@ -1134,6 +1134,7 @@
 #include "code\modules\halo\doors\halo_doors.dm"
 #include "code\modules\halo\floorsigns\floorsigns.dm"
 #include "code\modules\halo\maps\unsc_cruiser.dm"
+#include "code\modules\halo\misc\atmos_machinery.dm"
 #include "code\modules\halo\misc\blast_door_control.dm"
 #include "code\modules\halo\weapons\ammo.dm"
 #include "code\modules\halo\weapons\energy.dm"
