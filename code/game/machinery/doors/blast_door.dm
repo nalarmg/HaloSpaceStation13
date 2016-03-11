@@ -36,6 +36,9 @@
 	if(_wifi_id)
 		wifi_receiver = new(_wifi_id, src)
 
+	if(frequency)
+		set_frequency(frequency)
+
 /obj/machinery/door/airlock/Destroy()
 	qdel(wifi_receiver)
 	wifi_receiver = null
