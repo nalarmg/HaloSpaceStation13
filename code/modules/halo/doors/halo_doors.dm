@@ -25,3 +25,22 @@
 	opacity = 0
 	glass = 1
 	assembly_type = /obj/structure/door_assembly/multi_tile
+
+obj/machinery/door/blast/regular/triple
+	icon = 'code/modules/halo/doors/blastdoor.dmi'
+	maxhealth = 1800
+
+obj/machinery/door/blast/regular/triple/New()
+	..()
+
+	//only east-west variant for now
+	bound_width = 3 * world.icon_size
+	bound_height = world.icon_size
+
+	/*switch(dir)
+		if(EAST, WEST)
+			bound_width = 3 * world.icon_size
+			bound_height = world.icon_size
+		else
+			bound_width = world.icon_size
+			bound_height = 3 * world.icon_size*/

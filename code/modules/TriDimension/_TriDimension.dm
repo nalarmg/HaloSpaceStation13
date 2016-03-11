@@ -20,13 +20,12 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 // Cross-z interaction checks
 //------------------------------------------------------
 
-/*
-/proc/HasAboveBelow(var/curZ, var/zdir)
+/atom/movable/proc/HasAboveBelow(var/zdir)
 	if(zdir & UP)
-		return HasAbove(curZ)
+		return HasAbove()
 	if(zdir & DOWN)
-		return HasBelow(curZ)
-*/
+		return HasBelow()
+
 
 /proc/GetAboveBelow(var/atom/atom, var/zdir)
 	if(zdir & UP)
@@ -34,16 +33,27 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 	if(zdir & DOWN)
 		return GetBelow(atom)
 
+
 //Check turf above
-/*
-/proc/HasAbove(var/curZ)
-	if(curZ == 1)
+/atom/movable/proc/HasAbove()
+	if(src.z <= 1)
 		return 0
 
-	var/turf/test_turf = locate(1, 1, curZ)
-	if(GetAbove(test_turf))
-		return 1
-		*/
+	var/obj/effect/zlevelinfo/cur_level = locate("zlevel[src.z]")
+	if(!cur_level)
+		return 0
+
+	var/curz = src.z
+	while(curz > 1)
+		curz -= 1
+		var/obj/effect/zlevelinfo/target_level = locate("zlevel[curz]")
+		if(!target_level)
+			continue
+
+		if(cur_level.name == target_level.name)
+			return 1
+
+	return 0
 
 /proc/GetAbove(var/atom/atom, var/testing = 0)
 	var/turf/base_turf = get_turf(atom)
@@ -69,16 +79,26 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 
 
 //Check turf below
-/*
-/proc/HasBelow(var/curZ)
-//proc/check_ztransit_down(var/curZ)
-	if(curZ == world.maxz)
+/atom/movable/proc/HasBelow()
+	if(src.z == world.maxz)
 		return 0
 
-	var/turf/test_turf = locate(1, 1, curZ)
-	if(GetBelow(test_turf))
-		return 1
-*/
+	var/obj/effect/zlevelinfo/cur_level = locate("zlevel[src.z]")
+	if(!cur_level)
+		return 0
+
+	var/curz = src.z
+	while(curz <= world.maxz)
+		curz += 1
+
+		var/obj/effect/zlevelinfo/target_level = locate("zlevel[curz]")
+		if(!target_level)
+			continue
+
+		if(cur_level.name == target_level.name)
+			return 1
+
+	return 0
 
 /proc/GetBelow(var/atom/atom, var/testing = 0)
 	var/turf/base_turf = get_turf(atom)

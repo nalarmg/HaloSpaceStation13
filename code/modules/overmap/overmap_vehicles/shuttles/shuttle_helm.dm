@@ -55,6 +55,13 @@
 		data["cruising"] = 1
 		data["heading"] = my_shuttle.overmap_object.pixel_transform.heading
 
+	if(my_shuttle.z_move > 0)
+		data["z_up"] = 1
+		data["z_down"] = 0
+	else if(my_shuttle.z_move < 0)
+		data["z_down"] = 1
+		data["z_up"] = 0
+
 	/*var/list/locations[0]
 	for (var/datum/data/record/R in known_sectors)
 		var/list/rdata[0]
@@ -160,22 +167,22 @@
 		var/mob/living/carbon/human/M = locate(href_list["view_overmap"])
 		if(istype(M) && can_use(M))
 			my_shuttle.observe_space(M)
-	/*
-		var/mob/living/carbon/human/M = locate(href_list["manual"])
-		if(istype(M))
-			if(!(M in my_shuttle.pilots))
-				my_shuttle.pilots.Add(M)
 
-			if(M.machine == my_shuttle)
-				my_shuttle.cancel_camera(M)
-			else if(!my_shuttle.is_maglocked())
-				if(!(M in my_shuttle.pilots))
-					my_shuttle.pilots.Add(M)
-				M.set_machine(my_shuttle)
-				my_shuttle.check_eye(M)
+	if (href_list["z_up"])
+		var/mob/living/carbon/human/M = locate(href_list["z_up"])
+		if(istype(M) && can_use(M) && !my_shuttle.is_maglocked())
+			if(my_shuttle.HasAbove())
+				my_shuttle.z_move = 1
 			else
-				M << "\icon[my_shuttle] <span class='warning'>You cannot pilot [my_shuttle] while it is maglocked.</span>"
-				*/
+				M << "<span class='info'>There is nothing of interest up there.</span>"
+
+	if (href_list["z_down"])
+		var/mob/living/carbon/human/M = locate(href_list["z_down"])
+		if(istype(M) && can_use(M) && !my_shuttle.is_maglocked())
+			if(my_shuttle.HasBelow())
+				my_shuttle.z_move = -1
+			else
+				M << "<span class='info'>There is nothing of interest down there.</span>"
 
 	if (href_list["maglock"])
 		var/mob/living/carbon/human/M = locate(href_list["maglock"])

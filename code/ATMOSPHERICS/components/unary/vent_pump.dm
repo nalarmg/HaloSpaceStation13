@@ -23,7 +23,7 @@
 	level = 1
 	var/area_uid
 	var/id_tag = null
-
+	var/pump_efficiency = ATMOS_PUMP_EFFICIENCY
 	var/hibernate = 0 //Do we even process?
 	var/pump_direction = 1 //0 = siphoning, 1 = releasing
 
@@ -176,14 +176,28 @@
 
 	if((environment.temperature || air_contents.temperature) && pressure_delta > 0.5)
 		if(pump_direction) //internal -> external
+			//in order to draw from the entire network each tick, merge 99% of the network gases into this one
+			//the network will automatically equalize the gases back to normal afterwards
+			if(network)
+				for(var/datum/gas_mixture/network_gas in network.gases)
+					if(network_gas == air_contents)
+						continue
+					var/datum/gas_mixture/extracted_gas = network_gas.remove_ratio(0.99)
+					air_contents.merge(extracted_gas)
+
+				//force a network update, because we messed with the network gases
+				network.update = 1
+
 			var/transfer_moles = calculate_transfer_moles(air_contents, environment, pressure_delta)
-			power_draw = pump_gas(src, air_contents, environment, transfer_moles, power_rating)
+			power_draw = pump_gas(src, air_contents, environment, transfer_moles, power_rating, pump_efficiency)
+
 		else //external -> internal
-			var/transfer_moles = calculate_transfer_moles(environment, air_contents, pressure_delta, (network)? network.volume : 0)
+			var/sink_volume_mod = network ? network.volume : 0
+			var/transfer_moles = calculate_transfer_moles(environment, air_contents, pressure_delta, sink_volume_mod)
 
 			//limit flow rate from turfs
-			transfer_moles = min(transfer_moles, environment.total_moles*air_contents.volume/environment.volume)	//group_multiplier gets divided out here
-			power_draw = pump_gas(src, environment, air_contents, transfer_moles, power_rating)
+			transfer_moles = min(transfer_moles, environment.total_moles*(sink_volume_mod + air_contents.volume)/environment.volume)	//group_multiplier gets divided out here
+			power_draw = pump_gas(src, environment, air_contents, transfer_moles, power_rating, pump_efficiency)
 
 	else
 		//If we're in an area that is fucking ideal, and we don't have to do anything, chances are we won't next tick either so why redo these calculations?
