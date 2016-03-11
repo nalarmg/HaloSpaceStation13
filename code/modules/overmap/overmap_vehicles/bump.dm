@@ -49,3 +49,13 @@
 		if(impact_message)
 			M << impact_message
 		shake_camera(M, 3, 3)
+
+/obj/machinery/overmap_vehicle/proc/message_viewers(var/message, var/occupants_message)
+	var/list/viewers = view(src, 7)
+	if(occupants_message)
+		viewers -= my_observers
+		for(var/mob/M in my_observers)
+			M << occupants_message
+
+	for(var/mob/M in viewers)
+		M << message
