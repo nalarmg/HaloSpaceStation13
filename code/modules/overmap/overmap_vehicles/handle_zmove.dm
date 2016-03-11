@@ -90,11 +90,11 @@
 
 	//success!
 	//world << "check8"
-	var/viewers_message = "\icon[src] <span class='info'>[src] appears, moving from [source_string]."
-	var/occupants_message = "\icon[src] <span class='info'>You move [move_dir_string] a level."
+	var/viewers_message = "\icon[src] <span class='info'>[src] appears, moving from [source_string].</span>"
+	var/occupants_message = "\icon[src] <span class='info'>You move [move_dir_string] a level.</span>"
 	for(var/atom/movable/A in bumplist)
-		viewers_message += "\n	<span class='info'>[A] gets knocked to the side of [src]."
-		occupants_message += "\n	<span class='info'>[A] gets knocked to the side of [src]."
+		viewers_message += "\n	<span class='info'>[A] gets knocked to the side of [src].</span>"
+		occupants_message += "\n	<span class='info'>[A] gets knocked to the side of [src].</span>"
 		//pick a random edge
 		var/targetdir = pick(cardinal)
 		switch(targetdir)
