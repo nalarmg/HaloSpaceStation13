@@ -36,6 +36,7 @@
 
 	//Calculate the amount of energy required and limit transfer_moles based on available power
 	var/specific_power = calculate_specific_power(source, sink)/pump_efficiency //this has to be calculated before we modify any gas mixtures
+	if (!isnull(available_power) && specific_power > 0)
 		transfer_moles = min(transfer_moles, available_power / specific_power)
 
 
