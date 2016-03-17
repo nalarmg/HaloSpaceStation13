@@ -161,6 +161,7 @@
 /obj/item/weapon/storage/box/blanks
 	name = "box of blank shells"
 	desc = "It has a picture of a gun and several warning symbols on the front."
+	icon_state = "bullet"
 
 	New()
 		..()
@@ -175,6 +176,7 @@
 /obj/item/weapon/storage/box/beanbags
 	name = "box of beanbag shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "shell"
 
 	New()
 		..()
@@ -189,6 +191,7 @@
 /obj/item/weapon/storage/box/shotgunammo
 	name = "box of shotgun slugs"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "shell"
 
 	New()
 		..()
@@ -203,6 +206,7 @@
 /obj/item/weapon/storage/box/shotgunshells
 	name = "box of shotgun shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "shell"
 
 	New()
 		..()
@@ -217,6 +221,7 @@
 /obj/item/weapon/storage/box/flashshells
 	name = "box of illumination shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "shell"
 
 	New()
 		..()
@@ -231,6 +236,7 @@
 /obj/item/weapon/storage/box/stunshells
 	name = "box of stun shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "shell"
 
 	New()
 		..()
@@ -245,6 +251,7 @@
 /obj/item/weapon/storage/box/practiceshells
 	name = "box of practice shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "shell"
 
 	New()
 		..()
@@ -259,6 +266,7 @@
 /obj/item/weapon/storage/box/sniperammo
 	name = "box of 14.5mm shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "bullet"
 
 	New()
 		..()
@@ -624,7 +632,7 @@
 	desc = "This box is shaped on the inside so that only light tubes and bulbs fit."
 	item_state = "syringe_kit"
 	use_to_pickup = 1 // for picking up broken bulbs, not that most people will try
-	
+
 /obj/item/weapon/storage/box/lights/New()
 	..()
 	make_exact_fit()

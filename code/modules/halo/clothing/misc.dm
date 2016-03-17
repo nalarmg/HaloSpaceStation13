@@ -16,8 +16,9 @@
 
 /obj/item/clothing/head/helmet/marine
 	name = "CH252 Helmet"
-	desc = "the standard issue combat helmet worn by the members of the UNSC Marine Corps, UNSC Army, and UNSC Air Force;"
+	desc = "the standard issue combat helmet worn by the members of the UNSC Marine Corps, UNSC Army, and UNSC Air Force."
 	icon_state = "marine"
+	item_state = "marine"
 	item_state_slots = list(
 		slot_l_hand_str = "marine",
 		slot_r_hand_str = "marine",
@@ -32,6 +33,11 @@
 	max_heat_protection_temperature = HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.7
 	w_class = 3
+
+/obj/item/clothing/head/helmet/marine/visor
+	desc = "the standard issue combat helmet worn by the members of the UNSC Marine Corps, UNSC Army, and UNSC Air Force. Has an inbuilt VISOR."
+	icon_state = "marine_visor"
+	item_state = "marine_visor"
 
 /obj/item/clothing/suit/armor/vest
 	name = "armor"

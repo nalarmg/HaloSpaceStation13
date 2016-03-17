@@ -57,7 +57,8 @@
 //Gun loading types
 #define SINGLE_CASING 	1	//The gun only accepts ammo_casings. ammo_magazines should never have this as their mag_type.
 #define SPEEDLOADER 	2	//Transfers casings from the mag to the gun when used.
-#define MAGAZINE 		4	//The magazine item itself goes inside the gun
+#define MAGAZINE 		4	//The magazine item itself goes inside the gun (note: this excludes box mags who feed on the side)
+#define BELT_FEED		8	//LMGs can use ammo belts or box mags which have much higher capacity than ordinary mags
 
 //An item that holds casings and can be used to put them inside guns
 /obj/item/ammo_magazine

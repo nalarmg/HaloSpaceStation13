@@ -167,9 +167,9 @@ datum/uplink_item/dd_SortValue()
 	name = "10mm"
 	path = /obj/item/ammo_magazine/a10mm
 
-/datum/uplink_item/item/ammo/a762
+/datum/uplink_item/item/ammo/a762_box
 	name = "7.62mm"
-	path = /obj/item/ammo_magazine/a762
+	path = /obj/item/ammo_magazine/a762_box
 
 /***************************************
 * Highly Visible and Dangerous Weapons *
