@@ -168,18 +168,18 @@
 /obj/item/ammo_magazine/a75/empty
 	initial_ammo = 0
 
-/obj/item/ammo_magazine/a762
-	name = "magazine box (7.62mm)"
+/obj/item/ammo_magazine/a762_box
+	name = "box magazine (7.62mm)"
 	icon_state = "a762"
 	origin_tech = list(TECH_COMBAT = 2)
-	mag_type = MAGAZINE
+	mag_type = BELT_FEED
 	caliber = "a762"
 	matter = list(DEFAULT_WALL_MATERIAL = 4500)
 	ammo_type = /obj/item/ammo_casing/a762
-	max_ammo = 50
+	max_ammo = 60
 	multiple_sprites = 1
 
-/obj/item/ammo_magazine/a762/empty
+/obj/item/ammo_magazine/a762_box/empty
 	initial_ammo = 0
 
 /obj/item/ammo_magazine/c762
