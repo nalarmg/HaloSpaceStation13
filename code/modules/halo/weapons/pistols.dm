@@ -9,7 +9,7 @@
 	icon = 'code/modules/halo/icons/Weapon Sprites.dmi'
 	icon_state = "magnum"
 	item_state = "halo_pistol"
-	magazine_type = /obj/item/ammo_magazine/m127mm_saphe
+	magazine_type = /obj/item/ammo_magazine/m127_saphe
 	caliber = "12.7mm"
 	slot_flags = SLOT_BELT|SLOT_HOLSTER
 	fire_sound = 'code/modules/halo/sounds/MagnumShotSoundEffect.ogg'
@@ -32,7 +32,7 @@
 	icon = 'code/modules/halo/icons/Weapon Sprites.dmi'
 	icon_state = "SOCOM"
 	item_state = "halo_spistol"
-	magazine_type = /obj/item/ammo_magazine/m127mm_saphp
+	magazine_type = /obj/item/ammo_magazine/m127_saphp
 	caliber = "12.7mm"
 	slot_flags = SLOT_BELT|SLOT_HOLSTER
 	fire_sound = null//'code/modules/halo/sounds/MagnumShotSoundEffect.ogg'		////we dont have any sfx yet

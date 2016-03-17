@@ -8,78 +8,80 @@
 
 //used by: Magnum M6D, Magnum M6S
 
-/obj/item/ammo_magazine/m127mm_saphe
+/obj/item/ammo_magazine/m127_saphe
 	name = "magazine (12.7mm) M225 SAP-HE"
 	desc = "12.7x40mm M225 Semi-Armor-Piercing High-Explosive magazine containing 12 shots. Very deadly."
 	icon = 'code/modules/halo/icons/Weapon Sprites.dmi'
 	icon_state = "magnummag"
 	mag_type = MAGAZINE
-	ammo_type = /obj/item/ammo_casing/a127mm_saphe
+	ammo_type = /obj/item/ammo_casing/a127_saphe
 	matter = list(DEFAULT_WALL_MATERIAL = 1000) //12.7mm casing = 83.3 metal each
 	caliber = "12.7mm"
 	max_ammo = 12
 	multiple_sprites = 1
 
-/obj/item/ammo_casing/a127mm_saphe
+/obj/item/ammo_casing/a127_saphe
 	desc = "A 12.7mm bullet casing."
 	caliber = "12.7mm"
-	projectile_type = /obj/item/projectile/bullet/a127mm_saphe
+	projectile_type = /obj/item/projectile/bullet/a127_saphe
 
-/obj/item/projectile/bullet/a127mm_saphe
+/obj/item/projectile/bullet/a127_saphe
 	damage = 50		//deadly but inaccurate
 	accuracy = -1
 
-/obj/item/weapon/storage/box/m127mm_saphe
+/obj/item/weapon/storage/box/m127_saphe
 	name = "box of 12.7mm M225 magazines"
 	icon_state = "bullet"
 
-/obj/item/weapon/storage/box/m127mm_saphe/New()
+/obj/item/weapon/storage/box/m127_saphe/New()
 	..()
-	new /obj/item/ammo_magazine/m127mm_saphe(src)
-	new /obj/item/ammo_magazine/m127mm_saphe(src)
-	new /obj/item/ammo_magazine/m127mm_saphe(src)
-	new /obj/item/ammo_magazine/m127mm_saphe(src)
-	new /obj/item/ammo_magazine/m127mm_saphe(src)
-	new /obj/item/ammo_magazine/m127mm_saphe(src)
+	new /obj/item/ammo_magazine/m127_saphe(src)
+	new /obj/item/ammo_magazine/m127_saphe(src)
+	new /obj/item/ammo_magazine/m127_saphe(src)
+	new /obj/item/ammo_magazine/m127_saphe(src)
+	new /obj/item/ammo_magazine/m127_saphe(src)
+	new /obj/item/ammo_magazine/m127_saphe(src)
+	new /obj/item/ammo_magazine/m127_saphe(src)
 
 
 
 //used by: Magnum M6D, Magnum M6S
 
-/obj/item/ammo_magazine/m127mm_saphp
+/obj/item/ammo_magazine/m127_saphp
 	name = "magazine (12.7mm) M228 SAP-HP"
 	desc = "12.7x40mm M228 Semi-Armor-Piercing High-Penetration magazine containing 12 shots. Low profile rounds."
 	icon = 'code/modules/halo/icons/Weapon Sprites.dmi'
 	icon_state = "SOCOMmag"
 	mag_type = MAGAZINE
-	ammo_type = /obj/item/ammo_casing/a127mm_saphp
+	ammo_type = /obj/item/ammo_casing/a127_saphp
 	matter = list(DEFAULT_WALL_MATERIAL = 1000) //12.7mm casing = 83.3 metal each
 	caliber = "12.7mm"
 	max_ammo = 12
 	multiple_sprites = 1
 
-/obj/item/ammo_casing/a127mm_saphp
+/obj/item/ammo_casing/a127_saphp
 	desc = "A 12.7mm bullet casing."
 	caliber = "12.7mm"
-	projectile_type = /obj/item/projectile/bullet/a127mm_saphp
+	projectile_type = /obj/item/projectile/bullet/a127_saphp
 
 //deadly but inaccurate
-/obj/item/projectile/bullet/a127mm_saphp
+/obj/item/projectile/bullet/a127_saphp
 	damage = 20
 	accuracy = 1
 
-/obj/item/weapon/storage/box/m127mm_saphp
+/obj/item/weapon/storage/box/m127_saphp
 	name = "box of 12.7mm M228 magazines"
 	icon_state = "bullet"
 
-/obj/item/weapon/storage/box/m127mm_saphp/New()
+/obj/item/weapon/storage/box/m127_saphp/New()
 	..()
-	new /obj/item/ammo_magazine/m127mm_saphp(src)
-	new /obj/item/ammo_magazine/m127mm_saphp(src)
-	new /obj/item/ammo_magazine/m127mm_saphp(src)
-	new /obj/item/ammo_magazine/m127mm_saphp(src)
-	new /obj/item/ammo_magazine/m127mm_saphp(src)
-	new /obj/item/ammo_magazine/m127mm_saphp(src)
+	new /obj/item/ammo_magazine/m127_saphp(src)
+	new /obj/item/ammo_magazine/m127_saphp(src)
+	new /obj/item/ammo_magazine/m127_saphp(src)
+	new /obj/item/ammo_magazine/m127_saphp(src)
+	new /obj/item/ammo_magazine/m127_saphp(src)
+	new /obj/item/ammo_magazine/m127_saphp(src)
+	new /obj/item/ammo_magazine/m127_saphp(src)
 
 
 
