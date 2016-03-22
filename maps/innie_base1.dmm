@@ -26,7 +26,7 @@
 "az" = (/obj/machinery/door/window/southleft,/turf/simulated/floor,/area/innie_base)
 "aA" = (/obj/structure/window/reinforced/tinted,/turf/simulated/floor,/area/innie_base)
 "aB" = (/obj/structure/table/rack,/obj/item/clothing/accessory/storage/black_vest,/obj/item/clothing/accessory/storage/black_vest,/turf/simulated/floor,/area/innie_base)
-"aC" = (/obj/structure/table/rack,/obj/item/weapon/gun/projectile/automatic/assault,/obj/item/weapon/gun/projectile/automatic/assault,/obj/item/weapon/gun/projectile/automatic/assault,/obj/item/weapon/gun/projectile/automatic/assault,/obj/item/weapon/gun/projectile/automatic/assault,/obj/item/weapon/gun/projectile/automatic/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/obj/item/ammo_magazine/assault,/turf/simulated/floor,/area/innie_base)
+"aC" = (/obj/structure/table/rack,/obj/item/weapon/gun/projectile/ma5b_ar,/turf/simulated/floor,/area/innie_base)
 "aD" = (/obj/machinery/sleeper,/turf/simulated/floor,/area/innie_base)
 "aE" = (/obj/structure/sink{dir = 4; icon_state = "sink"; pixel_x = 11; pixel_y = 0},/turf/simulated/floor,/area/innie_base)
 "aF" = (/obj/structure/table/rack,/obj/item/weapon/storage/box/anti_photons,/obj/item/weapon/storage/box/flashbangs,/obj/machinery/light{dir = 4; icon_state = "tube1"},/turf/simulated/floor,/area/innie_base)
@@ -41,10 +41,9 @@
 "aO" = (/obj/structure/table/rack,/obj/item/weapon/tank/emergency_oxygen/double,/obj/item/weapon/tank/emergency_oxygen/double,/obj/item/weapon/tank/emergency_oxygen/double,/obj/item/weapon/tank/emergency_oxygen/double,/obj/item/weapon/tank/emergency_oxygen/double,/obj/item/weapon/tank/emergency_oxygen/double,/turf/simulated/floor,/area/innie_base)
 "aP" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 1},/turf/simulated/floor,/area/innie_base)
 "aQ" = (/obj/structure/table/rack,/obj/machinery/recharger/wallcharger{pixel_x = -25},/turf/simulated/floor,/area/innie_base)
-"aR" = (/obj/structure/table/rack,/obj/item/weapon/gun/projectile/magnum,/obj/item/weapon/gun/projectile/magnum,/obj/item/weapon/gun/projectile/magnum,/obj/item/weapon/gun/projectile/magnum,/obj/item/weapon/gun/projectile/magnum,/obj/item/weapon/gun/projectile/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/obj/item/ammo_magazine/magnum,/turf/simulated/floor,/area/innie_base)
+"aR" = (/obj/structure/table/rack,/obj/item/weapon/gun/projectile/m6d_magnum,/obj/item/weapon/gun/projectile/m6d_magnum,/obj/item/weapon/gun/projectile/m6d_magnum,/obj/item/weapon/gun/projectile/m6d_magnum,/obj/item/weapon/gun/projectile/m6d_magnum,/obj/item/weapon/gun/projectile/m6d_magnum,/obj/item/ammo_magazine/m127_saphe,/turf/simulated/floor,/area/innie_base)
 "aS" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 4},/turf/simulated/floor,/area/innie_base)
 "aT" = (/obj/machinery/door/airlock/centcom{name = "Barracks"; req_access = list(250)},/turf/simulated/floor,/area/innie_base)
-"aU" = (/obj/machinery/door/airlock/glass{name = "Medical Facility"; req_access = list(250)},/turf/simulated/floor,/area/innie_base)
 "aV" = (/obj/machinery/power/apc/high{dir = 1; name = "north bump"; pixel_y = 24},/turf/simulated/floor,/area/innie_base)
 "aW" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced,/turf/simulated/floor,/area/innie_base)
 "aX" = (/obj/machinery/light,/turf/simulated/floor,/area/innie_base)
@@ -57,12 +56,10 @@
 "be" = (/obj/structure/table/rack,/obj/item/weapon/tank/jetpack/oxygen,/obj/machinery/light,/turf/simulated/floor,/area/innie_base)
 "bf" = (/obj/structure/table/rack,/obj/item/clothing/suit/space/syndicate/black/orange,/obj/item/clothing/head/helmet/space/syndicate/black/orange,/obj/item/clothing/suit/storage/vest/heavy/merc,/turf/simulated/floor,/area/innie_base)
 "bg" = (/obj/machinery/embedded_controller/radio/simple_docking_controller{id_tag = "innie_base"; pixel_x = 25},/turf/simulated/floor,/area/innie_base)
-"bh" = (/obj/machinery/door/airlock/external{frequency = 1379; id_tag = "innie_base_hatch"; name = "Shuttle"; req_access = list(250)},/turf/simulated/floor,/area/innie_base)
 "bi" = (/obj/machinery/door/airlock/external{frequency = 1379; id_tag = "innie_base_hatch"; name = "Shuttle"; req_access = list(250)},/turf/simulated/floor,/area/innie_base)
 "bj" = (/obj/structure/shuttle/engine/propulsion{icon_state = "propulsion"; dir = 1},/turf/space,/area/innie_base/shuttle)
 "bk" = (/turf/simulated/shuttle/wall{dir = 8; icon_state = "diagonalWall3"},/area/innie_base/shuttle)
 "bl" = (/turf/simulated/shuttle/wall{icon_state = "pwall"; dir = 1},/area/innie_base/shuttle)
-"bm" = (/obj/machinery/door/airlock/external{frequency = 1379; id_tag = "innie_shuttle_outer"; name = "Shuttle"; req_access = list(250)},/obj/machinery/door/blast/regular/open{id = "sinnie"},/turf/simulated/shuttle/plating,/area/innie_base/shuttle)
 "bn" = (/obj/machinery/door/airlock/external{frequency = 1379; id_tag = "innie_shuttle_outer"; name = "Shuttle"; req_access = list(250)},/obj/machinery/door/blast/regular/open{id = "sinnie"},/turf/simulated/shuttle/plating,/area/innie_base/shuttle)
 "bo" = (/turf/simulated/shuttle/wall{dir = 1; icon_state = "diagonalWall3"},/area/innie_base/shuttle)
 "bp" = (/obj/structure/shuttle/engine/heater{icon_state = "heater"; dir = 1},/turf/simulated/shuttle/wall{icon_state = "pwall"; dir = 1},/area/innie_base/shuttle)
@@ -121,9 +118,9 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabacaxahahayazaAaAacacacalahalacacababacaBahahah
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabacaDahahahahahaEacabacaxahahacabababacahahahahahahaFacabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabacahahahahahahahacabacahahahacabababacaGahahahahahaHacabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabacaIaJaKaLahahaMacabacahahahacabababacaNahahahahahaOaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabacacacacacahahacacabacahahaMacabababacaQahahahahahaRaSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabacacacacacahahacacabacahahaMacabababacaQahahahahaharaSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabababababacahahacacacacacaTacacacacacacaNahahahahahahaSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabababababacahahaUahagahahahahaVahagahaWahahahahahahahaSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabababababacahahaYahagahahahahaVahagahaWahahahahahahahaSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaababababacaXahaYahahahahahahahahahahahahahahahahahahaSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabababacacacacahaZahahahahahahahahbaahahahahahahahaSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabababababacahahahahahaXahahahahaWahbbbcbdbebfahamaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -133,10 +130,10 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaababababacahahacababababab
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaababacahahacababababababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabacahahacababababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacaxbgacabababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacbhbhacababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacbibiacababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacahahacababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacbhbiacababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabjbjbjbjbjbjbkblblblblblbmbnblblblblblbobjbjbjbjbjbjaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacbibiacababaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabjbjbjbjbjbjbkblblblblblbnbnblblblblblbobjbjbjbjbjbjaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabpbpbpbpbpbpblbqbqbqbqbqbqbqbqbqbqbqbqblbpbpbpbpbpbpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaablblblblblblbqbqbqbqbqbqbqbqbqbqbqbqblblblblblblaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaablblblblblbqbqbqbqbqbqbqbqbqbqbqbqblblblblblaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -155,3 +152,4 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabzbGbGbGbGbGbGbGbGbGbGbGbGbz
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabAbGbGbGbGbGbIbGbGbGbGbGbGbAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaablbJbKbKbKbKbKbKbKbKbKbKbLblaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 "}
+

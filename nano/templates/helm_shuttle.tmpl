@@ -109,7 +109,7 @@
 		<h3>ZLevels</h3>
 	</div>
 	<div class="itemContent" style="padding-top: 10px; float:right">
-		{{:helper.link('Move up level', 'arrowreturn-1-n', { 'z_up' : data.user }, null, data.maglocked ? 'disabled' : (data.z_up > 0 ? 'selected' : (data.z_up > -1 ? null : 'disabled') ) )}}
-		{{:helper.link('Move down level', 'arrowreturn-1-s', { 'z_down' : data.user }, null, data.maglocked ? 'disabled' : (data.z_down > 0 ? 'selected' : (data.z_down > -1 ? null : 'disabled') ) )}}
+		{{:helper.link('Move up level', 'arrowreturn-1-n', { 'z_up' : data.user }, null, data.maglocked ? 'disabled' : (data.z_up > 0 ? 'selected' : (data.z_up < 0 ? 'disabled' : null) ) )}}
+		{{:helper.link('Move down level', 'arrowreturn-1-s', { 'z_down' : data.user }, null, data.maglocked ? 'disabled' : (data.z_down > 0 ? 'selected' : (data.z_down < 0 ? 'disabled' : null) ) )}}
 	</div>
 </div>

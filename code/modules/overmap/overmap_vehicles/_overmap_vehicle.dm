@@ -37,6 +37,7 @@
 	var/max_speed = 32			//pixels per ms
 	var/accel_duration = 10		//how long until max speed in ms
 	var/yaw_speed = 5
+	var/z_move = 0				//whether the vehicle is moving up or down a level
 
 	var/cruise_speed = 4		//overmap pixels per ms
 
@@ -116,6 +117,9 @@
 	curz.objects_preventing_recycle.Add(src)
 	enter_new_zlevel(curz)
 
+	if(src.dir != NORTH)
+		pixel_transform.turn_to_dir(src.dir, 360)
+
 /obj/machinery/overmap_vehicle/process()
 
 	//update the iff sensor overlays
@@ -123,6 +127,15 @@
 	if(world.time >= time_next_sensor_update)
 		time_next_sensor_update = world.time + sensor_update_delay
 		update_tracking_overlays()
+
+	if(z_move)
+		//quick and dirty delay, this should trigger on the second process() loop after pressing the button
+		z_move *= 2
+		if(z_move * z_move >= 8)
+			var/move_dir = z_move
+			spawn(0)
+				handle_zmove(move_dir)
+			z_move = 0
 
 	/*var/delta_time = world.time - time_last_process
 	time_last_process = world.time*/
@@ -214,36 +227,6 @@
 			update(my_update_start_time)
 	else
 		main_update_start_time = -1
-
-//override in children if necessary
-/obj/machinery/overmap_vehicle/proc/handle_auto_turning()
-	//world << "/obj/machinery/overmap_vehicle/shuttle/handle_auto_turning() turn_dir:[turn_dir]"
-	if(turn_dir)
-		vehicle_controls.turn_vehicle(pilot, turn_dir)
-		var/datum/pixel_transform/target_transform = pixel_transform
-		if(is_cruising())
-			target_transform = overmap_object.pixel_transform
-
-		if(target_transform.heading == dir2angle(turn_dir))
-			turn_dir = 0
-		else
-			return 1
-	return 0
-
-//override in children if necessary
-/obj/machinery/overmap_vehicle/proc/handle_auto_cruising()
-	if(is_cruising())
-		overmap_object.pixel_transform.accelerate_forward(cruise_speed)
-		return 1
-
-	return 0
-
-//override in children if necessary
-/obj/machinery/overmap_vehicle/proc/handle_auto_moving()
-	if(move_dir)
-		vehicle_controls.move_vehicle(pilot, move_dir)
-		return 1
-	return 0
 
 /obj/machinery/overmap_vehicle/proc/get_absolute_directional_thrust(var/direction)
 	//north = north on the map

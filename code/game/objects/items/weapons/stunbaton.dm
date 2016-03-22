@@ -94,6 +94,7 @@
 		user << "<span class='notice'>[src] is now [status ? "on" : "off"].</span>"
 		playsound(loc, "sparks", 75, 1, -1)
 		update_icon()
+		. = 1
 	else
 		status = 0
 		if(!bcell)

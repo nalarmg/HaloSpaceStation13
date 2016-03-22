@@ -74,7 +74,12 @@
 	*/
 
 /turf/simulated/floor/open/Enter(var/atom/movable/falling_atom)
-	. = 1	//TODO make this check if gravity is active (future use) - Sukasa
+	//what the fuck am i doing here?
+	. = ..()
+	if(!.)
+		return .
+
+	//TODO make this check if gravity is active (future use) - Sukasa
 
 	//if AM is being thrown just fly over (dont worry about arcing flight)
 	if(falling_atom.throw_source)

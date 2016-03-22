@@ -25,7 +25,8 @@
 
 /datum/firemode/proc/apply_to(obj/item/weapon/gun/gun)
 	for(var/propname in settings)
-		gun.vars[propname] = settings[propname]
+		if(hasvar(gun, propname))
+			gun.vars[propname] = settings[propname]
 
 //Parent gun type. Guns are weapons that can be aimed at mobs and act over a distance
 /obj/item/weapon/gun
@@ -55,6 +56,7 @@
 	var/burst_delay = 2	//delay between shots, if firing in bursts
 	var/move_delay = 1
 	var/fire_sound = 'sound/weapons/Gunshot.ogg'
+	var/fire_sound_burst
 	var/fire_sound_text = "gunshot"
 	var/recoil = 0		//screen shake
 	var/silenced = 0
@@ -160,10 +162,28 @@
 	user.setMoveCooldown(shoot_time) //no moving while shooting either
 	next_fire_time = world.time + shoot_time
 
+	var/obj/projectile = consume_next_projectile(user)
+	if(projectile)
+		if(burst > 1 && fire_sound_burst)
+			playsound(user, fire_sound_burst, 50, 1)
+		if(reflex)
+			user.visible_message(
+				"<span class='reflex_shoot'><b>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""] by reflex!</b></span>",
+				"<span class='reflex_shoot'>You fire \the [src] by reflex!</span>",
+				"You hear a [fire_sound_text]!"
+			)
+		else
+			user.visible_message(
+				"<span class='danger'>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""]!</span>",
+				"<span class='warning'>You fire \the [src]!</span>",
+				"You hear a [fire_sound_text]!"
+				)
+
 	//actually attempt to shoot
 	var/turf/targloc = get_turf(target) //cache this in case target gets deleted during shooting, e.g. if it was a securitron that got destroyed.
 	for(var/i in 1 to burst)
-		var/obj/projectile = consume_next_projectile(user)
+		if(!projectile)
+			projectile = consume_next_projectile(user)
 		if(!projectile)
 			handle_click_empty(user)
 			break
@@ -185,6 +205,8 @@
 		if(!(target && target.loc))
 			target = targloc
 			pointblank = 0
+
+		projectile = null
 
 	update_held_icon()
 
@@ -221,20 +243,8 @@
 	if(silenced)
 		playsound(user, fire_sound, 10, 1)
 	else
-		playsound(user, fire_sound, 50, 1)
-
-		if(reflex)
-			user.visible_message(
-				"<span class='reflex_shoot'><b>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""] by reflex!</b></span>",
-				"<span class='reflex_shoot'>You fire \the [src] by reflex!</span>",
-				"You hear a [fire_sound_text]!"
-			)
-		else
-			user.visible_message(
-				"<span class='danger'>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""]!</span>",
-				"<span class='warning'>You fire \the [src]!</span>",
-				"You hear a [fire_sound_text]!"
-				)
+		if(burst <= 1 || !fire_sound_burst)
+			playsound(user, fire_sound, 50, 1)
 
 		if(muzzle_flash)
 			set_light(muzzle_flash)
@@ -371,7 +381,7 @@
 		var/datum/firemode/current_mode = firemodes[sel_mode]
 		user << "The fire selector is set to [current_mode.name]."
 
-/obj/item/weapon/gun/proc/switch_firemodes()
+/obj/item/weapon/gun/proc/switch_firemodes(mob/user)
 	if(firemodes.len <= 1)
 		return null
 

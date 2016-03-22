@@ -10,6 +10,8 @@ obj/machinery/overmap_vehicle/proc/enter_new_zlevel(var/obj/effect/zlevelinfo/cu
 		stop_tracking_vehicle(V)
 
 	//the new zlevelinfo is already tracking all relevant vehicles for us so we'll just use it
+	if(!curz)
+		curz = locate("zlevel[src.z]")
 	if(curz)
 		for(var/obj/machinery/overmap_vehicle/V in curz.objects_preventing_recycle)
 			if(V == src)

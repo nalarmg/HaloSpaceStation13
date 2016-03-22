@@ -179,8 +179,8 @@
 	slot_flags = SLOT_BACK
 	ammo_type = "/obj/item/ammo_casing/a762"
 	fire_sound = 'sound/weapons/Gunshot_light.ogg'
-	load_method = MAGAZINE
-	magazine_type = /obj/item/ammo_magazine/a762
+	load_method = MAGAZINE|BELT_FEED
+	magazine_type = /obj/item/ammo_magazine/a762_box
 	
 	firemodes = list(
 		list(mode_name="short bursts",	burst=5, move_delay=6, burst_accuracy = list(0,-1,-1,-2,-2),          dispersion = list(0.6, 1.0, 1.0, 1.0, 1.2)),
