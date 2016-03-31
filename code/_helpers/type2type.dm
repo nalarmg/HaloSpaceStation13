@@ -207,6 +207,8 @@ proc/tg_list2text(list/list, glue=",")
 		if (6.0)  return "southeast"
 		if (9.0)  return "northwest"
 		if (10.0) return "southwest"
+		if (16.0)  return "up"
+		if (32.0) return "down"
 
 // Turns text into proper directions
 /proc/text2dir(direction)
@@ -219,6 +221,8 @@ proc/tg_list2text(list/list, glue=",")
 		if ("NORTHWEST") return 9
 		if ("SOUTHEAST") return 6
 		if ("SOUTHWEST") return 10
+		if ("UP")        return 16
+		if ("DOWN")      return 32
 
 // Converts an angle (degrees) into an ss13 direction
 /proc/angle2dir(var/degree)

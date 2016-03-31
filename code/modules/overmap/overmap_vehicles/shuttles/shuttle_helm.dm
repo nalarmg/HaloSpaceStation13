@@ -16,11 +16,11 @@
 
 /obj/machinery/computer/shuttle_helm/proc/thrust_forward(var/mob/user)
 	if(my_shuttle)
-		my_shuttle.vehicle_thrust(user)
+		my_shuttle.thrust_forward(user)
 
 /obj/machinery/computer/shuttle_helm/proc/thrust_forward_toggle(var/mob/user)
 	if(my_shuttle)
-		my_shuttle.vehicle_thrust_toggle(user)
+		my_shuttle.thrust_forward_toggle(user)
 
 /obj/machinery/computer/shuttle_helm/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 
@@ -144,9 +144,7 @@
 	if (href_list["brake"])
 		var/mob/living/carbon/human/M = locate(href_list["brake"])
 		if(istype(M) && can_use(M))
-			if(!my_shuttle.is_maglocked() && !my_shuttle.is_cruising() && !my_shuttle.pixel_transform.is_still())
-				my_shuttle.move_dir = 0
-				my_shuttle.autobraking = 1
+			brake()
 
 	if (href_list["view_shuttle"])
 		var/mob/living/carbon/human/M = locate(href_list["view_shuttle"])
@@ -170,22 +168,33 @@
 
 	if (href_list["z_up"])
 		var/mob/living/carbon/human/M = locate(href_list["z_up"])
-		if(istype(M) && can_use(M) && !my_shuttle.is_maglocked())
-			if(my_shuttle.HasAbove())
-				my_shuttle.z_move = 1
-			else
-				M << "<span class='info'>There is nothing of interest up there.</span>"
+		moveup(M)
 
 	if (href_list["z_down"])
 		var/mob/living/carbon/human/M = locate(href_list["z_down"])
-		if(istype(M) && can_use(M) && !my_shuttle.is_maglocked())
-			if(my_shuttle.HasBelow())
-				my_shuttle.z_move = -1
-			else
-				M << "<span class='info'>There is nothing of interest down there.</span>"
+		movedown(M)
 
 	if (href_list["maglock"])
 		var/mob/living/carbon/human/M = locate(href_list["maglock"])
 		if(istype(M) && can_use(M))
 			if(!my_shuttle.is_cruising())
 				my_shuttle.toggle_maglock(M)
+
+/obj/machinery/computer/shuttle_helm/proc/brake()
+	if(!my_shuttle.is_maglocked() && !my_shuttle.is_cruising() && !my_shuttle.pixel_transform.is_still())
+		my_shuttle.move_dir = 0
+		my_shuttle.autobraking = 1
+
+/obj/machinery/computer/shuttle_helm/proc/moveup(var/mob/M)
+	if(istype(M) && can_use(M) && !my_shuttle.is_maglocked())
+		if(my_shuttle.HasAbove())
+			my_shuttle.z_move = 1
+		else
+			M << "<span class='info'>There is nothing of interest up there.</span>"
+
+/obj/machinery/computer/shuttle_helm/proc/movedown(var/mob/M)
+	if(istype(M) && can_use(M) && !my_shuttle.is_maglocked())
+		if(my_shuttle.HasBelow())
+			my_shuttle.z_move = -1
+		else
+			M << "<span class='info'>There is nothing of interest down there.</span>"

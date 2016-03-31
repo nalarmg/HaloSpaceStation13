@@ -8,6 +8,14 @@ macro "borghotkeymode"
 		command = ".center"
 		is-disabled = false
 	elem 
+		name = "RETURN+UP"
+		command = "vehicle-brake"
+		is-disabled = false
+	elem 
+		name = "SPACE+REP"
+		command = "vehicle-fire"
+		is-disabled = false
+	elem 
 		name = "NORTHEAST"
 		command = ".northeast"
 		is-disabled = false
@@ -216,6 +224,26 @@ macro "borghotkeymode"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "NUMPAD2+REP"
+		command = ".southwest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD4+REP"
+		command = ".northwest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "vehicle-thrust-toggle"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6+REP"
+		command = ".southeast"
+		is-disabled = false
+	elem 
+		name = "NUMPAD8+REP"
+		command = ".northeast"
+		is-disabled = false
+	elem 
 		name = "F1"
 		command = "adminhelp"
 		is-disabled = false
@@ -272,20 +300,8 @@ macro "borghotkeymode"
 		command = "Travel-Upwards"
 		is-disabled = false
 	elem 
-		name = "NUMPAD2+REP"
-		command = ".southwest"
-		is-disabled = false
-	elem 
-		name = "NUMPAD4+REP"
-		command = ".northwest"
-		is-disabled = false
-	elem 
-		name = "NUMPAD6+REP"
-		command = ".southeast"
-		is-disabled = false
-	elem 
-		name = "NUMPAD8+REP"
-		command = ".northeast"
+		name = "SHIFT+UP"
+		command = "vehicle-thrust-toggle"
 		is-disabled = false
 
 macro "macro"
@@ -298,8 +314,12 @@ macro "macro"
 		command = ".center"
 		is-disabled = false
 	elem 
+		name = "RETURN+UP"
+		command = "vehicle-brake"
+		is-disabled = false
+	elem 
 		name = "SPACE+REP"
-		command = "vehicle-thrust"
+		command = "vehicle-fire"
 		is-disabled = false
 	elem 
 		name = "NORTHEAST"
@@ -529,6 +549,10 @@ macro "macro"
 		name = "]"
 		command = "Travel-Upwards"
 		is-disabled = false
+	elem 
+		name = "SHIFT+UP"
+		command = "vehicle-thrust-toggle"
+		is-disabled = false
 
 macro "hotkeymode"
 	elem 
@@ -538,6 +562,14 @@ macro "hotkeymode"
 	elem 
 		name = "CENTER+REP"
 		command = ".center"
+		is-disabled = false
+	elem 
+		name = "RETURN+UP"
+		command = "vehicle-brake"
+		is-disabled = false
+	elem 
+		name = "SPACE+REP"
+		command = "vehicle-fire"
 		is-disabled = false
 	elem 
 		name = "NORTHEAST"
@@ -764,6 +796,26 @@ macro "hotkeymode"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "NUMPAD2+REP"
+		command = ".southwest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD4+REP"
+		command = ".northwest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "vehicle-thrust-toggle"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6+REP"
+		command = ".southeast"
+		is-disabled = false
+	elem 
+		name = "NUMPAD8+REP"
+		command = ".northeast"
+		is-disabled = false
+	elem 
 		name = "F1"
 		command = "adminhelp"
 		is-disabled = false
@@ -820,20 +872,8 @@ macro "hotkeymode"
 		command = "Travel-Upwards"
 		is-disabled = false
 	elem 
-		name = "NUMPAD2+REP"
-		command = ".southwest"
-		is-disabled = false
-	elem 
-		name = "NUMPAD4+REP"
-		command = ".northwest"
-		is-disabled = false
-	elem 
-		name = "NUMPAD6+REP"
-		command = ".southeast"
-		is-disabled = false
-	elem 
-		name = "NUMPAD8+REP"
-		command = ".northeast"
+		name = "SHIFT+UP"
+		command = "vehicle-thrust-toggle"
 		is-disabled = false
 
 macro "borgmacro"
@@ -844,6 +884,14 @@ macro "borgmacro"
 	elem 
 		name = "CENTER+REP"
 		command = ".center"
+		is-disabled = false
+	elem 
+		name = "RETURN+UP"
+		command = "vehicle-brake"
+		is-disabled = false
+	elem 
+		name = "SPACE+REP"
+		command = "vehicle-thrust"
 		is-disabled = false
 	elem 
 		name = "NORTHEAST"
@@ -978,6 +1026,26 @@ macro "borgmacro"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "NUMPAD2+REP"
+		command = ".southwest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD4+REP"
+		command = ".northwest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "vehicle-thrust-toggle"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6+REP"
+		command = ".southeast"
+		is-disabled = false
+	elem 
+		name = "NUMPAD8+REP"
+		command = ".northeast"
+		is-disabled = false
+	elem 
 		name = "F1"
 		command = "adminhelp"
 		is-disabled = false
@@ -1034,20 +1102,8 @@ macro "borgmacro"
 		command = "Move Upwards"
 		is-disabled = false
 	elem 
-		name = "NUMPAD2+REP"
-		command = ".southwest"
-		is-disabled = false
-	elem 
-		name = "NUMPAD4+REP"
-		command = ".northwest"
-		is-disabled = false
-	elem 
-		name = "NUMPAD6+REP"
-		command = ".southeast"
-		is-disabled = false
-	elem 
-		name = "NUMPAD8+REP"
-		command = ".northeast"
+		name = "SHIFT+UP"
+		command = "vehicle-thrust-toggle"
 		is-disabled = false
 
 

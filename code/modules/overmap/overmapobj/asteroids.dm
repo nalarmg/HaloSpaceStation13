@@ -1,4 +1,4 @@
-//see starsystem.dm for procedural asteroid field generation
+//see starsystem.dm for asteroid field placement
 
 /obj/effect/overmapobj/bigasteroid
 	name = "large asteroid"

@@ -16,12 +16,14 @@
 	//set this to 1 if you have are going to put all the initialisation data for the overmapobject in this zlevelinfo
 	var/use_me_to_initialise = 0
 
-	var/landing_area 	//type of area used as inbound shuttle landing, null if no shuttle landing area
-	var/known = 1
+	//var/landing_area 	//type of area used as inbound shuttle landing, null if no shuttle landing area
+	//var/known = 1
 	var/faction = ""
+	var/sensor_icon_state = ""
 	//var/overmapobj_name = "undefined overmapobj"
+	//var/obj/effect/overmapobj/owning_sector
 
-	var/list/objects_preventing_recycle = list()
+	//var/list/objects_preventing_recycle = list()
 
 /obj/effect/zlevelinfo/New()
 	tag = "zlevel[z]"

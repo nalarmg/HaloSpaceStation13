@@ -20,7 +20,25 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 // Cross-z interaction checks
 //------------------------------------------------------
 
-/atom/movable/proc/HasAboveBelow(var/zdir)
+
+//simply counts the number of connected levels above to calculate the "level number" from 1 (top) to X (however many levels there are)
+//used for various informative purposes
+/atom/proc/GetLevelNum()
+	var/level_number = 1
+
+	var/atom/next_level = GetAbove(src)
+	while(next_level)
+		level_number += 1
+		next_level = GetAbove(next_level)
+
+	return level_number
+
+/atom/proc/GetNumLevels()
+	var/obj/effect/overmapobj/overmapobj = map_sectors["[src.z]"]
+	if(overmapobj && overmapobj.linked_zlevelinfos)
+		return overmapobj.linked_zlevelinfos.len
+
+/atom/proc/HasAboveBelow(var/zdir)
 	if(zdir & UP)
 		return HasAbove()
 	if(zdir & DOWN)
@@ -35,7 +53,7 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 
 
 //Check turf above
-/atom/movable/proc/HasAbove()
+/atom/proc/HasAbove()
 	if(src.z <= 1)
 		return 0
 
@@ -79,12 +97,18 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 
 
 //Check turf below
-/atom/movable/proc/HasBelow()
+/atom/proc/HasBelow()
+	if(Debug2)
+		world << "[src] ([src.type]) debugging HasBelow()"
 	if(src.z == world.maxz)
+		if(Debug2)
+			world << "	at world.maxz"
 		return 0
 
 	var/obj/effect/zlevelinfo/cur_level = locate("zlevel[src.z]")
 	if(!cur_level)
+		if(Debug2)
+			world << "	unable to locate current zlevel"
 		return 0
 
 	var/curz = src.z
@@ -93,11 +117,17 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 
 		var/obj/effect/zlevelinfo/target_level = locate("zlevel[curz]")
 		if(!target_level)
+			if(Debug2)
+				world << "	unable to locate zlevel[curz]"
 			continue
 
 		if(cur_level.name == target_level.name)
+			if(Debug2)
+				world << "	successfully found linked zlevel[curz]"
 			return 1
 
+	if(Debug2)
+		world << "	generic failure (no more zlevels to check)"
 	return 0
 
 /proc/GetBelow(var/atom/atom, var/testing = 0)
@@ -114,7 +144,7 @@ Disposal pipes state value remains as 11 and 12 because they're not strictly ref
 			var/obj/effect/zlevelinfo/target_level = locate("zlevel[curz]")
 
 			if(target_level && cur_level.name == target_level.name)
-				if(testing)
+				if(Debug2)
 					testing("[cur_level.name]: z[cur_level.z] and z[target_level.z] are connected")
 				return locate(base_turf.x, base_turf.y, target_level.z)
 

@@ -24,7 +24,9 @@
 
 //override in children if necessary
 /obj/machinery/overmap_vehicle/proc/handle_auto_moving()
-	if(move_dir)
+	if(move_forward)
+		vehicle_controls.move_vehicle_forward(pilot)
+	else if(move_dir)
 		vehicle_controls.move_vehicle(pilot, move_dir)
 		return 1
 	return 0

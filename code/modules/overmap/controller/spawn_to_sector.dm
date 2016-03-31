@@ -1,23 +1,23 @@
 
-//note: source_obj is optional and the code will handle fine without it, but the destination and spawn location (or spawn edge) will be randomised
-/datum/controller/process/overmap/proc/spawn_to_sector(var/turf/overmap_turf, var/atom/movable/A, var/obj/effect/overmapobj/source_obj, var/skip_recycle = 0)
-	//world << "spawn_to_sector([overmap_turf], [A], [source_obj])"
+//note: source_sector is optional and the code will handle fine without it, but the destination and spawn location (or spawn edge) will be randomised
+/datum/controller/process/overmap/proc/spawn_to_sector(var/turf/overmap_turf, var/atom/movable/A, var/obj/effect/overmapobj/source_sector, var/skip_recycle = 0)
+	//world << "spawn_to_sector([overmap_turf], [A], [source_sector])"
 
 	//first check if we can "lose" the object in deepspace and not have to do all this processing
 	if(!skip_recycle && overmap_controller.attempt_recycle_deepspace_atom(A))
 		return 2
 
 	//attempt to locate a pre-existing object to spawn to (avoiding the source)
-	var/obj/effect/overmapobj/spawn_obj = get_destination_object(overmap_turf)
+	var/obj/effect/overmapobj/spawn_sector = get_destination_sector(overmap_turf)		//see code\modules\overmap\controller\spacetravel.dm
 
 	//calculate the x and y coordinates to spawn in on
 	//TRANSITIONEDGE is defined at 7 whereas 1 pixel on the overmap represents 7.9 turfs so this shouldn't result in a jolt on the overmap
 	var/spawnx = 0
 	var/spawny = 0
-	if(source_obj)
+	if(source_sector)
 		//reverse engineer sector coordinates from the pixel offset of the source object
-		spawnx = world.maxx * ((16 + source_obj.pixel_x) / 32)
-		spawny = world.maxy * ((16 + source_obj.pixel_y) / 32)
+		spawnx = world.maxx * ((16 + source_sector.pixel_x) / 32)
+		spawny = world.maxy * ((16 + source_sector.pixel_y) / 32)
 
 		//make sure values are valid
 		spawnx = Clamp(spawnx, TRANSITIONEDGE, world.maxx - TRANSITIONEDGE)
@@ -30,9 +30,9 @@
 	//grab the actual spawnsector and direction to start drifting in
 	var/throwdir = 0
 	var/obj/effect/zlevelinfo/target_zlevel
-	if(spawn_obj && spawn_obj.linked_zlevelinfos.len)
+	if(spawn_sector && spawn_sector.linked_zlevelinfos.len)
 		//pick a random zlevel to come into
-		target_zlevel = pick(spawn_obj.linked_zlevelinfos)
+		target_zlevel = pick(spawn_sector.linked_zlevelinfos)
 
 		//spawn on the closest edge
 		//there might be a more concise way to do this (one that avoids repetition) but at least this should run fairly fast
@@ -95,17 +95,17 @@
 
 		//create a corresponding deep space sector so we can be found
 		testing("	Adding new temporary space sector...")
-		spawn_obj = new /obj/effect/overmapobj/temporary_sector(overmap_turf.x, overmap_turf.y, target_zlevel.z)
-		spawn_obj.linked_zlevelinfos.Add(target_zlevel)
-		map_sectors["[target_zlevel.z]"] = spawn_obj
+		spawn_sector = new /obj/effect/overmapobj/temporary_sector(overmap_turf.x, overmap_turf.y, target_zlevel.z)
+		spawn_sector:objects_preventing_recycle.Add(A)
+		spawn_sector.linked_zlevelinfos.Add(target_zlevel)
+		map_sectors["[target_zlevel.z]"] = spawn_sector
 
 		//testing("Destination: z[nz] [target_obj]")
-		target_zlevel.objects_preventing_recycle.Add(A)
 
 		//throw in the approximate direction we are travelling - this will clamp to 45 degree increments but that's ok because tile based movement
 		//todo: it might not handle diagonal dirs nicely, so test this to make sure (restrict to cardinals if not)
-		if(source_obj && istype(source_obj, /obj/effect/overmapobj/vehicle))
-			var/obj/effect/overmapobj/vehicle/V = source_obj
+		if(source_sector && istype(source_sector, /obj/effect/overmapobj/vehicle))
+			var/obj/effect/overmapobj/vehicle/V = source_sector
 			throwdir = angle2dir(V.pixel_transform.heading)
 		else
 			throwdir = pick(cardinal)
@@ -122,12 +122,16 @@
 
 	if(istype(A, /obj/machinery/overmap_vehicle))
 		var/obj/machinery/overmap_vehicle/V = A
-		V.enter_new_zlevel(target_zlevel)
+
+		if(source_sector)
+			V.leaving_sector(spawn_sector, source_sector)
+
+		V.enter_new_sector(spawn_sector, target_zlevel)
 
 	//inform the unfortunate atom they've been left behind
-	if(source_obj)
-		A << "\icon[source_obj] <span class='warning'>[source_obj] disappears into the distance. You drift into [spawn_obj].</span>"
+	if(source_sector)
+		A << "\icon[source_sector] <span class='warning'>[source_sector] disappears into the distance. You drift into [spawn_sector].</span>"
 	else
-		A << "<span class='warning'>You drift into [spawn_obj].</span>"
+		A << "<span class='warning'>You drift into [spawn_sector].</span>"
 
 	return 1

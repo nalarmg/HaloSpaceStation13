@@ -12,11 +12,11 @@
 	icon = 'code/modules/overmap/ships/sector_icons.dmi'
 	icon_state = ""		//default warning signal to show a missing sprite
 	dir = 1
-	var/area/shuttle/shuttle_landing
-	var/always_known = 1
+	//var/area/shuttle/shuttle_landing
+	//var/always_known = 1
 	var/list/my_observers = list()
 	var/list/my_turrets = list()
-	var/faction = ""
+	var/faction
 	var/list/obj_turfs = list()
 	var/list/linked_zlevelinfos = list()
 	var/hide_vehicles = 0
@@ -26,8 +26,24 @@
 	var/max_turf_dimx = 1	//for cross-sector travel if this object is travelling faster than 1 turf at a time
 	var/max_turf_dimy = 1
 
+	var/init_sensors = 0
+	var/datum/hud_waypoint_controller/hud_waypoint_controller
+	var/datum/waypoint_controller/waypoint_controller
+	var/datum/scanner_manager/scanner_manager
+
+	var/sensor_icon_state = ""
+
 //override in children if necessary (used by ships)
 /obj/effect/overmapobj/proc/overmap_init()
+	if(init_sensors)
+		hud_waypoint_controller = new(src)
+		waypoint_controller = new(src)
+		waypoint_controller.add_listening_hud(hud_waypoint_controller)
+		//
+		overmap_controller.overmap_scanner_manager.add_ship_scanner(waypoint_controller)
+		overmap_controller.overmap_scanner_manager.add_station_scanner(waypoint_controller)
+		overmap_controller.overmap_scanner_manager.add_asteroid_scanner(waypoint_controller)
+		overmap_controller.overmap_scanner_manager.add_overmap_vehicle_scanner(waypoint_controller)
 
 /obj/effect/overmapobj/proc/start_meteors()
 	if(!in_meteor_sector)

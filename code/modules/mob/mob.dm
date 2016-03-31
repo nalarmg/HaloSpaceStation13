@@ -748,6 +748,12 @@
 /mob/proc/facedir(var/ndir)
 	if(!canface() || client.moving || world.time < client.move_delay)
 		return 0
+
+	//if we have a machine that accepts diagonal commands, pass it on
+	if(istype(src.machine, /obj/machinery))
+		if(src.machine.relayface(src, ndir))
+			return
+
 	set_dir(ndir)
 	if(buckled && buckled.buckle_movable)
 		buckled.set_dir(ndir)

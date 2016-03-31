@@ -18,10 +18,11 @@
 
 /obj/effect/zlevelinfo/ship/pillarofautumn
 	name = "UNSC Pillar of Autumn"
-	desc = "Heavily redesigned with an overhauled substructure and upgunned armament."
+	desc = "Heavily redesigned Halcyon class with an overhauled substructure and upgunned armament."
 	icon = 'code/modules/overmap/ships/cruiser.dmi'
 	icon_state = "base"
 	faction = "UNSC"
 	use_me_to_initialise = 1
 	init_bounds_dims = 96
+	sensor_icon_state = "7th_column"
 	//init_bounds_margin = 32

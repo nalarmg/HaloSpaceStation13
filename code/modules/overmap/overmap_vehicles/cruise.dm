@@ -25,22 +25,20 @@
 	if(!is_cruising())
 		//world << "enable_cruise([user])"
 		//only go to cruise once we've "cleared" major objects like capships and stations
-		var/obj/effect/overmapobj/cur_sector = overmap_controller.get_destination_object(overmap_object.loc)
+		//typecasting like this is technically risky, but within this context it should be safe
+		var/obj/effect/overmapobj/temporary_sector/cur_sector = map_sectors["[src.z]"]
+		//var/obj/effect/overmapobj/temporary_sector/cur_sector = overmap_controller.get_destination_sector(overmap_object.loc)		//see code\modules\overmap\controller\spacetravel.dm
 
 		if(cur_sector)
-			if(istype(cur_sector, /obj/effect/overmapobj/temporary_sector))
+			if(istype(cur_sector))
 				//halt the vehicle
 				pixel_transform.brake(pixel_transform.max_pixel_speed + 1)
 
-				//put this in a separate proc so that it can be overriden in the children (ie shuttles) for custom behaviour6
+				//put this in a separate proc so that it can be overriden in the children (ie shuttles) for custom behaviour
 				//occupants_handle_cruise()
 
 				//see if we can recycle the existing zlevel
-				var/obj/effect/zlevelinfo/curz = locate("zlevel[src.z]")
-				curz.objects_preventing_recycle.Remove(src)
-				//
-				var/obj/effect/overmapobj/current_obj = map_sectors["[curz.z]"]
-				overmap_controller.attempt_recycle_temp_sector(current_obj)
+				overmap_controller.attempt_recycle_temp_sector(cur_sector, src)
 
 				//get the secret area where we will hide the fighter
 				if(!transit_area)

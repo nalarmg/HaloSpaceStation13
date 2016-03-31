@@ -4,6 +4,17 @@
 	set category = "IC"
 	var/mob/M = usr
 	if(M && istype(M))
+
+		if(istype(M.machine, /obj/machinery/overmap_vehicle))
+			var/obj/machinery/overmap_vehicle/V = M.machine
+			V.move_upwards()
+			return
+
+		if(istype(M.machine, /obj/machinery/computer/shuttle_helm))
+			var/obj/machinery/computer/shuttle_helm/H = M.machine
+			H.moveup()
+			return
+
 		move_updown(M, UP)
 
 /mob/verb/movedown()
@@ -11,6 +22,17 @@
 	set category = "IC"
 	var/mob/M = usr
 	if(M && istype(M))
+
+		if(istype(M.machine, /obj/machinery/overmap_vehicle))
+			var/obj/machinery/overmap_vehicle/V = M.machine
+			V.move_downwards()
+			return
+
+		if(istype(M.machine, /obj/machinery/computer/shuttle_helm))
+			var/obj/machinery/computer/shuttle_helm/H = M.machine
+			H.movedown()
+			return
+
 		move_updown(M, DOWN)
 
 /proc/move_updown(var/mob/M, var/zdir)

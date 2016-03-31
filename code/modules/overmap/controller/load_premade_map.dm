@@ -105,6 +105,9 @@ datum/controller/process/overmap/proc/load_premade_map(var/mapname)
 		//tell the overmapobj about this level
 		loaded_obj.linked_zlevelinfos.Add(level_data)
 
+		//init scanner handling
+		loaded_obj.scanner_manager = new()
+
 		return loaded_obj
 	else
 		world << "<span class='alert'>Error: [mapname] is not a valid map file.</span>"

@@ -96,8 +96,9 @@
 
 	add_pixel_speed(x_accel, y_accel)
 
-	if(angle == heading)
-		spawn_thrust()
+	//just spawn thrust regardless of heading, its easier than mucking about with multidirectional exhaust sprites for now
+	//if(angle == heading)
+	spawn_thrust()
 
 /datum/pixel_transform/proc/add_pixel_speed(var/accel_x, var/accel_y)
 	pixel_speed_x += accel_x

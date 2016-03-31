@@ -13,7 +13,7 @@ var/list/available_quadrants = list()
 	set background = 1
 
 	world << "<span class='danger'>Populating asteroid fields for the [src] system...</span>"
-	
+
 	//create 2-4 asteroid fields
 	//to keep the asteroids nicely spread out, we'll puit one in each "quadrant" (corner) of the star system
 	//don't run this in a spawn()
@@ -54,8 +54,8 @@ var/list/available_quadrants = list()
 		used_quadrants += spawnloc
 
 		//margin of 24 tiles around the edge
-		current_field.centre_x = spawnloc.x_pos * 255 - 30 + rand(0, 97)
-		current_field.centre_y = spawnloc.y_pos * 255 - 30 + rand(0, 97)
+		current_field.centre_x = spawnloc.x_pos * 255 - 30 + rand(0, 93)
+		current_field.centre_y = spawnloc.y_pos * 255 - 30 + rand(0, 93)
 
 		//spawn a field around it that is about
 

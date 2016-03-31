@@ -32,6 +32,8 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 	var/list/overmap_vehicles_in_transit = list()
 	var/list/bases_by_faction[][]
 
+	var/datum/scanner_manager/overmap_scanner_manager
+
 /datum/controller/process/overmap/doWork()
 	//see temporary_sector.dm
 	process_temp_sectors()
@@ -46,31 +48,6 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 /datum/controller/process/overmap/proc/recycle_zlevel(var/obj/effect/zlevelinfo/trashlevel)
 	trash_zlevels.Add(trashlevel)
 
-/datum/controller/process/overmap/proc/get_friend_foe_colour(var/my_faction, var/other_faction)
-	//just do the easy thing for now until we get a more complex faction and subfaction system developed
-	if(my_faction == other_faction)
-		return friend_colour
-
-	var/list/main_factions = list("UNSC", "Insurrection", "Covenant")
-	if((my_faction in main_factions) && (other_faction in main_factions))
-		return foe_colour
-
-/datum/controller/process/overmap/proc/get_random_faction_base(var/check_faction)
-	var/list/faction_bases = get_faction_bases(check_faction)
-
-	if(faction_bases.len)
-		return pick(faction_bases)
-
-/datum/controller/process/overmap/proc/get_faction_bases(var/check_faction)
-	if(check_faction)
-		if(!bases_by_faction)
-			bases_by_faction = list()
-		if(!bases_by_faction[check_faction])
-			bases_by_faction[check_faction] = list()
-		var/list/faction_bases = bases_by_faction[check_faction]
-
-		return faction_bases
-
 /datum/controller/process/overmap/proc/attempt_recycle_deepspace_atom(var/atom/movable/A)
 	//keep tracking all mobs, otherwise everything else can get permanently "lost" in deep space
 	if(!ismob(A))
@@ -78,3 +55,12 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 		return 1
 
 	return 0
+
+//zlevels we want to make inaccessible, disable transit, disable sensors, disable radio
+/datum/controller/process/overmap/proc/is_restricted_z(var/obj/effect/zlevelinfo/curz)
+	. = 0
+	if(curz.z == OVERMAP_ZLEVEL)
+		return 1
+
+	if(curz == virtual_zlevel)
+		return 1

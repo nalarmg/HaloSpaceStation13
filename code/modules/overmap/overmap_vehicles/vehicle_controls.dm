@@ -1,5 +1,6 @@
 //the foundation of a system for differing/customisable control schemes which will be switchable ingame
 //this could also be used as a generic interface between byond client macros and any form of vehicle control (overmap_vehicle or overmap ship)
+//currently only overmap_vehicle is setup to use this, so its a little bit gimmicky and redundant, but maybe one day...
 
 /datum/vehicle_controls
 	var/scheme_name = "Default control scheme"
@@ -14,6 +15,9 @@
 		move_vehicle(user, direction)
 	else
 		turn_vehicle(user, direction)
+
+/datum/vehicle_controls/proc/relay_face(var/mob/user, var/direction)
+	turn_vehicle(user, direction)
 
 /datum/vehicle_controls/proc/turn_vehicle(var/mob/user, var/direction)
 
@@ -62,6 +66,13 @@
 		target_pixel_transform.add_pixel_speed_direction(accel, direction)
 	else
 		target_pixel_transform.add_pixel_speed_direction_relative(accel, direction)
+
+/datum/vehicle_controls/proc/move_vehicle_forward(var/mob/user)
+	var/accel = vehicle.get_relative_directional_thrust(NORTH)
+	var/datum/pixel_transform/target_pixel_transform = vehicle.pixel_transform
+	if(vehicle.is_cruising())
+		target_pixel_transform = vehicle.overmap_object.pixel_transform
+	target_pixel_transform.add_pixel_speed_direction_relative(accel, NORTH)
 
 /datum/vehicle_controls/proc/move_toggle(var/mob/user, var/direction)
 	//world << "move_toggle([is_absolute], [direction])
