@@ -13,6 +13,16 @@
 	pixel_transform.my_observers = my_observers
 	//pixel_transform.max_pixel_speed = max_speed
 
+	hud_waypoint_controller = new(src)
+	hud_waypoint_controller.expected_screen_width = 14
+	waypoint_controller = new(src)
+	waypoint_controller.add_listening_hud(hud_waypoint_controller)
+	//
+	overmap_controller.overmap_scanner_manager.add_ship_scanner(waypoint_controller)
+	overmap_controller.overmap_scanner_manager.add_station_scanner(waypoint_controller)
+	overmap_controller.overmap_scanner_manager.add_asteroid_scanner(waypoint_controller)
+	overmap_controller.overmap_scanner_manager.add_overmap_vehicle_scanner(waypoint_controller)
+
 /obj/effect/overmapobj/vehicle/observe_space(var/mob/user)
 	//stop the vehicle from taking back control
 	overmap_vehicle.my_observers.Remove(user)
@@ -25,6 +35,10 @@
 
 	//call it immediately to speed things up
 	check_eye(user)
+
+	//enable overmap sensors if the user has them enabled
+	if(overmap_vehicle.hud_waypoint_controller.remove_hud_from_mob(user))
+		hud_waypoint_controller.add_hud_to_mob(user)
 
 /obj/effect/overmapobj/vehicle/check_eye(var/mob/user)
 	//if the parent proc didn't succeed, check if the player is inside us (a vehicle)

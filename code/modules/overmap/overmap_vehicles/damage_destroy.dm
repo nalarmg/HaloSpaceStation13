@@ -35,14 +35,20 @@
 /obj/machinery/overmap_vehicle/Destroy()
 	. = ..()
 
+	processing_objects.Remove(src)
 	disable_cruise()
 
 	//clean up references
 	qdel(pixel_transform)
 	qdel(overmap_object.pixel_transform)
+	qdel(overmap_object.hud_waypoint_controller)
+	qdel(overmap_object.waypoint_controller)
 	qdel(overmap_object)
 	qdel(vehicle_controls)
 	qdel(internal_atmosphere)
+	//
+	qdel(hud_waypoint_controller)
+	qdel(waypoint_controller)
 
 	//recycle the cruise transit area
 	if(transit_area)
@@ -52,6 +58,3 @@
 		overmap_controller.virtual_areas_used -= transit_area
 		overmap_controller.virtual_areas_unused += transit_area
 		transit_area = null
-
-	for(var/obj/machinery/overmap_vehicle/V in tracked_vehicles)
-		stop_tracking_vehicle(V)

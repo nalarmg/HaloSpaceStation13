@@ -17,6 +17,7 @@ var/obj/effect/overmapobj/innie_base
 	hub_descriptions = list("putting down the Insurrection", "securing a hidden rebel base", "pacifying the outer colonies")
 
 	var/list/innie_base_paths = list('maps/innie_base1.dmm','maps/innie_base2.dmm')		//make sure these are in the order from top level -> bottom level
+	var/obj/effect/overmapobj/innie_base_reference
 	var/innie_base_discovered = 0
 	var/nuke_result = -1
 	var/minutes_to_detect_innie_base = 15
@@ -61,11 +62,14 @@ var/obj/effect/overmapobj/innie_base
 			innie_base.tag = "Insurrection Asteroid Base"
 			innie_base.icon = 'code/modules/overmap/ships/sector_icons.dmi'
 			innie_base.icon_state = "listening_post"
+			innie_base.sensor_icon_state = "rebelfist"
+			innie_base.faction = "Insurrection"
 			overmap_controller.antagonist_home = innie_base
 
 			//link all the levels together
 			for(var/obj/effect/zlevelinfo/data in innie_base.linked_zlevelinfos)
 				data.name = innie_base.tag
+				map_sectors["[data.z]"] = innie_base
 
 			//grab a rantom antag datum and reload the antagonist spawn locations
 			//this is a really odd way of doing things
@@ -77,6 +81,7 @@ var/obj/effect/overmapobj/innie_base
 		insurrection_objectives = list()
 		insurrection_objectives |= new /datum/objective/insurrection_killcrew
 		insurrection_objectives |= new /datum/objective/insurrection_nuke
+		innie_base_reference = innie_base
 
 	else
 		world << "<span class='danger'>Could not load Insurrectionist base!</span>"
@@ -86,7 +91,7 @@ var/obj/effect/overmapobj/innie_base
 
 /datum/game_mode/insurrection/post_setup()
 	time_autofind_innie_base = world.time + minutes_to_detect_innie_base * 60 * 10
-	overmap_controller.current_starsystem.name = pick(insurrection_systems)
+	//overmap_controller.current_starsystem.name = pick(insurrection_systems)
 	return ..()
 
 /datum/game_mode/insurrection/process()
@@ -99,7 +104,7 @@ var/obj/effect/overmapobj/innie_base
 
 	if(innie_base)
 		var/report_text = "<FONT size = 3><B>ONI Intelligence Report:</B> Mission critical status update:</FONT><HR>"
-		report_text += "Radio listening stations in your sector have managed to triangulate the location of \
+		report_text += "Radio listening stations in your system have managed to triangulate the location of \
 		the Insurrection base you are hunting for in a nearby asteroid field.<br>"
 		report_text += "<BR>"
 		report_text += "The coordinates of the hidden Insurrection asteroid base are: <B>[innie_base.x],[innie_base.y]</B><br>"
@@ -117,6 +122,7 @@ var/obj/effect/overmapobj/innie_base
 				comm.messagetitle.Add("ONI Intelligence Report")
 				comm.messagetext.Add(report_text)
 		world << sound('sound/AI/commandreport.ogg')
+		overmap_controller.overmap_scanner_manager.add_station(innie_base)
 
 /datum/game_mode/insurrection/handle_nuke_explosion()
 	//todo: rework this proc

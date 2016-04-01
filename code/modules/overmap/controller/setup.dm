@@ -1,4 +1,8 @@
 
+datum/controller/process/overmap/New()
+	overmap_scanner_manager = new()		//just in case
+	..()
+
 datum/controller/process/overmap/setup()
 
 	/*if(!config.use_overmap)
@@ -62,8 +66,9 @@ datum/controller/process/overmap/setup()
 
 	current_starsystem = new()
 	all_starsystems.Add(current_starsystem)
-
+	//
 	current_starsystem.generate_asteroid_fields()
+	overmap_scanner_manager.add_asteroidfields(current_starsystem.asteroid_fields)
 
 	/*for(var/x in 1 to 3)
 		load_prepared_sector("Meteor Shower", "MeteorShower[x]")*/

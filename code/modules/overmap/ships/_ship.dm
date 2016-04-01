@@ -40,7 +40,10 @@
 	var/update_interval = 5
 	var/autobraking = 0
 
-	var/list/loctrackers = list()
+	sensor_icon_state = "gunboat_s"
+	init_sensors = 1
+
+	//var/list/loctrackers = list()
 
 /*/obj/effect/overmapobj/ship/New(var/obj/effect/overmapobjinfo/data)
 	tag = "ship_[data.sectorname]"
@@ -62,6 +65,7 @@
 		shuttle_landing = locate(data.landing_area)*/*/
 
 /obj/effect/overmapobj/ship/New()
+	..()
 	for(var/obj/machinery/computer/engines/E in machines)
 		if (E.z in ship_levels)
 			eng_control = E
@@ -71,6 +75,10 @@
 			nav_control = H
 			break*/
 
+	overmap_controller.overmap_scanner_manager.add_ship(src)
+
+	//uncomment this for airlock sprites following the capital ship around showing it's turf overlaps
+	/*
 	while(loctrackers.len < 16)
 		var/obj/effect/loctracker = new /obj/effect(src)
 		loctracker.name = "loctracker"
@@ -78,18 +86,22 @@
 		loctracker.icon = 'icons/obj/inflatable.dmi'
 		loctracker.icon_state = "door_opening"
 		loctrackers.Add(loctracker)
+		*/
 
-	//uncomment this for airlock sprites following the capital ship around showing it's turf overlaps
 	//processing_objects.Add(src)
 
+/*
 /obj/effect/overmapobj/ship/process()
 	var/index = 1
 	for(var/turf/T in locs)
 		var/obj/effect/loctracker = loctrackers[index]
 		loctracker.loc = T
 		index++
+		*/
 
 /obj/effect/overmapobj/ship/overmap_init()
+	..()
+
 	pixel_transform = init_pixel_transform(src)
 	pixel_transform.max_pixel_speed = max_pixel_speed
 	pixel_transform.heading = dir2angle(src.dir)
@@ -97,6 +109,7 @@
 	pixel_transform.icon_state_thrust = "thrust"
 	pixel_transform.icon_state_brake = "brake"
 
+	scanner_manager = new()
 	//don't bother doing physics based acceleration and turning
 	//we'll just hardcode the values and tweak them as needed
 	//recalculate_physics_properties()

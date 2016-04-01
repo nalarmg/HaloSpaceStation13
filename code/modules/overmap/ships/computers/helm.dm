@@ -5,7 +5,7 @@
 	var/state = "status"
 	var/obj/effect/overmapobj/ship/linked			//connected overmap object
 	var/autopilot = 0
-	var/manual_control = 0
+	var/mob/manual_control = 0
 	var/list/known_sectors = list()
 	var/dx		//desitnation
 	var/dy		//coordinates
@@ -24,14 +24,14 @@
 	else
 		testing("Helm console at level [z] was unable to find a corresponding overmap object.")
 
-	known_sectors = list()
+	/*known_sectors = list()
 	for(var/obj/effect/overmapobj/S in map_sectors)
 		if(S.always_known)
 			var/datum/data/record/R = new()
 			R.fields["name"] = S.name
 			R.fields["x"] = S.x
 			R.fields["y"] = S.y
-			known_sectors += R
+			known_sectors += R*/
 
 /*
 /obj/machinery/computer/helm/process()
@@ -106,6 +106,7 @@
 	if(. < 0 && user)
 		if(linked)
 			linked.my_observers.Remove(user)
+			linked.hud_waypoint_controller.remove_hud_from_mob(user)
 		if(user.client)
 			user.client.pixel_x = 0
 			user.client.pixel_y = 0
@@ -144,13 +145,13 @@
 	data["autobraking"] = linked.autobraking
 
 	var/list/locations[0]
-	for (var/datum/data/record/R in known_sectors)
+	/*for (var/datum/data/record/R in known_sectors)
 		var/list/rdata[0]
 		rdata["name"] = R.fields["name"]
 		rdata["x"] = R.fields["x"]
 		rdata["y"] = R.fields["y"]
 		rdata["reference"] = "\ref[R]"
-		locations.Add(list(rdata))
+		locations.Add(list(rdata))*/
 
 	data["locations"] = locations
 
@@ -223,11 +224,19 @@
 
 	if (href_list["manual"])
 		if(manual_control)
+			linked.hud_waypoint_controller.remove_hud_from_mob(manual_control)
+			manual_control.reset_view(null, 0)
 			manual_control = null
-			check_eye(manual_control)
 		else if(isliving(usr))
 			manual_control = usr
+			linked.hud_waypoint_controller.add_hud_to_mob(manual_control)
 			check_eye(manual_control)
+
+	if (href_list["close"])
+		if(manual_control)
+			linked.hud_waypoint_controller.remove_hud_from_mob(manual_control)
+			manual_control.reset_view(null, 0)
+			manual_control = null
 
 	if (href_list["state"])
 		state = href_list["state"]

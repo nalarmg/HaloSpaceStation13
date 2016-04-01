@@ -11,6 +11,9 @@
 	user.set_machine(src)
 	user.reset_view(src, 0)
 
+	if(overmap_object.hud_waypoint_controller.remove_hud_from_mob(user))
+		hud_waypoint_controller.add_hud_to_mob(user)
+
 	return 1//overmap_object.cancel_camera(user)
 
 /obj/machinery/overmap_vehicle/check_eye(var/mob/user)

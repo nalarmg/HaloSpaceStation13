@@ -4,15 +4,18 @@
 /obj/effect/overmapobj/temporary_sector
 	name = "Deep Space"
 	icon_state = "blank"
-	always_known = 0
+	//always_known = 0
 	var/map_z
 	//invisibility = 101	//leave "visible" but spriteless for testing
+
+	var/list/objects_preventing_recycle = list()
 
 /obj/effect/overmapobj/temporary_sector/New(var/nx, var/ny, var/nz)
 	loc = locate(nx, ny, OVERMAP_ZLEVEL)
 	map_z = nz
 	map_sectors["[map_z]"] = src
 	testing("Temporary sector at [x],[y] was created, corresponding zlevel is [map_z].")
+	scanner_manager = new()
 
 /*
 /obj/effect/overmapobj/temporary_sector/Del()
@@ -23,16 +26,21 @@
 		world.maxz--
 */
 
-/obj/effect/overmapobj/temporary_sector/proc/can_die(var/mob/observer)
+/obj/effect/overmapobj/temporary_sector/proc/can_die(var/atom/movable/departing_atom)
 	testing("Checking if sector at [map_z] can die...")
-	for(var/obj/effect/zlevelinfo/zlevel in linked_zlevelinfos)
-		for(var/atom/movable/A in zlevel.objects_preventing_recycle)
-			if(A.z != zlevel.z)
-				zlevel.objects_preventing_recycle -= A
-		if(zlevel.objects_preventing_recycle.len)
-			testing("	Objects blocking recycling")
-			return 0
+	for(var/atom/movable/A in objects_preventing_recycle)
+		var/obj/effect/zlevelinfo/curz = locate("zlevel[A.z]")
+		if(!(curz in linked_zlevelinfos))
+			objects_preventing_recycle -= A
+		else if(A == departing_atom)
+			objects_preventing_recycle -= A
+
+	if(objects_preventing_recycle.len)
+		testing("	Objects blocking recycling")
+		objects_preventing_recycle.Add(departing_atom)
+		return 0
 	testing("	Able to be recycled")
+	//objects_preventing_recycle.Add(departing_atom)
 	/*for(var/mob/M in player_list)
 		if(M != observer && M.z == map_z)
 			testing("There are people on it.")
@@ -77,12 +85,11 @@
 		attempt_recycle_temp_sector(temp_sectors[cur_temp_sector_index])
 
 //when spacetravelling out of a temporary sector, it will automatically call this proc
-//there are other ways than space travelling to leave a sector however, so temp sectors are periodically checked if they can be recycled
-/datum/controller/process/overmap/proc/attempt_recycle_temp_sector(var/obj/effect/overmapobj/temporary_sector/temp_sector)
+/datum/controller/process/overmap/proc/attempt_recycle_temp_sector(var/obj/effect/overmapobj/temporary_sector/temp_sector, var/atom/movable/departing_atom)
 	if(!istype(temp_sector))
 		return
 
-	if(temp_sector.can_die())
+	if(temp_sector.can_die(departing_atom))
 		testing("Catching [temp_sector] for future use")
 		for(var/obj/effect/zlevelinfo/cur_level in temp_sector.linked_zlevelinfos)
 			cached_zlevels += cur_level

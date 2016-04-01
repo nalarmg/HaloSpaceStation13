@@ -1,4 +1,5 @@
 
+
 /obj/machinery/overmap_vehicle
 	name = "vehicle"
 	desc = "A vehicle"
@@ -14,6 +15,7 @@
 	var/list/occupants = list()
 	var/occupants_max = 1
 	var/move_dir = 0
+	var/move_forward = 0
 	var/turn_dir = 0
 	var/autobraking = 0
 
@@ -21,12 +23,11 @@
 
 	var/iff_faction_broadcast			//set this to a faction
 	var/sensor_icon_state = "unknown"	//the icon state for this vehicle on other vehicle's sensors
-	var/time_next_sensor_update = 0
-	var/sensor_update_delay = 0			//just update every process()
-	var/list/tracked_vehicles = list()
-	var/list/all_sensor_objects = list()
-	var/list/mobs_tracking = list()
-	var/iff_faction_colours = 1
+
+	var/datum/waypoint_controller/waypoint_controller
+	var/datum/hud_waypoint_controller/hud_waypoint_controller
+
+	//var/list/tracking_hud_controllers = list()
 
 	var/obj/effect/overmapobj/vehicle/overmap_object
 	var/obj/effect/virtual_area/transit_area
@@ -58,6 +59,8 @@
 
 	var/next_shot_loc = 0
 
+	var/engines_active = 0
+
 	//forward motion on nongravity/space turfs
 	//pixels per sec
 	/*var/datum/overmap_vehicle_component/thruster = new()
@@ -86,6 +89,7 @@
 	pixel_transform.max_pixel_speed = max_speed
 
 	vehicle_controls = new default_controlscheme_type(src)
+	vehicle_controls.move_mode_absolute = 1
 
 	layer += 0.1
 
@@ -100,6 +104,7 @@
 	//world << "[src] internal pressure: [internal_atmosphere.return_pressure()] kpa"
 
 	overmap_object = new(src)//locate(src.x, src.y, OVERMAP_ZLEVEL)
+
 	var/obj/effect/overmapobj/overmapobj = map_sectors["[src.z]"]
 	if(overmapobj)
 		overmap_object.loc = overmapobj.loc
@@ -112,49 +117,23 @@
 
 	processing_objects.Add(src)
 
-	//initiate tracking sensors
-	var/obj/effect/zlevelinfo/curz = locate("zlevel[src.z]")
-	curz.objects_preventing_recycle.Add(src)
-	enter_new_zlevel(curz)
+	waypoint_controller = new(src)
+	hud_waypoint_controller = new(src)
+	waypoint_controller.add_listening_hud(hud_waypoint_controller)
+
+	var/obj/effect/overmapobj/spawning_sector = map_sectors["[src.z]"]
+	if(spawning_sector)
+		waypoint_controller.set_current_sector(spawning_sector, src.z)
+		//
+		spawning_sector.scanner_manager.add_sector_scanner(waypoint_controller)
+		spawning_sector.scanner_manager.add_sector_vehicle(src)
+		//
+		var/obj/effect/zlevelinfo/spawnz = locate("zlevel[src.z]")
+		hud_waypoint_controller.enter_new_zlevel(spawnz)
 
 	if(src.dir != NORTH)
 		pixel_transform.turn_to_dir(src.dir, 360)
 
-/obj/machinery/overmap_vehicle/process()
-
-	//update the iff sensor overlays
-	//todo: tweak the update delay
-	if(world.time >= time_next_sensor_update)
-		time_next_sensor_update = world.time + sensor_update_delay
-		update_tracking_overlays()
-
-	if(z_move)
-		//quick and dirty delay, this should trigger on the second process() loop after pressing the button
-		z_move *= 2
-		if(z_move * z_move >= 8)
-			var/move_dir = z_move
-			spawn(0)
-				handle_zmove(move_dir)
-			z_move = 0
-
-	/*var/delta_time = world.time - time_last_process
-	time_last_process = world.time*/
-
-	//if(hovering)
-		//check fuel
-
-	//if(move_dir from gravity turfs to nongravity turfs)
-	//	lose control unless we have space capable thrusters
-
-	//if(move_dir from nongravity turfs to nongravity turfs)
-		//if(check to see if we fall 1 or more zlevels)
-			//move down zlevels
-			//take falling damage when we eventually hit
-			//unless it's space, in which case transfer to overmap and start drifting away from the ship
-		//else if(if we are stationary)
-			//just settle nice and gently onto the ground
-
-		//if(abs(O.pixel_speed_x) + abs(O.pixel_speed_y) <= 32)
 /*
 /obj/machinery/overmap_vehicle/proc/InitComponents()
 	//setup component verbs here
@@ -164,115 +143,3 @@
 		verbs += /datum/overmap_vehicle_component/verb/enable_hover
 	//setup component stats in child objs
 	*/
-
-/obj/machinery/overmap_vehicle/relaymove(mob/user, direction)
-	if(user == pilot)
-		vehicle_controls.relay_move(user, direction)
-	else
-		user << "<span class='warning'>You are not the pilot of [src]!</span>"
-
-/obj/machinery/overmap_vehicle/proc/vehicle_thrust(var/mob/user)
-	if(user == pilot)
-		vehicle_controls.move_vehicle(NORTH)
-	else
-		user << "<span class='warning'>You are not the pilot of [src]!</span>"
-
-/obj/machinery/overmap_vehicle/proc/vehicle_thrust_toggle(var/mob/user)
-	if(user == pilot)
-		vehicle_controls.move_toggle(NORTH)
-	else
-		user << "<span class='warning'>You are not the pilot of [src]!</span>"
-
-/obj/machinery/overmap_vehicle/proc/update(var/my_update_start_time = -1)
-
-	if(!src || !src.loc)
-		main_update_start_time = -1
-		return
-
-	if(main_update_start_time < 0)
-		my_update_start_time = world.time
-		main_update_start_time = world.time
-	else if(my_update_start_time != main_update_start_time)
-		return
-
-	var/continue_update = 0
-
-	//apply thrust if we've got it toggled on
-	if(handle_auto_moving())
-		continue_update = 1
-
-	//if we are cruising, force auto-accelerate forwards
-	if(handle_auto_cruising())
-		continue_update = 1
-
-	//if the player wants us to automatically orient to face a direction
-	if(handle_auto_turning())
-		continue_update = 1
-
-	//apply brake otherwise
-	if(autobraking)
-		if(pixel_transform.is_still())
-			autobraking = 0
-		else
-			pixel_transform.brake(get_relative_directional_thrust(NORTH))
-			continue_update = 1
-
-	//update the sprite
-	if(pixel_transform.update(update_interval))
-		continue_update = 1
-
-	//only spawn another update if there's something that needs updating
-	if(continue_update)
-		spawn(update_interval)
-			update(my_update_start_time)
-	else
-		main_update_start_time = -1
-
-/obj/machinery/overmap_vehicle/proc/get_absolute_directional_thrust(var/direction)
-	//north = north on the map
-
-	return get_relative_directional_thrust(direction)
-
-/obj/machinery/overmap_vehicle/proc/get_relative_directional_thrust(var/direction)
-	//north = front of the shuttle
-
-	var/accel = max_speed
-	/*if(hovering || no_grav())
-		accel = thruster.rate
-	else
-		accel = wheels.rate*/
-	accel /= accel_duration
-
-	return accel
-
-/obj/machinery/overmap_vehicle/proc/fall()
-	//fall!
-	visible_message("<span class='warning'><b>[src] drops out of the air!</b></span>")
-
-	//process() will handle destruction checks
-	//todo: actually move the vehicle down zlevels if it is high above the ground
-	//todo: scale damage with number of zlevels fallen
-	hull_remaining -= 10
-
-/obj/machinery/overmap_vehicle/proc/no_grav()
-	//just check if we're in space or not
-	var/turf/T = get_turf(src)
-	if(T.is_space())
-		return 1
-
-	return 0
-
-/obj/machinery/overmap_vehicle/proc/make_pilot(var/mob/living/H)
-	if(pilot && pilot.machine == src)
-		if(pilot == H)
-			H << "\icon[src] <span class='info'>You already control [src].</span>"
-		else
-			H << "\icon[src] <span class='info'>[src] is already being piloted by [pilot]</span>"
-	else
-		pilot = H
-		usr << "\icon[src] <span class='info'>You are now the pilot!</span>"
-		add_tracking_overlays(H)
-
-//so passengers dont asphyxiate or die of pressure loss
-/obj/machinery/overmap_vehicle/return_air()
-	return internal_atmosphere

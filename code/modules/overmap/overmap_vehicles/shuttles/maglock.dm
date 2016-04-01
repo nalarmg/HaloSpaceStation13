@@ -45,7 +45,7 @@
 /obj/machinery/overmap_vehicle/shuttle/proc/remove_portalock(var/obj/structure/portalock/P)
 	active_portalocks.Remove(P)
 
-/obj/machinery/overmap_vehicle/shuttle/handle_zmove(var/move_dir)
+/obj/machinery/overmap_vehicle/shuttle/handle_zmove(var/target_dir)
 	if(is_maglocked())
 		return 0
 

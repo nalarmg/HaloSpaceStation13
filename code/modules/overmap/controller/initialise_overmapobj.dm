@@ -4,7 +4,7 @@ datum/controller/process/overmap/proc/initialise_overmapobj(var/obj/effect/overm
 
 		overmapobj.name = data.name
 		overmapobj.tag = overmapobj.name
-		overmapobj.always_known = data.known
+		//overmapobj.always_known = data.known
 
 		if(data.icon != 'icons/mob/screen1.dmi')
 			overmapobj.icon = data.icon
@@ -13,8 +13,11 @@ datum/controller/process/overmap/proc/initialise_overmapobj(var/obj/effect/overm
 		if(data.desc)
 			overmapobj.desc = data.desc
 
-		if(data.landing_area)
-			overmapobj.shuttle_landing = locate(data.landing_area)
+		if(data.sensor_icon_state)
+			overmapobj.sensor_icon_state = data.sensor_icon_state
+
+		/*if(data.landing_area)
+			overmapobj.shuttle_landing = locate(data.landing_area)*/
 
 		overmapobj.faction = data.faction
 
