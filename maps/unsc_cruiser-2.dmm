@@ -509,7 +509,7 @@
 "jO" = (/obj/structure/bed/chair{dir = 8},/turf/simulated/floor/tiled/dark,/area/turret_protected/ai_upload_foyer)
 "jP" = (/obj/machinery/floodlight,/turf/simulated/floor/plating,/area/space)
 "jQ" = (/obj/machinery/chem_master,/turf/simulated/floor/tiled/white,/area/medical/chemistry)
-"jR" = (/obj/machinery/power/apc{name = "Chemistry APC"; pixel_y = -25; step_y = 0},/obj/structure/cable,/turf/simulated/floor/tiled/white,/area/medical/chemistry)
+"jR" = (/obj/structure/cable,/obj/machinery/power/apc{name = "Chemistry APC"; pixel_y = -25},/turf/simulated/floor/tiled/white,/area/medical/chemistry)
 "jS" = (/obj/item/stack/material/phoron,/obj/item/stack/material/phoron,/obj/item/stack/material/phoron,/obj/item/stack/material/phoron,/obj/item/stack/material/phoron,/obj/structure/table/glass,/turf/simulated/floor/tiled/white,/area/medical/chemistry)
 "jT" = (/obj/machinery/reagentgrinder,/obj/structure/table/glass,/obj/machinery/light,/turf/simulated/floor/tiled/white,/area/medical/chemistry)
 "jU" = (/obj/item/weapon/storage/box/syringes,/obj/item/weapon/screwdriver,/obj/structure/table/glass,/turf/simulated/floor/tiled/white,/area/medical/chemistry)
