@@ -35,11 +35,14 @@ log transactions
 	var/datum/effect/effect/system/spark_spread/spark_system
 
 /obj/machinery/atm/New()
-	..()
-	machine_id = "[station_name()] RT #[num_financial_terminals++]"
+	machine_id = "RT #[num_financial_terminals++]"
 	spark_system = new /datum/effect/effect/system/spark_spread
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
+	..()
+
+/obj/machinery/atm/initialize()
+	machine_id = "[station_name()] RT #[num_financial_terminals++]"
 
 /obj/machinery/atm/process()
 	if(stat & NOPOWER)
