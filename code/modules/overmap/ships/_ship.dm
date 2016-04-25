@@ -75,8 +75,6 @@
 			nav_control = H
 			break*/
 
-	overmap_controller.overmap_scanner_manager.add_ship(src)
-
 	//uncomment this for airlock sprites following the capital ship around showing it's turf overlaps
 	/*
 	while(loctrackers.len < 16)
@@ -89,6 +87,11 @@
 		*/
 
 	//processing_objects.Add(src)
+
+	..()
+
+/obj/effect/overmapobj/ship/initialize()
+	overmap_controller.overmap_scanner_manager.add_ship(src)
 
 /*
 /obj/effect/overmapobj/ship/process()
