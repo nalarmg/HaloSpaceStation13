@@ -17,7 +17,10 @@
 	hud_waypoint_controller.expected_screen_width = 14
 	waypoint_controller = new(src)
 	waypoint_controller.add_listening_hud(hud_waypoint_controller)
-	//
+
+	..()
+
+/obj/effect/overmapobj/vehicle/initialize()
 	overmap_controller.overmap_scanner_manager.add_ship_scanner(waypoint_controller)
 	overmap_controller.overmap_scanner_manager.add_station_scanner(waypoint_controller)
 	overmap_controller.overmap_scanner_manager.add_asteroid_scanner(waypoint_controller)
