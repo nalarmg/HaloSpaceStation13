@@ -68,7 +68,7 @@
 
 /obj/item/device/radio/headset/syndicate
 	origin_tech = list(TECH_ILLEGAL = 3)
-	syndie = 1
+	//syndie = 1
 	ks1type = /obj/item/device/encryptionkey/syndicate
 
 /obj/item/device/radio/headset/binary
@@ -269,7 +269,7 @@
 	src.channels = list()
 	src.translate_binary = 0
 	src.translate_hive = 0
-	src.syndie = 0
+	//src.syndie = 0
 
 	if(keyslot1)
 		for(var/ch_name in keyslot1.channels)
@@ -284,8 +284,8 @@
 		if(keyslot1.translate_hive)
 			src.translate_hive = 1
 
-		if(keyslot1.syndie)
-			src.syndie = 1
+		/*if(keyslot1.syndie)
+			src.syndie = 1*/
 
 	if(keyslot2)
 		for(var/ch_name in keyslot2.channels)
@@ -300,8 +300,8 @@
 		if(keyslot2.translate_hive)
 			src.translate_hive = 1
 
-		if(keyslot2.syndie)
-			src.syndie = 1
+		/*if(keyslot2.syndie)
+			src.syndie = 1*/
 
 
 	for (var/ch_name in channels)

@@ -239,8 +239,8 @@
 
 /obj/machinery/telecomms/relay/Options_Menu()
 	var/dat = ""
-	if(src.z == TELECOMM_Z)
-		dat += "<br>Signal Locked to Station: <A href='?src=\ref[src];change_listening=1'>[listening_level == STATION_Z ? "TRUE" : "FALSE"]</a>"
+	/*if(src.z == TELECOMM_Z)
+		dat += "<br>Signal Locked to Station: <A href='?src=\ref[src];change_listening=1'>[listening_level == STATION_Z ? "TRUE" : "FALSE"]</a>"*/
 	dat += "<br>Broadcasting: <A href='?src=\ref[src];broadcast=1'>[broadcasting ? "YES" : "NO"]</a>"
 	dat += "<br>Receiving:    <A href='?src=\ref[src];receive=1'>[receiving ? "YES" : "NO"]</a>"
 	return dat
@@ -366,13 +366,20 @@
 
 		if(P)
 			if(P.buffer && P.buffer != src)
-				if(!(src in P.buffer.links))
-					P.buffer.links.Add(src)
+				var/obj/effect/overmapobj/P_sector = map_sectors["[P.z]"]
+				var/obj/effect/overmapobj/sector = map_sectors["[src.z]"]
+				if(P_sector == sector)
 
-				if(!(P.buffer in src.links))
-					src.links.Add(P.buffer)
+					if(!(src in P.buffer.links))
+						P.buffer.links.Add(src)
 
-				temp = "<font color = #666633>-% Successfully linked with \ref[P.buffer] [P.buffer.name] %-</font>"
+					if(!(P.buffer in src.links))
+						src.links.Add(P.buffer)
+
+					temp = "<font color = #666633>-% Successfully linked with \ref[P.buffer] [P.buffer.name] %-</font>"
+
+				else
+					temp = "<font color = #666633>-% Unable to link with \ref[P.buffer] [P.buffer.name] as it's out of range.%-</font>"
 
 			else
 				temp = "<font color = #666633>-% Unable to acquire buffer %-</font>"

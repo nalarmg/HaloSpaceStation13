@@ -61,7 +61,8 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 							  signal.data["name"], signal.data["job"],
 							  signal.data["realname"], signal.data["vname"],,
 							  signal.data["compression"], signal.data["level"], signal.frequency,
-							  signal.data["verb"], signal.data["language"]	)
+							  signal.data["verb"], signal.data["language"],
+							  signal.data["sector"], signal.data["range"])
 
 
 	   /** #### - Simple Broadcast - #### **/
@@ -87,7 +88,8 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 							  signal.data["radio"], signal.data["message"],
 							  signal.data["name"], signal.data["job"],
 							  signal.data["realname"], signal.data["vname"], 4, signal.data["compression"], signal.data["level"], signal.frequency,
-							  signal.data["verb"], signal.data["language"])
+							  signal.data["verb"], signal.data["language"],
+							  signal.data["sector"], signal.data["range"])
 
 		if(!message_delay)
 			message_delay = 1
@@ -144,7 +146,17 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 		/* ###### Broadcast a message using signal.data ###### */
 
 		var/datum/radio_frequency/connection = signal.data["connection"]
+		Broadcast_Message(signal.data["connection"], signal.data["mob"],
+						  signal.data["vmask"], signal.data["vmessage"],
+						  signal.data["radio"], signal.data["message"],
+						  signal.data["name"], signal.data["job"],
+						  signal.data["realname"], signal.data["vname"],, signal.data["compression"], list(0), connection.frequency,
+						  signal.data["verb"], signal.data["language"],
+						  signal.data["sector"], signal.data["range"])
 
+		return
+
+		/*
 		if(connection.frequency in ANTAG_FREQS) // if antag broadcast, just
 			Broadcast_Message(signal.data["connection"], signal.data["mob"],
 							  signal.data["vmask"], signal.data["vmessage"],
@@ -160,7 +172,7 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 							  signal.data["name"], signal.data["job"],
 							  signal.data["realname"], signal.data["vname"], 3, signal.data["compression"], list(0), connection.frequency,
 							  signal.data["verb"], signal.data["language"])
-
+*/
 
 
 /**
@@ -223,14 +235,38 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 /proc/Broadcast_Message(var/datum/radio_frequency/connection, var/mob/M,
 						var/vmask, var/vmessage, var/obj/item/device/radio/radio,
 						var/message, var/name, var/job, var/realname, var/vname,
-						var/data, var/compression, var/list/level, var/freq, var/verbage = "says", var/datum/language/speaking = null)
-
+						var/data, var/compression, var/list/level, var/freq, var/verbage = "says", var/datum/language/speaking = null,
+						var/obj/effect/overmapobj/source_sector, var/overmap_range)
 
   /* ###### Prepare the radio connection ###### */
 
 	var/display_freq = freq
-
 	var/list/obj/item/device/radio/radios = list()
+
+	if(source_sector)
+		for (var/obj/item/device/radio/R in connection.devices["[RADIO_CHAT]"])
+			var/turf/radio_turf = get_turf(R)
+			if(!radio_turf)
+				//apparently some radios dont clear their radio listeners after being qdel'd
+				//testing("[R] ([R.x],[R.y],[R.z]) ([R.loc]) null turf loc")
+				continue
+
+			var/obj/effect/overmapobj/radio_sector = map_sectors["[radio_turf.z]"]
+			if(!radio_sector)
+				//testing("[R] z[R.z] null radio_sector")
+				continue
+
+			if(source_sector == radio_sector || source_sector.loc == radio_sector.loc)
+				radios += R
+				continue
+
+			if(get_dist(source_sector, radio_sector) <= overmap_range)
+				radios += R
+				continue
+	else
+		log_admin("ERROR: null source_sector in code/game/machinery/telecomms/broadcaster.dm with message \"[message]\" name/job/mob: [name]/[job]/[M]")
+
+	/*
 
 	// --- Broadcast only to intercom devices ---
 
@@ -268,6 +304,8 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 		for (var/obj/item/device/radio/R in connection.devices["[RADIO_CHAT]"])
 			if(R.receive_range(display_freq, level) > -1)
 				radios += R
+
+	*/
 
 	// Get a list of mobs who can hear from the radios we collected.
 	var/list/receive = get_mobs_in_radio_ranges(radios)
