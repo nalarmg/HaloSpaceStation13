@@ -46,7 +46,8 @@ var/obj/effect/overmapobj/innie_base
 
 	if(!innie_base)
 		//automatically load the map from file and prepare it for the round
-		world << "<span class='danger'>Loading Insurrectionist base...</span>"
+		world << "<span class='danger'>Loading Insurrectionist base, please stand by...</span>"
+		var/starttime = world.time
 		for(var/level_path in innie_base_paths)
 
 			var/obj/effect/overmapobj/loaded_obj = overmap_controller.load_premade_map(level_path, innie_base)
@@ -75,7 +76,8 @@ var/obj/effect/overmapobj/innie_base
 			//this is a really odd way of doing things
 			var/datum/antagonist/antagonist = antag_templates[1]
 			antagonist.get_starting_locations()
-			world << "<span class='danger'>Done.</span>"
+
+			world << "<span class='danger'>Done ([(world.time - starttime)/10]s).</span>"
 
 	if(innie_base)
 		insurrection_objectives = list()

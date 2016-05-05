@@ -45,6 +45,10 @@
 	if(light_power && light_range)
 		update_light()
 
+	//see code\modules\maps\reader.dm line 308
+	if(_preloader && (src.type == _preloader.target_path))//in case the instanciated atom is creating other atoms in New()
+		_preloader.load(src)
+
 /atom/Destroy()
 	if(light)
 		light.destroy()

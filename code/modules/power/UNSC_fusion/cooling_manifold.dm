@@ -8,7 +8,6 @@
 	icon_state = "cooling_manifold"
 
 	density = 1
-	anchored = 1
 	idle_power_usage = 150
 	use_power = 0
 	var/max_power_draw = 1000
@@ -17,6 +16,22 @@
 
 	var/cooling_efficiency = 0.1		//arbitrary number for balancing coolant effectiveness
 
+/obj/machinery/atmospherics/binary/fusion_cooling/initialize()
+	..()
+
+	target_reactor = locate() in get_step(src, turn(src.dir, -90))
+	if(target_reactor)
+		anchored = 1
+		if(node1)
+			node1.initialize()
+			node1.build_network()
+		if(node2)
+			node2.initialize()
+			node2.build_network()
+
+		use_power = 1
+		update_icon()
+
 /obj/machinery/atmospherics/binary/fusion_cooling/attackby(var/obj/item/I, var/mob/living/user)
 	if (istype(I,/obj/item/weapon/wrench))
 		anchored = !anchored
@@ -24,24 +39,12 @@
 		if(anchored)
 			user.visible_message("[user] wrenches [src] to the floor.", \
 				"You wrench [src] to the floor.")
-			overlays += "cooling_anchored"
-
-			target_reactor = locate() in get_step(src, turn(dir, -90))
 
 			//setup atmos stuff
 			initialize()
-			if(node1)
-				node1.initialize()
-				node1.build_network()
-			if(node2)
-				node2.initialize()
-				node2.build_network()
-
-			use_power = 1
 		else
 			user.visible_message("[user] unwrenches [src] from the floor.", \
 				"You unwrench [src] from the floor.")
-			overlays = list()
 
 			//reset atmos stuff
 			if(node1)
@@ -51,7 +54,9 @@
 				node2.disconnect(src)
 				qdel(network2)
 
+			target_reactor = null
 			use_power = 0
+			update_icon()
 
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 
@@ -124,6 +129,11 @@
 	if(network2)
 		network2.update = 1
 
+/obj/machinery/atmospherics/binary/fusion_cooling/update_icon()
+	overlays = list()
+	if(anchored)
+		overlays += "cooling_anchored"
+
 /*
 starting canister moles = (target_pressure * air_contents.volume) / (R_IDEAL_GAS_EQUATION * air_contents.temperature)
 :. starting canister moles = (45 * 101.325 * 1000) / (8.31 * 293.15)
@@ -152,7 +162,7 @@ one standard breathable tile's atmosphere has 2060 heat capacity
 */
 
 /obj/machinery/atmospherics/binary/fusion_cooling/verb/rotate_manifold()
-	set name = "Rotate Exhaust Manifold"
+	set name = "Rotate Exhaust Manifold (CW)"
 	set category = "Object"
 	set src in view(1)
 

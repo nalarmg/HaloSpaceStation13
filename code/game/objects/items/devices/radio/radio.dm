@@ -38,7 +38,7 @@ var/global/list/default_medbay_channels = list(
 	var/listening = 1
 	var/list/channels = list() //see communications.dm for full list. First channel is a "default" for :h
 	var/subspace_transmission = 0
-	var/syndie = 0//Holder to see if it's a syndicate encrypted radio
+	//var/syndie = 0//Holder to see if it's a syndicate encrypted radio
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	throw_speed = 2
@@ -111,8 +111,8 @@ var/global/list/default_medbay_channels = list(
 		data["chan_list"] = chanlist
 		data["chan_list_len"] = chanlist.len
 
-	if(syndie)
-		data["useSyndMode"] = 1
+	/*if(syndie)
+		data["useSyndMode"] = 1*/
 
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if(!ui)
@@ -354,7 +354,7 @@ var/global/list/default_medbay_channels = list(
 
   /* ###### Radio headsets can only broadcast through subspace ###### */
 
-	if(subspace_transmission)
+	if(1)//always use subspace_transmission for now
 		// First, we want to generate a new radio signal
 		var/datum/signal/signal = new
 		signal.transmission_method = 2 // 2 would be a subspace transmission.
@@ -387,6 +387,9 @@ var/global/list/default_medbay_channels = list(
 			"server" = null, // the last server to log this signal
 			"reject" = 0,	// if nonzero, the signal will not be accepted by any broadcasting machinery
 			"level" = position.z, // The source's z level
+			"sector" = map_sectors["[position.z]"],		//the source's overmap sector
+			"range" = 0,								//0 means current sector only, each number above that is an extra tile distance on the overmap
+			"system_wide" = 0,							//all recievers get system_wide broadcasts regardless of range
 			"language" = speaking,
 			"verb" = verb
 		)
@@ -404,6 +407,7 @@ var/global/list/default_medbay_channels = list(
 		// Receiving code can be located in Telecommunications.dm
 		return signal.data["done"] && position.z in signal.data["level"]
 
+	/*
 
   /* ###### Intercoms and station-bounced radios ###### */
 
@@ -467,6 +471,8 @@ var/global/list/default_medbay_channels = list(
 					  src, message, displayname, jobname, real_name, M.voice_name,
 					  filter_type, signal.data["compression"], list(position.z), connection.frequency,verb,speaking)
 
+	*/
+
 
 /obj/item/device/radio/hear_talk(mob/M as mob, msg, var/verb = "says", var/datum/language/speaking = null)
 
@@ -501,9 +507,9 @@ var/global/list/default_medbay_channels = list(
 		var/turf/position = get_turf(src)
 		if(!position || !(position.z in level))
 			return -1
-	if(freq in ANTAG_FREQS)
+	/*if(freq in ANTAG_FREQS)
 		if(!(src.syndie))//Checks to see if it's allowed on that frequency, based on the encryption keys
-			return -1
+			return -1*/
 	if (!on)
 		return -1
 	if (!freq) //recieved on main frequency
@@ -632,7 +638,7 @@ var/global/list/default_medbay_channels = list(
 
 /obj/item/device/radio/borg/proc/recalculateChannels()
 	src.channels = list()
-	src.syndie = 0
+	//src.syndie = 0
 
 	var/mob/living/silicon/robot/D = src.loc
 	if(D.module)
@@ -648,8 +654,8 @@ var/global/list/default_medbay_channels = list(
 			src.channels += ch_name
 			src.channels[ch_name] += keyslot.channels[ch_name]
 
-		if(keyslot.syndie)
-			src.syndie = 1
+		/*if(keyslot.syndie)
+			src.syndie = 1*/
 
 	for (var/ch_name in src.channels)
 		if(!radio_controller)
@@ -713,8 +719,8 @@ var/global/list/default_medbay_channels = list(
 		data["chan_list"] = chanlist
 		data["chan_list_len"] = chanlist.len
 
-	if(syndie)
-		data["useSyndMode"] = 1
+	/*if(syndie)
+		data["useSyndMode"] = 1*/
 
 	data["has_loudspeaker"] = 1
 	data["loudspeaker"] = !shut_up

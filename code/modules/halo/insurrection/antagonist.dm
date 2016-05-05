@@ -41,15 +41,23 @@
 	player.equip_to_slot_or_del(new /obj/item/weapon/storage/box/engineer(player.back), slot_in_backpack)
 	player.equip_to_slot_or_del(new /obj/item/weapon/reagent_containers/pill/cyanide(player), slot_in_backpack)
 
-	if (player.mind == leader)
+	/*if (player.mind == leader)
 		var/obj/item/device/radio/uplink/U = new(player.loc, player.mind, 40)
-		player.put_in_hands(U)
+		player.put_in_hands(U)*/
 
 	player.update_icons()
 
-	create_id("Insurrectionist", player)
+	if(player.mind == leader)
+		create_leader_id(player)
+	else
+		create_id("Insurrectionist", player)
 	create_radio(SYND_FREQ, player)
 	return 1
+
+/datum/antagonist/insurrectionist/proc/create_leader_id(var/mob/living/carbon/human/player)
+	var/obj/item/weapon/card/id/W = create_id("Insurrectionist Leader", player, 1)
+	W.access |= access_innie_boss
+	return W
 
 //spawn some sympathisers among the crew
 /datum/antagonist/traitor/insurrectionist
@@ -68,10 +76,3 @@
 
 	global_objectives |= insurrection_objectives
 	return 1
-
-/obj/item/weapon/card/id/insurrectionist
-	name = "UNSC identification card"
-	desc = "a almost perfect replica of a UNSC ID card, the only difference is that the UNSC logo is scratched out and besides it reads: 'UNSC SUKS DIKS'"
-	registered_name = "UNSC"
-	assignment = "?????"
-	access = list(access_insurrectionist)
