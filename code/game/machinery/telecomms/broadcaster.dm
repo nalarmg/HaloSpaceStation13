@@ -130,6 +130,9 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 	if(!on) // has to be on to receive messages
 		return
 
+	if(!check_receive_level(signal))
+		return
+
 	if(is_freq_listening(signal)) // detect subspace signals
 
 		signal.data["done"] = 1 // mark the signal as being broadcasted

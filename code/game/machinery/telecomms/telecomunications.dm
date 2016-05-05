@@ -281,7 +281,7 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 			if(!can_send)
 				relay_information(signal, "/obj/machinery/telecomms/bus") // Send it to a bus instead, if it's linked to one
 
-/obj/machinery/telecomms/receiver/proc/check_receive_level(datum/signal/signal)
+/obj/machinery/telecomms/proc/check_receive_level(datum/signal/signal)
 
 	var/obj/effect/overmapobj/source_overmapobj = signal.data["sector"]
 	var/obj/effect/overmapobj/overmapobj = map_sectors["[src.z]"]
