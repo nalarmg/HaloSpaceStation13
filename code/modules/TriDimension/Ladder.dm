@@ -11,8 +11,7 @@
 	var/zdirtext
 	var/zdirraw
 
-/obj/structure/ladder/New()
-	. = ..()
+/obj/structure/ladder/initialize()
 	init_zdir()
 
 /obj/structure/ladder/proc/init_zdir()

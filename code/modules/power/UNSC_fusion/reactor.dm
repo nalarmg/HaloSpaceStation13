@@ -27,14 +27,15 @@
 
 /obj/machinery/power/fusion_drive/New()
 	..()
+	heat_energy = T20C * internal_heat_capacity
+
+/obj/machinery/power/fusion_drive/initialize()
 	update_overlays()
 	connect_to_network()
 
-	heat_energy = T20C * internal_heat_capacity
-
 	//connect any exhaust manifolds within range
-	for(var/obj/machinery/atmospherics/binary/fusion_cooling/M in range(1))
-		M.target_reactor = locate() in get_step(M, turn(M.dir, -90))
+	/*for(var/obj/machinery/atmospherics/binary/fusion_cooling/M in range(1))
+		M.target_reactor = locate() in get_step(M, turn(M.dir, -90))*/
 
 /obj/machinery/power/fusion_drive/proc/update_overlays()
 	if(heat_overlay)
@@ -53,24 +54,26 @@
 
 /obj/machinery/power/fusion_drive/process()
 	//if coolant isn't working properly, lose a little bit of heat naturally
-	if(cooled_last_cycle <= ambient_cooling * world.tick_lag)
-		heat_energy -= ambient_cooling * world.tick_lag
+	if(cooled_last_cycle < ambient_cooling)
+		heat_energy -= (ambient_cooling - cooled_last_cycle)
 		heat_energy = max(heat_energy, 0)
-		cooled_last_cycle = ambient_cooling * world.tick_lag
+		cooled_last_cycle = ambient_cooling
 
 	//process power production
 	if(held_fuel && held_fuel.fuel_left > 0)
-		held_fuel.fuel_left -= fuel_consumption_rate * world.tick_lag
+		held_fuel.fuel_left -= fuel_consumption_rate
 		held_fuel.fuel_left = max(held_fuel.fuel_left, 0)
 
 		add_avail(fuel_consumption_rate * power_per_fuel)
-		heat_energy += fuel_consumption_rate * heat_per_fuel * world.tick_lag
+		heat_energy += fuel_consumption_rate * heat_per_fuel
 
 		update_overlays()
 
 		//blow up if cooling isn't good enough
 		if(heat_energy > max_heat_energy)
 			overload_reactor()
+
+	updateUsrDialog()
 
 /obj/machinery/power/fusion_drive/attackby(var/obj/item/I, var/mob/living/user)
 	if(istype(I, /obj/item/fusion_fuel))
