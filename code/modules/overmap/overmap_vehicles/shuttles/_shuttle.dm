@@ -1,28 +1,35 @@
 
 /obj/machinery/overmap_vehicle/shuttle
 	name = "SKT-13 Shuttlecraft"
-	icon = 'unsc_perp_shuttle.dmi'
-	icon_state = "unsc_personnel"
+	icon = 'code/modules/overmap/overmap_vehicles/shuttles/unsc_perp_shuttle.dmi'
+	icon_state = "shuttle"
+	desc = "Unarmed UNSC personnel transport."
 	dir = NORTH
 	anchored = 1
 	bound_width = 192
 	bound_height = 384
-	max_speed = 5
+	max_speed = 10
 	iff_faction_broadcast = "UNSC"
+	var/layout_file = 'maps/shuttle_unscpersonnel1.dmm'
+	var/layout_x = 6
+	var/layout_y = 12
+	var/overmap_icon_state = "unsc_shuttle"
 
 	var/obj/effect/zlevelinfo/current_level
 	var/area/shuttle_area
 	var/obj/effect/virtual_area/interior
 	var/list/pilots = list()
 	var/num_turfs = 50
-	var/maglock_strength = 0
+	var/maglock_strength = 6
 
 	var/time_last_maneuvre = 0
-	var/maneuvre_cooldown = 30
+	var/maneuvre_cooldown = 15
 
 	armour = 75
 	hull_remaining = 250
 	hull_max = 250
+
+	var/maglocked_at_spawn = 0
 
 /obj/machinery/overmap_vehicle/shuttle/New()
 	..()
@@ -32,14 +39,11 @@
 		interior = overmap_controller.get_virtual_area()
 
 		//load the shuttle map over the top
-		maploader.load_onto_turf('maps/shuttle_unscpersonnel1.dmm', interior.loc)
-		//maploader.load_onto_turf('maps/unsc_personnel_shuttle1.dmm', locate(interior.x, interior.y, interior.z))
-		interior.map_dimx = 6
-		interior.map_dimy = 12
+		maploader.load_onto_turf(layout_file, interior.loc)
+		interior.map_dimx = layout_x
+		interior.map_dimy = layout_y
 
-		maglock_strength = 6
-
-	overmap_object.icon_state = "unsc_shuttle"
+	overmap_object.icon_state = overmap_icon_state
 	layer = MOB_LAYER - 0.1
 
 	vehicle_controls.move_mode_absolute = 1
@@ -85,6 +89,9 @@
 
 	//work out some final init stuff
 	calc_num_turfs()
+
+	if(maglocked_at_spawn)
+		init_maglock()
 
 /obj/machinery/overmap_vehicle/shuttle/Destroy()
 	..()
@@ -197,5 +204,47 @@
 				time_last_maneuvre = world.time
 
 			return  1
+
+	return 0
+
+/obj/machinery/overmap_vehicle/shuttle/enable_engines()
+	if(!engines_cycling)
+		if(!engines_active)
+			engines_cycling = 1
+
+			//play sound for occupants
+			for(var/mob/M in shuttle_area)
+				M.playsound_local_custom(M.loc, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, 3, 5)
+
+			//play sound for people nearby
+			playsound_custom(src, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, 3, 5)
+
+			//5 second powerup sequence (15 sec played at 3x speed)
+			spawn(50)
+				engines_active = 1
+				overmap_controller.overmap_scanner_manager.add_overmap_vehicle(overmap_object)
+				engines_cycling = 0
+			return 1
+
+	return 0
+
+/obj/machinery/overmap_vehicle/shuttle/disable_engines()
+	if(!engines_cycling)
+		if(engines_active)
+			engines_cycling = 1
+
+			//play sound for occupants
+			for(var/mob/M in shuttle_area)
+				M.playsound_local_custom(M.loc, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, -3, 5)
+
+			//play sound for people nearby
+			playsound_custom(src, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, -3, 5)
+
+			//5 second powerdown sequence (15 sec played at 3x speed)
+			spawn(50)
+				engines_active = 0
+				overmap_controller.overmap_scanner_manager.remove_overmap_vehicle(overmap_object)
+				engines_cycling = 0
+				return 1
 
 	return 0

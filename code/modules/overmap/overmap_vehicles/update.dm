@@ -10,6 +10,22 @@
 				handle_zmove(target_dir)
 			z_move = 0
 
+	if(engines_active && pixel_transform.is_still())
+		pixel_x -= jitter_x
+		pixel_y -= jitter_y
+		//
+		if(jitter_x)
+			jitter_x = pick(jitter_x, 0)
+		else
+			jitter_x = pick(1, 0, -1)
+		if(jitter_y)
+			jitter_y = pick(jitter_y, 0)
+		else
+			jitter_y = pick(1, 0, -1)
+		//
+		pixel_x += jitter_x
+		pixel_y += jitter_y
+
 	/*var/delta_time = world.time - time_last_process
 	time_last_process = world.time*/
 
