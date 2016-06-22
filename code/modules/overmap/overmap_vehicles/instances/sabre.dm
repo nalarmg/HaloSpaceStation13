@@ -1,7 +1,7 @@
 
 /obj/machinery/overmap_vehicle/sabre
-	name = "YSS-1000 Sabre"
-	desc = "A top secret prototype anti-ship spaceplane"
+	name = "FS-250 Sabre"
+	desc = "An early generation space capable interceptor."
 	icon = 'code/modules/overmap/overmap_vehicles/icons/sabre.dmi'
 	icon_state = "sabre"
 	bound_width = 128
