@@ -207,8 +207,11 @@
 			interior_turfs.Add(T)
 			if(!bottom_left)
 				bottom_left = T
-			else if(T.x < bottom_left.x || T.y < bottom_left.y)
-				bottom_left = T
+			else
+				if(T.x < bottom_left.x)
+					bottom_left = locate(T.x, bottom_left.y, bottom_left.z)
+				if(T.y < bottom_left.y)
+					bottom_left = locate(bottom_left.x, T.y, bottom_left.z)
 
 				//while we're here, check if this shuttle turf has a "roof" above it
 				var/turf/above = GetAbove(T)
