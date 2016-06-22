@@ -49,6 +49,9 @@
 	data["autobraking"] = my_shuttle.autobraking
 	data["brake_disabled"] = my_shuttle.pixel_transform.is_still()
 	data["maglocked"] = my_shuttle.is_maglocked()
+	data["engines_active"] = my_shuttle.engines_active
+	data["engines_cycling"] = my_shuttle.engines_cycling
+
 
 	if(my_shuttle.is_cruising())
 		data["brake_disabled"] = 1
@@ -75,7 +78,7 @@
 
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
-		ui = new(user, src, ui_key, "helm_shuttle.tmpl", "[my_shuttle.name] Helm", 380, 560)
+		ui = new(user, src, ui_key, "helm_shuttle.tmpl", "[my_shuttle.name] Helm", 450, 650)
 		ui.set_initial_data(data)
 		ui.open()
 		ui.set_auto_update(1)
@@ -90,61 +93,73 @@
 	if (href_list["yaw"])
 		var/mob/living/carbon/human/M = locate(href_list["user"])
 		if(istype(M) && can_use(M))
-			if(!my_shuttle.is_maglocked())
-				var/targetdir = text2num(href_list["yaw"])
-				if(my_shuttle.is_cruising())
-					if(my_shuttle.turn_dir == targetdir)
-						my_shuttle.turn_dir = 0
+			if(my_shuttle.engines_active)
+				if(!my_shuttle.is_maglocked())
+					var/targetdir = text2num(href_list["yaw"])
+					if(my_shuttle.is_cruising())
+						if(my_shuttle.turn_dir == targetdir)
+							my_shuttle.turn_dir = 0
+						else
+							//regular update procs will handle the rest
+							my_shuttle.turn_dir = targetdir
+							my_shuttle.update()
 					else
-						//regular update procs will handle the rest
-						my_shuttle.turn_dir = targetdir
-						my_shuttle.update()
-				else
-					//this gives a target orientation so lets find out what we'll direction actually turn
-					if(targetdir != my_shuttle.dir)
-						my_shuttle.turn_towards_dir(targetdir)
+						//this gives a target orientation so lets find out what we'll direction actually turn
+						if(targetdir != my_shuttle.dir)
+							my_shuttle.turn_towards_dir(targetdir)
+			else
+				M << "\icon[src]<span class='warning'>You must power up the engines first!</span>"
 
 	if (href_list["move"])
 		var/mob/living/carbon/human/M = locate(href_list["user"])
 		if(istype(M) && can_use(M))
-			if(!my_shuttle.is_maglocked() && !my_shuttle.is_cruising())
-				var/targetdir = text2num(href_list["move"])
-				//moving straight ahead or behind uses pixel based movement
-				if(targetdir == my_shuttle.dir || targetdir == turn(my_shuttle.dir, 180))
-					//disable autobrake and enable automave
-					my_shuttle.autobraking = 0
+			if(my_shuttle.engines_active)
+				if(!my_shuttle.is_maglocked() && !my_shuttle.is_cruising())
+					var/targetdir = text2num(href_list["move"])
+					//moving straight ahead or behind uses pixel based movement
+					if(targetdir == my_shuttle.dir || targetdir == turn(my_shuttle.dir, 180))
+						//disable autobrake and enable automave
+						my_shuttle.autobraking = 0
 
-					if(my_shuttle.move_dir == targetdir)
-						my_shuttle.move_dir = 0
-					else
-						my_shuttle.move_dir = targetdir
+						if(my_shuttle.move_dir == targetdir)
+							my_shuttle.move_dir = 0
+						else
+							my_shuttle.move_dir = targetdir
 
-					//start the shuttle update loop
-					my_shuttle.update()
+						//start the shuttle update loop
+						my_shuttle.update()
 
-				else if(world.time > my_shuttle.time_last_maneuvre + my_shuttle.maneuvre_cooldown)
-					//strafing uses ordinary turf based movement
-					//don't use automove
-					var/olddir = my_shuttle.dir
-					my_shuttle.Move(get_step(my_shuttle, targetdir))
-					my_shuttle.dir = olddir
+					else if(world.time > my_shuttle.time_last_maneuvre + my_shuttle.maneuvre_cooldown)
+						//strafing uses ordinary turf based movement
+						//don't use automove
+						var/olddir = my_shuttle.dir
+						my_shuttle.Move(get_step(my_shuttle, targetdir))
+						my_shuttle.dir = olddir
 
-					//limit how often we can strafe
-					my_shuttle.time_last_maneuvre = world.time
+						//limit how often we can strafe
+						my_shuttle.time_last_maneuvre = world.time
+			else
+				M << "\icon[src]<span class='warning'>You must power up the engines first!</span>"
 
 	if (href_list["cruise"])
 		var/mob/living/carbon/human/M = locate(href_list["cruise"])
 		if(istype(M) && can_use(M))
-			if(my_shuttle.is_cruising())
-				my_shuttle.disable_cruise(M)
-				my_shuttle.move_dir = my_shuttle.dir
-			else if(my_shuttle.enable_cruise(M))
-				my_shuttle.move_dir = 0
+			if(my_shuttle.engines_active)
+				if(my_shuttle.is_cruising())
+					my_shuttle.disable_cruise(M)
+					my_shuttle.move_dir = my_shuttle.dir
+				else if(my_shuttle.enable_cruise(M))
+					my_shuttle.move_dir = 0
+			else
+				M << "\icon[src]<span class='warning'>You must power up the engines first!</span>"
 
 	if (href_list["brake"])
 		var/mob/living/carbon/human/M = locate(href_list["brake"])
-		if(istype(M) && can_use(M))
-			brake()
+		if(my_shuttle.engines_active)
+			if(istype(M) && can_use(M))
+				brake()
+		else
+			M << "\icon[src]<span class='warning'>You must power up the engines first!</span>"
 
 	if (href_list["view_shuttle"])
 		var/mob/living/carbon/human/M = locate(href_list["view_shuttle"])
@@ -168,17 +183,33 @@
 
 	if (href_list["z_up"])
 		var/mob/living/carbon/human/M = locate(href_list["z_up"])
-		moveup(M)
+		if(my_shuttle.engines_active)
+			moveup(M)
+		else
+			M << "\icon[src]<span class='warning'>You must power up the engines first!</span>"
 
 	if (href_list["z_down"])
 		var/mob/living/carbon/human/M = locate(href_list["z_down"])
-		movedown(M)
+		if(my_shuttle.engines_active)
+			movedown(M)
+		else
+			M << "\icon[src]<span class='warning'>You must power up the engines first!</span>"
 
 	if (href_list["maglock"])
 		var/mob/living/carbon/human/M = locate(href_list["maglock"])
 		if(istype(M) && can_use(M))
 			if(!my_shuttle.is_cruising())
 				my_shuttle.toggle_maglock(M)
+
+	if (href_list["enable_engines"])
+		var/mob/living/carbon/human/M = locate(href_list["enable_engines"])
+		if(istype(M) && can_use(M))
+			my_shuttle.enable_engines()
+
+	if (href_list["disable_engines"])
+		var/mob/living/carbon/human/M = locate(href_list["disable_engines"])
+		if(istype(M) && can_use(M))
+			my_shuttle.disable_engines()
 
 /obj/machinery/computer/shuttle_helm/proc/brake()
 	if(!my_shuttle.is_maglocked() && !my_shuttle.is_cruising() && !my_shuttle.pixel_transform.is_still())
