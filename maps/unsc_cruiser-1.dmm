@@ -77,7 +77,7 @@
 "by" = (/obj/machinery/door/blast/regular/open,/obj/machinery/door/airlock/glass_security{id_tag = "BrigFoyer"; layer = 2.8; name = "Security Wing"; req_access = list(63)},/turf/simulated/floor/tiled,/area/security/brig)
 "bz" = (/obj/machinery/door/blast/regular/open,/obj/effect/wingrille_spawn/reinforced,/obj/structure/cable/green{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/tiled,/area/security/brig)
 "bA" = (/obj/structure/grille,/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced{dir = 8},/turf/simulated/floor/tiled,/area/security/brig)
-"bB" = (/obj/structure/table/reinforced,/obj/item/weapon/gun/energy/laser/practice,/obj/machinery/door/firedoor/border_only,/turf/simulated/floor/tiled,/area/security/brig)
+"bB" = (/obj/structure/table/reinforced,/obj/machinery/door/firedoor/border_only,/obj/item/weapon/gun/projectile/m6d_magnum,/turf/simulated/floor/tiled,/area/security/brig)
 "bC" = (/obj/machinery/door/window/southleft,/turf/simulated/floor/tiled,/area/space)
 "bD" = (/obj/machinery/door/firedoor/border_only,/obj/machinery/door/airlock/security{name = "Interrogation Observation"; req_access = list(63)},/obj/machinery/atmospherics/pipe/simple/hidden/supply,/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/turf/simulated/floor,/area/security/brig)
 "bE" = (/obj/machinery/door/firedoor/border_only,/obj/machinery/door/airlock/security{name = "Interrogation"; req_access = list(63)},/turf/simulated/floor,/area/space)
@@ -87,7 +87,7 @@
 "bI" = (/obj/machinery/door/airlock/security{name = "Evidence Storage"; req_access = list(1)},/obj/machinery/door/firedoor,/turf/simulated/floor/tiled/dark,/area/security/brig)
 "bJ" = (/obj/machinery/light{dir = 8},/turf/simulated/floor/tiled,/area/hallway/primary/central_one)
 "bK" = (/obj/machinery/door/airlock/security{name = "Equipment Storage"; req_access = list(1)},/turf/simulated/wall/r_wall,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
-"bL" = (/obj/structure/bed/chair/office/dark,/turf/simulated/floor/tiled,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
+"bL" = (/obj/structure/bed/chair/office/dark,/obj/effect/landmark/start{name = "Security Officer"},/turf/simulated/floor/tiled,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
 "bM" = (/obj/machinery/light{dir = 8},/turf/simulated/floor/tiled,/area/security/brig)
 "bN" = (/obj/structure/cable/green{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/tiled,/area/security/brig)
 "bO" = (/obj/machinery/door/blast/regular/open,/obj/machinery/door/airlock/glass_security{id_tag = "BrigFoyer"; layer = 2.8; name = "Security Wing"; req_access = list(63)},/obj/machinery/door/firedoor/border_only,/turf/simulated/floor/tiled,/area/security/brig)
@@ -99,7 +99,7 @@
 "bU" = (/obj/machinery/light{dir = 1},/turf/simulated/floor/tiled,/area/space)
 "bV" = (/obj/machinery/door/airlock/maintenance_hatch,/turf/simulated/floor/plating,/area/space)
 "bW" = (/obj/machinery/light{dir = 8},/turf/simulated/floor/tiled,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
-"bX" = (/obj/structure/bed/chair/office/dark{dir = 4},/turf/simulated/floor/tiled,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
+"bX" = (/obj/structure/bed/chair/office/dark{dir = 4},/obj/effect/landmark/start{name = "Security Officer"},/turf/simulated/floor/tiled,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
 "bY" = (/obj/structure/table/standard,/obj/item/weapon/folder/red,/turf/simulated/floor/tiled,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
 "bZ" = (/obj/structure/bed/chair/office/dark{dir = 8},/obj/structure/cable/green{tag = "icon-2-8 (EAST)"; icon_state = "2-8"; dir = 4},/turf/simulated/floor/tiled,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
 "ca" = (/obj/machinery/door/airlock/security{name = "Equipment Storage"; req_access = list(1)},/obj/structure/cable/green{tag = "icon-1-2 (WEST)"; icon_state = "1-2"; dir = 8},/turf/simulated/wall/r_wall,/area/security/armoury{name = "\improper Military Police - Gear Storage"})
@@ -541,4 +541,3 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 fyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 "}
-
