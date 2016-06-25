@@ -2,11 +2,15 @@
 //init the image overlays for open space on the map at roundstart
 //this is necessary because turf/New is run before obj/New which means zlevels are init later
 /hook/roundstart/proc/open_space_turfs()
+	set background = 1
+
 	log_admin("Initialising open space...")
 	var/start_time = world.time
+	var/amount_init = 0
 	for(var/turf/simulated/floor/open/O in world)
 		O.init()
-	log_admin("	Done ([(world.time - start_time) / 10]s)")
+		amount_init++
+	log_admin("	[amount_init] done ([(world.time - start_time) / 10]s)")
 	return 1
 
 /turf/simulated/floor/open
