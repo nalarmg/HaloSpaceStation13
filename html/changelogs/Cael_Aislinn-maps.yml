@@ -1,0 +1,6 @@
+author: Cael_Aislinn
+delete-after: True
+changes: 
+  - maptweak: Finished the last major work on the Innie base. It should be playable/functional now with the escape dock and power/lighting on deck 2. 
+  - maptweak: Various maintenance and derelict areas on deck 2 of the Innie base to play with.
+  - bugfix: Fixes some fairly critical bugs with cabling. Hopefully everything is working again.

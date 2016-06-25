@@ -128,6 +128,20 @@ datum/controller/process/overmap/proc/load_premade_map(var/mapname)
 								M.initialize_directions = NORTH|EAST|SOUTH
 								*/
 
+					//initialisation pre-step for cables
+					if(istype(A, /obj/structure/cable))
+						var/obj/structure/cable/C = A
+
+						var/dash = findtext(C.icon_state, "-")
+
+						C.d1 = text2num( copytext( C.icon_state, 1, dash ) )
+
+						C.d2 = text2num( copytext( C.icon_state, dash+1 ) )
+
+						var/turf/T = C.loc			// hide if turf is not intact
+						if( C.level==1 && !(C.d2 & (UP|DOWN)) )
+							C.hide(!T.is_plating())
+
 					A.initialize()
 
 					for(var/custom_type in custom_init_types)

@@ -78,6 +78,14 @@
 	name = "\improper Secure Storage Vault"
 	icon_state = "firingrange"
 
+/area/asteroid_base/main_hangar
+	name = "\improper Main Hangar"
+	icon_state = "hangar"
+
+/area/asteroid_base/shuttle_dock
+	name = "\improper Shuttle Dock"
+	icon_state = "aux_hangar"
+
 
 //hallways
 /area/asteroid_base/central_hallway_1
@@ -187,3 +195,91 @@
 /obj/machinery/computer/telecomms/server/innie
 	network = "innie_base"
 	req_access = list(access_innie)
+
+
+///////////////////
+//RANDOM SPAWNERS//
+///////////////////
+
+/obj/effect/roundstart_innie_shuttle_spawner
+	name = "Innsurrectionist random shuttle spawn"
+	icon = 'icons/mob/screen1.dmi'
+	icon_state = "x"
+	dir = SOUTH			//set this to the direction you want the shuttle to spawn in
+	var/berth_tag = ""		//set this the same for all viable spawnpoints in each berth
+						//if there is only 1 viable spawnpoint, leave this blank
+						//eg if there were 2 separate docking hatches for berth 1 each should have a separate instance of this spawner but both have the berth_tag "berth1"
+
+/*
+var/list/shuttle_types = list(\
+/obj/machinery/overmap_vehicle/shuttle,\
+/obj/machinery/overmap_vehicle/shuttle/med1,\
+/obj/machinery/overmap_vehicle/shuttle/per1,\
+/obj/machinery/overmap_vehicle/shuttle/per2,\
+/obj/machinery/overmap_vehicle/shuttle/sal1,\
+/obj/machinery/overmap_vehicle/shuttle/sec1,\
+)
+*/
+
+/obj/effect/roundstart_innie_shuttle_spawner/proc/spawnme()
+	//due to different shuttle dimensions and layouts this code handles them individually
+	//i'd like to genericize and split it into the shuttle code itself it but that feels like a QOL thing at this point
+	var/spawntype
+	var/turf/spawnturf
+
+	//shuttles with airlocks on the south side all have similar enough dimensions and airlock placement that they can be treated the same
+	if(dir == NORTH)
+		spawntype = pick(\
+		/obj/machinery/overmap_vehicle/shuttle/sal1,\
+		/obj/machinery/overmap_vehicle/shuttle/sec1,\
+		/obj/machinery/overmap_vehicle/shuttle/med1,\
+		)
+
+		spawnturf = locate(src.x - 6, src.y, src.z)
+
+	//shuttles with airlocks on the east or west side require unique handling due to differing dimensions and airlock placement
+	else if(dir == EAST)
+		if(prob(33))
+			spawntype = /obj/machinery/overmap_vehicle/shuttle
+			spawnturf = locate(src.x, src.y - 5, src.z)
+		else if(prob(50))
+			spawntype = /obj/machinery/overmap_vehicle/shuttle/per1
+			spawnturf = locate(src.x, src.y - 2, src.z)
+		else
+			spawntype = /obj/machinery/overmap_vehicle/shuttle/per2
+			spawnturf = locate(src.x, src.y - 6, src.z)
+
+	else if(dir == WEST)
+		if(prob(33))
+			spawntype = /obj/machinery/overmap_vehicle/shuttle
+			spawnturf = locate(src.x - 5, src.y - 3, src.z)
+		else if(prob(50))
+			spawntype = /obj/machinery/overmap_vehicle/shuttle/per1
+			spawnturf = locate(src.x - 5, src.y - 2, src.z)
+		else
+			spawntype = /obj/machinery/overmap_vehicle/shuttle/per2
+			spawnturf = locate(src.x - 8, src.y - 6, src.z)
+
+	//todo: manually rotate some shuttles if dir==SOUTH
+	//
+
+	if(spawntype && spawnturf)
+		//success, so spawn the shuttle and maglock it straightaway because it should be in dock somewhere
+		var/obj/machinery/overmap_vehicle/shuttle/S = new spawntype(spawnturf)
+		S.init_maglock()
+	else
+		log_admin("Warning: spawn failed for /obj/effect/roundstart_innie_shuttle_spawner at ([src.x],[src.y],[src.z])")
+	qdel(src)
+
+///////////////
+//RADIO FREQS//
+///////////////
+/*
+14157 fighter hangar airlocks (both port and starboard)
+1385 port dock personnel airlock
+1386 starboard dock personnel airlock
+1386 starboard dock personnel airlock
+1387 aft hangar personnel airlock
+1388 fore deck1 personnel airlocks (both)
+1389 aft deck1 personnel airlocks (both)
+*/

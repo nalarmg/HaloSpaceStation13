@@ -88,28 +88,55 @@
 
 <div class='item'>
 	<div class="itemLabel">
-		<h3>Cruise Mode</h3>
-	</div>
-	<div class="itemContent" style="padding-top: 10px; float:right">
-		{{:helper.link(data.cruising ? 'Engaged' : 'Disengaged', 'power', { 'cruise' : data.user }, null, data.maglocked ? 'disabled' : (data.cruising ? 'selected' : null) )}}
-	</div>
-</div>
-
-<div class='item'>
-	<div class="itemLabel">
-		<h3>Maglock</h3>
-	</div>
-	<div class="itemContent" style="padding-top: 10px; float:right">
-		{{:helper.link(data.maglocked ? 'Disengage maglock' : 'Engage maglock', 'shuffle', { 'maglock' : data.user }, null, data.cruising ? 'disabled' : (data.maglocked ? 'selected' : null) )}}
-	</div>
-</div>
-
-<div class='item'>
-	<div class="itemLabel">
 		<h3>ZLevels</h3>
 	</div>
 	<div class="itemContent" style="padding-top: 10px; float:right">
 		{{:helper.link('Move up level', 'arrowreturn-1-n', { 'z_up' : data.user }, null, data.maglocked ? 'disabled' : (data.z_up > 0 ? 'selected' : (data.z_up < 0 ? 'disabled' : null) ) )}}
 		{{:helper.link('Move down level', 'arrowreturn-1-s', { 'z_down' : data.user }, null, data.maglocked ? 'disabled' : (data.z_down > 0 ? 'selected' : (data.z_down < 0 ? 'disabled' : null) ) )}}
+	</div>
+</div>
+
+<h3>Systems</h3> 
+<div class='block'>
+	<div class='item'>
+		<div class="itemLabel">
+			<span class='average'>Cruise mode:</span>
+		</div>
+		<div class="itemContent" style="padding-top: 10px; float:right">
+			{{:helper.link(data.cruising ? 'Engaged' : 'Disengaged', 'power', { 'cruise' : data.user }, null, data.maglocked ? 'disabled' : (data.cruising ? 'selected' : null) )}}
+		</div>
+	</div>
+	<div class='item'>
+		<div class="itemLabel">
+			<span class='average'>Maglock:</span>
+		</div>
+		<div class="itemContent" style="padding-top: 10px; float:right">
+			{{:helper.link(data.maglocked ? 'Disengage maglock' : 'Engage maglock', 'shuffle', { 'maglock' : data.user }, null, data.cruising ? 'disabled' : (data.maglocked ? 'selected' : null) )}}
+		</div>
+	</div>
+</div>
+
+<h3>Engine</h3> 
+<div class='block'>
+	<div class='item'>
+		<div class="itemLabel">
+			<span class='average'>Power flow:</span>
+		</div>
+		{{if data.engines_cycling}}
+			<div style="font-weight:bold; color:#ffff00">Cycling</div>
+		{{else data.engines_active}}
+			<div style="font-weight:bold; color:#00ff00">Enabled</div>
+		{{else}}
+			<div style="font-weight:bold; color:#ff0000">Disabled</div>
+		{{/if}}
+	</div>
+	<div class='item'>
+		{{if data.engines_cycling}}
+			{{:helper.link('Enable power flow', 'play', {'enable_engines' : data.user }, null, 'disabled')}}
+			{{:helper.link('Disable power flow', 'stop', {'disable_engines' : data.user }, null, 'disabled')}}
+		{{else}}
+			{{:helper.link('Enable power flow', 'play', {'enable_engines' : data.user }, null, data.engines_active ? 'selected' : null)}}
+			{{:helper.link('Disable power flow', 'stop', {'disable_engines' : data.user }, null, data.engines_active ? null : 'disabled')}}
+		{{/if}}
 	</div>
 </div>

@@ -94,6 +94,37 @@ var/obj/effect/overmapobj/innie_base
 /datum/game_mode/insurrection/post_setup()
 	time_autofind_innie_base = world.time + minutes_to_detect_innie_base * 60 * 10
 	//overmap_controller.current_starsystem.name = pick(insurrection_systems)
+
+	world << "<span class='danger'>Spawning random Insurrectionist shuttles...</span>"
+	var/starttime = world.time
+	sleep(1)
+
+	//get all berths
+	var/list/berths = list()
+	for(var/obj/effect/roundstart_innie_shuttle_spawner/S in world)
+		//it's an individual one so just spawn it straightaway
+		if(!S.berth_tag)
+			S.spawnme()
+		else
+			//group all spawners with the same berth_tag so we can go over them later
+			if(!berths[S.berth_tag])
+				berths[S.berth_tag] = list()
+			var/list/spawnlist = berths[S.berth_tag]
+			spawnlist.Add(S)
+
+	//pick a random point on the berth
+	for(var/berthtag in berths)
+		var/list/spawnlist = berths[berthtag]
+		var/obj/effect/roundstart_innie_shuttle_spawner/S = pick(spawnlist)
+		S.spawnme()
+		//world << "[spawnlist.len] spawners with berthtag \"[berthtag]\", one chosen had dir:[S.dir]"
+
+		//delete the remaining spawners
+		for(S in spawnlist)
+			qdel(S)
+
+	world << "<span class='danger'>	Done spawning innie shuttles ([(world.time - starttime)/10]).</span>"
+
 	return ..()
 
 /datum/game_mode/insurrection/process()

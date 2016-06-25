@@ -73,7 +73,7 @@ If the cable travels over zlevels, the node placed on a higher zlevel has d2 == 
 /obj/structure/cable/white
 	color = COLOR_WHITE
 
-/obj/structure/cable/initialize()
+/obj/structure/cable/New()
 	..()
 
 	// ensure d1 & d2 reflect the icon_state for entering and exiting cable
@@ -270,7 +270,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 
 	var/turf/TB
 	if(direction & (UP|DOWN))
-		TB = get_step(src, fdir)
+		TB = GetAboveBelow(src, direction)
 	else
 		TB = get_step(src, direction)
 
@@ -342,64 +342,48 @@ obj/structure/cable/proc/cableColor(var/colorC)
 /obj/structure/cable/proc/get_connections(var/powernetless_only = 0)
 	. = list()	// this will be a list of all connected power objects
 	var/turf/T
-///// Z-Level Stuff
-	/*if (d1 & UP|DOWN)
-		var/turf/controllerlocation = locate(1, 1, z)
-		for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-			if(controller.up && d1 == 12)
-				T = locate(src.x, src.y, controller.up_target)
+
+	// Handle up/down cables
+	if(d2 & (UP|DOWN))
+		T = GetAboveBelow(src, d2)
+		if(T)
+			. += power_list(T, src, turn3d(d2, 180))
+
+	// Handle standard cables in adjacent turfs
+	for(var/cable_dir in list(d1, d2))
+		if(cable_dir & (UP|DOWN) || cable_dir == 0)
+			continue
+		var/reverse = reverse_dir[cable_dir]
+		T = get_step(src, cable_dir)
+		if(T)
+			for(var/obj/structure/cable/C in T)
+				if((C.d1 && C.d1 == reverse) || (C.d2 && C.d2 == reverse))
+					. += C
+		if(cable_dir & (cable_dir - 1)) // Diagonal, check for /\/\/\ style cables along cardinal directions
+			for(var/pair in list(NORTH|SOUTH, EAST|WEST))
+				T = get_step(src, cable_dir & pair)
 				if(T)
-					. += power_list(T, src, 11, 1)
-			if(controller.down && d1 == 11)
-				T = locate(src.x, src.y, controller.down_target)
-				if(T)
-					. += power_list(T, src, 12, 1)*/
-///// Z-Level Stuff
-	//get matching cables from the first direction
-	if(d1) //if not a node cable
-		T = get_step(src, d1)
-		if(T)
-			. += power_list(T, src, turn(d1, 180), powernetless_only) //get adjacents matching cables
+					var/req_dir = cable_dir ^ pair
+					for(var/obj/structure/cable/C in T)
+						if((C.d1 && C.d1 == req_dir) || (C.d2 && C.d2 == req_dir))
+							. += C
 
-	if(d1&(d1-1)) //diagonal direction, must check the 4 possibles adjacents tiles
-		T = get_step(src,d1&3) // go north/south
-		if(T)
-			. += power_list(T, src, d1 ^ 3, powernetless_only) //get diagonally matching cables
-		T = get_step(src,d1&12) // go east/west
-		if(T)
-			. += power_list(T, src, d1 ^ 12, powernetless_only) //get diagonally matching cables
+	// Handle cables on the same turf as us
+	for(var/obj/structure/cable/C in loc)
+		if(C.d1 == d1 || C.d2 == d1 || C.d1 == d2 || C.d2 == d2) // if either of C's d1 and d2 match either of ours
+			. += C
 
-	. += power_list(loc, src, d1, powernetless_only) //get on turf matching cables
+	if(d1 == 0)
+		for(var/obj/machinery/power/P in loc)
+			if(P.powernet == 0) continue // exclude APCs with powernet=0
+			if(!powernetless_only || !P.powernet)
+				. += P
 
-///// Z-Level Stuff
-	/*if(d2 == 11 || d2 == 12)
-		var/turf/controllerlocation = locate(1, 1, z)
-		for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-			if(controller.up && d2 == 12)
-				T = locate(src.x, src.y, controller.up_target)
-				if(T)
-					. += power_list(T, src, 11, 1)
-			if(controller.down && d2 == 11)
-				T = locate(src.x, src.y, controller.down_target)
-				if(T)
-					. += power_list(T, src, 12, 1)*/
-///// Z-Level Stuff
-
-	//do the same on the second direction (which can't be 0)
-	T = get_step(src, d2)
-	if(T)
-		. += power_list(T, src, turn3d(d2, 180), powernetless_only) //get adjacents matching cables
-
-	if( d2 & (d2-1) && !(d2 & (UP|DOWN)) ) //diagonal direction, must check the 4 possibles adjacents tiles but not up or down
-		T = get_step(src,d2&3) // go north/south
-		if(T)
-			. += power_list(T, src, d2 ^ 3, powernetless_only) //get diagonally matching cables
-		T = get_step(src,d2&12) // go east/west
-		if(T)
-			. += power_list(T, src, d2 ^ 12, powernetless_only) //get diagonally matching cables
-	. += power_list(loc, src, d2, powernetless_only) //get on turf matching cables
-
-	return .
+	// if the caller asked for powernetless cables only, dump the ones with powernets
+	if(powernetless_only)
+		for(var/obj/structure/cable/C in .)
+			if(C.powernet)
+				. -= C
 
 //should be called after placing a cable which extends another cable, creating a "smooth" cable that no longer terminates in the centre of a turf.
 //needed as this can, unlike other placements, disconnect cables
@@ -667,12 +651,11 @@ obj/structure/cable/proc/cableColor(var/colorC)
 			user << "<span class='warning'>You can't lay cable at a place that far away.</span>"
 			return
 
-	if(!F.is_plating())		// Ff floor is intact, complain
+	if(istype(F, /turf/simulated/floor/open))
+		dir_3d = DOWN
+	else if(!F.is_plating())		// Ff floor is intact, complain
 		user << "<span class='warning'>You can't lay cable there unless the floor tiles are removed.</span>"
 		return
-
-		if(istype(F, /turf/simulated/floor/open))
-			dir_3d = DOWN
 
 	var/turf/cable_location
 	if(F.z > user.z)
@@ -683,11 +666,12 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	if(!cable_location)
 		cable_location = F
 
-	var/dir_2d
-	if(user.loc == cable_location)
-		dir_2d = user.dir			// if laying on the tile we're on, lay in the direction we're facing
-	else							// create a cable on adjacent turf F heading outward towards user
-		dir_2d = get_dir(F, user)
+	var/dir_2d = 0
+	if(dir_3d != UP)					// vertical upwards cables can just head straight up
+		if(user.loc == cable_location)	// if laying on the tile we're on, lay in the direction we're facing
+			dir_2d = user.dir
+		else							// create a cable on adjacent turf F heading outward towards user
+			dir_2d = get_dir(F, user)
 
 	for(var/obj/structure/cable/LC in cable_location)
 		if(LC.d1 == 0 && LC.d2 == dir_2d)		//ordinary cable

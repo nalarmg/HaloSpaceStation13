@@ -60,6 +60,9 @@
 	var/next_shot_loc = 0
 
 	var/engines_active = 0
+	var/engines_cycling = 0
+	var/jitter_x = 0
+	var/jitter_y = 0
 
 	//forward motion on nongravity/space turfs
 	//pixels per sec
