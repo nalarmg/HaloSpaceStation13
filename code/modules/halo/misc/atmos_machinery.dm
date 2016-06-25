@@ -4,7 +4,7 @@
 	power_rating = 200000
 	pump_efficiency = 1000		//default is 2.5
 
-/obj/machinery/atmospherics/unary/vent_pump/hangar_vent/high_volume/New()
+/obj/machinery/atmospherics/unary/vent_pump/hangar_vent/New()
 	..()
 	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP + 800
 

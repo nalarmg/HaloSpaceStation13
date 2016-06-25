@@ -444,11 +444,6 @@
 	id = access_syndicate
 	access_type = ACCESS_TYPE_SYNDICATE
 
-/var/const/access_insurrectionist = 250
-/datum/access/insurrectionist
-	id = access_insurrectionist
-	access_type = ACCESS_TYPE_SYNDICATE
-
 /*******
 * Misc *
 *******/

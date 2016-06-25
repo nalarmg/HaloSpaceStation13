@@ -283,6 +283,8 @@
 
 
 /obj/machinery/alarm/proc/master_is_operating()
+	if(!alarm_area)
+		return 1
 	return alarm_area.master_air_alarm && !(alarm_area.master_air_alarm.stat & (NOPOWER|BROKEN))
 
 
@@ -305,7 +307,7 @@
 		icon_state = "alarmx"
 		set_light(0)
 		return
-	if((stat & (NOPOWER|BROKEN)) || shorted)
+	if((stat & (NOPOWER|BROKEN)) || shorted || !alarm_area)
 		icon_state = "alarmp"
 		set_light(0)
 		return

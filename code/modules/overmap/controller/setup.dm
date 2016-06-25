@@ -93,9 +93,11 @@ datum/controller/process/overmap/proc/get_or_create_cached_zlevel()
 datum/controller/process/overmap/proc/create_new_zlevel()
 	//extend the world depth by adding a whole new zlevel
 	world << "<span class='danger'>Adding new zlevel, server may lag for a few seconds to a minute...</span>"
+	var/starttime = world.time
 
 	sleep(1)
 	world.maxz++
 	var/obj/effect/zlevelinfo/data = new(locate(1, 1, world.maxz))
 	cached_zlevels += data
+	world << "<span class='danger'>	Finished adding new zlevel ([(world.time - starttime)/10]).</span>"
 	return data

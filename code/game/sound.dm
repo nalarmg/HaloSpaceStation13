@@ -50,6 +50,11 @@ var/list/page_sound = list('sound/effects/pageturn1.ogg', 'sound/effects/pagetur
 /proc/playsound(var/atom/source, soundin, vol as num, vary, extrarange as num, falloff, var/is_global)
 
 	soundin = get_sfx(soundin) // same sound for everyone
+	playsound_custom(source, soundin, vol, vary, extrarange, falloff, is_global)
+
+/proc/playsound_custom(var/atom/source, soundin, vol as num, vary, extrarange as num, falloff, var/is_global)
+
+	//assume sound is valid
 
 	if(isarea(source))
 		error("[source] is an area and is trying to make the sound: [soundin]")
@@ -74,8 +79,14 @@ var/list/page_sound = list('sound/effects/pageturn1.ogg', 'sound/effects/pagetur
 var/const/FALLOFF_SOUNDS = 0.5
 
 /mob/proc/playsound_local(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, is_global)
-	if(!src.client || ear_deaf > 0)	return
+
 	soundin = get_sfx(soundin)
+	playsound_local_custom(turf_source, soundin, vol, vary, frequency, falloff, is_global)
+
+/mob/proc/playsound_local_custom(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, is_global)
+	if(!src.client || ear_deaf > 0)	return
+
+	//assume soundin is valid
 
 	var/sound/S = sound(soundin)
 	S.wait = 0 //No queue

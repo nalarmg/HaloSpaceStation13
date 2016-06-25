@@ -58,17 +58,43 @@
 	return accel
 
 /obj/machinery/overmap_vehicle/proc/enable_engines()
-	if(!engines_active)
-		engines_active = 1
-		overmap_controller.overmap_scanner_manager.add_overmap_vehicle(overmap_object)
-		return 1
+	if(!engines_cycling)
+		if(!engines_active)
+			engines_cycling = 1
+
+			//play sound for occupants
+			for(var/mob/M in occupants)
+				M.playsound_local_custom(M.loc, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, 3, 5)
+
+			//play sound for people nearby
+			playsound_custom(src, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, 3, 5)
+
+			//5 second powerup sequence (15 sec played at 3x speed)
+			spawn(50)
+				engines_active = 1
+				overmap_controller.overmap_scanner_manager.add_overmap_vehicle(overmap_object)
+				engines_cycling = 0
+			return 1
 
 	return 0
 
 /obj/machinery/overmap_vehicle/proc/disable_engines()
-	if(engines_active)
-		engines_active = 0
-		overmap_controller.overmap_scanner_manager.remove_overmap_vehicle(overmap_object)
-		return 1
+	if(!engines_cycling)
+		if(engines_active)
+			engines_cycling = 1
+
+			//play sound for occupants
+			for(var/mob/M in occupants)
+				M.playsound_local_custom(M.loc, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, -3, 5)
+
+			//play sound for people nearby
+			playsound_custom(src, 'sound/machines/Spacecraft_Start_Engines_SE.ogg', 100, 1, -3, 5)
+
+			//5 second powerdown sequence (15 sec played at 3x speed)
+			spawn(50)
+				engines_active = 0
+				overmap_controller.overmap_scanner_manager.remove_overmap_vehicle(overmap_object)
+				engines_cycling = 0
+				return 1
 
 	return 0

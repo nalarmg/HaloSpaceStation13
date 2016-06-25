@@ -20,8 +20,8 @@
 
 
 /obj/machinery/atmospherics/portables_connector/New()
-	initialize_directions = dir
 	..()
+	initialize_directions = dir
 
 /obj/machinery/atmospherics/portables_connector/update_icon()
 	icon_state = "connector"

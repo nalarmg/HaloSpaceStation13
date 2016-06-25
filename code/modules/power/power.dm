@@ -198,7 +198,8 @@
 // if unmarked==1, only return those with no powernet
 /proc/power_list(var/turf/T, var/source, var/d, var/unmarked=0, var/cable_only = 0)
 	. = list()
-	var/fdir = (!d)? 0 : turn(d, 180)			// the opposite direction to d (or 0 if d==0)
+	var/testing = 0
+	/*var/fdir = (!d)? 0 : turn3d(d, 180)			// the opposite direction to d (or 0 if d==0)
 ///// Z-Level Stuff
 	var/Zdir
 	if(d==11)
@@ -206,10 +207,11 @@
 	else if (d==12)
 		Zdir = 12
 	else
-		Zdir = 999
+		Zdir = 999*/
 ///// Z-Level Stuff
 	for(var/AM in T)
-		if(AM == source)	continue			//we don't want to return source
+		if(AM == source)
+			continue			//we don't want to return source
 
 		if(!cable_only && istype(AM,/obj/machinery/power))
 			var/obj/machinery/power/P = AM
@@ -224,10 +226,10 @@
 
 			if(!unmarked || !C.powernet)
 ///// Z-Level Stuff
-				if(C.d1 == fdir || C.d2 == fdir || C.d1 == Zdir || C.d2 == Zdir)
+				/*if(C.d1 == fdir || C.d2 == fdir || C.d1 == Zdir || C.d2 == Zdir)
 ///// Z-Level Stuff
-					. += C
-				else if(C.d1 == d || C.d2 == d)
+					. += C*/
+				if(C.d1 == d || C.d2 == d)
 					. += C
 	return .
 

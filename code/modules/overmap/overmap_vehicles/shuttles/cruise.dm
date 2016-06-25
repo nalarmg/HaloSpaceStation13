@@ -35,6 +35,9 @@
 
 /obj/machinery/overmap_vehicle/shuttle/cruise_exit_orientation()
 	var/target_dir = angle2dir(overmap_object.pixel_transform.heading)
+	if(target_dir in cornerdirs)
+		target_dir = diagonal_to_cardinal(target_dir)
+
 	//multiple turns may be necessary as shuttle can only turn in 90 degree increments
 	while(src.dir != target_dir)
 		//world << "	turning..."
