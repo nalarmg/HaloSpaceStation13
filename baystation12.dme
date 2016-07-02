@@ -1510,6 +1510,7 @@
 #include "code\modules\overmap\helpers.dm"
 #include "code\modules\overmap\swap_turfs.dm"
 #include "code\modules\overmap\zlevelinfo.dm"
+#include "code\modules\overmap\asteroid\random_asteroid.dm"
 #include "code\modules\overmap\client\control_verbs.dm"
 #include "code\modules\overmap\client\view_overmap.dm"
 #include "code\modules\overmap\controller\_controller.dm"
