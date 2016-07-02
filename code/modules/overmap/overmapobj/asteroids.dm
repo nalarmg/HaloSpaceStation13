@@ -1,43 +1,42 @@
 //see starsystem.dm for asteroid field placement
 
-/obj/effect/overmapobj/bigasteroid
-	name = "large asteroid"
-	icon = 'icons/obj/meteor.dmi'
-	icon_state = "large"
-	opacity = 1
-	var/datum/asteroidfield/owner
-
-/obj/effect/overmapobj/bigasteroid/New()
-	if(prob(50))
-		icon_state = "small"
-	desc = pick("It must be almost a kilometre across!",\
-	"This asteroid is huge, dwarfing the others around it.",\
-	"It's an enormous asteroid, easily the same size as a warship.")
-
-/obj/effect/overmapobj/asteroidsector
-	name = "asteroid field"
-	icon = 'icons/obj/meteor.dmi'
-	icon_state = "dust"
-	desc = "A load of rocky debris unpredictably bouncing off each other. Probably a bad idea to linger nearby."
-	opacity = 1
-	var/datum/asteroidfield/owner
-
-/obj/effect/overmapobj/asteroidsector/Crossed(atom/movable/O)
-	if(istype(O, /obj/effect/overmapobj))
-		var/obj/effect/overmapobj/S = O
-		S.start_meteors()
-
-/obj/effect/overmapobj/asteroidsector/Uncrossed(atom/movable/O)
-	if(istype(O, /obj/effect/overmapobj))
-		var/obj/effect/overmapobj/S = O
-		S.stop_meteors()
-
 /datum/asteroidfield
-	var/list/big_asteroids = list()
-	var/list/fieldsectors = list()
 	var/centre_x = 127
 	var/centre_y = 127
+	var/list/fieldsectors = list()
+	//
 	var/obj/effect/starsystem/my_starsystem
+	//
+	var/list/big_asteroids = list()
+	var/list/big_asteroids_generating = list()
+
+/datum/asteroidfield/proc/run_steps(var/steps_this_cycle = 0)
+	set background = 1
+	. = 1
+
+	/*var/start_stage = -1
+	var/finish_stage = 0*/
+
+	while(big_asteroids_generating.len && steps_this_cycle > 0)
+		var/obj/effect/overmapobj/bigasteroid/bigasteroid = big_asteroids_generating[1]
+
+		/*if(start_stage < 0)
+			start_stage = bigasteroid.gen_stage*/
+
+		//a value greater than 0 means it hasnt finished generation and needs to keep stepping
+		//a value greater than 1 means its going through an intensive stage and should be done with less steps than other stages
+		var/retval = bigasteroid.step_generation()
+		steps_this_cycle -= retval
+		if(!retval)
+			big_asteroids_generating -= bigasteroid
+
+		//finish_stage = bigasteroid.gen_stage
+
+	//world << "/datum/asteroidfield/proc/process() start_stage:[start_stage] finish_stage:[finish_stage]"
+
+	//no more asteroids to process
+	if(!big_asteroids_generating.len)
+		. = 0
 
 /datum/asteroidfield/proc/generate()
 	set background = 1
@@ -72,20 +71,55 @@
 			if(!(T in turfs_to_process) && !(T in turfs_processed) )
 				turfs_to_process.Add(T)*/
 
-	var/num_big_asteroids = pick(3,4)		//can't have too many, each is a separate zlevel
-	while(num_big_asteroids > 0 && fieldsectors.len > 0)
-		num_big_asteroids -= 1
-		var/obj/effect/overmapobj/asteroidsector/spawn_sector = pick(fieldsectors)
-		fieldsectors -= spawn_sector
+/datum/asteroidfield/proc/place_bigasteroid()
 
-		var/obj/effect/overmapobj/bigasteroid/new_asteroid = new(spawn_sector.loc)
-		big_asteroids.Add(new_asteroid)
-		new_asteroid.owner = src
+	//pick a random spot in the field to spawn it
+	var/obj/effect/overmapobj/asteroidsector/spawn_sector = pick(src.fieldsectors)
+	var/obj/effect/overmapobj/bigasteroid/new_asteroid = new(spawn_sector.loc)
 
-		qdel(spawn_sector)
+	//clear the meteors out from that spot
+	src.fieldsectors -= spawn_sector
+	qdel(spawn_sector)
+
+	//some last stuff
+	src.big_asteroids.Add(new_asteroid)
+	new_asteroid.owner = src
+	new_asteroid.myzlevel = overmap_controller.get_or_create_cached_zlevel()
+	new_asteroid.begin_generation()
+	new_asteroid.linked_zlevelinfos += new_asteroid.myzlevel
+
+	//we'll generate it step by step over the round to avoid lag at round start
+	big_asteroids_generating += new_asteroid
+
+	/*
+	var/starttime = world.time
+	log_admin("Generating mineable asteroid...")
+	generate_asteroid_mask(new_asteroid.myzlevel.z)
+	log_admin("	Done generate_asteroid_mask() ([(world.time - starttime) / 10]s).")
+	*/
+
+//the corresponding overmapobj
+/obj/effect/overmapobj/asteroidsector
+	name = "asteroid field"
+	icon = 'icons/obj/meteor.dmi'
+	icon_state = "dust"
+	desc = "A load of rocky debris unpredictably bouncing off each other. Probably a bad idea to linger nearby."
+	opacity = 1
+	var/datum/asteroidfield/owner
+
+/obj/effect/overmapobj/asteroidsector/Crossed(atom/movable/O)
+	if(istype(O, /obj/effect/overmapobj))
+		var/obj/effect/overmapobj/S = O
+		S.start_meteors()
+
+/obj/effect/overmapobj/asteroidsector/Uncrossed(atom/movable/O)
+	if(istype(O, /obj/effect/overmapobj))
+		var/obj/effect/overmapobj/S = O
+		S.stop_meteors()
 
 
 //for debugging
+/*
 /obj/effect/asteroid_field_generator
 	icon = 'icons/obj/meteor.dmi'
 	icon_state = "flaming"
@@ -97,3 +131,4 @@
 	myfield.centre_x = src.y
 
 	myfield.generate()
+*/
