@@ -112,7 +112,6 @@
 	pixel_transform.icon_state_thrust = "thrust"
 	pixel_transform.icon_state_brake = "brake"
 
-	scanner_manager = new()
 	//don't bother doing physics based acceleration and turning
 	//we'll just hardcode the values and tweak them as needed
 	//recalculate_physics_properties()

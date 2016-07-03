@@ -67,7 +67,8 @@ datum/controller/process/overmap/setup()
 	current_starsystem = new()
 	all_starsystems.Add(current_starsystem)
 	//
-	current_starsystem.generate_asteroid_fields()
+	big_asteroid_generation_settings = new()
+	current_starsystem.place_asteroid_fields()
 	overmap_scanner_manager.add_asteroidfields(current_starsystem.asteroid_fields)
 
 	/*for(var/x in 1 to 3)

@@ -367,7 +367,7 @@
 
 /turf/simulated/mineral/random
 	name = "Mineral deposit"
-	var/mineralSpawnChanceList = list("Uranium" = 5, "Platinum" = 5, "Iron" = 35, "Coal" = 35, "Diamond" = 1, "Gold" = 5, "Silver" = 5, "Phoron" = 10)
+	var/mineralSpawnChanceList = list("Uranium" = 5, "Platinum" = 5, "iron" = 20, "coal" = 20, "Diamond" = 1, "Gold" = 5, "Silver" = 5, "sand" = 15, "mhydrogen" = 10)
 	var/mineralChance = 100 //10 //means 10% chance of this plot changing to a mineral deposit
 
 /turf/simulated/mineral/random/New()
@@ -382,7 +382,7 @@
 
 /turf/simulated/mineral/random/high_chance
 	mineralChance = 100 //25
-	mineralSpawnChanceList = list("Uranium" = 10, "Platinum" = 10, "Iron" = 20, "Coal" = 20, "Diamond" = 2, "Gold" = 10, "Silver" = 10, "Phoron" = 20)
+	mineralSpawnChanceList = list("Uranium" = 10, "Platinum" = 10, "iron" = 10, "coal" = 10, "Diamond" = 2, "Gold" = 10, "Silver" = 10, "sand" = 10, "mhydrogen" = 10)
 
 
 /**********************Asteroid**************************/
@@ -407,6 +407,9 @@
 	has_resources = 1
 
 /turf/simulated/floor/asteroid/New()
+
+	spawn(2)
+		updateMineralOverlays(1)
 
 	if(prob(20))
 		overlay_detail = "asteroid[rand(0,9)]"
@@ -497,7 +500,7 @@
 	for(var/direction in step_overlays)
 
 		if(istype(get_step(src, step_overlays[direction]), /turf/space))
-			overlays += image('icons/turf/floors.dmi', "asteroid_edge_[direction]")
+			overlays += image('icons/turf/flooring/asteroid.dmi', "asteroid_edges", dir = step_overlays[direction])
 
 		if(istype(get_step(src, step_overlays[direction]), /turf/simulated/mineral))
 			overlays += image('icons/turf/walls.dmi', "rock_side_[direction]")

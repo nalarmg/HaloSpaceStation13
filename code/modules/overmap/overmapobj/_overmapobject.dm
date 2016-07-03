@@ -19,7 +19,7 @@
 	var/faction
 	var/list/obj_turfs = list()
 	var/list/linked_zlevelinfos = list()
-	var/hide_vehicles = 0
+	var/hide_vehicles = 1
 	var/in_meteor_sector = 0
 
 	var/initialised = 0
@@ -44,6 +44,8 @@
 		overmap_controller.overmap_scanner_manager.add_station_scanner(waypoint_controller)
 		overmap_controller.overmap_scanner_manager.add_asteroid_scanner(waypoint_controller)
 		overmap_controller.overmap_scanner_manager.add_overmap_vehicle_scanner(waypoint_controller)
+		//
+		scanner_manager = new()
 
 /obj/effect/overmapobj/proc/start_meteors()
 	if(!in_meteor_sector)
