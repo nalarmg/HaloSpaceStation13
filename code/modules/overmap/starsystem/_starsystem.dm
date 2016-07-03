@@ -43,7 +43,7 @@ var/list/available_quadrants = list()
 		available_quadrants.Add(curloc)
 
 	//scatter the asteroid fields around
-	var/amount = 1//pick(2,4)
+	var/amount = 3
 	var/list/used_quadrants = list()
 	while(amount > 0)
 		amount -= 1
@@ -66,7 +66,7 @@ var/list/available_quadrants = list()
 	available_quadrants += used_quadrants
 
 	//max of 4 extra mineable asteroids scattered around
-	var/bonus_asteroids = 0
+	var/bonus_asteroids = 0//4
 
 	//generate asteroid fields
 	for(var/datum/asteroidfield/current_field in asteroid_fields)
