@@ -50,7 +50,7 @@
 
 		//reset everything for the next go
 		morph_turf = pop(corner_turfs)
-		working_turfs = list(morph_turf)
+		morphing_turfs = list(morph_turf)
 		num_processed = 0
 
 		/*if(last_dir > 0)

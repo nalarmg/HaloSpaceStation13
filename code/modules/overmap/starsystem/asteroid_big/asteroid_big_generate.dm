@@ -13,16 +13,19 @@
 
 	//cave_ore_map = new /datum/random_map/automata/cave_system(null,1,1,myzlevel.z,255,255, 0, 1, 1, "Z[myzlevel.z] asteroid ore caves")
 	//cave_ore_map.start_iteration()
-	cave_ore_map = new()
-	cave_ore_map.map_turfs = mask_turfs
+	//cave_ore_map = new()
+	//cave_ore_map.map_turfs = mask_turfs
 
 /*
 #define BIGASTEROID_STOP 0
 #define BIGASTEROID_MASKING 1
-#define BIGASTEROID_CAVES_ORES 2
-#define BIGASTEROID_OREDATA 3
-#define BIGASTEROID_BASES 4
-#define BIGASTEROID_DERELICTS 5
+#define BIGASTEROID_PICKMORPH 2
+#define BIGASTEROID_MORPHING 3
+#define BIGASTEROID_SMOOTHING 4
+#define BIGASTEROID_CAVES_SEED 5
+#define BIGASTEROID_CAVES_ITER 6
+#define BIGASTEROID_CAVES_ORE 7
+#define BIGASTEROID_CAVES_APPLY 8
 */
 
 /obj/effect/overmapobj/bigasteroid/proc/step_generation()
@@ -58,19 +61,19 @@
 					gen_stage = BIGASTEROID_CAVES_SEED
 
 		if(BIGASTEROID_CAVES_SEED)
-			if(!cave_ore_map.seed_steps(1))
+			if(!step_seed(1))
 				gen_stage = BIGASTEROID_CAVES_ITER
 
 		if(BIGASTEROID_CAVES_ITER)
-			if(!cave_ore_map.iterate_steps(1))
+			if(!step_iterate(1))
 				gen_stage = BIGASTEROID_CAVES_ORE
 
 		if(BIGASTEROID_CAVES_ORE)
-			if(!cave_ore_map.ore_steps(1))
+			if(!step_ore(1))
 				gen_stage = BIGASTEROID_CAVES_APPLY
 
 		if(BIGASTEROID_CAVES_APPLY)
-			if(!cave_ore_map.apply_steps(1))
+			if(!step_apply(1))
 
 				//final step
 				gen_stage = BIGASTEROID_STOP

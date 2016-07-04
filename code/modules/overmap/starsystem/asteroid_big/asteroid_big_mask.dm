@@ -18,7 +18,10 @@
 	//if we're within the radius, put a mask down
 	if(val <= rsq)
 		var/turf/unsimulated/mask/M = new(current_turf)
-		mask_turfs += M
+		map_turfs += M
+
+		/*if(mask_turfs.len > 20)
+			return 0*/
 
 		//if we're on the edge of the radius, mark us as a "corner" turf
 		//corners are various points spread around the circumference for us to morph later
@@ -44,7 +47,7 @@
 		gen_y = centre_turf.y - config.target_radius
 		. = 0
 
-	/*if(mask_turfs.len >= 20)
+	/*if(map_turfs.len >= 20)
 		. = 0*/
 
 /*

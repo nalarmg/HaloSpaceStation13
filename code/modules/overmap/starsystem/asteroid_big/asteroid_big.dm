@@ -20,7 +20,8 @@
 	var/list/corner_turfs = list()
 	var/corner_dist = 1
 	var/rsq = 1
-	var/list/mask_turfs = list()
+	var/list/map_turfs = list()
+	var/list/map_turfs_next = list()
 
 	//morphing
 	var/repeats_left = 0
@@ -28,9 +29,10 @@
 	var/trigger_type
 	var/spawn_type
 	var/turf/morph_turf
-	var/list/working_turfs = list()
+	var/list/morphing_turfs = list()
 	var/num_processed = 0
 	var/num_smoothes = 0
+	var/generating = 1
 
 	sensor_icon_state = "asteroids_mine"
 

@@ -14,17 +14,17 @@
 	//
 	var/expand_weight = 2
 	var/contract_weight = 1
-	var/skip_weight = 1
+	var/skip_weight = 0
 	//
-	var/repeats_lower = 2
-	var/repeats_upper = 4
+	var/repeats_lower = 4
+	var/repeats_upper = 6
 	//
 	var/skips_lower = 1
 	var/skips_upper = 2
 	//
 	var/target_radius = 80
 	//
-	var/smoothing_passes = 1
+	var/smoothing_passes = 3
 	var/asteroid_steps_per_process = 3000
 
 /turf/space/verb/call_asteroid_process()

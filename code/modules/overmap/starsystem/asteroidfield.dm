@@ -19,6 +19,8 @@
 
 	while(big_asteroids_generating.len && steps_this_cycle > 0)
 		var/obj/effect/overmapobj/bigasteroid/bigasteroid = big_asteroids_generating[1]
+		if(!bigasteroid.generating)
+			return
 
 		/*if(start_stage < 0)
 			start_stage = bigasteroid.gen_stage*/
