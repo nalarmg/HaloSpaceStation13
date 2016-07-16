@@ -34,6 +34,8 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 
 	var/datum/scanner_manager/overmap_scanner_manager
 
+	var/datum/big_asteroid_generation_settings/big_asteroid_generation_settings
+
 /datum/controller/process/overmap/doWork()
 	//see temporary_sector.dm
 	process_temp_sectors()

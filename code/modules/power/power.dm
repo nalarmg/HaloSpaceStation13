@@ -198,7 +198,6 @@
 // if unmarked==1, only return those with no powernet
 /proc/power_list(var/turf/T, var/source, var/d, var/unmarked=0, var/cable_only = 0)
 	. = list()
-	var/testing = 0
 	/*var/fdir = (!d)? 0 : turn3d(d, 180)			// the opposite direction to d (or 0 if d==0)
 ///// Z-Level Stuff
 	var/Zdir

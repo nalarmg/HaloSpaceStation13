@@ -43,7 +43,18 @@
 /obj/machinery/overmap_vehicle/proc/get_absolute_directional_thrust(var/direction)
 	//north = north on the map
 
-	return get_relative_directional_thrust(direction)
+	//if we're thrusting offcenter, reduce thrust proportionately
+	/*
+	var/angular_offset = abs(shortest_angle_to_dir(pixel_transform.heading, direction, 180))
+	var/thrust_modifier = 1 - ((angular_offset + 45) / 225)		//minimum 25% speed
+	*/
+
+	var/thrust_modifier = 1
+	var/ideal_angle = angle2dir(pixel_transform.heading)
+	if(direction != ideal_angle)
+		thrust_modifier = 0.25		//25% speed
+
+	return thrust_modifier * get_relative_directional_thrust(direction)
 
 /obj/machinery/overmap_vehicle/proc/get_relative_directional_thrust(var/direction)
 	//north = front of the shuttle

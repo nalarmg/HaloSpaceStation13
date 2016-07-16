@@ -9,6 +9,7 @@
 	//invisibility = 101	//leave "visible" but spriteless for testing
 
 	var/list/objects_preventing_recycle = list()
+	hide_vehicles = 0
 
 /obj/effect/overmapobj/temporary_sector/New(var/nx, var/ny, var/nz)
 	loc = locate(nx, ny, OVERMAP_ZLEVEL)
