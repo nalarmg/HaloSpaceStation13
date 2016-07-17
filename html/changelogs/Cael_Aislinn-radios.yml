@@ -1,7 +1,0 @@
-author: Cael_Aislinn
-delete-after: True
-changes: 
-  - wip: Integrated telecomms radios with overmap
-  - maptweak: Maps telecomms, engineering, placeholder atmos, cabling, APCs onto innie base level 
-  - maptweak: Maps telecomms onto deck 2 of the Pillar of Autumn
-  - bugfix: Resolves some outstanding issues with the maploader so that cables, piping and atmos work properly
