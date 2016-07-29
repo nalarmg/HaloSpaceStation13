@@ -1604,6 +1604,7 @@
 #include "code\modules\overmap\starsystem\asteroid_big\asteroid_big_smooth.dm"
 #include "code\modules\overmap\starsystem\asteroid_big\bigasteroid.dm"
 #include "code\modules\overmap\starsystem\asteroid_big\cave_noise.dm"
+#include "code\modules\overmap\starsystem\asteroid_big\overmap_veins.dm"
 #include "code\modules\paperwork\carbonpaper.dm"
 #include "code\modules\paperwork\clipboard.dm"
 #include "code\modules\paperwork\faxmachine.dm"
