@@ -29,11 +29,12 @@
 
 /turf/New()
 	..()
-	for(var/atom/movable/AM as mob|obj in src)
-		spawn( 0 )
-			src.Entered(AM)
-			return
-	turfs |= src
+	// for(var/atom/movable/AM as mob|obj in src)
+	// 	// spawn( 0 )
+	// 	// 	src.Entered(AM)
+	// 	// 	return
+	// Since `New` is only called once, we can safely use
+	// turfs |= src
 
 	if(dynamic_lighting)
 		luminosity = 0
@@ -44,7 +45,7 @@
 	return
 
 /turf/Destroy()
-	turfs -= src
+	// turfs -= src
 	..()
 
 /turf/ex_act(severity)
