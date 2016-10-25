@@ -1551,6 +1551,7 @@
 #include "code\modules\overmap\overmap_vehicles\handle_zmove.dm"
 #include "code\modules\overmap\overmap_vehicles\lights.dm"
 #include "code\modules\overmap\overmap_vehicles\misc.dm"
+#include "code\modules\overmap\overmap_vehicles\new.dm"
 #include "code\modules\overmap\overmap_vehicles\observe.dm"
 #include "code\modules\overmap\overmap_vehicles\overmapobj.dm"
 #include "code\modules\overmap\overmap_vehicles\spacetravel.dm"
