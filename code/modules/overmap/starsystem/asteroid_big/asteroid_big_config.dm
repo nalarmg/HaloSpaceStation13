@@ -27,6 +27,7 @@
 	var/smoothing_passes = 1
 	var/asteroid_steps_per_process = 3000
 
+/*
 /turf/space/verb/call_asteroid_process()
 	set src in view(7)
 	set background = 1
@@ -39,6 +40,7 @@
 			while(steps_this_process < overmap_controller.big_asteroid_generation_settings.asteroid_steps_per_process && bigasteroid.step_generation())
 				steps_this_process++
 			world << "	done [(world.time - starttime)/10]s final stage: [bigasteroid.gen_stage]"
+*/
 /*
 /turf/space/verb/call_asteroid_cavemapdraw()
 	set src in view(7)

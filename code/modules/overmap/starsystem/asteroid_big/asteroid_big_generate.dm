@@ -25,8 +25,11 @@
 #define BIGASTEROID_DERELICTS 5
 */
 
+/obj/effect/overmapobj/bigasteroid/var/generating = 0
 /obj/effect/overmapobj/bigasteroid/proc/step_generation()
 	. = 1
+	if(!generating)
+		return
 	switch(gen_stage)
 		if(BIGASTEROID_STOP)
 			. = 0

@@ -46,6 +46,7 @@
 
 	overmap_init()
 
+/*
 /turf/space/verb/clear_masks()
 	set src in view(7)
 	set background = 1
@@ -56,6 +57,7 @@
 			for(var/obj/O in cur_turf)
 				qdel(O)
 			new /turf/space(cur_turf)
+*/
 
 /obj/effect/overmapobj/bigasteroid/proc/update_overlays()
 	//set src in view(7)
