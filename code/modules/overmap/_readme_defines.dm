@@ -127,3 +127,28 @@ non-zlevel overmap objects
 #define BIGASTEROID_CAVES_ITER 6
 #define BIGASTEROID_CAVES_ORE 7
 #define BIGASTEROID_CAVES_APPLY 8
+
+#define HUD_CSS_STYLE "text-align:center;vertical-align:middle;font-family:sansserif;font-size:2;font-weight:bold;"
+#define HUD_CSS_STYLE_LESSER "text-align:center;vertical-align:middle;font-family:sansserif;font-size:1;font-weight:bold;"
+
+/*
+#define HUD_BAR_INTERNAL 0
+#define HUD_BAR_EXTERNAL 1
+#define HUD_BAR_CREW 2
+*/
+
+#define COMPONENT_GROUP_MIN 1
+#define COMPONENT_GROUP_MAX 6
+
+#define MOUNT_SMALL 0
+#define MOUNT_MEDIUM 1
+#define MOUNT_LARGE 2
+
+#define MOUNT_INT 0
+#define MOUNT_EXT 1
+#define MOUNT_CREW 2
+
+#define HUD_BAR_LEFT 0
+#define HUD_BAR_TOP 1
+#define HUD_BAR_RIGHT 2
+#define HUD_BAR_BOTTOM 3
