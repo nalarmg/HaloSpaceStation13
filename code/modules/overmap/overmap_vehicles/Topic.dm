@@ -124,7 +124,7 @@
 		var/index = text2num(href_list["eject_int"]) + 1
 		var/obj/structure/vehicle_component/removing_component = int_comps[index]
 		if(remove_component(removing_component, index))
-			usr << "<span class='info'>You successfully uninstall \icon[removing_component] [removing_component] from \icon[src] [src]."
+			usr << "<span class='info'>You successfully uninstall \icon[removing_component] [removing_component] from \icon[src] [src].</span>"
 		else
 			testing("ERROR: Failed to uninstall component from [src] [src.type], [usr] [usr.client]")
 		return

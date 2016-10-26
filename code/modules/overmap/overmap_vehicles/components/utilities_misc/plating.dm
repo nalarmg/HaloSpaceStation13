@@ -20,7 +20,7 @@
 			. = 1
 			var/obj/structure/vehicle_component/plating/P = dropping
 			P.loc = src.loc
-			user << "\icon[src] </span class='info'>You combine the [src] into a version for a large equipment slot.</span>"
+			user << "\icon[src] <span class='info'>You combine the [src] into a version for a large equipment slot.</span>"
 			name = "[base_name] (large)"
 			icon_state = "[base_icon_state]"
 			mount_size = MOUNT_LARGE
