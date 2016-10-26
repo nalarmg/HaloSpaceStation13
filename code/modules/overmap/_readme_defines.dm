@@ -123,10 +123,13 @@ non-zlevel overmap objects
 #define BIGASTEROID_PICKMORPH 2
 #define BIGASTEROID_MORPHING 3
 #define BIGASTEROID_SMOOTHING 4
-#define BIGASTEROID_CAVES_SEED 5
-#define BIGASTEROID_CAVES_ITER 6
-#define BIGASTEROID_CAVES_ORE 7
-#define BIGASTEROID_CAVES_APPLY 8
+#define BIGASTEROID_SMOOTHING_APPLY 5
+#define BIGASTEROID_CAVES_SEED 6
+#define BIGASTEROID_CAVES_ITER 7
+#define BIGASTEROID_CAVES_ORE 8
+#define BIGASTEROID_CAVES_APPLY 9
+#define BIGASTEROID_CAVES_VEINS 9
+#define BIGASTEROID_CAVES_FINISH 10
 
 #define HUD_CSS_STYLE "text-align:center;vertical-align:middle;font-family:sansserif;font-size:2;font-weight:bold;"
 #define HUD_CSS_STYLE_LESSER "text-align:center;vertical-align:middle;font-family:sansserif;font-size:1;font-weight:bold;"
