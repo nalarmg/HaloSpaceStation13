@@ -12,6 +12,8 @@
 
 	var/hovering_underlay = "hovering"
 
+	var/spawn_dir = 1
+
 	var/list/occupants = list()
 	var/occupants_max = 1
 	var/move_dir = 0
