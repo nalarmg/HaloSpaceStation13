@@ -1148,6 +1148,8 @@
 #include "code\modules\halo\maps\unsc_frigate4.dm"
 #include "code\modules\halo\misc\atmos_machinery.dm"
 #include "code\modules\halo\misc\blast_door_control.dm"
+#include "code\modules\halo\misc\closets.dm"
+#include "code\modules\halo\misc\tools_items_gear.dm"
 #include "code\modules\halo\weapons\ammo.dm"
 #include "code\modules\halo\weapons\grenades.dm"
 #include "code\modules\halo\weapons\launchers.dm"
