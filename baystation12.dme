@@ -1137,6 +1137,7 @@
 #include "code\modules\halo\jobs\UNSC_ship\medical.dm"
 #include "code\modules\halo\jobs\UNSC_ship\naval_security.dm"
 #include "code\modules\halo\jobs\UNSC_ship\operations.dm"
+#include "code\modules\halo\jobs\UNSC_ship\pilot.dm"
 #include "code\modules\halo\jobs\UNSC_ship\ship_ai.dm"
 #include "code\modules\halo\jobs\UNSC_ship\tactical.dm"
 #include "code\modules\halo\jobs\UNSC_ship\technical.dm"
