@@ -156,17 +156,18 @@
 	else
 		usr << "<span class='warning'>You are not the pilot of [src]</span>"
 
+/obj/machinery/overmap_vehicle/var/remote_airlock_range = 20
 /obj/machinery/overmap_vehicle/verb/cycle_airlock_exterior()
 	set name = "Cycle airlock to exterior"
 	set category = "Vehicle"
 	set src = usr.loc
 
 	var/list/targets = list()
-	for(var/obj/machinery/embedded_controller/radio/airlock/airlock_controller/controller in range(20, src))
+	for(var/obj/machinery/embedded_controller/radio/airlock/airlock_controller/controller in range(remote_airlock_range, src))
 		targets.Add(controller)
-	for(var/obj/machinery/datanet_airlock_console/console in range(20, src))
+	for(var/obj/machinery/datanet_airlock_console/console in range(remote_airlock_range, src))
 		targets.Add(console)
-	for(var/obj/machinery/datanet_berth_console/console in range(20, src))
+	for(var/obj/machinery/datanet_berth_console/console in range(remote_airlock_range, src))
 		targets.Add(console)
 
 	var/atom/movable/target_atom
@@ -177,7 +178,7 @@
 		targets.Add("Cancel")
 		target_atom = input("Select a hangar airlock to cycle outwards.", "Target hangar airlock") in targets
 	else
-		usr << "<span class='warning'>No valid hangar airlocks detected in range (50m).</span>"
+		usr << "<span class='warning'>No valid hangar airlocks detected in range ([remote_airlock_range*2]m).</span>"
 
 	if(!target_atom || !istype(target_atom, /atom/movable))
 		return
@@ -201,10 +202,12 @@
 		if(/obj/machinery/datanet_airlock_console)
 			var/obj/machinery/datanet_airlock_console/console = target_atom
 			console.datanet.enact_command("cycle_ext")
+			usr << "\icon[console] <span class='info'>Command sent to [console] to CYCLE EXTERIOR, please be patient while it executes.</span>"
 
 		if(/obj/machinery/datanet_berth_console)
 			var/obj/machinery/datanet_berth_console/console = target_atom
 			console.datanet_airlock.enact_command("cycle_ext")
+			usr << "\icon[console] <span class='info'>Command sent to [console] to CYCLE EXTERIOR, please be patient while it executes.</span>"
 
 		else
 			usr << "<span class='warning'>The target you selected ([target_atom]) is not valid.</span>"
@@ -215,11 +218,11 @@
 	set src = usr.loc
 
 	var/list/targets = list()
-	for(var/obj/machinery/embedded_controller/radio/airlock/airlock_controller/controller in range(20, src))
+	for(var/obj/machinery/embedded_controller/radio/airlock/airlock_controller/controller in range(remote_airlock_range, src))
 		targets.Add(controller)
-	for(var/obj/machinery/datanet_airlock_console/console in range(10, src))
+	for(var/obj/machinery/datanet_airlock_console/console in range(remote_airlock_range, src))
 		targets.Add(console)
-	for(var/obj/machinery/datanet_berth_console/console in range(10, src))
+	for(var/obj/machinery/datanet_berth_console/console in range(remote_airlock_range, src))
 		targets.Add(console)
 
 	var/atom/movable/target_atom
@@ -230,7 +233,7 @@
 		targets.Add("Cancel")
 		target_atom = input("Select a hangar airlock to cycle inwards.", "Target hangar airlock") in targets
 	else
-		usr << "<span class='warning'>No valid hangar airlocks detected in range (20m).</span>"
+		usr << "<span class='warning'>No valid hangar airlocks detected in range ([remote_airlock_range*2]m).</span>"
 
 	if(!target_atom || !istype(target_atom, /atom/movable))
 		return
@@ -254,10 +257,12 @@
 		if(/obj/machinery/datanet_airlock_console)
 			var/obj/machinery/datanet_airlock_console/console = target_atom
 			console.datanet.enact_command("cycle_int")
+			usr << "\icon[console] <span class='info'>Command sent to [console] to CYCLE INTERIOR, please be patient while it executes.</span>"
 
 		if(/obj/machinery/datanet_berth_console)
 			var/obj/machinery/datanet_berth_console/console = target_atom
 			console.datanet_airlock.enact_command("cycle_int")
+			usr << "\icon[console] <span class='info'>Command sent to [console] to CYCLE INTERIOR, please be patient while it executes.</span>"
 
 		else
 			usr << "<span class='warning'>The target you selected ([target_atom]) is not valid.</span>"
