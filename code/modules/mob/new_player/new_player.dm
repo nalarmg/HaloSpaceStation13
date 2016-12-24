@@ -346,9 +346,9 @@
 
 			//Grab some data from the character prefs for use in random news procs.
 
-			AnnounceArrival(character, rank, join_message)
+			/*AnnounceArrival(character, rank, join_message)
 		else
-			AnnounceCyborg(character, rank, join_message)
+			AnnounceCyborg(character, rank, join_message)*/
 
 		qdel(src)
 
