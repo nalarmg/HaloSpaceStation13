@@ -89,5 +89,3 @@
 	ethylredox	spawn_reagent = "ethylredoxrazine"
 	sleeptox	spawn_reagent = "stoxin"
 	chloral		spawn_reagent = "chloralhydrate"
-	cryoxadone	spawn_reagent = "cryoxadone"
-	clonexadone	spawn_reagent = "clonexadone"

@@ -51,9 +51,7 @@
 			/obj/item/weapon/reagent_containers/chem_disp_cartridge/spaceacillin,
 			/obj/item/weapon/reagent_containers/chem_disp_cartridge/ethylredox,
 			/obj/item/weapon/reagent_containers/chem_disp_cartridge/sleeptox,
-			/obj/item/weapon/reagent_containers/chem_disp_cartridge/chloral,
-			/obj/item/weapon/reagent_containers/chem_disp_cartridge/cryoxadone,
-			/obj/item/weapon/reagent_containers/chem_disp_cartridge/clonexadone
+			/obj/item/weapon/reagent_containers/chem_disp_cartridge/chloral
 		)
 
 /obj/machinery/chemical_dispenser/bar_soft
