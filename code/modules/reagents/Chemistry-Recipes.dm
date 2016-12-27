@@ -271,7 +271,7 @@
 	name = "Peridaxon"
 	id = "peridaxon"
 	result = "peridaxon"
-	required_reagents = list("bicaridine" = 2, "clonexadone" = 2)
+	required_reagents = list("bicaridine" = 2, "spaceacillin" = 2)
 	catalysts = list("phoron" = 5)
 	result_amount = 2
 
@@ -356,20 +356,6 @@
 	required_reagents = list("arithrazine" = 1, "carbon" = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/cryoxadone
-	name = "Cryoxadone"
-	id = "cryoxadone"
-	result = "cryoxadone"
-	required_reagents = list("dexalin" = 1, "water" = 1, "acetone" = 1)
-	result_amount = 3
-
-/datum/chemical_reaction/clonexadone
-	name = "Clonexadone"
-	id = "clonexadone"
-	result = "clonexadone"
-	required_reagents = list("cryoxadone" = 1, "sodium" = 1, "phoron" = 0.1)
-	catalysts = list("phoron" = 5)
-	result_amount = 2
 
 /datum/chemical_reaction/spaceacillin
 	name = "Spaceacillin"
@@ -1420,7 +1406,7 @@
 	name = "Syntiflesh"
 	id = "syntiflesh"
 	result = null
-	required_reagents = list("blood" = 5, "clonexadone" = 1)
+	required_reagents = list("blood" = 5, "nutriment" = 1)
 	result_amount = 1
 
 /datum/chemical_reaction/syntiflesh/on_reaction(var/datum/reagents/holder, var/created_volume)

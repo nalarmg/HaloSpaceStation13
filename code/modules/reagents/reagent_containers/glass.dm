@@ -195,12 +195,6 @@
 	possible_transfer_amounts = list(5,10,15,25)
 	flags = OPENCONTAINER
 
-/obj/item/weapon/reagent_containers/glass/beaker/cryoxadone
-	New()
-		..()
-		reagents.add_reagent("cryoxadone", 30)
-		update_icon()
-
 /obj/item/weapon/reagent_containers/glass/beaker/sulphuric
 	New()
 		..()

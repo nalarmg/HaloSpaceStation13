@@ -116,38 +116,6 @@
 		M.heal_organ_damage(3 * removed, 3 * removed)
 		M.adjustToxLoss(-3 * removed)
 
-/datum/reagent/cryoxadone
-	name = "Cryoxadone"
-	id = "cryoxadone"
-	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the targets body temperature must be under 170K for it to metabolise correctly."
-	reagent_state = LIQUID
-	color = "#8080FF"
-	metabolism = REM * 0.5
-	scannable = 1
-
-/datum/reagent/cryoxadone/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
-	if(M.bodytemperature < 170)
-		M.adjustCloneLoss(-10 * removed)
-		M.adjustOxyLoss(-10 * removed)
-		M.heal_organ_damage(10 * removed, 10 * removed)
-		M.adjustToxLoss(-10 * removed)
-
-/datum/reagent/clonexadone
-	name = "Clonexadone"
-	id = "clonexadone"
-	description = "A liquid compound similar to that used in the cloning process. Can be used to 'finish' the cloning process when used in conjunction with a cryo tube."
-	reagent_state = LIQUID
-	color = "#80BFFF"
-	metabolism = REM * 0.5
-	scannable = 1
-
-/datum/reagent/clonexadone/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
-	if(M.bodytemperature < 170)
-		M.adjustCloneLoss(-30 * removed)
-		M.adjustOxyLoss(-30 * removed)
-		M.heal_organ_damage(30 * removed, 30 * removed)
-		M.adjustToxLoss(-30 * removed)
-
 /* Painkillers */
 
 /datum/reagent/paracetamol
