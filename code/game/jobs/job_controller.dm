@@ -487,6 +487,8 @@ var/global/datum/controller/occupations/job_master
 
 		H << "<B>You are [job.total_positions == 1 ? "the" : "a"] [alt_title ? alt_title : rank].</B>"
 
+		H.get_job_guide()
+
 		if(job.supervisors)
 			H << "<b>As the [alt_title ? alt_title : rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>"
 
