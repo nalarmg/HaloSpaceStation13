@@ -16,7 +16,7 @@
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/unsc/mechanic(H), slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/workboots(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/ce(H), slot_l_store)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/ce(H), slot_belt)
 		return 1
 
 /datum/job/UNSC_ship/cmdr_sqr
@@ -35,7 +35,7 @@
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/unsc/mechanic(H), slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/workboots(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/ce(H), slot_l_store)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/ce(H), slot_belt)
 		return 1
 
 /datum/job/UNSC_ship/pilot
