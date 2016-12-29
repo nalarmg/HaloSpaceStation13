@@ -11,6 +11,8 @@
 	req_admin_notify = 1
 	job_guide = "Your responsibility is to oversee the logistics crewman as they distribute and manage inventory levels, as well as requesting and processing additional supplies as needed."
 
+	access = list(access_unsc_crew, access_unsc_shuttles, access_unsc_supplies)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
@@ -30,6 +32,8 @@
 	selection_color = "#ffee00"
 	alt_titles = list("Ordnance Specialist","Culinary Specialist", "Service Specialist")
 	job_guide = "Your job is to distribute and manage inventory levels, as well as request and process additional supplies as needed."
+
+	access = list(access_unsc_crew, access_unsc_shuttles, access_unsc_supplies)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0

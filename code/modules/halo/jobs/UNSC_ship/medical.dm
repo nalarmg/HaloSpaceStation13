@@ -11,6 +11,8 @@
 	req_admin_notify = 1
 	job_guide = "Your responsibility is to supervise the hospital corpsman and ensure the crew, pilots and marines are in good medical condition."
 
+	access = list(access_unsc_crew, access_unsc_medical)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/cmo(H), slot_l_ear)
@@ -27,8 +29,10 @@
 	max_rank = RANK_PETTYM
 	total_positions = -1
 	spawn_positions = 6
-	selection_color = "#CC6600"
+	selection_color = "#3300cc"
 	job_guide = "Your job is ensure the crew, pilots and marines are in good medical condition."
+
+	access = list(access_unsc_crew, access_unsc_medical)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0

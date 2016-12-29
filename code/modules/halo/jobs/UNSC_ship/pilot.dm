@@ -11,6 +11,10 @@
 	req_admin_notify = 1
 	job_guide = "Your responsibility is to lead the strike craft (fighters, dropships, shuttles) in battle, all pilots are directly under you and the CAG gives you orders from the bridge."
 
+	access = list(access_unsc_bridge, access_unsc_crew,
+		access_unsc_ops, access_unsc_fighters, access_unsc_shuttles,
+		access_unsc_officers)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
@@ -30,6 +34,10 @@
 	idtype = /obj/item/weapon/card/id/silver
 	job_guide = "You are the wing commander's 2IC, meaning you help him lead strike craft (fighters, dropships, shuttles) in battle. The CAG will also give orders from the bridge."
 
+	access = list(access_unsc_bridge, access_unsc_crew,
+		access_unsc_ops, access_unsc_fighters, access_unsc_shuttles,
+		access_unsc_officers)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
@@ -48,6 +56,9 @@
 	selection_color = "#995500"
 	alt_titles = list("Fighter Pilot","Dropship Pilot","Logistics Pilot")
 	job_guide = "You pilot a fighter, dropship or shuttle. If you're going into battle you will be led by the squadron commander or wing commander, and the CAG will give you orders from the bridge. For routine patrols or supply deliveries, you may act autonomously or be under command of a different officer (eg marine deployments via dropship)."
+
+	access = list(access_unsc_crew, access_unsc_fighters,
+		access_unsc_shuttles, access_unsc_officers)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0

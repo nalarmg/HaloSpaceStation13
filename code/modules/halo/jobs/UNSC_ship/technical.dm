@@ -9,8 +9,10 @@
 	selection_color = "#CC6600"
 	idtype = /obj/item/weapon/card/id/silver
 	req_admin_notify = 1
-
 	job_guide = "Your responsibility is to oversee the technicians in operating the fusion reactors and repairing damage to the ship. More content is planned in future."
+
+	access = list(access_unsc_tech, access_unsc_crew,
+		access_unsc_ops, access_unsc_supplies)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
@@ -31,6 +33,9 @@
 	selection_color = "#CC6600"
 	alt_titles = list("Life Support Technician","Engine Technician","Electrical Technician","Damage Control Technician","EVA Technician","Hull Technician","Maintenance Technician")
 	job_guide = "Your responsibility is to operate the fusion reactors and repair damage to the ship. More content is planned in future."
+
+	access = list(access_unsc_tech, access_unsc_crew,
+		access_unsc_ops, access_unsc_supplies)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0

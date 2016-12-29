@@ -11,6 +11,9 @@
 	req_admin_notify = 1
 	job_guide = "Your job is to oversee the flight crew as they repair, maintain, upgrade, rearm and refuel the various strike craft (fighters, shuttles and drophips). You're probably a decent pilot as well but not necessarily combat qualified."
 
+	access = list(access_unsc_crew, access_unsc_fighters,
+		access_unsc_shuttles, access_unsc_supplies)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
@@ -30,6 +33,9 @@
 	selection_color = "#995500"
 	alt_titles = list("Deck Mechanic","Hangar Mechanic","Structural Mechanic","Reserve Pilot","Ordnance Mechanic")
 	job_guide = "Your job is to repair, maintain, upgrade, rearm and refuel the various strike craft (fighters, shuttles and drophips). You're probably a decent pilot as well but not necessarily combat qualified."
+
+	access = list(access_unsc_crew, access_unsc_fighters,
+		access_unsc_shuttles, access_unsc_supplies)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0

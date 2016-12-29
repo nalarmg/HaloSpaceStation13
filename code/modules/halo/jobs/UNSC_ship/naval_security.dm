@@ -1,6 +1,6 @@
 
 /datum/job/UNSC_ship/security_chief
-	title = "Master-At-Arms (naval security)"
+	title = "Naval Security Officer"
 	min_rank = RANK_CWO
 	default_rank = RANK_CWO
 	max_rank = RANK_CWO
@@ -11,6 +11,8 @@
 	req_admin_notify = 1
 	job_guide = "Your job is to supervise and lead naval security in enforcing discipline and that all crew work to keep the ship secure. In the event being boarded, you are in charge of the defence."
 
+	access = list(access_unsc_crew, access_unsc_navsec)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/hos(H), slot_l_ear)
@@ -20,7 +22,7 @@
 		return 1
 
 /datum/job/UNSC_ship/security
-	title = "Naval Security"
+	title = "Naval Security Master-At-Arms"
 	min_rank = RANK_RECRUIT
 	default_rank = RANK_CREWMAN
 	max_rank = RANK_PETTYM
@@ -28,6 +30,8 @@
 	spawn_positions = 3
 	selection_color = "#990000"
 	job_guide = "Your job is to enforce discipline and ensure all crew work to keep the ship secure. In the event of being boarded, you are the first line of defence."
+
+	access = list(access_unsc_crew, access_unsc_navsec)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
