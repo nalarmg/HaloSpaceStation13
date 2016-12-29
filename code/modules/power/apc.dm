@@ -60,7 +60,7 @@
 	icon_state = "apc0"
 	anchored = 1
 	use_power = 0
-	req_access = list(access_engine_equip)
+	req_access = list(access_unsc_tech)
 	var/area/area
 	var/areastring = null
 	var/obj/item/weapon/cell/cell
