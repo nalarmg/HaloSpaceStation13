@@ -15,7 +15,7 @@ var/global/datum/controller/occupations/job_master
 
 	proc/SetupOccupations(var/faction = "UNSC_ship")
 		occupations = list()
-		var/list/all_jobs = typesof(/datum/job)
+		var/list/all_jobs = typesof(/datum/job) - /datum/job/UNSC_ship
 		if(!all_jobs.len)
 			world << "<span class='warning'>Error setting up jobs, no job datums found!</span>"
 			return 0
