@@ -7,8 +7,12 @@
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#667700"
+	idtype = /obj/item/weapon/card/id/gold
 	req_admin_notify = 1
 	job_guide = "Your responsibility is to command the shipboard complement of marines. Nominally you answer to the captain, but he has limited control over you once deployed. Remember that a good soldier leads from the front, but you can't lead if you're dead."
+
+	access = list(access_unsc_bridge, access_unsc_crew,
+		access_unsc_armoury, access_unsc_officers, access_unsc_marine)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
@@ -27,8 +31,12 @@
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#667700"
+	idtype = /obj/item/weapon/card/id/gold
 	req_admin_notify = 1
 	job_guide = "You are the 2IC of the shipboard marine complement, and what the marine CO says to you is gospel. Remember that a good soldier leads from the front, but you can't lead if you're dead."
+
+	access = list(access_unsc_bridge, access_unsc_crew,
+		access_unsc_armoury, access_unsc_officers, access_unsc_marine)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
@@ -47,7 +55,11 @@
 	total_positions = 2
 	spawn_positions = 6
 	selection_color = "#667700"
+	idtype = /obj/item/weapon/card/id/silver
 	job_guide = "You lead a squad of marines (not yet implemented, so pick some guys to be in your squad and try to RP it). Your marines are the best of the best, but they're only human."
+
+	access = list(access_unsc_crew,
+		access_unsc_armoury, access_unsc_marine)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
@@ -79,6 +91,8 @@
 	"Designated Marksman Marine","Scout Sniper Marine","Anti-Tank Missile Gunner Marine",\
 	"EVA Combat Marine")
 	job_guide = "Ooh rah marines! You're tha hardest son of a bitch this side of Terra and don't you know it! Other navy personnel just can't compare. Don't forget to follow orders and listen to your squad leader though."
+
+	access = list(access_unsc_crew, access_unsc_marine)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0

@@ -11,12 +11,15 @@
 	req_admin_notify = 1
 	job_guide = "Your job is to oversee the flight crew as they repair, maintain, upgrade, rearm and refuel the various strike craft (fighters, shuttles and drophips). You're probably a decent pilot as well but not necessarily combat qualified."
 
+	access = list(access_unsc_crew, access_unsc_fighters,
+		access_unsc_shuttles, access_unsc_supplies)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/unsc/mechanic(H), slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/workboots(H), slot_shoes)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/ce(H), slot_l_store)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/heads/ce(H), slot_belt)
 		H.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/utility/full(H), slot_belt)
 		return 1
 
@@ -31,11 +34,14 @@
 	alt_titles = list("Deck Mechanic","Hangar Mechanic","Structural Mechanic","Reserve Pilot","Ordnance Mechanic")
 	job_guide = "Your job is to repair, maintain, upgrade, rearm and refuel the various strike craft (fighters, shuttles and drophips). You're probably a decent pilot as well but not necessarily combat qualified."
 
+	access = list(access_unsc_crew, access_unsc_fighters,
+		access_unsc_shuttles, access_unsc_supplies)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cargo(H), slot_l_ear)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/unsc/mechanic(H), slot_w_uniform)
-		H.equip_to_slot_or_del(new /obj/item/device/pda/engineering(H), slot_l_store)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/engineering(H), slot_belt)
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/workboots(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/utility/full(H), slot_belt)
 		return 1

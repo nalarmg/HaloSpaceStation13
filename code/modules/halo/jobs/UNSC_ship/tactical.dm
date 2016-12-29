@@ -11,6 +11,8 @@
 	req_admin_notify = 1
 	job_guide = "Your responsibility is to oversee the gunnery operators manning the ship's turrets. Unfortunately your job has no content yet but it's coming soon."
 
+	access = list(access_unsc_crew, access_unsc_gunnery)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/hos(H), slot_l_ear)
@@ -28,6 +30,8 @@
 	spawn_positions = 2
 	selection_color = "#cc0000"
 	job_guide = "Your responsibility is to man the ship's turrets. Unfortunately your job has no content yet but it's coming soon."
+
+	access = list(access_unsc_crew, access_unsc_gunnery)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0

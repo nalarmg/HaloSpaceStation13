@@ -15,7 +15,7 @@ var/global/datum/controller/occupations/job_master
 
 	proc/SetupOccupations(var/faction = "UNSC_ship")
 		occupations = list()
-		var/list/all_jobs = typesof(/datum/job)
+		var/list/all_jobs = typesof(/datum/job) - /datum/job/UNSC_ship
 		if(!all_jobs.len)
 			world << "<span class='warning'>Error setting up jobs, no job datums found!</span>"
 			return 0
@@ -486,6 +486,8 @@ var/global/datum/controller/occupations/job_master
 				W.add_fingerprint(H)
 
 		H << "<B>You are [job.total_positions == 1 ? "the" : "a"] [alt_title ? alt_title : rank].</B>"
+
+		H.get_job_guide()
 
 		if(job.supervisors)
 			H << "<b>As the [alt_title ? alt_title : rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>"

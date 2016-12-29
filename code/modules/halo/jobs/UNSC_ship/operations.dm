@@ -8,13 +8,16 @@
 	spawn_positions = 1
 	selection_color = "#33ccff"
 	idtype = /obj/item/weapon/card/id/silver
+
 	job_guide = "Your responsibility is to supervise general ship and bridge operations including navigation and helm control. Unfortuantely you don't have much content, but more is coming soon."
+
+	access = list(access_unsc_bridge, access_unsc_crew, access_unsc_ops)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset(H), slot_l_ear)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/unsc/operations(H), slot_w_uniform)
-		H.equip_to_slot_or_del(new /obj/item/device/pda(H), slot_l_store)
+		H.equip_to_slot_or_del(new /obj/item/device/pda(H), slot_belt)
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
 		return 1
 
@@ -30,11 +33,13 @@
 	alt_titles = list("Sensor Operator", "Electronic Warfare Specialist","Cryptologic Specialist","Signals Analyst","Navigator","Helmsman")
 	job_guide = "Your job is general ship and bridge operations like navigation and helm control. Unfortunately you don't have much content but more is coming soon."
 
+	access = list(access_unsc_bridge, access_unsc_crew, access_unsc_ops)
+
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/radio/headset(H), slot_l_ear)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/unsc/operations(H), slot_w_uniform)
-		H.equip_to_slot_or_del(new /obj/item/device/pda(H), slot_l_store)
+		H.equip_to_slot_or_del(new /obj/item/device/pda(H), slot_belt)
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
 		return 1
 
