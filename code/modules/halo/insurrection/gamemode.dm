@@ -72,12 +72,12 @@ var/obj/effect/overmapobj/innie_base
 				data.name = innie_base.tag
 				map_sectors["[data.z]"] = innie_base
 
-			//grab a rantom antag datum and reload the antagonist spawn locations
-			//this is a really odd way of doing things
-			var/datum/antagonist/antagonist = antag_templates[1]
-			antagonist.get_starting_locations()
-
 			world << "<span class='danger'>Done ([(world.time - starttime)/10]s).</span>"
+
+	//grab a rantom antag datum and reload the antagonist spawn locations
+	//this is a really odd way of doing things
+	var/datum/antagonist/antagonist = antag_templates[1]
+	antagonist.get_starting_locations()
 
 	if(innie_base)
 		insurrection_objectives = list()

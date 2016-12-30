@@ -51,6 +51,14 @@ datum/controller/process/overmap/setup()
 				asteroid_zlevel_loading = data
 				data:begin_generation()		//whatever
 
+			else if(istype(data, /obj/effect/zlevelinfo/innie_base))
+				if(!innie_base)
+					innie_base = new /obj/effect/overmapobj/innie_base(virtual_zlevel.loc)
+					initialise_overmapobj(innie_base, data)
+
+				innie_base.linked_zlevelinfos += data
+				map_sectors["[level]"] = innie_base
+
 			else
 				var/obj/effect/overmapobj/found_obj = locate("[data.name]")
 
@@ -84,6 +92,8 @@ datum/controller/process/overmap/setup()
 	setup_datanets()
 
 	init_virtual_areas()
+	if(innie_base)
+		innie_base.loc = virtual_zlevel.loc
 
 	current_starsystem = new()
 	all_starsystems.Add(current_starsystem)
