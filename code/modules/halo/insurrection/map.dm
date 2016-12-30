@@ -7,6 +7,7 @@
 	sensor_icon_state = "rebelfist"
 
 /obj/effect/overmapobj/innie_base
+	 init_sensors = 1
 
 /obj/effect/overmapobj/innie_base/overmap_init()
 	..()

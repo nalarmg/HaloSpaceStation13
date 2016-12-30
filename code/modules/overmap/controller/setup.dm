@@ -53,7 +53,7 @@ datum/controller/process/overmap/setup()
 
 			else if(istype(data, /obj/effect/zlevelinfo/innie_base))
 				if(!innie_base)
-					innie_base = new /obj/effect/overmapobj/innie_base(virtual_zlevel.loc)
+					innie_base = new /obj/effect/overmapobj/innie_base(locate(1,1,1))
 					initialise_overmapobj(innie_base, data)
 
 				innie_base.linked_zlevelinfos += data
