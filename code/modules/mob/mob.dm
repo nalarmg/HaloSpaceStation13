@@ -92,8 +92,7 @@
 	for(var/obj/O in objs)
 		O.show_message(message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 
-	for(var/m in mobs)
-		var/mob/M = m
+	for(var/mob/M in mobs)
 		if(self_message && M == src)
 			M.show_message(self_message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 		if(M.see_invisible >= invisibility)
@@ -120,8 +119,7 @@
 	var/list/objs = list()
 	get_mobs_and_objs_in_view_fast(T, hearing_distance, mobs, objs, checkghosts)
 
-	for(var/m in mobs)
-		var/mob/M = m
+	for(var/mob/M in mobs)
 		if(self_message && M == src)
 			M.show_message(self_message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 		else if(M.see_invisible >= invisibility) // Cannot view the invisible
@@ -129,8 +127,7 @@
 		else
 			M.show_message(message, AUDIBLE_MESSAGE)
 
-	for(var/o in objs)
-		var/obj/O = o
+	for(var/obj/O in objs)
 		O.show_message(message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 
 
