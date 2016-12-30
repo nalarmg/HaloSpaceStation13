@@ -99,7 +99,7 @@ var/list/gamemode_cache = list()
 	var/server
 	var/banappeals
 	var/wikiurl
-	var/forumurl = "http://projectunsc.com/"
+	var/forumurl = "http://projectunsc.org/"
 	var/githuburl
 
 	//Alert level description

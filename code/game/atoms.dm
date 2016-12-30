@@ -485,11 +485,9 @@ its easier to just keep the beam vertical.
 	var/list/objs = list()
 	get_mobs_and_objs_in_view_fast(T, hearing_distance, mobs, objs, checkghosts)
 
-	for(var/m in mobs)
-		var/mob/M = m
+	for(var/mob/M in mobs)
 		M.show_message(message,2,deaf_message,1)
-	for(var/o in objs)
-		var/obj/O = o
+	for(var/obj/O in objs)
 		O.show_message(message,2,deaf_message,1)
 
 //first, add your listening atom to var/entry_listeners of the desired turf
