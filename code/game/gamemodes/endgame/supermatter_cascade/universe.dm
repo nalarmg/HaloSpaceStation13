@@ -99,7 +99,8 @@ The access requirements on the Asteroid Shuttles' consoles have now been revoked
 			else
 				L.update_lumcount(0.0, 0.4, 1)
 
-		for(var/turf/space/T in turfs)
+		// for(var/turf/space/T in turfs)
+		for(var/turf/space/T in world)
 			OnTurfChange(T)
 
 /datum/universal_state/supermatter_cascade/proc/MiscSet()
