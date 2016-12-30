@@ -264,9 +264,16 @@ var/list/shuttle_types = list(\
 	//
 
 	if(spawntype && spawnturf)
-		//success, so spawn the shuttle and maglock it straightaway because it should be in dock somewhere
+		//success, so spawn the shuttle
 		var/obj/machinery/overmap_vehicle/shuttle/S = new spawntype(spawnturf)
-		S.init_maglock()
+
+		//we want to maglock it straight away but we're at the awkward point of loading where stuff has already been initialised and wont be auto initialised again until the round starts
+		//manually call initialize
+		S.maglocked_at_spawn = 1
+		S.initialize()
+
+		//
+		//S.init_maglock()
 	else
 		log_admin("Warning: spawn failed for /obj/effect/roundstart_innie_shuttle_spawner at ([src.x],[src.y],[src.z])")
 	qdel(src)
