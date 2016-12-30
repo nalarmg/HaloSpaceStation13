@@ -92,6 +92,11 @@
 		//work out some final init stuff
 		calc_num_turfs()
 
+		//tell all powered objects to recheck
+		for(var/obj/machinery/power/apc/apc in shuttle_area)
+			shuttle_area.apc = apc
+			shuttle_area.power_change()
+
 /obj/machinery/overmap_vehicle/shuttle/initialize()
 	..()
 

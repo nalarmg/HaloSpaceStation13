@@ -33,14 +33,20 @@
 	//move observers smoothly with each pixel
 	for(var/mob/M in my_observers)
 		if(M.client)
-			M.client.pixel_x = control_object.pixel_x
-			M.client.pixel_y = control_object.pixel_y
+			if(M.client.eye == control_object)
+				M.client.pixel_x = control_object.pixel_x
+				M.client.pixel_y = control_object.pixel_y
+			else
+				my_observers -= M
 
 	if(my_overmap_object)
 		for(var/mob/M in my_overmap_object.my_observers)
 			if(M.client)
-				M.client.pixel_x = my_overmap_object.pixel_x
-				M.client.pixel_y = my_overmap_object.pixel_y
+				if(M.client.eye == my_overmap_object)
+					M.client.pixel_x = my_overmap_object.pixel_x
+					M.client.pixel_y = my_overmap_object.pixel_y
+			else
+				my_overmap_object.my_observers -= M
 
 	if(thrust_left > 0)
 		thrust_left -= delta_time
