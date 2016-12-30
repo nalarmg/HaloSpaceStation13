@@ -467,8 +467,7 @@ its easier to just keep the beam vertical.
 	for(var/obj/O in objs)
 		O.show_message(message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 
-	for(var/m in mobs)
-		var/mob/M = m
+	for(var/mob/M in mobs)
 		if(M.see_invisible >= invisibility)
 			M.show_message(message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 		else if(blind_message)
