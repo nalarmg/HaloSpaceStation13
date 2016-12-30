@@ -67,7 +67,7 @@
 		return
 
 	//no safety type checks for MAXIMUM OVERDRIVE
-	if(machine)
+	if(machine && hascall(machine, "machineClickOn"))
 		if(machine.machineClickOn(A, params))
 			return
 
