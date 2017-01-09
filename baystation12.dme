@@ -1131,6 +1131,7 @@
 #include "code\modules\halo\insurrection\radios_freqs.dm"
 #include "code\modules\halo\jobs\jobs.dm"
 #include "code\modules\halo\jobs\UNSC_ship\_access.dm"
+#include "code\modules\halo\jobs\UNSC_ship\_defines.dm"
 #include "code\modules\halo\jobs\UNSC_ship\_UNSC_ship.dm"
 #include "code\modules\halo\jobs\UNSC_ship\command.dm"
 #include "code\modules\halo\jobs\UNSC_ship\flight.dm"

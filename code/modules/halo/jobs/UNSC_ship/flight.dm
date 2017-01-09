@@ -4,6 +4,8 @@
 	min_rank = RANK_CWO
 	default_rank = RANK_CWO
 	max_rank = RANK_CWO
+	flag = MECHCO
+	department_flag = CIVILIAN
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#995500"
@@ -28,6 +30,8 @@
 	min_rank = RANK_RECRUIT
 	default_rank = RANK_CREWMAN
 	max_rank = RANK_PETTYM
+	flag = MECH
+	department_flag = 	CIVILIAN
 	total_positions = -1
 	spawn_positions = 4
 	selection_color = "#995500"

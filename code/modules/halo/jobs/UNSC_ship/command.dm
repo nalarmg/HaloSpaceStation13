@@ -5,6 +5,8 @@
 	min_rank = RANK_LCDR
 	default_rank = RANK_CPT
 	max_rank = RANK_CPT
+	flag = CO
+	department_flag = ENGSEC
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#777777"
@@ -30,6 +32,8 @@
 	min_rank = RANK_LT
 	default_rank = RANK_CDR
 	max_rank = RANK_CDR
+	flag = XO
+	department_flag = ENGSEC
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#777777"
@@ -55,6 +59,8 @@
 	min_rank = RANK_LT
 	default_rank = RANK_CDR
 	max_rank = RANK_CDR
+	flag = CAG
+	department_flag = ENGSEC
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#777777"
@@ -79,6 +85,8 @@
 	min_rank = RANK_ENSIGN
 	default_rank = RANK_LT
 	max_rank = RANK_CDR
+	flag = BO
+	department_flag = ENGSEC
 	total_positions = -1
 	spawn_positions = 2
 	selection_color = "#777777"

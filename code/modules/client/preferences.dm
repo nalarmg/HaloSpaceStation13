@@ -198,7 +198,7 @@ datum/preferences
 	dat += player_setup.content(user)
 
 	dat += "</html></body>"
-	user << browse(dat, "window=preferences;size=625x736")
+	user << browse(dat, "window=preferences;size=735x736")
 
 /datum/preferences/proc/process_link(mob/user, list/href_list)
 	if(!user)
