@@ -58,18 +58,17 @@
 */
 
 /obj/machinery/computer/helm/relaymove(var/mob/user, direction)
-	if(manual_control && linked)
-		linked.relaymove(user,direction)
+	if(manual_control == user && linked)
+		linked.thrust_toggle(user, direction)
 		return 1
 
 /obj/machinery/computer/helm/proc/thrust_forward(var/mob/user)
-	if(manual_control && linked)
-		linked.thrust_forward()
-		return 1
+	return thrust_forward_toggle(user)
 
-/obj/machinery/computer/helm/proc/thrust_forward_toggle()
-	if(linked)
-		linked.thrust_forward_toggle()
+/obj/machinery/computer/helm/proc/thrust_forward_toggle(var/mob/user)
+	if(manual_control == user && linked)
+		linked.thrust_forward_toggle(user)
+		return 1
 
 /obj/machinery/computer/helm/check_eye(var/mob/user as mob)
 
@@ -131,18 +130,20 @@
 
 	data["shipname"] = linked.ship_name		//currently unused
 	data["sector"] = linked.current_sector ? linked.current_sector.name : "Deep Space"
-	data["sector_info"] = linked.current_sector ? linked.current_sector.desc : "Not Available"
+	data["sector_info"] = linked.current_sector ? linked.current_sector.desc : "NA"
 	data["s_x"] = linked.x
 	data["s_y"] = linked.y
 	data["dest"] = dy && dx
 	data["d_x"] = dx
 	data["d_y"] = dy
 	data["speed"] = linked.get_speed() * 10
-	data["accel"] = round(linked.get_acceleration())
+	data["accel"] = round(linked.get_acceleration_dir(-1))
 	data["heading"] = linked.get_heading()
 	data["autopilot"] = autopilot
 	data["manual_control"] = manual_control
 	data["autobraking"] = linked.autobraking
+	data["thrustdir"] = linked.thrusting
+	data["target_dir"] = linked.target_dir
 
 	var/list/locations[0]
 	/*for (var/datum/data/record/R in known_sectors)
@@ -157,7 +158,8 @@
 
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
-		ui = new(user, src, ui_key, "helm.tmpl", "[linked.name] Helm Control", 380, 560)
+		ui = new(user, src, ui_key, "helm.tmpl", "[linked.name] Helm", 400, 650)
+		ui.ref = src	//so topic is called when we close
 		ui.set_initial_data(data)
 		ui.open()
 		ui.set_auto_update(1)
@@ -168,6 +170,8 @@
 
 	if (!linked)
 		return
+
+	add_fingerprint(usr)
 
 	if (href_list["add"])
 		var/datum/data/record/R = new()
@@ -191,12 +195,12 @@
 		known_sectors.Remove(R)
 
 	if (href_list["setx"])
-		var/newx = input("Input new destiniation x coordinate", "Coordinate input", dx) as num|null
+		var/newx = input("Input new destination x coordinate", "Coordinate input", dx) as num|null
 		if (newx)
 			dx = Clamp(newx, 1, world.maxx)
 
 	if (href_list["sety"])
-		var/newy = input("Input new destiniation y coordinate", "Coordinate input", dy) as num|null
+		var/newy = input("Input new destination y coordinate", "Coordinate input", dy) as num|null
 		if (newy)
 			dy = Clamp(newy, 1, world.maxy)
 
@@ -208,9 +212,22 @@
 		dx = 0
 		dy = 0
 
-	if (href_list["move"])
-		var/ndir = text2num(href_list["move"])
-		linked.relaymove(usr, ndir)
+	if (href_list["thrust"])
+		var/ndir = text2num(href_list["thrust"])
+		linked.thrust_toggle(usr, ndir)
+
+	if (href_list["cancelthrust"])
+		//autopilot = !autopilot
+		linked.thrust_toggle(usr, 0)
+
+	if (href_list["thrustforward"])
+		linked.thrust_forward_toggle(usr)
+
+	if (href_list["orient"])
+		linked.do_orient_to_dir(usr, text2num(href_list["orient"]))
+
+	if (href_list["cancelorient"])
+		linked.cancel_orient_to_dir(usr)
 
 	/*if (href_list["brake"])
 		linked.decelerate()*/
@@ -223,14 +240,19 @@
 			linked.toggle_autobrake()
 
 	if (href_list["manual"])
-		if(manual_control)
-			linked.hud_waypoint_controller.remove_hud_from_mob(manual_control)
-			manual_control.reset_view(null, 0)
-			manual_control = null
-		else if(isliving(usr))
-			manual_control = usr
-			linked.hud_waypoint_controller.add_hud_to_mob(manual_control)
-			check_eye(manual_control)
+		if(isliving(usr))		//well ok
+			var/mob/living/target = usr
+			if(manual_control)
+				if(manual_control == target)
+					linked.hud_waypoint_controller.remove_hud_from_mob(manual_control)
+					manual_control.reset_view(null, 0)
+					manual_control = null
+				else
+					manual_control << "<span class='warning'>Someone else is already using that console!</span>"
+			else
+				manual_control = usr
+				linked.hud_waypoint_controller.add_hud_to_mob(manual_control)
+				check_eye(manual_control)
 
 	if (href_list["close"])
 		if(manual_control)
@@ -240,5 +262,6 @@
 
 	if (href_list["state"])
 		state = href_list["state"]
-	add_fingerprint(usr)
-	updateUsrDialog()
+
+	if (href_list["update"])
+		updateUsrDialog()

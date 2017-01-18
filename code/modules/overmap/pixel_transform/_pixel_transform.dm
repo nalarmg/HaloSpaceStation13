@@ -67,7 +67,7 @@
 		update()
 		*/
 
-/datum/pixel_transform/proc/accelerate_forward(var/acceleration)
+/datum/pixel_transform/proc/add_pixel_speed_forward(var/acceleration)
 	add_pixel_speed_angle(acceleration, heading)
 
 /datum/pixel_transform/proc/brake(var/acceleration)
@@ -86,6 +86,8 @@
 		var/accel_y = pixel_speed_y * speed_multiplier - pixel_speed_y
 
 		add_pixel_speed(accel_x, accel_y)
+
+	return !is_still()
 
 /datum/pixel_transform/proc/add_pixel_speed_direction(var/acceleration, var/direction)
 	//world << "/datum/pixel_transform/proc/add_pixel_speed_direction([acceleration], [direction])"

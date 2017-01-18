@@ -18,6 +18,7 @@
 	var/obj/effect/overlay/target_overlay
 	var/icon/frigate_icon
 
+	var/zlevel_stars_movedir = 0	//if a direction is set, space turf stars are moving in that direction
 	var/vessel_mass = 60000 //tonnes
 	var/mass_multiplier = 50
 	var/highest_x_turf = 0
@@ -33,8 +34,10 @@
 
 	var/yaw_speed = 2	//degrees per tick
 	var/max_pixel_speed = 5
-	var/forward_acceleration = 0.1
+	var/omni_acceleration = 0.1		//quick hack now to skip directional acceleration
 	var/thrusting = 0
+	var/orient_to_target = 0
+	var/target_dir = 0
 
 	var/main_update_start_time = -1
 	var/update_interval = 5
@@ -116,7 +119,26 @@
 	//we'll just hardcode the values and tweak them as needed
 	//recalculate_physics_properties()
 
-/obj/effect/overmapobj/ship/relaymove(mob/user, direction)
+/obj/effect/overmapobj/ship/proc/set_zlevel_stars_movedir(var/new_zlevel_stars_movedir = 1)
+	var/old_movedir = new_zlevel_stars_movedir
+	zlevel_stars_movedir = new_zlevel_stars_movedir
+	if(old_movedir != zlevel_stars_movedir)
+		update_zlevel_stars_movedir()
+
+/obj/effect/overmapobj/ship/proc/update_zlevel_stars_movedir()
+	var/is_still = is_still()
+	if(zlevel_stars_movedir)
+		if(is_still)
+			for(var/shipz in ship_levels)
+				overmap_controller.toggle_move_stars(shipz)
+	else
+		if(!is_still)
+			for(var/shipz in ship_levels)
+				overmap_controller.toggle_move_stars(shipz, zlevel_stars_movedir)
+
+/obj/effect/overmapobj/ship/relaymove(var/mob/user, direction)
+	thrust_toggle(user, direction)
+	/*
 	if(move_mode_absolute && (direction in cardinal))
 		accelerate(user, direction)
 	else
@@ -134,12 +156,13 @@
 			//inform our turrets we about the new heading so they can update their targetting overlays
 			for(var/obj/machinery/overmap_turret/T in my_turrets)
 				T.rotate_targetting_overlay(rotate_angle)
+				*/
 
 			//rotate the sprite
 			/*var/icon/I = new (src.icon, src.icon_state)
 			I.Turn(heading)
 			src.icon = I*/
-
+/*
 /obj/effect/overmapobj/ship/proc/accelerate(var/accel_dir)
 
 	//an accel_heading of 0 represents right (EAST) on the overmap
@@ -150,13 +173,13 @@
 
 	var/adjusted_dir = angle2dir(adjusted_heading)
 	if(accel_dir & EAST)
-		adjust_speed(get_acceleration(adjusted_dir), 0)
+		adjust_speed(get_acceleration_dir(adjusted_dir), 0)
 	if(accel_dir & WEST)
-		adjust_speed(-get_acceleration(adjusted_dir), 0)
+		adjust_speed(-get_acceleration_dir(adjusted_dir), 0)
 	if(accel_dir & NORTH)
-		adjust_speed(0, get_acceleration(adjusted_dir))
+		adjust_speed(0, get_acceleration_dir(adjusted_dir))
 	if(accel_dir & SOUTH)
-		adjust_speed(0, -get_acceleration(adjusted_dir))
+		adjust_speed(0, -get_acceleration_dir(adjusted_dir))
 
 /obj/effect/overmapobj/ship/proc/adjust_speed(n_x, n_y)
 
@@ -170,16 +193,47 @@
 			overmap_controller.toggle_move_stars(shipz, fore_dir)
 
 	//heading = -Atan2(speed[1], speed[2]) - 90
-
+*/
 /obj/effect/overmapobj/ship/proc/toggle_autobrake()
 	autobraking = !autobraking
-	thrusting = 0
+	if(autobraking)
+		thrusting = 0
+		thrust_loop()
+
+/obj/effect/overmapobj/ship/proc/thrust_toggle(var/mob/user, var/thrust_dir)
+	if(thrusting != thrust_dir)
+		thrusting = thrust_dir
+		if(thrusting)
+			autobraking = 0
+			thrust_loop()
+	else
+		thrusting = 0
+
+/*
+/obj/effect/overmapobj/ship/proc/thrust_forward()
+	//acceleration in meters per second
+	//var/acceleration = eng_control.get_maneuvring_thrust() / vessel_mass
+
+	//use pixels per microsecond instead
+	pixel_transform.accelerate_forward(get_acceleration_dir(angle2dir(pixel_transform.heading)))
+*/
+
+/obj/effect/overmapobj/ship/proc/thrust_forward_toggle(var/mob/user)
+	if(thrusting >= 0)
+		thrusting = -1
+		autobraking = 0
+		thrust_loop()
+	else
+		thrusting = 0
+
+/obj/effect/overmapobj/ship/proc/do_orient_to_dir(var/mob/user, var/new_dir)
+	target_dir = new_dir
+	orient_to_target = 1
 	thrust_loop()
 
-/obj/effect/overmapobj/ship/proc/thrust_forward_toggle()
-	thrusting = !thrusting
-	autobraking = 0
-	thrust_loop()
+/obj/effect/overmapobj/ship/proc/cancel_orient_to_dir(var/mob/user)
+	orient_to_target = 0
+	target_dir = 0
 
 //todo: should this be moved out to the vehicle_control datum?
 /obj/effect/overmapobj/ship/proc/thrust_loop(var/my_update_start_time = -1)
@@ -193,37 +247,38 @@
 	else if(my_update_start_time != main_update_start_time)
 		return
 
-	if(thrusting)
-		thrust_forward()
+	if(thrusting < 0)
+		//accelerate forward on the heading
+		pixel_transform.add_pixel_speed_forward(get_acceleration_dir(-1))
+	else if(thrusting > 0)
+		//accelerate in absolute direction
+		pixel_transform.add_pixel_speed_direction(get_acceleration_dir(thrusting), thrusting)
 
-		spawn(update_interval)
-			thrust_loop(my_update_start_time)
+	if(autobraking)
+		autobraking = brake()
 
-	else if(autobraking)
-		brake()
+	if(orient_to_target)
+		if(!pixel_transform.turn_to_dir(target_dir, yaw_speed))
+			orient_to_target = 0
 
+	if(thrusting || autobraking || orient_to_target)
 		spawn(update_interval)
 			thrust_loop(my_update_start_time)
 
 	else
 		main_update_start_time = -1
 
-/obj/effect/overmapobj/ship/proc/thrust_forward()
-	//acceleration in meters per second
-	//var/acceleration = eng_control.get_maneuvring_thrust() / vessel_mass
-
-	//use pixels per microsecond instead
-	pixel_transform.accelerate_forward(get_acceleration(NORTH))
-
 /obj/effect/overmapobj/ship/proc/brake()
-	pixel_transform.brake(get_acceleration(SOUTH))
+	var/reverse_angle = turn(pixel_transform.heading, 180)
+	var/reverse_dir = angle2dir(reverse_angle)		//this will clamp it to cardinal directions so there is a slight acceptable loss of accuracy
+	return pixel_transform.brake(get_acceleration_dir(reverse_dir))
 
 /obj/effect/overmapobj/ship/proc/is_still()
 	return pixel_transform.is_still()
 
-/obj/effect/overmapobj/ship/proc/get_acceleration(var/accel_dir)
+/obj/effect/overmapobj/ship/proc/get_acceleration_dir(var/accel_dir)
 	//return eng_control.get_maneuvring_thrust(accel_dir) / vessel_mass
-	return forward_acceleration
+	return omni_acceleration
 
 /obj/effect/overmapobj/ship/proc/get_speed()
 	return pixel_transform.get_speed()

@@ -17,7 +17,7 @@
 //override in children if necessary
 /obj/machinery/overmap_vehicle/proc/handle_auto_cruising()
 	if(is_cruising())
-		overmap_object.pixel_transform.accelerate_forward(cruise_speed)
+		overmap_object.pixel_transform.add_pixel_speed_forward(cruise_speed)
 		return 1
 
 	return 0
