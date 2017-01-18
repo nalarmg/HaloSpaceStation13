@@ -59,15 +59,15 @@
 	// 10MW and less - KiloWatts
 	else if(amount < 10000000)
 		units = "kW"
-		amount = (round(amount/100) / 10)
+		amount = (amount/100) / 10//(round(amount/100) / 10)
 	// More than 10MW - MegaWatts
 	else
 		units = "MW"
-		amount = (round(amount/10000) / 100)
+		amount = (amount/10000) / 100//(round(amount/10000) / 100)
 	if (units == "W")
 		return "[amount] W"
 	else
-		return "~[amount] [units]" //kW and MW are only approximate readings, therefore add "~"
+		return "[amount] [units]" //if kW and MW are only approximate readings, add "~"
 
 // Proc: find_apcs()
 // Parameters: None
