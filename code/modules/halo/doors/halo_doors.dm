@@ -26,6 +26,11 @@
 	glass = 1
 	assembly_type = /obj/structure/door_assembly/multi_tile
 
+/obj/machinery/door/airlock/multi_tile/secure
+	name = "Secure Airlock"
+	icon = 'code/modules/halo/doors/Secure2x1.dmi'
+	assembly_type = /obj/structure/door_assembly/multi_tile
+
 obj/machinery/door/blast/regular/triple
 	icon = 'code/modules/halo/doors/blastdoor.dmi'
 	maxhealth = 1800
