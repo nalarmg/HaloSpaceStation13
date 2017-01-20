@@ -75,7 +75,7 @@
 				//kick in the nos!
 				overmap_object.pixel_transform.max_pixel_speed = cruise_speed
 				overmap_object.pixel_transform.heading = src.pixel_transform.heading
-				overmap_object.pixel_transform.accelerate_forward(cruise_speed)
+				overmap_object.pixel_transform.add_pixel_speed_forward(cruise_speed)
 
 				return 1
 

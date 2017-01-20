@@ -4,6 +4,8 @@
 	min_rank = RANK_CAPT
 	default_rank = RANK_COL
 	max_rank = MARINE_CO_MAX
+	flag = MARCO
+	department_flag = CIVILIAN
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#667700"
@@ -28,6 +30,8 @@
 	min_rank = MARINE_CO_MIN
 	default_rank = RANK_1LT
 	max_rank = RANK_CAPT
+	flag = MARXO
+	department_flag = CIVILIAN
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#667700"
@@ -52,6 +56,8 @@
 	min_rank = MARINE_SL_MIN
 	default_rank = RANK_SGT
 	max_rank = MARINE_SL_MAX
+	flag = MARSL
+	department_flag = CIVILIAN
 	total_positions = 2
 	spawn_positions = 6
 	selection_color = "#667700"
@@ -77,6 +83,8 @@
 	min_rank = RANK_GYSGT
 	default_rank = RANK_GYSGT
 	max_rank = RANK_MGYSGT
+	flag = MARWEP
+	department_flag = CIVILIAN
 	job_guide = "You, master guns, know your weaponry better than almost any human alive. It's too bad you get treated like a glorified desk jockey whose main responsibility is doling out responsible portions of weaponry to needy marines."
 
 /datum/job/UNSC_ship/marine
@@ -84,6 +92,8 @@
 	min_rank = MARINE_MIN
 	default_rank = RANK_PVT
 	max_rank = MARINE_MAX
+	flag = MAR
+	department_flag = CIVILIAN
 	total_positions = -1
 	spawn_positions = 12
 	selection_color = "#667700"
@@ -105,12 +115,16 @@
 
 /datum/job/UNSC_ship/marine/driver
 	title = "Ground Vehicle Operator"
+	flag = MARDR
+	department_flag = CIVILIAN
 	total_positions = 3
 	spawn_positions = 5
 	alt_titles = list("Light Armored Vehicle Operator","Heavy Armored Vehicle Operator","Support Vehicle Operator","Tilt-rotor/VTOL Operator")
 
 /datum/job/UNSC_ship/marine/specialist
 	title = "Combat Engineer"
+	flag = MARSPEC
+	department_flag = CIVILIAN
 	total_positions = 3
 	spawn_positions = 8
 	alt_titles = list("Field Radio Operator","Explosive Ordnance Disposal Marine","Hazardous Materials Marine")

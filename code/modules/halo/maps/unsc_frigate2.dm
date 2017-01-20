@@ -1,4 +1,6 @@
 
+//Engineering
+
 /area/unscfrigate/aft_port_engineering
 	name = "Aft Port Engineering"
 	icon_state = "engineering_workshop"
@@ -18,6 +20,29 @@
 /area/unscfrigate/aft_engineering
 	name = "Aft Engineering"
 	icon_state = "engine_monitoring"
+
+/area/unscfrigate/central_cooling
+	name = "Central Cooling"
+	icon_state = "engine_waste"
+
+/area/unscfrigate/reactor1
+	name = "Reactor One"
+	icon_state = "engine"
+
+/area/unscfrigate/reactor2
+	name = "Reactor Two"
+	icon_state = "engine"
+
+/area/unscfrigate/reactor3
+	name = "Reactor Three"
+	icon_state = "engine"
+
+/area/unscfrigate/reactor4
+	name = "Reactor Four"
+	icon_state = "engine"
+
+
+//Misc
 
 /area/unscfrigate/tcomms
 	name = "Telecomms"

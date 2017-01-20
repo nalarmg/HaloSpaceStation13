@@ -1,5 +1,7 @@
 /datum/job/UNSC_ship/ai
 	title = "AI"
+	flag = SHIPAI
+	department_flag = ENGSEC
 	spawn_positions = 1
 	selection_color = "#ccffcc"
 	req_admin_notify = 1

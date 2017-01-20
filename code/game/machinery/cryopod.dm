@@ -485,6 +485,8 @@
 
 		src.add_fingerprint(usr)
 
+		. = 1
+
 	return
 
 /obj/machinery/cryopod/proc/go_out()

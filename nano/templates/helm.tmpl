@@ -2,11 +2,24 @@
 <div style="float:left;width:50%">
 	<h3>Sector information</h3> 
 	<div class='block'>
-		{{:data.sector}}
-		<br>
-		<span class='average'>Coordinates:</span> {{:data.s_x}} : {{:data.s_y}}
-		<br>
-		<span class='average'>Additional information:</span> {{:data.sector_info}}
+		<div class='item'>
+			<div class="itemLabel">
+				<span class='average'>Sector:</span>
+			</div>
+			{{:data.sector}}
+		</div>
+		<div class='item'>
+			<div class="itemLabel">
+				<span class='average'>Coords:</span> 
+			</div>
+			{{:data.s_x}} : {{:data.s_y}}
+		</div>
+		<div class='item'>
+			<div class="itemLabel">
+				<span class='average'>Info:</span> 
+			</div>
+			{{:data.sector_info}}
+		</div>
 	</div>
 </div>
 
@@ -41,35 +54,55 @@
 </div>
 
 
-<h3>Manual control</h3>
-<div class='block'>
-	<div class='item'>
-		<div class="itemLabel">
+<div style="float:left;width:50%">
+	<h3>Steer</h3>
+	<div class='block'>
+		<div class="item">
 			<div class='item'>
-				{{:helper.link('', 'triangle-1-nw', { 'move' : 9 }, null, null)}}
-				{{:helper.link('', 'triangle-1-n', { 'move' : 1 }, null, null)}}
-				{{:helper.link('', 'triangle-1-ne', { 'move' : 5 }, null, null)}}
+				{{:helper.link('', 'triangle-1-nw', { 'orient' : 9 }, null, data.target_dir == 9 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-n', { 'orient' : 1 }, null, data.target_dir == 1 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-ne', { 'orient' : 5 }, null, data.target_dir == 5 ? 'selected' : null)}}
 			</div>
 			<div class='item'>
-				{{:helper.link('', 'triangle-1-w', { 'move' : 8 }, null, null)}}
-				{{:helper.link('', 'circle-close', { 'brake' : 1 }, null, null)}}
-				{{:helper.link('', 'triangle-1-e', { 'move' : 4 }, null, null)}}
+				{{:helper.link('', 'triangle-1-w', { 'orient' : 8 }, null, data.target_dir == 8 ? 'selected' : null)}}
+				{{:helper.link('', 'circle-close', { 'cancelorient' : 1 }, data.target_dir ? null : 'disabled', null)}}
+				{{:helper.link('', 'triangle-1-e', { 'orient' : 4 }, null, data.target_dir == 4 ? 'selected' : null)}}
 			</div>
 			<div class='item'>
-				{{:helper.link('', 'triangle-1-sw', { 'move' : 10 }, null, null)}}
-				{{:helper.link('', 'triangle-1-s', { 'move' : 2 }, null, null)}}
-				{{:helper.link('', 'triangle-1-se', { 'move' : 6 }, null, null)}}
-			</div>
-		</div>
-
-		<div class="itemContent">
-			<div class='item'>
-				<span class='white'>Direct control</span>
-				{{:helper.link(data.manual_control ? 'Engaged' : 'Disengaged', 'shuffle', { 'manual' : 1 }, null, data.manual_control ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-sw', { 'orient' : 10 }, null, data.target_dir == 10 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-s', { 'orient' : 2 }, null, data.target_dir == 2 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-se', { 'orient' : 6 }, null, data.target_dir == 6 ? 'selected' : null)}}
 			</div>
 		</div>
 	</div>
 </div>
+
+<div style="float:right;width:50%">
+	<h3>Thrust</h3> 
+	<div class='block'>
+		<div class="item">
+			<div class='item'>
+				{{:helper.link('', 'triangle-1-nw', { 'thrust' : 9 }, null, data.thrustdir == 9 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-n', { 'thrust' : 1 }, null, data.thrustdir == 1 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-ne', { 'thrust' : 5 }, null, data.thrustdir == 5 ? 'selected' : null)}}
+			</div>
+			<div class='item'>
+				{{:helper.link('', 'triangle-1-w', { 'thrust' : 8 }, null, data.thrustdir == 8 ? 'selected' : null)}}
+				{{:helper.link('', 'circle-close', { 'cancelthrust' : 1 }, data.thrustdir ? null : 'disabled', null)}}
+				{{:helper.link('', 'triangle-1-e', { 'thrust' : 4 }, null, data.thrustdir == 4 ? 'selected' : null)}}
+			</div>
+			<div class='item'>
+				{{:helper.link('', 'triangle-1-sw', { 'thrust' : 10 }, null, data.thrustdir == 10 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-s', { 'thrust' : 2 }, null, data.thrustdir == 2 ? 'selected' : null)}}
+				{{:helper.link('', 'triangle-1-se', { 'thrust' : 6 }, null, data.thrustdir == 6 ? 'selected' : null)}}
+			</div>
+		</div>
+	</div>
+</div>
+
+{{:helper.link(data.manual_control ? 'Release Control' : 'Manual Control', 'shuffle', { 'manual' : 1 }, null, data.manual_control ? 'selected' : null)}}
+{{:helper.link(data.autobraking ? 'Release Brake' : 'Autobrake', 'shuffle', { 'abrake' : 1 }, null, data.autobraking ? 'selected' : null)}}
+{{:helper.link(data.thrustdir <= 0 ? 'Thrust Forward' : 'Cancel Thrust', 'shuffle', { 'thrustforward' : 1 }, null, data.thrustdir < 0 ? 'selected' : null)}}
 
 <div class='item'>
 	<div class="itemLabel">
@@ -89,15 +122,6 @@
 		{{else}}
 			{{:helper.link('None', null, { 'sety' : 1, 'setx' : 1 }, null, null)}}
 		{{/if}}
-	</div>
-</div> 
-
-<div class='item'>
-	<div class="itemLabel">
-		<h3>Autobrake</h3>
-	</div>
-	<div class="itemContent" style="padding-top: 10px;">
-		{{:helper.link(data.autobraking ? 'Engaged' : 'Disengaged', 'shuffle', { 'abrake' : 1 }, null, data.autobraking ? 'selected' : null)}}
 	</div>
 </div> 
 

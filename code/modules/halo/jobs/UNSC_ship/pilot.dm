@@ -4,6 +4,8 @@
 	min_rank = RANK_LT
 	default_rank = RANK_CDR
 	max_rank = OFFICER_MAX
+	flag = WINGCOM
+	department_flag = ENGSEC
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#995500"
@@ -28,6 +30,8 @@
 	min_rank = RANK_LT
 	default_rank = RANK_LCDR
 	max_rank = OFFICER_MAX
+	flag = SQCOM
+	department_flag = ENGSEC
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#995500"
@@ -51,6 +55,8 @@
 	min_rank = OFFICER_MIN
 	default_rank = RANK_LT
 	max_rank = RANK_LCDR
+	flag = PILOT
+	department_flag = ENGSEC
 	total_positions = -1
 	spawn_positions = 3
 	selection_color = "#995500"

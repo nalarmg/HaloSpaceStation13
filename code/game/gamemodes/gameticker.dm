@@ -159,6 +159,7 @@ var/global/datum/controller/gameticker/ticker
 					for(var/obj/machinery/power/smes/smes in world)
 						smes.input_attempt = 1
 						smes.output_attempt = 1
+						smes.input_level = smes.input_level_max
 						smes.output_level = smes.output_level_max
 
 					//put aa fuel packet in all reactors which will automatically get them powering

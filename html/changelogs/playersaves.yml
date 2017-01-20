@@ -1,0 +1,8 @@
+author: CaelAislinn
+delete-after: True
+
+changes: 
+  - bugfix: "Players should be able to save job preferences and set them at round start now."
+  - maptweak: "Lighting power requirements have been halved, the reactor layout reworked, power sensors added (with exact values) and roundstart low pop autopower settings tweaked."
+  - experiment: "Ship flight mechanics have been reworked and should be a little easier to use now."
+  - imageadd: "Halo crypopods and SMES units have been added."

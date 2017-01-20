@@ -4,6 +4,8 @@
 	min_rank = RANK_CWO
 	default_rank = RANK_CWO
 	max_rank = RANK_CWO
+	flag = OPSCO
+	department_flag = ENGSEC
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#33ccff"
@@ -27,6 +29,8 @@
 	min_rank = RANK_RECRUIT
 	default_rank = RANK_CREWMAN
 	max_rank = RANK_PETTYM
+	flag = OPS
+	department_flag = ENGSEC
 	total_positions = -1
 	spawn_positions = 2
 	selection_color = "#33ccff"

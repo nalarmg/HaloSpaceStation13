@@ -4,6 +4,8 @@
 	min_rank = RANK_CWO
 	default_rank = RANK_CWO
 	max_rank = RANK_CWO
+	flag = MEDCO
+	department_flag = MEDSCI
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = "#3300cc"
@@ -27,6 +29,8 @@
 	min_rank = RANK_RECRUIT
 	default_rank = RANK_CREWMAN
 	max_rank = RANK_PETTYM
+	flag = MED
+	department_flag = MEDSCI
 	total_positions = -1
 	spawn_positions = 6
 	selection_color = "#3300cc"
