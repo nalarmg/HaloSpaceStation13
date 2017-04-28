@@ -29,8 +29,10 @@
 		switch(m_type)
 			if(VISIBLE_MESSAGE)
 				visible_message(message)//, checkghosts = /datum/client_preference/ghost_sight)
+				return //Add return to prevent double sending with M.show_message?
 			if(AUDIBLE_MESSAGE)
 				audible_message(message)//, checkghosts = /datum/client_preference/ghost_sight)
+				return //Add return to prevent double sending with M.show_message?
 
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
  // Maybe some people are okay with that.
@@ -44,6 +46,9 @@
 				break
 			if(M.stat == 2 && (M.client.prefs.toggles & CHAT_GHOSTSIGHT) && !(M in viewers(src,null)))
 				M.show_message(message, m_type)
+
+		//The code below is a duplicate of visible_message and audible_message
+
 
 		if (m_type & 1)
 			var/list/see = get_mobs_or_objects_in_view(world.view,src) | viewers(get_turf(src), null)
