@@ -29,10 +29,8 @@
 		switch(m_type)
 			if(VISIBLE_MESSAGE)
 				visible_message(message)//, checkghosts = /datum/client_preference/ghost_sight)
-				return //Add return to prevent double sending with M.show_message?
 			if(AUDIBLE_MESSAGE)
 				audible_message(message)//, checkghosts = /datum/client_preference/ghost_sight)
-				return //Add return to prevent double sending with M.show_message?
 
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
  // Maybe some people are okay with that.
@@ -46,33 +44,6 @@
 				break
 			if(M.stat == 2 && (M.client.prefs.toggles & CHAT_GHOSTSIGHT) && !(M in viewers(src,null)))
 				M.show_message(message, m_type)
-
-		//The code below is a duplicate of visible_message and audible_message
-
-
-		if (m_type & 1)
-			var/list/see = get_mobs_or_objects_in_view(world.view,src) | viewers(get_turf(src), null)
-			for(var/I in see)
-				if(isobj(I))
-					spawn(0)
-						if(I) //It's possible that it could be deleted in the meantime.
-							var/obj/O = I
-							O.see_emote(src, message, 1)
-				else if(ismob(I))
-					var/mob/M = I
-					M.show_message(message, 1)
-
-		else if (m_type & 2)
-			var/list/hear = get_mobs_or_objects_in_view(world.view,src)
-			for(var/I in hear)
-				if(isobj(I))
-					spawn(0)
-						if(I) //It's possible that it could be deleted in the meantime.
-							var/obj/O = I
-							O.see_emote(src, message, 2)
-				else if(ismob(I))
-					var/mob/M = I
-					M.show_message(message, 2)
 
 /mob/proc/emote_dead(var/message)
 

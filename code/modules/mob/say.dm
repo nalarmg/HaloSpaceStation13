@@ -37,7 +37,6 @@
 		return
 
 	message = sanitize(message)
-	//world << message //Debug purposes
 	set_typing_indicator(0)
 	if(use_me)
 		usr.emote("me",usr.emote_type,message)
