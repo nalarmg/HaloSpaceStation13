@@ -1,0 +1,36 @@
+################################
+# Example Changelog File
+#
+# Note: This file, and files beginning with ".", and files that don't end in ".yml" will not be read. If you change this file, you will look really dumb.
+#
+# Your changelog will be merged with a master changelog. (New stuff added only, and only on the date entry for the day it was merged.)
+# When it is, any changes listed below will disappear.
+#
+# Valid Prefixes: 
+#   bugfix
+#   wip (For works in progress)
+#   tweak
+#   soundadd
+#   sounddel
+#   rscadd (general adding of nice things)
+#   rscdel (general deleting of nice things)
+#   imageadd
+#   imagedel
+#   maptweak
+#   spellcheck (typo fixes)
+#   experiment
+#################################
+ 
+author: Cael_Aislinn
+
+delete-after: True
+
+changes: 
+  - experiment: "Overmap radios are now in. They are integrated with overmap and do not require tcomms machinery."
+  - experiment: "Overmap radio signals have a max range and signal quality decreases with falloff."
+  - wip: "Radio channels have been reworked to use encryption and channel IDs in a modular fashion."
+  - imageadd: "New pilot uniforms added and fixed some misc other sprite issues."
+  - rscadd: "Multiple new Human languages added that are fully compatible with radios."
+  - tweak: "Fighters now have a HUD button to remotely cycle airlocks."
+  - bugfix: "Late spawns will always be through cryo and should properly announce over radio."
+  - bugfix: "The issues with screen size and observing while in a fighter should be fixed."
