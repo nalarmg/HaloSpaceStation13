@@ -7,6 +7,28 @@
 	blood_overlay_type = "armor"
 	armor = list(melee = 50, bullet = 15, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 
+
+/obj/item/clothing/suit/armor/marine
+	name = "M52B Body Armor"
+	desc = "an armored protective vest worn by the members of the UNSC Marine Corps."
+	icon_state = "marine"
+	item_state = "marine"
+	blood_overlay_type = "armor"
+	armor = list(melee = 50, bullet = 95, laser = 4, energy = 4, bomb = 60, bio = 0, rad = 0)
+
+/obj/item/clothing/head/helmet/spartan
+	name = "MJOLNIR Powered Assault Armor Helmet"
+	desc = "Ave, Imperator, morituri te salutant."
+	icon_state = "spartan5"
+	item_state_slots = list(
+		slot_l_hand_str = "spartan5",
+		slot_r_hand_str = "spartan5",
+		)
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|BLOCKHAIR
+	body_parts_covered = HEAD|FACE
+	siemens_coefficient = 1
+	armor = list(melee = 50,bullet = 15,laser = 50,energy = 10,bomb = 25,bio = 0,rad = 0)
+
 /obj/item/clothing/suit/armor/spartan
 	name = "MJOLNIR Powered Assault Armor Mark V"
 	desc = "a technologically-advanced combat exoskeleton system designed to vastly improve the strength, speed, agility, reflexes and durability of a SPARTAN-II, supersolider in the field of combat."
