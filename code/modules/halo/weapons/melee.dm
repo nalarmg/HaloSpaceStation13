@@ -1,16 +1,10 @@
 
-/obj/item/weapon/melee/combat_knife
+/obj/item/weapon/material/hatchet/tacknife/combat
 	name = "combat knife"
 	desc = "Multipurpose knife for utility use and close quarters combat"
 	icon = 'code/modules/halo/icons/Weapon Sprites.dmi'
 	icon_state = "Knife"
-	item_state = "butterflyknife_open"
-	w_class = 2
-	force = 30
-	throwforce = 10
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-
 
 /obj/item/weapon/melee/baton/humbler
 	name = "humbler stun device"
