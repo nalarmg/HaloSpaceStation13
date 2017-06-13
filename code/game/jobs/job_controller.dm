@@ -426,7 +426,7 @@ var/global/datum/controller/occupations/job_master
 			if(istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf))
 				H.loc = S.loc
 			else
-				LateSpawn(H, rank)
+				LateSpawn(H, rank, 0)
 
 			// Moving wheelchair if they have one
 			if(H.buckled && istype(H.buckled, /obj/structure/bed/chair/wheelchair))
@@ -623,7 +623,7 @@ var/global/datum/controller/occupations/job_master
 			tmp_str += "HIGH=[level1]|MEDIUM=[level2]|LOW=[level3]|NEVER=[level4]|BANNED=[level5]|YOUNG=[level6]|-"
 			feedback_add_details("job_preferences",tmp_str)
 
-/datum/controller/occupations/proc/LateSpawn(var/mob/living/carbon/human/H, var/rank)
+/datum/controller/occupations/proc/LateSpawn(var/mob/living/carbon/human/H, var/rank, var/do_announce = 1)
 	//spawn at one of the latespawn locations
 
 	//force everyone to spawn from cryo for now. later make this round dependant
@@ -649,20 +649,21 @@ var/global/datum/controller/occupations/job_master
 		R.reset_listening_sector()
 
 	//fake an arrival announcement radio signal
-	spawn(0)
-		var/datum/signal/signal = new()
-		//signal.data["speakerjob"] = jobname
-		signal.data["real_name"] = "Cryogenics Revival Computer"
-		signal.data["message"] =  "[H.name], [rank] [.]"
-		signal.data["speakerjob"] =  "automated"
-		signal.transmit_sector = get_overmap_sector(H)
-		signal.frequency = radio_controller.return_frequency(halo_frequencies.shipcom_freq)
-		signal.transmit_strength = 1
-		signal.language = all_languages["English"]
-		//
-		signal.data["channel"] = "SHIPCOM"
-		//signal.data["spoof_rating"] = key.spoof_rating
-		signal.data["encryption_key"] = "SHIPCOM"
-		signal.data["message_css"] = "comradio"
+	if(do_announce)
+		spawn(20)
+			var/datum/signal/signal = new()
+			//signal.data["speakerjob"] = jobname
+			signal.data["real_name"] = "Cryogenics Revival Computer"
+			signal.data["message"] =  "[H.name], [rank] [.]"
+			signal.data["speakerjob"] =  "automated"
+			signal.transmit_sector = get_overmap_sector(H)
+			signal.frequency = radio_controller.return_frequency(halo_frequencies.shipcom_freq)
+			signal.transmit_strength = 1
+			signal.language = all_languages["English"]
+			//
+			signal.data["channel"] = "SHIPCOM"
+			//signal.data["spoof_rating"] = key.spoof_rating
+			signal.data["encryption_key"] = "SHIPCOM"
+			signal.data["message_css"] = "comradio"
 
-		Broadcast_Message(signal.frequency, signal)
+			Broadcast_Message(signal.frequency, signal)
