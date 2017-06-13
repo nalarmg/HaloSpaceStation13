@@ -582,7 +582,7 @@ var/list/name_to_material
 	name = "wood"
 	stack_type = /obj/item/stack/material/wood
 	icon_colour = "#824B28"
-	integrity = 25
+	integrity = 100//25
 	icon_base = "solid"
 	explosion_resistance = 2
 	shard_type = SHARD_SPLINTER
