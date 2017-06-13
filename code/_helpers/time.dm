@@ -7,6 +7,10 @@
 var/roundstart_hour = 0
 //Returns the world time in english
 proc/worldtime2text(time = world.time, timeshift = 1)
+	if(ticker && ticker.mode)
+		. = ticker.mode.get_mode_time()
+	if(.)
+		return .
 	if(!roundstart_hour) roundstart_hour = pick(2,7,12,17)
 	return timeshift ? time2text(time+(36000*roundstart_hour), "hh:mm") : time2text(time, "hh:mm")
 

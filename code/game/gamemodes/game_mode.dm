@@ -639,3 +639,6 @@ proc/get_nt_opposed()
 
 /datum/game_mode/proc/handle_nuke_explosion()
 	return 0
+
+/datum/game_mode/proc/get_mode_time()
+	return 0
