@@ -53,21 +53,27 @@
 	melee_damage_upper = 5
 	attacktext = "leapt at"
 	jitter_move = 1
-	mob_bump_flag = 0
+	/*mob_bump_flag = 0
 	mob_swap_flags = 0
-	mob_push_flags = 0
+	mob_push_flags = 0*/
 
-/mob/living/simple_animal/hostile/flood/spore/New()
+/mob/living/simple_animal/hostile/flood/infestor/New()
 	..()
 	pixel_x = rand(-8,8)
 	pixel_y = rand(-8,8)
 
-/mob/living/simple_animal/hostile/flood/spore/death(gibbed, deathmessage = "bursts!")
+/mob/living/simple_animal/hostile/flood/infestor/death(gibbed, deathmessage = "bursts!")
 	. = ..()
 	//killing a spore can kill others nearby
-	for(var/mob/living/simple_animal/hostile/flood/spore/S in view(1,src))
+	for(var/mob/living/simple_animal/hostile/flood/infestor/S in view(1,src))
 		if(prob(33))
 			S.health = 0
+
+/mob/living/simple_animal/hostile/flood/infestor/Bump(atom/movable/AM, yes)
+	if(isliving(AM))
+		return
+	else
+		return ..()
 
 /mob/living/simple_animal/hostile/flood/carrier
 	name = "Flood carrier"
@@ -97,7 +103,7 @@
 	spawn(0)
 		var/sporesleft = rand(3,9)
 		while(sporesleft > 0)
-			var/mob/living/simple_animal/hostile/flood/spore/S = new(spawn_turf)
+			var/mob/living/simple_animal/hostile/flood/infestor/S = new(spawn_turf)
 			sporesleft -= 1
 			walk_towards(S, pick(range(7, spawn_turf)), 0, 1)
 			spawn(30)

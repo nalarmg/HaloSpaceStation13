@@ -99,6 +99,8 @@
 	if(isliving(target_mob))
 		var/mob/living/L = target_mob
 		L.attack_generic(src,rand(melee_damage_lower,melee_damage_upper),attacktext)
+		if(attack_sfx.len)
+			playsound(src.loc, pick(attack_sfx), 50, 0, 0)
 		return L
 	if(istype(target_mob,/obj/mecha))
 		var/obj/mecha/M = target_mob
@@ -109,6 +111,8 @@
 	if(istype(target_mob,/obj/machinery/bot))
 		var/obj/machinery/bot/B = target_mob
 		B.attack_generic(src,rand(melee_damage_lower,melee_damage_upper),attacktext)
+		if(attack_sfx.len)
+			playsound(src.loc, pick(attack_sfx), 50, 0, 0)
 
 /mob/living/simple_animal/hostile/proc/LoseTarget()
 	stance = HOSTILE_STANCE_IDLE

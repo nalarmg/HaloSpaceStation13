@@ -144,19 +144,19 @@
 		on_impact(user)
 		qdel(src)
 		return 0
-	
+
 	loc = get_turf(user) //move the projectile out into the world
-	
+
 	firer = user
 	shot_from = launcher.name
 	silenced = launcher.silenced
-	
+
 	return launch(target, target_zone, x_offset, y_offset)
 
 //Used to change the direction of the projectile in flight.
 /obj/item/projectile/proc/redirect(var/new_x, var/new_y, var/atom/starting_loc, var/mob/new_firer=null)
 	var/turf/new_target = locate(new_x, new_y, src.z)
-	
+
 	original = new_target
 	if(new_firer)
 		firer = src
@@ -189,7 +189,7 @@
 		visible_message("<span class='danger'>\The [target_mob] is hit by \the [src] in the [parse_zone(def_zone)]!</span>")//X has fired Y is now given by the guns so you cant tell who shot you if you could not see the shooter
 
 	//admin logs
-	if(!no_attack_log)
+	if(!no_attack_log && !istype(target_mob, /mob/living/simple_animal))
 		if(istype(firer, /mob))
 
 			var/attacker_message = "shot with \a [src.type]"

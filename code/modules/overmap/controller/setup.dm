@@ -52,7 +52,7 @@ datum/controller/process/overmap/setup()
 				asteroid_zlevels.Add(data)
 				asteroid_zlevels_loading_unassigned.Add(data)
 				asteroid_zlevel_loading = data
-				data:begin_generation()		//whatever
+				//data:begin_generation()		//whatever
 
 			else if(istype(data, /obj/effect/zlevelinfo/innie_base))
 				if(!innie_base)

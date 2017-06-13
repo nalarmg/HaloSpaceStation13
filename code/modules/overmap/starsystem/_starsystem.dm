@@ -74,7 +74,7 @@ var/list/available_quadrants = list()
 		current_field.generate()
 
 		//give them one free mineable asteroid
-		current_field.place_bigasteroid()
+		//current_field.place_bigasteroid()
 
 		//chance of extra mineable asteroids
 		if(bonus_asteroids > 0)

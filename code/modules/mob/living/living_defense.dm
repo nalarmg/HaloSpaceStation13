@@ -16,19 +16,19 @@
 
 	var/armor = getarmor(def_zone, attack_flag)
 	var/absorb = 0
-	
+
 	//Roll armour
 	if(prob(armor))
 		absorb += 1
 	if(prob(armor))
 		absorb += 1
-	
+
 	//Roll penetration
 	if(prob(armour_pen))
 		absorb -= 1
 	if(prob(armour_pen))
 		absorb -= 1
-	
+
 	if(absorb >= 2)
 		if(absorb_text)
 			show_message("[absorb_text]")
@@ -129,7 +129,7 @@
 
 //returns 0 if the effects failed to apply for some reason, 1 otherwise.
 /mob/living/proc/standard_weapon_hit_effects(obj/item/I, mob/living/user, var/effective_force, var/blocked, var/hit_zone)
-	if(!effective_force || blocked >= 2) 
+	if(!effective_force || blocked >= 2)
 		return 0
 
 	//Hulk modifier
@@ -177,7 +177,7 @@
 			if(assailant)
 				src.attack_log += text("\[[time_stamp()]\] <font color='orange'>Has been hit with a [O], thrown by [M.name] ([assailant.ckey])</font>")
 				M.attack_log += text("\[[time_stamp()]\] <font color='red'>Hit [src.name] ([src.ckey]) with a thrown [O]</font>")
-				if(!istype(src,/mob/living/simple_animal/mouse))
+				if(!istype(src, /mob/living/simple_animal))
 					msg_admin_attack("[src.name] ([src.ckey]) was hit by a [O], thrown by [M.name] ([assailant.ckey]) (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>JMP</a>)")
 
 		// Begin BS12 momentum-transfer code.
@@ -298,7 +298,7 @@
 		return 0
 
 	//Scale quadratically so that single digit numbers of fire stacks don't burn ridiculously hot.
-	//lower limit of 700 K, same as matches and roughly the temperature of a cool flame. 
+	//lower limit of 700 K, same as matches and roughly the temperature of a cool flame.
 	return max(2.25*round(FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE*(fire_stacks/FIRE_MAX_FIRESUIT_STACKS)**2), 700)
 
 /mob/living/proc/reagent_permeability()
