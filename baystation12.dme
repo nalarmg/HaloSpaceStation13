@@ -1127,6 +1127,7 @@
 #include "code\modules\halo\comms\channel_keys.dm"
 #include "code\modules\halo\comms\headsets.dm"
 #include "code\modules\halo\doors\halo_doors.dm"
+#include "code\modules\halo\flood\flood.dm"
 #include "code\modules\halo\floorsigns\floorsigns.dm"
 #include "code\modules\halo\insurrection\access_ids.dm"
 #include "code\modules\halo\insurrection\antagonist.dm"
