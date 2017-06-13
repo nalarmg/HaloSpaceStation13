@@ -134,7 +134,9 @@ for reference:
 /obj/structure/barricade/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)//So bullets will fly over and stuff.
 	if(air_group || (height==0))
 		return 1
-	if(istype(mover) && mover.checkpass(PASSTABLE))
+	//bullets can only go past if you're firing adjacent to the barricade
+	var/obj/item/projectile/P = mover
+	if(istype(P) && (get_dist(src.loc, P.starting) <= 1))
 		return 1
 	else
 		return 0
@@ -249,7 +251,7 @@ for reference:
 		if(src)
 			qdel(src)
 
-		
+
 /obj/machinery/deployable/barrier/emag_act(var/remaining_charges, var/mob/user)
 	if (src.emagged == 0)
 		src.emagged = 1
