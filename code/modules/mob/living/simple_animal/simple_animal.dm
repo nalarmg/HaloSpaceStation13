@@ -27,6 +27,7 @@
 	var/stop_automated_movement = 0 //Use this to temporarely stop random movement or to if you write special movement code for animals.
 	var/wander = 1	// Does the mob wander around when idle?
 	var/stop_automated_movement_when_pulled = 1 //When set to 1 this stops the animal from moving when someone is pulling it.
+	var/jitter_move = 0
 
 	//Interaction
 	var/response_help   = "tries to help"
@@ -111,9 +112,12 @@
 			if(turns_since_move >= turns_per_move)
 				if(!(stop_automated_movement_when_pulled && pulledby)) //Soma animals don't move when pulled
 					/var/moving_to = 0 // otherwise it always picks 4, fuck if I know.   Did I mention fuck BYOND
-					moving_to = pick(cardinal)
-					dir = moving_to			//How about we turn them the direction they are moving, yay.
-					Move(get_step(src,moving_to))
+					spawn(pick(rand(-1,20)))
+						moving_to = pick(cardinal)
+						dir = moving_to			//How about we turn them the direction they are moving, yay.
+						if(Move(get_step(src,moving_to)) && jitter_move)
+							pixel_x = rand(-8,8)
+							pixel_y = rand(-8,8)
 					turns_since_move = 0
 
 	//Speaking
@@ -227,7 +231,7 @@
 		return
 
 	adjustBruteLoss(Proj.damage)
-	return 0
+	return 1
 
 /mob/living/simple_animal/attack_hand(mob/living/carbon/human/M as mob)
 	..()
@@ -298,7 +302,7 @@
 	if(O.force <= resistance)
 		user << "<span class='danger'>This weapon is ineffective, it does no damage.</span>"
 		return 2
-	
+
 	var/damage = O.force
 	if (O.damtype == HALLOSS)
 		damage = 0

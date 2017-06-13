@@ -13,14 +13,18 @@
 	var/break_stuff_probability = 10
 	stop_automated_movement_when_pulled = 0
 	var/destroy_surroundings = 1
+	var/idle_wander = 1
 
 	var/shuttletarget = null
 	var/enroute = 0
+	var/list/attack_sfx = list()	//list of sound effects to play when attacking mobs
+	var/turf/old_spot
 
 /mob/living/simple_animal/hostile/proc/FindTarget()
 
 	var/atom/T = null
-	stop_automated_movement = 0
+	if(idle_wander)
+		stop_automated_movement = 0
 	for(var/atom/A in ListTargets(10))
 
 		if(A == src)
@@ -99,6 +103,8 @@
 	if(istype(target_mob,/obj/mecha))
 		var/obj/mecha/M = target_mob
 		M.attack_generic(src,rand(melee_damage_lower,melee_damage_upper),attacktext)
+		if(attack_sfx.len)
+			playsound(src.loc, pick(attack_sfx), 50, 0, 0)
 		return M
 	if(istype(target_mob,/obj/machinery/bot))
 		var/obj/machinery/bot/B = target_mob
@@ -143,12 +149,16 @@
 
 			if(HOSTILE_STANCE_ATTACK)
 				if(destroy_surroundings)
-					DestroySurroundings()
+					if(old_spot == src.loc)
+						DestroyObstacleAny()
+					else
+						DestroyObstacleDir(src.dir)
 				MoveToTarget()
+				old_spot = loc
 
 			if(HOSTILE_STANCE_ATTACKING)
 				if(destroy_surroundings)
-					DestroySurroundings()
+					DestroyObstacleDir(src.dir)
 				AttackTarget()
 
 /mob/living/simple_animal/hostile/proc/OpenFire(target_mob)
@@ -199,17 +209,39 @@
 		A.process()
 	return
 
-/mob/living/simple_animal/hostile/proc/DestroySurroundings()
-	if(prob(break_stuff_probability))
-		for(var/dir in cardinal) // North, South, East, West
-			for(var/obj/structure/window/obstacle in get_step(src, dir))
-				if(obstacle.dir == reverse_dir[dir]) // So that windows get smashed in the right order
-					obstacle.attack_generic(src,rand(melee_damage_lower,melee_damage_upper),attacktext)
-					return
-			var/obj/structure/obstacle = locate(/obj/structure, get_step(src, dir))
-			if(istype(obstacle, /obj/structure/window) || istype(obstacle, /obj/structure/closet) || istype(obstacle, /obj/structure/table) || istype(obstacle, /obj/structure/grille))
-				obstacle.attack_generic(src,rand(melee_damage_lower,melee_damage_upper),attacktext)
+var/list/SA_destroyables = list(,\
+	/obj/structure/window,\
+	/obj/structure/closet,\
+	/obj/structure/table,\
+	/obj/structure/grille,\
+	/obj/structure/tanktrap,\
+	/obj/structure/barricade,\
+	/obj/structure/sandbag\
+	)
 
+/mob/living/simple_animal/hostile/proc/DestroyObstacleAny()
+	for(var/destroy_dir in cardinal) // North, South, East, West
+		. = DestroyObstacleDir(destroy_dir)
+		if(.)
+			if(. == 1)
+				src.dir = destroy_dir
+			return .
+
+/mob/living/simple_animal/hostile/proc/DestroyObstacleDir(var/destroy_dir)
+	if(prob(break_stuff_probability))
+		//check for windows
+		for(var/obj/structure/window/W in get_step(src, destroy_dir))
+			if(W.dir == reverse_dir[destroy_dir]) // So that windows get smashed in the right order
+				W.attack_generic(src,rand(melee_damage_lower,melee_damage_upper),attacktext)
+				return 1
+
+		//check for other obstacles
+		for(var/obj/structure/obstacle in get_step(src, destroy_dir))	//onnly attack the direction we're facing
+			if(obstacle.type in SA_destroyables)
+				obstacle.attack_generic(src,rand(melee_damage_lower,melee_damage_upper),attacktext)
+				return 1
+	else
+		return 2
 
 /mob/living/simple_animal/hostile/proc/check_horde()
 	return 0

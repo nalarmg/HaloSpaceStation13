@@ -65,7 +65,14 @@
 	for(var/obj/item/I in loc)
 		I.loc = src
 
-/mob/living/simple_animal/hostile/mimic/crate/DestroySurroundings()
+/mob/living/simple_animal/hostile/mimic/crate/DestroyObstacleAny()
+	..()
+	if(prob(90))
+		icon_state = "[initial(icon_state)]open"
+	else
+		icon_state = initial(icon_state)
+
+/mob/living/simple_animal/hostile/mimic/crate/DestroyObstacleDir(var/destroy_dir)
 	..()
 	if(prob(90))
 		icon_state = "[initial(icon_state)]open"
@@ -181,7 +188,11 @@ var/global/list/protected_objects = list(/obj/structure/table, /obj/structure/ca
 		return 1
 	return
 
-/mob/living/simple_animal/hostile/mimic/copy/DestroySurroundings()
+/mob/living/simple_animal/hostile/mimic/copy/DestroyObstacleAny()
+	if(destroy_objects)
+		..()
+
+/mob/living/simple_animal/hostile/mimic/copy/DestroyObstacleDir(var/destroy_dir)
 	if(destroy_objects)
 		..()
 
