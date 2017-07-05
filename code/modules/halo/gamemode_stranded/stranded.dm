@@ -7,7 +7,8 @@
 	end_on_antag_death = 0
 	end_on_protag_death = 0
 	round_description = "UNSC personnel are stranded on a distant alien world. Now hordes of horrific parasitic aliens are attacking and there is only limited time to setup defences. Can you survive until the rescue team arrives?"
-	hub_descriptions = list("marooned on a distant alien world","cut off struggling to survive on the fringe of known space","stranded on an alien hellhole waiting for evacuation")
+	hub_descriptions = list("desperately struggling to survive against waves of parasitic aliens on a distant world...")
+	protagonist_faction = "neutral"
 
 	var/wave_num = 0
 	var/area/planet/daynight/planet_area
@@ -42,6 +43,10 @@
 
 	var/worldtime_offset = 0
 
+	var/latest_tick_time = 0
+	var/round_start
+	var/max_simplemobs = 300
+
 /datum/game_mode/stranded/pre_setup()
 	for(var/obj/effect/landmark/flood_spawn/F in world)
 		flood_spawn_turfs.Add(get_turf(F))
@@ -51,16 +56,19 @@
 
 	planet_area = locate() in world
 	set_ambient_light(1,1,1)
-	return ..()
 
 /datum/game_mode/stranded/post_setup()
 	time_pelican_arrive = world.time + 24000 + 24000 * rand()
 	daynight_start = world.time
 	daynight_end = world.time + duration_day
 	time_wave_cycle = world.time + duration_rest_base
+	log_debug("/datum/game_mode/stranded/post_setup() world.time: [world.time]")
 
 /datum/game_mode/stranded/process()
 	//day night processing
+	latest_tick_time = world.time
+	log_world("stranded gm process [world.time]")
+	log_crash("gamemode_stranded", src)
 	var/daynight_progress = (worldtime_offset + world.time - daynight_start) / duration_day
 	daynight_progress = max(daynight_progress, 0)
 	daynight_progress = min(daynight_progress, 1)
@@ -125,31 +133,33 @@
 		is_spawning = 1
 		world << "<span class='danger'>The evacuation pelican has arrived!</span>"
 
+	log_world("	gm process success")
+
 /datum/game_mode/stranded/proc/spawn_attackers_tick(var/amount = 1)
 	set background = 1
-	bonus_spawns += bonus_spawns
-	while(amount > 0)
-		if(amount < 1)
-			spawn_attackers(, 1)
-			amount = 0
+	//world << "/datum/game_mode/stranded/proc/spawn_attackers_tick([amount] + [bonus_spawns])"
+	amount += bonus_spawns
+	bonus_spawns = 0
+	while(amount >= 1)
+		var/number_to_spawn
+		var/spawn_type
+		if(prob(33))
+			number_to_spawn = 1
+			spawn_type = /mob/living/simple_animal/hostile/flood/combat_human
+		else if(prob(50))
+			number_to_spawn = 1
+			spawn_type = /mob/living/simple_animal/hostile/flood/carrier
 		else
-			var/number_to_spawn
-			var/spawn_type
-			if(prob(33))
-				number_to_spawn = 1
-				spawn_type = /mob/living/simple_animal/hostile/flood/combat_human
-			else if(prob(50))
-				number_to_spawn = 2
-				spawn_type = /mob/living/simple_animal/hostile/flood/carrier
-			else
-				number_to_spawn = rand(4,6)
-				spawn_type = /mob/living/simple_animal/hostile/flood/infestor
-			spawn_attackers(spawn_type, number_to_spawn)
-			amount -= 1
+			number_to_spawn = rand(4,6)
+			spawn_type = /mob/living/simple_animal/hostile/flood/infestor
+		spawn_attackers(spawn_type, number_to_spawn)
+		amount -= 1
 	bonus_spawns = max(amount, 0)
 
 /datum/game_mode/stranded/proc/spawn_attackers(var/spawntype, var/amount)
-	//world << "spawn_attackers([type],[amount])"
+	//world << "/datum/game_mode/stranded/proc/spawn_attackers([spawntype],[amount])"
+	if(simple_mobs.len > max_simplemobs)
+		return
 	if(flood_spawn_turfs.len)
 		for(var/i = 0, i < amount, i++)
 			//world << "	check3"
