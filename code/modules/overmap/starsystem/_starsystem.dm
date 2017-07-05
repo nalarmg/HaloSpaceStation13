@@ -60,13 +60,13 @@ var/list/available_quadrants = list()
 		current_field.centre_y = spawnloc.y_pos * 255 - 30 + rand(0, 93)
 
 	//tell us to start processing while our big asteroids fill themselves out
-	processing_objects.Add(src)
+	//processing_objects.Add(src)
 
 	//reset the quadrants list
 	available_quadrants += used_quadrants
 
 	//some fields might get extra mineable asteroids
-	var/bonus_asteroids = overmap_controller.asteroid_zlevels_loading_unassigned.len + overmap_controller.asteroid_zlevels_ready.len - 3
+	var/bonus_asteroids = 0//overmap_controller.asteroid_zlevels_loading_unassigned.len + overmap_controller.asteroid_zlevels_ready.len - 3
 
 	//generate asteroid fields
 	for(var/datum/asteroidfield/current_field in asteroid_fields)
@@ -74,7 +74,7 @@ var/list/available_quadrants = list()
 		current_field.generate()
 
 		//give them one free mineable asteroid
-		//current_field.place_bigasteroid()
+		current_field.place_bigasteroid()
 
 		//chance of extra mineable asteroids
 		if(bonus_asteroids > 0)
