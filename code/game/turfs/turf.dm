@@ -147,9 +147,10 @@ var/const/enterloopsanity = 100
 			if(objects > enterloopsanity) break
 			objects++
 			spawn(0)
-				A.HasProximity(thing, 1)
-				if ((thing && A) && (thing.flags & PROXMOVE))
-					thing.HasProximity(A, 1)
+				if(A)
+					A.HasProximity(thing, 1)
+					if ((thing && A) && (thing.flags & PROXMOVE))
+						thing.HasProximity(A, 1)
 
 	//quick hack to only trigger off bottom left corner of multitile atoms, otherwise i could use the inbuilt byond procs
 	//if(atom.loc == src)
