@@ -650,7 +650,7 @@ var/global/datum/controller/occupations/job_master
 
 	//fake an arrival announcement radio signal
 	if(do_announce)
-		spawn(20)
+		spawn(30)
 			var/datum/signal/signal = new()
 			//signal.data["speakerjob"] = jobname
 			signal.data["real_name"] = "Cryogenics Revival Computer"
