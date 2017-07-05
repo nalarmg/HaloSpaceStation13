@@ -33,6 +33,22 @@
 		if(C.prefs.toggles & CHAT_DEBUGLOGS)
 			C << "DEBUG: [text]"
 
+/proc/log_crash(var/filename, var/datum/D)
+	if (config.log_crash)
+
+		var/filename_final = "data/crash_debugging/[filename].log"
+		if(fexists(filename_final))
+			fdel(filename_final)
+		var/file_text = "[worlddate2text()]|[world.time]\n"
+		file_text += "[D.type]\n"
+		for(var/v in D.vars)
+			file_text += "var/[v] = [D.vars[v]]\n"
+		text2file(file_text, filename_final)
+
+/proc/log_world(var/new_text)
+	var/filename_final = "data/crash_debugging/world_[worlddate2text()].log"
+	text2file("[new_text]", filename_final)
+
 /proc/log_game(text)
 	if (config.log_game)
 		diary << "\[[time_stamp()]]GAME: [text][log_end]"

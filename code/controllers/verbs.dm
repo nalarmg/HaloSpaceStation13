@@ -25,7 +25,7 @@
 		usr.client.debug_variables(antag)
 		message_admins("Admin [key_name_admin(usr)] is debugging the [antag.role_text] template.")
 
-/client/proc/debug_controller(controller in list("Master","Ticker","Ticker Process","Air","Jobs","Sun","Radio","Supply","Shuttles","Emergency Shuttle","Configuration","pAI", "Cameras", "Transfer Controller", "Gas Data","Event","Plants","Alarm","Nano","Chemistry","Wireless","Overmap"))
+/client/proc/debug_controller(controller in list("Master","Ticker","Ticker Process","Air","Jobs","Sun","Radio","Supply","Shuttles","Emergency Shuttle","Configuration","pAI", "Cameras", "Transfer Controller", "Gas Data","Event","Plants","Alarm","Nano","Chemistry","Wireless","Overmap","Atom Despawner"))
 	set category = "Debug"
 	set name = "Debug Controller"
 	set desc = "Debug the various periodic loop controllers for the game (be careful!)"
@@ -71,9 +71,9 @@
 		if("Cameras")
 			debug_variables(cameranet)
 			feedback_add_details("admin_verb","DCameras")
-		if("Transfer Controller")
+		/*if("Transfer Controller")
 			debug_variables(transfer_controller)
-			feedback_add_details("admin_verb","DAutovoter")
+			feedback_add_details("admin_verb","DAutovoter")*/
 		if("Gas Data")
 			debug_variables(gas_data)
 			feedback_add_details("admin_verb","DGasdata")
@@ -98,5 +98,8 @@
 		if("Overmap")
 			debug_variables(overmap_controller)
 			feedback_add_details("admin_verb", "DOvermap")
+		if("Atom Despawner")
+			debug_variables(atom_despawner)
+			feedback_add_details("admin_verb", "DAtomDespawner")
 	message_admins("Admin [key_name_admin(usr)] is debugging the [controller] controller.")
 	return

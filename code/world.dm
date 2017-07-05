@@ -102,6 +102,10 @@ var/global/datum/global_init/init = new ()
 		processScheduler.setup()
 		master_controller.setup()
 
+	var/filename_final = "data/crash_debugging/world_[worlddate2text()].log"
+	if(fexists(filename_final))
+		fdel(filename_final)
+	log_world("[worlddate2text()]|[time_stamp()]\n")
 	spawn(3000)		//so we aren't adding to the round-start lag
 		if(config.ToRban)
 			ToRban_autoupdate()
@@ -485,7 +489,7 @@ var/world_topic_spam_protect_time = world.timeofday
 	s += "<a href=\"http://projectunsc.org/\">"
 	s += "<b>Halo Spacestation Evolved Pre Alpha Test</b>"
 	s += "</a>\]"
-	s += "<br><br>"
+	s += "<br>https://discord.gg/Dgyq8KM<br>"
 	if(ticker && ticker.mode)
 		var/hub_ship_name = station_name()
 		var/hub_round_desc = round_description()
