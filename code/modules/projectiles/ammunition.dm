@@ -27,6 +27,16 @@
 	BB = null
 	set_dir(pick(cardinal)) //spin spent casings
 	update_icon()
+	name = "spent bullet casing"
+
+	//atom_despawner.mark_for_despawn(src)
+	/*for(var/obj/item/ammo_casing/AC in src.loc)
+		if(AC.type == src.type)
+			AC.name = "spent bullet casings"
+			AC.overlays += src
+			//src.loc = null
+			qdel(src)
+			break*/
 
 /obj/item/ammo_casing/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(istype(W, /obj/item/weapon/screwdriver))
