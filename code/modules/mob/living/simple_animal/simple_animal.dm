@@ -1,3 +1,5 @@
+var/list/simple_mobs = list()
+
 /mob/living/simple_animal
 	name = "animal"
 	icon = 'icons/mob/animal.dmi'
@@ -70,6 +72,7 @@
 /mob/living/simple_animal/New()
 	..()
 	verbs -= /mob/verb/observe
+	simple_mobs += src
 
 /mob/living/simple_animal/Login()
 	if(src && src.client)
@@ -333,6 +336,9 @@
 /mob/living/simple_animal/death(gibbed, deathmessage = "dies!")
 	icon_state = icon_dead
 	density = 0
+	walk(src, 0)
+	mob_list -= src
+	simple_mobs -= src
 	return ..(gibbed,deathmessage)
 
 /mob/living/simple_animal/ex_act(severity)
