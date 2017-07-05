@@ -56,6 +56,8 @@ var/global/list/cached_zlevels = list()		//unused and empty zlevels in case they
 	var/datum/halo_frequencies/halo_frequencies_reference
 
 /datum/controller/process/overmap/doWork()
+	return
+
 	//see temporary_sector.dm
 	process_temp_sectors()
 
